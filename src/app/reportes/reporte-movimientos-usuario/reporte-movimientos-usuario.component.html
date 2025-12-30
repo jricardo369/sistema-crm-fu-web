@@ -1,0 +1,209 @@
+<app-workspace-nav>
+  <app-reportes-nav></app-reportes-nav>
+</app-workspace-nav>
+<div class='workspace'>
+  <div class='main'>
+
+    <app-experimental-menu titulo="Payments">
+
+      <!--<button (click)='obtenerMovimientosUsuario()'
+        style="color: #D4AC0D;background: #FEF9E7;border-radius: 5px; height: 28px; line-height: 28px;">
+        <mat-icon svgIcon="refresh"></mat-icon>
+        <label>Refresh</label>
+      </button>-->
+
+    </app-experimental-menu>
+
+    <div class='content'>
+      <div style="display: inline-flex;">
+        <div style="display: inline-flex;">
+
+          <!--<div class="iigwo-input">
+            <label>Type</label>
+            <select [(ngModel)]="inputTipoReporte" [ngModelOptions]="{standalone: true}" (change)="obtenerMovimientosUsuario()">
+              <option ngValue="1" selected>Pending Payments</option>
+              <option ngValue="2">Payment Details</option>
+            </select>
+          </div>-->
+
+          <!--
+          <div class="iigwo-input">
+            <label>Start Date</label>
+            <input type="date" [(ngModel)]="fechaI" >
+          </div>
+          <div class="iigwo-input">
+            <label>End Date</label>
+            <input type="date" [(ngModel)]="fechaF" >
+          </div>
+        -->
+
+        <div class="iigwo-input">
+              <label>Start Date</label>
+              <mat-form-field appearance="outline" class="custom-datepicker">
+                <input matInput [matDatepicker]="startPicker" [(ngModel)]="filterStartDateMat" (dateChange)="onStartDateChange()">
+                <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                <mat-datepicker #startPicker></mat-datepicker>
+              </mat-form-field>
+            </div> 
+
+            <div class="iigwo-input">
+              <label>End Date</label>
+              <mat-form-field appearance="outline" class="custom-datepicker">
+                <input matInput [matDatepicker]="endPicker" [(ngModel)]="filterEndDateMat" (dateChange)="onEndDateChange()">
+                <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                <mat-datepicker #endPicker></mat-datepicker>
+              </mat-form-field>
+            </div> 
+
+
+
+          <div class="iigwo-input">
+            <label>Type</label>
+          <select [(ngModel)]="filterType"  [ngModelOptions]="{standalone: true}">
+            <option *ngFor="let e of arrFilterType" [ngValue]="e">
+              {{e}}</option>
+          </select>
+          </div>
+          <div class="iigwo-input">
+            <label>Type</label>
+            <select [(ngModel)]="filterTypeF"  [ngModelOptions]="{standalone: true}" style="margin-right: 10px;" >
+              <option *ngFor="let e of arrFilterTypeF" [ngValue]="e">
+                {{e}}</option>
+            </select>
+          </div>
+          <div class="iigwo-input" >
+            <label>Value</label>
+            <input type="text" placeholder="Enter a value" [(ngModel)]="filterInputText">
+          </div>
+
+          <!--<button class="accent iigwo small" style="margin-top: 12px" (click)="obtenerMovimientosUsuario()">Explore</button>-->
+
+          <button (click)='obtenerMovimientosUsuario()' class="btn-color" style="color: #ffffff; background: #8837a2;margin-top: 18px;">
+              <mat-icon svgIcon="searchD" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+              <span style="color: #ffffff; font-size: 13px;">Explore</span>
+            </button>
+
+            <button (click)='limpiarFechas()' class="btn-color" style="color: #000000; background: #ffffff;margin-top: 18px;border: 0.5px solid #b1b1b1;">
+              <span style="color: #000000; font-size: 13px;">Clear dates</span>
+            </button>
+
+        </div>
+      </div>
+    </div>
+
+    <div class='content' style="margin-top: 80px;padding-top: 0;">
+
+      <div style="display: flex;" *ngIf="mostrarTotales">
+        <div class="mb-20">
+          <h4 class="mb-0" style="color: blue;">{{(reporteMovimientos.cargos ? reporteMovimientos.cargos : 0) | currency
+            : 'USD' : 'symbol' : undefined : 'en-US'}}</h4>
+          <p class="text-body-secondary fs-9 mb-0">Charges</p>
+        </div>
+        <div class="ml-25 mb-20">
+          <h4 class="mb-0" style="color: green;">{{(reporteMovimientos.abonos ? reporteMovimientos.abonos: 0) | currency
+            : 'USD' : 'symbol' : undefined : 'en-US'}}</h4>
+          <p class="text-body-secondary fs-9 mb-0">Payments</p>
+        </div>
+        <div class="ml-25 mb-20">
+          <h4 class="mb-0" style="color: red;">{{(reporteMovimientos.balance ? reporteMovimientos.balance : 0) |
+            currency : 'USD' : 'symbol' : undefined : 'en-US'}}</h4>
+          <p class="text-body-secondary fs-9 mb-0">Balance</p>
+        </div>
+      </div>
+
+      <div style="display: flex;" *ngIf="!mostrarTotales">
+        <div class="mb-20">
+          <h4 class="mb-0" style="color: blue;">{{(reporteMovimientos.cargos ? reporteMovimientos.cargos : 0) | currency
+            : 'USD' : 'symbol' : undefined : 'en-US'}}</h4>
+          <p class="text-body-secondary fs-9 mb-0">Paid</p>
+        </div>
+      </div>
+
+      <table class="informative" *ngIf="inputTipoReporte == '1' else elseTemplate">
+        <tr>
+          <th>File</th>
+          <th>File Date</th>
+          <th>Customer Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Amount</th>
+          <th>Paid</th>
+          <th>Pending Payment</th>
+          <th>Details</th>
+        </tr>
+        <tr *ngFor='let e of adeudos | slice:paginacion.begin:paginacion.end'>
+          <td class='accent'>{{e.idSolicitud}}</td>
+          <td class='accent'>{{e.fecha | dateMMDDYYYY}}</td>
+          <td class='accent'>{{e.cliente}}</td>
+          <td class='accent'>{{e.telefono | phone}}</td>
+          <td class='accent'>{{e.email}}</td>
+          <td class="number">{{e.amount | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</td>
+          <td class="number">{{e.pagado | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</td>
+          <td *ngIf="e.adeudo === 0" class="paid"><mat-icon svgIcon="done" style="color: #117a65; width: 15px; height: 15px;"></mat-icon> Paid</td>
+          <td *ngIf="e.adeudo !== 0" class="number" style="color:red">{{e.adeudo | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</td>
+          <td style="padding-top: 0; padding-bottom: 0;">
+            <button (click)='abrirDetalle(e.idSolicitud)' class="btn-icon" style="color: gray;" matTooltip="Open">
+              <mat-icon svgIcon="eyeD" style="color: rgb(53, 53, 53); width: 22px; height: 22px;"></mat-icon>
+            </button>
+
+            
+          </td>
+        </tr>
+        <tr>
+          <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
+            <label>
+              Records per page</label>
+            <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()" [ngModelOptions]="{standalone: true}"
+              style="margin: 0 8px; font-family: regular; height: 24px;">
+              <option value="20">20</option>
+              <option value="40">40</option>
+              <option value="80">80</option>
+              <option value="200">200</option>
+            </select>
+            {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
+            <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+              (click)="paginacion.back();">
+              <mat-icon svgIcon="arrow-back"></mat-icon>
+            </button>
+            <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+              (click)="paginacion.forward();">
+              <mat-icon svgIcon="arrow-forward"></mat-icon>
+            </button>
+          </td>
+        </tr>
+      </table>
+
+      <ng-template #elseTemplate>
+        <table class="informative">
+          <tr>
+            <th>Folio</th>
+            <th>Customer Name</th>
+            <th>Payment Type</th>
+            <th>Move Type</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Discount</th>
+            <th>Description</th>
+          </tr>
+          <tr *ngFor='let e of reporteMovimientos.movimientos'>
+            <td class='accent'>{{e.folio}}</td>
+            <td class='accent'>{{e.cliente}}</td>
+            <td class='accent'>{{e.descripcionTipoPago}}</td>
+            <td style="text-align: center;"><span class="badge-status badge-color-payment"
+                style="margin: 0;">{{e.tipoMovimiento}}</span></td>
+            <td class='accent'>{{e.fecha | dateMMDDYYYY}}</td>
+            <td class="number">{{e.monto | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</td>
+            <td class="number">{{e.descuento | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</td>
+            <td class='accent'>{{e.descripcion}}</td>
+          </tr>
+        </table>
+      </ng-template>
+
+    </div>
+
+    <!--Cargando-->
+    <div class='iigwo-loading' *ngIf="cargando">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+</div>

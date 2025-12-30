@@ -1,0 +1,8 @@
+<app-bar *ngIf="isAppBarVisible"></app-bar>
+<!--
+    <router-outlet *ngIf="isRouterOutletVisible"></router-outlet>
+-->
+<div [@myAnimationGus]="o.isActivated ? o.activatedRoute : ''" class="root-wrap" [ngClass]="{shortened: utilService.workspaceNavMenuShortened}">
+    <router-outlet #o="outlet"></router-outlet>
+</div>
+<p *ngIf="!isRouterOutletVisible">validando sesión</p>

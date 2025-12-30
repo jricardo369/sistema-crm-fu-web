@@ -1,0 +1,27 @@
+<mat-dialog-content style="padding-right: 20px;padding-left: 20px;">
+ <mat-icon svgIcon="person"></mat-icon>
+    <div class='iigwo-input'>
+        <input [(ngModel)]='user.usuario' name='usuario' placeholder="User">
+    </div>
+    <div class='iigwo-input'>
+        <input [(ngModel)]='password' name='password' placeholder="Password" type="password">
+    </div>
+    <button class='iigwo accent' (click)='ingresar()'>
+        Login</button>
+
+<!--<p *ngIf="!recuperarPasswordOnly" style="-->
+<p style="
+    margin: 24px 0 5px 0;
+    max-width: 240px;
+    padding-top: 12px;
+    border-top: solid 1px rgba(0,0,0,0.1);
+    font-size:12px;
+    font-family: regular;
+">It looks like your session has expired, enter your credentials and press Login to continue using the system.</p>
+<span (click)="salir()" class="link" style="font-family: 'regular';
+    font-size: 12px;">End the session</span>
+</mat-dialog-content>
+
+<div class='iigwo-loading' *ngIf="loading">
+    <mat-spinner></mat-spinner>
+</div>

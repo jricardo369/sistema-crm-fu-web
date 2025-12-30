@@ -1,0 +1,191 @@
+
+
+:host {
+    background: white;
+    height: 100vh;
+    display: block;
+}
+
+.background {
+    background: white;
+    height: 100%;
+    display: flex;
+    flex-flow: row;
+}
+
+.hero {
+    flex: 88;
+    background: #303040;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero video {
+    display: block;
+    position: absolute;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.main {
+    flex: 100;
+    background: url('../../../assets/img/lowpoly-bground.jpg'); // assets/img/lowpoly-bground.png
+    background-size: cover;
+    background-position: center bottom;
+    position: relative;
+}
+
+.main form {
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    height: fit-content;
+    padding: 100% 70px;
+    // padding-bottom: 90px;
+    max-width: 300px;
+    background: #fff;
+}
+
+.main form img {
+    height: 32px;
+}
+
+.main form h1 {
+    font-size: 32px;
+    color: #303040;
+    margin-top: 28px;
+    font-family: quicksand;
+}
+
+.main form p {
+    font-size: 15px;
+    color: #000;
+    line-height: 1.5em;
+    letter-spacing: 0.2px;
+    max-width: 244px;
+    font-family: quicksand;
+    margin-top: 24px;
+    margin-bottom: 36px;
+    font-weight: 400;
+}
+
+.main form input {
+    display: block;
+    width: 100%;
+    max-width: 334px;
+    border: none;
+    background: none;
+    height: 28px;
+    margin-bottom: 12px;
+    border-bottom: solid 1px #B0BEC5;
+    font-family: quicksand;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.main form button {
+    background: #612C7E;
+    color: #fff;
+    padding: 12px;
+    font-size: 14px;
+    border-radius: 500px;
+    border: none;
+    min-width: 148px;
+    margin-top: 38px;
+    font-family: quicksand;
+    font-weight: 700;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
+}
+
+.main .square {
+    --side: 80px;
+    width: var(--side);
+    height: var(--side);
+    background: #612C7E;
+    position: absolute;
+    left: calc(var(--side) * -0.5);
+    top: calc(var(--side) * -0.5);
+    transform: rotate(45deg);
+    z-index: 1;
+}
+
+.main .square:nth-of-type(2) {
+    top: auto;
+    bottom: calc(var(--side) * -0.5);
+    transform: rotate(45deg);
+    background: #00949b;
+    z-index: 1;
+}
+
+.main .logo {
+    //background: url("../../../assets/img/logo.png"); /* EZQUINA SUPERIOR DERECHA */
+    background-size: cover;
+    width: 64px;
+    height: 64px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 24px;
+}
+
+.main a {
+    text-decoration: none;
+    color: #424242;
+    cursor: pointer;
+    display: block;
+    font-family: quicksand;
+    font-weight: 600;
+    font-size: 13px;
+    margin-top: 24px;
+}
+
+// MOBILE
+@media(max-width:480px) {
+    .hero {
+        display: none;
+    }
+    .logo {
+        margin: 24px;
+        right: auto;
+        left: 50px;
+        margin-left: 0 !important;
+    }
+    .main {
+        .logo {display: none;}
+        form {
+            padding: 0 50px;
+        }
+        .langs {
+            margin: 16px;
+            a {
+                margin: 0.5em;
+            }
+        }
+    }
+}
+
+//
+
+.langs {
+
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin: 40px;
+    display: flex;
+
+    a {
+        margin: 1em;
+        padding: 1em;
+        color: white;
+        background: #303040;
+        box-shadow: 0 0 1em 0 rgba(0,0,0,0.3);
+    }
+}

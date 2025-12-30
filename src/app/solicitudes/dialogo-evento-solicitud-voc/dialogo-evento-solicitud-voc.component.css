@@ -1,0 +1,8 @@
+.iigwo-input textarea {
+  max-width: 450px;
+  min-height: 80px;
+}
+
+.iigwo-input select {
+  min-width: 150px;
+}

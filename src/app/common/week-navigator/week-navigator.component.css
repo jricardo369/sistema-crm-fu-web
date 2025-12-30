@@ -1,0 +1,28 @@
+.week-nav {
+  margin-top: 20px;
+  margin-right: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #323538;
+  font-family: regular;
+}
+
+.week-label {
+  font-size: 13px;
+}
+
+.nav-btn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--app-primary);
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 2px 6px;
+}
+
+.nav-btn:hover {
+  color: var(--app-primary-light);
+}

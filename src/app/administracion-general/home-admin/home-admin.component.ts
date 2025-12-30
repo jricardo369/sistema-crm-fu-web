@@ -1,0 +1,43 @@
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { SessionService } from 'src/app/services/session.service'; 
+import { CommonModule } from '@angular/common';
+import { BACKOFFICE, MASTER, VOC,INTERVIEWER_SCALES,VENDOR } from '../../app.config';
+import { Usuario } from 'src/model/usuario';
+import { FormsModule } from '@angular/forms';
+
+import { WorkspaceNavComponent } from 'src/app/common/workspace-nav/workspace-nav.component';
+import { ExperimentalMenuComponent } from 'src/app/common/experimental-menu/experimental-menu.component';
+import { ReportesNavComponent } from 'src/app/reportes/reportes-nav/reportes-nav.component';
+
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+@Component({
+  standalone: true,
+  selector: 'app-redirect-inicio',
+  template: `<p>Redirecting...</p>`,
+  imports: [CommonModule, FormsModule,RouterModule,WorkspaceNavComponent,ExperimentalMenuComponent,ReportesNavComponent,CommonModule,MatIconModule,MatProgressSpinnerModule] 
+})
+export class HomeAdminComponent implements OnInit {
+
+  usuario: any;
+
+  constructor(
+    private router: Router, 
+    private session: SessionService) { }
+
+  ngOnInit(): void {
+
+    const usuarioData = localStorage.getItem('objUsuario');
+
+    this.usuario = JSON.parse(usuarioData);
+    
+    if ([MASTER, BACKOFFICE, VOC,INTERVIEWER_SCALES,VENDOR].some(rol => rol === this.usuario.rol)) {
+      this.router.navigate(['/administracion-general/abogados']);
+      
+    } else {
+      this.router.navigate(['/administracion-general/usuarios']);
+    }
+  }
+}

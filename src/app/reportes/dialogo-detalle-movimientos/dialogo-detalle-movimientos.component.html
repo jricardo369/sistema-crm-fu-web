@@ -1,0 +1,62 @@
+<h2 mat-dialog-title style="font-family: regular;color:#75518c">{{titulo}}</h2>
+
+<mat-dialog-content>
+  <div *ngIf="detalleMovimientos.pendiente !== 0" style="display: flex;">
+  
+    <div class="mb-20">
+      <label class="subtitulo">Pending Amount</label>
+      <h4 class="mb-0 mt-0" style="color: red;font-family:regular">{{(detalleMovimientos.pendiente ?
+        detalleMovimientos.pendiente: 0) | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</h4>
+    </div>
+    <div style="display: flex; justify-content: flex-end; width:100%">
+      <button (click)='enviarRecordatorio()' class="btn"
+        style="display: inline-flex; align-items: center; color: #FFFFFF; background: #088395; border-radius: 5px; height: 30px; padding: 0 12px;font-size: 11px;">
+        <mat-icon svgIcon="bellD"
+          style="color:rgba(255, 255, 255, 0.7); width: 16px; font-size: 16px; margin-right: 5px;"></mat-icon>
+        <span style="color: #FFFFFF; text-transform: none; font-size: 14px;">Send reminder</span>
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="detalleMovimientos.pendiente === 0" style="display: flex;">
+    <div class="mb-20">
+      <label  style="color: #41949B; width: 300px;" class="subtitulo">Payment for this file has already been made</label>
+    </div>
+  </div>
+
+  <div style="display: flex;font-family:regular">
+    <div class="">
+      <h4 class="" style="margin-top: -2px;margin-bottom: 10px; font-size:12px;text-decoration: underline;color: #612c7e;cursor: pointer;
+      * {
+      cursor: pointer;
+    }" (click)="verSolicitud()">Go to file</h4>
+    </div>
+  </div>
+  
+  <table class="informative" *ngIf="detalleMovimientos?.movimientos?.length > 0">
+    <tr>
+      <th>Date</th>
+      <th>Amount</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Discount</th>
+    </tr>
+    <tr *ngFor='let e of detalleMovimientos.movimientos'>
+      <td style="white-space: nowrap;">{{e.fecha | dateMMDDYYYY}}</td>
+      <td class="number">{{e.monto | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</td>
+      <td>{{e.descripcionTipoPago}}</td>
+      <td>{{e.descripcion}}</td>
+      <td class="number">{{e.descuento | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</td>
+    </tr>
+  </table>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button class="iigwo accent" (click)='cerrar()'>Close</button>
+</mat-dialog-actions>
+
+<!-- CARGANDO-->
+<div class='iigwo-loading' *ngIf="cargando">
+  <mat-spinner></mat-spinner>
+</div>

@@ -1,0 +1,211 @@
+<app-workspace-nav>
+  <app-general-nav></app-general-nav>
+</app-workspace-nav>
+<div class='workspace'>
+
+  <div class='main'>
+    <app-experimental-menu titulo="Scheduled tasks"></app-experimental-menu>
+
+    <div class='content'>
+
+      <h4 style="margin: 0 0 12px 0; max-width: 396px">{{tituloRecordatorioPagoOld}}</h4>
+      
+      <div class="iigwo-input">
+        <label>Day of week</label>
+        <select [(ngModel)]='diaEnvioRecordatorioPago' [attr.disabled]="cambiandoDiaEnvioRecordatorioPago ? null : ''" [ngModelOptions]="{standalone: true}"
+          style="margin: 0 0 6px 0;">
+          <option *ngFor="let dia of dias">{{dia}}</option>
+        </select>
+        <label>Time</label>
+        <input [(ngModel)]="horaEnvioRecordatorioPago" type="time"
+          [attr.readOnly]="cambiandoDiaEnvioRecordatorioPago ? null : false">
+        <p style="margin-top: 5px;">{{subtituloRecordatorioPagoOld}}</p>
+      </div>
+
+      <div class="iigwo-input" style="margin: 0;" >
+            <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 0;"
+              [checked]="activoPago" [(ngModel)]="activoPago">
+            <label 
+              style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Active</label>
+          </div>
+
+      <div style="display: flex; gap: 8px; align-items: center;">
+
+        <button (click)='cambiandoDiaEnvioRecordatorioPago=true' *ngIf="cambiandoDiaEnvioRecordatorioPago==false"
+          class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+          <span style="color: #000000; font-size: 13px;">Change day and time</span>
+        </button>
+
+        <button (click)='ejecutarTarea(1)' *ngIf="cambiandoDiaEnvioRecordatorioPago==false" class="btn-color"
+          style="color: #ffffff; background: #41949B;margin-bottom: 5px;">
+          <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+          <span style="color: #ffffff; font-size: 13px;">Execute task</span>
+        </button>
+      
+        <button (click)='cambiarDato(1)' *ngIf="cambiandoDiaEnvioRecordatorioPago==true" class="btn-color"
+          style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
+          <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+          <span style="color: #ffffff; font-size: 13px;">Change day and time</span>
+        </button>
+      
+        <button (click)="cancelarCambio(1)" *ngIf="cambiandoDiaEnvioRecordatorioPago==true" class="btn-color"
+          style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+          <span style="color: #000000; font-size: 13px;">Cancel</span>
+        </button>
+      </div>
+      
+      
+      <!-- ================================================== -->
+
+      <hr style="max-width:396px;margin-bottom:24px;">
+
+      <!-- ================================================== -->
+
+      <h4 style="margin: 0 0 12px 0; max-width: 396px">{{tituloRecordatorioPagoOld}}</h4>
+
+      <div class="iigwo-input">
+        <label>Day of week</label>
+        <select [(ngModel)]='diaEnvioRecordatorioSolicitudes' [ngModelOptions]="{standalone: true}"
+          [attr.disabled]="cambiandoDiaEnvioRecordatorioSolicitudes ? null : ''" style="margin: 0 0 6px 0;">
+          <option *ngFor="let dia of dias">{{dia}}</option>
+        </select>
+        <label>Time</label>
+        <input [(ngModel)]="horaEnvioRecordatorioSolicitudes" type="time"
+          [attr.readOnly]="cambiandoDiaEnvioRecordatorioSolicitudes ? null : false">
+        <p style="margin-top: 5px;">{{subtituloRecordatorioPagoOld}}</p>
+      </div>
+
+      <div class="iigwo-input" style="margin: 0;" >
+            <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 0;"
+              [checked]="activoRecordatorioSolicitudes" [(ngModel)]="activoRecordatorioSolicitudes">
+            <label 
+              style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Active</label>
+          </div>
+
+      <div style="display: flex; gap: 8px; align-items: center;">
+      
+        <button (click)='cambiandoDiaEnvioRecordatorioSolicitudes=true' *ngIf="cambiandoDiaEnvioRecordatorioSolicitudes==false"
+          class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+          <span style="color: #000000; font-size: 13px;">Change day and time</span>
+        </button>
+      
+        <button (click)='ejecutarTarea(2)' *ngIf="cambiandoDiaEnvioRecordatorioSolicitudes==false" class="btn-color"
+          style="color: #ffffff; background: #41949B;margin-bottom: 5px;">
+          <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+          <span style="color: #ffffff; font-size: 13px;">Execute task</span>
+        </button>
+      
+        <button (click)='cambiarDato(2)' *ngIf="cambiandoDiaEnvioRecordatorioSolicitudes==true" class="btn-color"
+          style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
+          <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+          <span style="color: #ffffff; font-size: 13px;">Change day and time</span>
+        </button>
+      
+        <button (click)="cancelarCambio(2)" *ngIf="cambiandoDiaEnvioRecordatorioSolicitudes==true" class="btn-color"
+          style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+          <span style="color: #000000; font-size: 13px;">Cancel</span>
+        </button>
+      </div>
+
+        <!-- ================================================== -->
+
+      <hr style="max-width:396px;margin-bottom:24px;">
+
+      <!-- ================================================== -->
+
+       <h4 style="margin: 0 0 12px 0; max-width: 396px">{{tituloCitasRecordatorioOld}}</h4>
+      
+      <div class="iigwo-input">
+        <input [(ngModel)]="horaCitasRecordatorioOld" type="time"
+          [attr.readOnly]="cambiandoCitasRecordatorio ? null : false">
+        <p style="margin-top: 5px;">{{subtituloCitasRecordatorioOld}}</p>
+      </div>
+
+      <div class="iigwo-input" style="margin: 0;" >
+            <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 0;"
+              [checked]="activoCitasRecordatorio" [(ngModel)]="activoCitasRecordatorio">
+            <label 
+              style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Active</label>
+          </div>
+
+      <div style="display: flex; gap: 8px; align-items: center;">
+
+        <button (click)='cambiandoCitasRecordatorio=true' *ngIf="cambiandoCitasRecordatorio==false"
+          class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+          <span style="color: #000000; font-size: 13px;">Change time</span>
+        </button>
+
+        <button (click)='ejecutarTarea(3)' *ngIf="cambiandoCitasRecordatorio==false" class="btn-color"
+          style="color: #ffffff; background: #41949B;margin-bottom: 5px;">
+          <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+          <span style="color: #ffffff; font-size: 13px;">Execute task</span>
+        </button>
+      
+        <button (click)='cambiarDato(3)' *ngIf="cambiandoCitasRecordatorio==true" class="btn-color"
+          style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
+          <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+          <span style="color: #ffffff; font-size: 13px;">Change time</span>
+        </button>
+      
+        <button (click)="cancelarCambio(3)" *ngIf="cambiandoCitasRecordatorio==true" class="btn-color"
+          style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+          <span style="color: #000000; font-size: 13px;">Cancel</span>
+        </button>
+      </div>
+
+
+       <!-- ================================================== -->
+
+      <hr style="max-width:396px;margin-bottom:24px;">
+
+      <!-- ================================================== -->
+
+      <h4 style="margin: 0 0 12px 0; max-width: 396px">{{tituloVocEndSessionOld}}</h4>
+      
+      <div class="iigwo-input">
+        <input [(ngModel)]="horaVocEndSession" type="time"
+          [attr.readOnly]="cambiandoVocEndSession ? null : false">
+        <p style="margin-top: 5px;">{{subtituloVocEndSessionOld}}</p>
+      </div>
+
+      <div class="iigwo-input" style="margin: 0;" >
+            <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 0;"
+              [checked]="activoVocEndSession" [(ngModel)]="activoVocEndSession">
+            <label 
+              style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Active</label>
+          </div>
+
+      <div style="display: flex; gap: 8px; align-items: center;">
+
+        <button (click)='cambiandoVocEndSession=true' *ngIf="cambiandoVocEndSession==false"
+          class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+          <span style="color: #000000; font-size: 13px;">Change time</span>
+        </button>
+
+        <button (click)='ejecutarTarea(4)' *ngIf="cambiandoVocEndSession==false" class="btn-color"
+          style="color: #ffffff; background: #41949B;margin-bottom: 5px;">
+          <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+          <span style="color: #ffffff; font-size: 13px;">Execute task</span>
+        </button>
+      
+        <button (click)='cambiarDato(4)' *ngIf="cambiandoVocEndSession==true" class="btn-color"
+          style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
+          <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+          <span style="color: #ffffff; font-size: 13px;">Change time</span>
+        </button>
+      
+        <button (click)="cancelarCambio(4)" *ngIf="cambiandoVocEndSession==true" class="btn-color"
+          style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+          <span style="color: #000000; font-size: 13px;">Cancel</span>
+        </button>
+      </div>
+     
+    </div>
+  </div>
+
+  <!--Cargando-->
+  <div class='iigwo-loading' *ngIf="cargando">
+    <mat-spinner></mat-spinner>
+  </div>
+
+</div>

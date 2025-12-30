@@ -1,0 +1,162 @@
+<h2 style="font-family: regular;color:#75518c" mat-dialog-title>{{titulo}}</h2>
+
+<mat-dialog-content style="padding-right: 12px;">
+
+
+  <div style="display:flex; margin-bottom: 12px;">
+
+    <div class="iigwo-input" *ngIf="isAddEmailAbo">
+    
+      <mat-form-field appearance="outline" class="custom-form-field" style="width: 100%;">
+    
+        <input matInput type="text" placeholder="Find lawyer" [formControl]="abogadoControl" [matAutocomplete]="auto"
+          [value]="abogadoSeleccionado ? abogadoSeleccionado.nombre : ''" />
+    
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)" [displayWith]="displayFn">
+          <mat-option style="font-size: 12px" *ngFor="let a of abogados" [value]="a">
+            {{ a.nombre }} <span *ngIf="a.firma">({{ a.firma }})</span> 
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    
+    </div>
+
+    <div style="min-width: 332px; margin-right: 12px;" *ngIf="!isAddEmailAbo">
+
+      <h4 style="margin: 0 0 12px 0;font-family: regular;">Lawyer information</h4>
+
+      <div class="iigwo-input">
+        <label>Law Firm</label>
+        <input type="text" [(ngModel)]="abogado.firma">
+      </div>
+
+      <div class="iigwo-input">
+        <label required>Lawyer name</label>
+        <input type="text" [(ngModel)]="abogado.nombre">
+      </div>
+
+      <!--<div class="iigwo-input">
+        <label>Emails</label>
+        <input type="text" [(ngModel)]="abogado.email">
+      </div>-->
+
+      <div class="iigwo-input">
+        <label>Phone</label>
+        <input type="text" [(ngModel)]="abogado.telefono">
+      </div>
+
+      <div class="iigwo-input">
+        <label>Synonyms</label>
+        <input type="text" min="0" [(ngModel)]="abogado.sinonimos">
+      </div>
+
+      
+      <div class="iigwo-input" *ngIf="creando">
+
+        <label required>Email(s)</label>
+        <div class="input-row" style="margin-bottom: 4px;">
+          <input type="text" [(ngModel)]="inputAbogadoN">
+          <button (click)='addMailAbogadoN()' class="btn-icon" matTooltip="Add">
+            <mat-icon svgIcon="add"></mat-icon>
+          </button>
+        </div>
+
+        <div *ngFor="let emAbo of arrEmailAbogadosN" style="display: block; 
+            background-color: #f0f0f0; 
+            border-radius: 16px; 
+            padding: 0.5px 2px; 
+            margin-top: 3px;
+            width: fit-content;
+            align-items: center;">
+          <span class="badge-file-icon" style="color: darkviolet; vertical-align: middle;"><mat-icon
+              svgIcon="scales"></mat-icon></span>
+          <span style="margin-right: 5px; font-family: regular; vertical-align: middle;font-size:10px">{{emAbo}}</span>
+          <span style="margin-left: 8px; vertical-align: middle;">
+            <button style="background: none; border: none; cursor: pointer;vertical-align: middle;"
+              (click)="removeMailAbogadoN(emAbo)">
+              <mat-icon style="margin-top: 1px;width: 15px;vertical-align: middle;" svgIcon="close"></mat-icon>
+            </button>
+          </span>
+        </div>
+
+      </div>
+
+      <div class="iigwo-input" *ngIf="!creando">
+
+        <label>Email(s)</label>
+        <div class="input-row" style="margin-bottom: 4px;">
+          <input type="text" [(ngModel)]="inputAbogado.email">
+          <button (click)='addEmailAbo()' class="btn-icon" matTooltip="Add">
+            <mat-icon svgIcon="add"></mat-icon>
+          </button>
+        </div>
+
+        <div *ngFor="let emAbo of arrEmailAbogados" style="display: block; 
+            background-color: #f0f0f0; 
+            border-radius: 16px; 
+            padding: 0.5px 2px; 
+            margin-top: 3px;
+            width: fit-content;
+            align-items: center;">
+          <span class="badge-file-icon" style="color: darkviolet; vertical-align: middle;"><mat-icon
+              svgIcon="scales"></mat-icon></span>
+          <span style="margin-right: 5px; font-family: regular; vertical-align: middle;font-size:10px">{{emAbo.email}}</span>
+          <span style="margin-left: 8px; vertical-align: middle;">
+            <button style="background: none; border: none; cursor: pointer;vertical-align: middle;"
+              (click)="removeEmailAbo(emAbo.idEmailAbo)">
+              <mat-icon style="margin-top: 1px;width: 15px;vertical-align: middle;" svgIcon="close"></mat-icon>
+            </button>
+          </span>
+        </div>
+        
+      </div>
+      
+
+      <div *ngIf="!creando" class="iigwo-input">
+        <label>Creation date</label>
+        <input type="text" min="0" [(ngModel)]="abogado.fechaCreacion" readonly>
+      </div>
+
+    </div>
+
+
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions style="justify-content: flex-end;">
+
+ <!--
+  <button class="iigwo" style="margin-left:auto;" (click)='cerrar()'>Cancel</button>
+  <button *ngIf="creando" class="iigwo accent" style="margin-right:0;" (click)='crear()'>Create</button>
+  <button *ngIf="!creando" class="iigwo accent" style="margin-right:0;" (click)='editar()'>Save changes</button>
+-->
+
+   <button (click)='eliminar()' class="btn-color" style="color: #ffffff; background: #be2929;margin-bottom: 5px;margin-right: auto;" *ngIf="!creando && ! isAddEmailAbo">
+    <mat-icon svgIcon="trashD" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+    <span style="color: #ffffff; font-size: 13px;">Delete</span>
+  </button>
+  
+  <button (click)='cerrar()' class="btn-color"
+    style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+    <span style="color: #000000; font-size: 13px;">Cancel</span>
+  </button>
+  
+  <button *ngIf="creando" (click)='crear()' class="btn-color"
+    style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
+    <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+    <span style="color: #ffffff; font-size: 13px;">Create</span>
+  </button>
+  
+  <button *ngIf="!creando && !isAddEmailAbo" (click)='editar()' class="btn-color"
+    style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
+    <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+    <span style="color: #ffffff; font-size: 13px;">Save changes</span>
+  </button>
+
+</mat-dialog-actions>
+
+<!-- CARGANDO-->
+<div class='iigwo-loading' *ngIf="cargando">
+  <mat-spinner></mat-spinner>
+</div>

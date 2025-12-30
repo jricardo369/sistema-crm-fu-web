@@ -1,0 +1,453 @@
+<app-workspace-nav>
+  <app-reportes-nav></app-reportes-nav>
+</app-workspace-nav>
+<div class='workspace'>
+  <div class='main'>
+
+    <app-experimental-menu titulo="Dashboard">
+
+      <button (click)='refresh()' class="btn"
+        style="color: #FFFFFF;background: #f3c956; border-radius: 5px; height: 20px; line-height: 20px;">
+        <mat-icon svgIcon="refresh"
+          style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+        <label style="margin: auto;color: #FFFFFF;text-transform: none;">Refresh</label>
+      </button>
+
+    </app-experimental-menu>
+
+    <div class='content'>
+      <div style="display: inline-flex;">
+
+        <!--
+        <div class="iigwo-input">
+          <label>Start Date</label>
+          <input type="date" [(ngModel)]="fechaI">
+        </div>
+
+        <div class="iigwo-input">
+          <label>End Date</label>
+          <input type="date" [(ngModel)]="fechaF">
+        </div>
+      -->
+
+      <div class="iigwo-input">
+              <label>Start Date</label>
+              <mat-form-field appearance="outline" class="custom-datepicker">
+                <input matInput [matDatepicker]="startPicker" [(ngModel)]="filterStartDateMat" (dateChange)="onStartDateChange()">
+                <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                <mat-datepicker #startPicker></mat-datepicker>
+              </mat-form-field>
+            </div> 
+
+            <div class="iigwo-input">
+              <label>End Date</label>
+              <mat-form-field appearance="outline" class="custom-datepicker">
+                <input matInput [matDatepicker]="endPicker" [(ngModel)]="filterEndDateMat" (dateChange)="onEndDateChange()">
+                <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                <mat-datepicker #endPicker></mat-datepicker>
+              </mat-form-field>
+            </div> 
+
+        <div class="iigwo-input" style="min-width: 120px;">
+          <label>User</label>
+          <select [(ngModel)]="filterUsuario" [ngModelOptions]="{standalone: true}">
+            <option *ngFor="let e of arrFilterUsuarios" [ngValue]="e.idUsuario">
+              {{e.nombre}}</option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="tiles" class='content' style="margin-top: 80px;padding-top: 0;">
+
+      <div *ngIf="true" class="stats-container">
+
+         <!-- Archivos todos -->
+        <div sytle="" class="stat-card" (click)='obtenerDetalleSols("Detail files by date")'>
+          <div class="stat-title">Total files</div>
+          <div class="stat-content">
+            <div class="stat-icon">
+              <mat-icon svgIcon="filesD" style="color:rgb(34, 36, 34); width: 32px; height: 32px;"></mat-icon>
+            </div>
+            <div class="stat-value">{{ reporteDash.todas}}</div>
+          </div>
+        </div>
+
+        <!-- Separador vertical -->
+        <div class="vertical-separatorv2"></div>
+
+        <!-- Archivos activos -->
+        <div sytle="" class="stat-card" (click)='obtenerDetallesSolicitudes(1,"Active files")'>
+          <div class="stat-title">Active files</div>
+          <div class="stat-content">
+            <div class="stat-icon">
+              <mat-icon svgIcon="star" style="color:rgb(179, 179, 35); width: 40px; height: 40px;"></mat-icon>
+            </div>
+            <div class="stat-value">{{ reporteDash.activas}}</div>
+          </div>
+        </div>
+
+        <!-- Archivos completados -->
+        <div class="stat-card" (click)='obtenerDetallesSolicitudes(2,"Complete files")'>
+          <div class="stat-title">Complete files</div>
+          <div class="stat-content">
+            <div class="stat-icon">
+              <mat-icon svgIcon="completeD" style="color:green; width: 40px; height: 40px;"></mat-icon>
+            </div>
+            <div class="stat-value">{{ reporteDash.completas}}</div>
+          </div>
+        </div>
+
+        <!-- Archivos cancelados -->
+        <div class="stat-card" (click)='obtenerDetallesSolicitudes(3,"Lost files")'>
+          <div class="stat-title">Lost files</div>
+          <div class="stat-content">
+            <div class="stat-icon">
+              <mat-icon svgIcon="cancel" style="color:red; width: 40px; height: 40px;"></mat-icon>
+            </div>
+            <div class="stat-value">{{ reporteDash.lost}}</div>
+          </div>
+        </div>
+
+        <!-- Separador vertical -->
+        <div class="vertical-separator"></div>
+
+        <!-- No shows -->
+        <div class="stat-card" (click)='obtenerDetalleEventosSolicitudes(4,"No show files")'>
+          <div class="stat-title">No show files</div>
+          <div class="stat-content">
+            <div class="stat-icon">
+              <mat-icon svgIcon="calendar-slash"
+                style="color:rgb(26, 32, 96); width: 40px; height: 40px;"></mat-icon>
+            </div>
+            <div class="stat-value">{{reporteDash.noShow}}</div>
+          </div>
+        </div>
+
+        <!-- Archivos rechazados -->
+        <div class="stat-card" (click)='obtenerDetalleEventosSolicitudes(5,"Refused files")'>
+          <div class="stat-title">Refused files</div>
+          <div class="stat-content">
+            <div class="stat-icon">
+              <mat-icon svgIcon="refused" style="color:rgb(188, 146, 67); width: 40px; height: 40px;"></mat-icon>
+            </div>
+            <div class="stat-value">{{ reporteDash.rejectFile}}</div>
+          </div>
+        </div>
+
+        <!-- Archivos rechazados -->
+        <div class="stat-card" (click)='obtenerDetalleEventosSolicitudes(6,"Canceled schedules")'>
+          <div class="stat-title">Canceled schedules</div>
+          <div class="stat-content">
+            <div class="stat-icon">
+              <mat-icon svgIcon="cancel-event" style="color:rgb(200, 82, 27); width: 40px; height: 40px;"></mat-icon>
+            </div>
+            <div class="stat-value">{{ reporteDash.cancelSchedules}}</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div *ngIf="false" class="stats-containerv2">
+
+         <!-- Archivos todos -->
+        <div sytle="" class="stat-cardv2" >
+          <div class="stat-titlev2">Total files</div>
+          <div class="stat-contentv2">
+            <div class="stat-icon">
+              <mat-icon svgIcon="listD" style="color:rgb(34, 36, 34); width: 40px; height: 40px;"></mat-icon>
+            </div>
+            <div class="stat-value">{{ reporteDash.todas}}</div>
+          </div>
+        </div>
+
+        <!-- Separador vertical -->
+        <div class="vertical-separatorv2"></div>
+
+        <!-- Archivos activos -->
+        <div sytle="" class="stat-cardv2" (click)='obtenerDetallesSolicitudes(1,"Active files")'>
+          <div class="stat-titlev2">Active files</div>
+          <div class="stat-contentv2">
+            <div class="stat-icon">
+              <mat-icon svgIcon="star" style="color:rgb(179, 179, 35); width: 40px; height: 40px;"></mat-icon>
+            </div>
+            <div class="stat-value">{{ reporteDash.activas}}</div>
+          </div>
+        </div>
+
+        <!-- Archivos completados -->
+        <div class="stat-cardv2" (click)='obtenerDetallesSolicitudes(2,"Complete files")'>
+          <div class="stat-titlev2">Complete files</div>
+          <div class="stat-contentv2">
+            <div class="stat-icon">
+              <mat-icon svgIcon="completeD" style="color:green; width: 40px; height: 40px;"></mat-icon>
+            </div>
+            <div class="stat-value">{{ reporteDash.completas}}</div>
+          </div>
+        </div>
+
+        <!-- Archivos cancelados -->
+        <div class="stat-cardv2" (click)='obtenerDetallesSolicitudes(3,"Lost files")'>
+          <div class="stat-titlev2">Lost files</div>
+          <div class="stat-contentv2">
+            <div class="stat-icon">
+              <mat-icon svgIcon="cancel" style="color:red; width: 40px; height: 40px;"></mat-icon>
+            </div>
+            <div class="stat-value">{{ reporteDash.lost}}</div>
+          </div>
+        </div>
+
+        <!-- Separador vertical -->
+        <div class="vertical-separator"></div>
+
+        <!-- No shows -->
+        <div class="stat-cardv2" (click)='obtenerDetalleEventosSolicitudes(4,"No show files")'>
+          <div class="stat-titlev2">No show files</div>
+          <div class="stat-contentv2">
+            <div class="stat-icon">
+              <mat-icon svgIcon="calendar-slash"
+                style="color:rgb(26, 32, 96); width: 40px; height: 40px;"></mat-icon>
+            </div>
+            <div class="stat-value">{{reporteDash.noShow}}</div>
+          </div>
+        </div>
+
+        <!-- Archivos rechazados -->
+        <div class="stat-cardv2" (click)='obtenerDetalleEventosSolicitudes(5,"Refused files")'>
+          <div class="stat-titlev2">Refused files</div>
+          <div class="stat-contentv2">
+            <div class="stat-icon">
+              <mat-icon svgIcon="refused" style="color:rgb(188, 146, 67); width: 40px; height: 40px;"></mat-icon>
+            </div>
+            <div class="stat-value">{{ reporteDash.rejectFile}}</div>
+          </div>
+        </div>
+
+        <!-- Archivos rechazados -->
+        <div class="stat-cardv2" (click)='obtenerDetalleEventosSolicitudes(6,"Canceled schedules")'>
+          <div class="stat-titlev2">Canceled schedules</div>
+          <div class="stat-contentv2">
+            <div class="stat-icon">
+              <mat-icon svgIcon="cancel-event" style="color:rgb(200, 82, 27); width: 40px; height: 40px;"></mat-icon>
+            </div>
+            <div class="stat-value">{{ reporteDash.cancelSchedules}}</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="num-reg-tablas" *ngIf="!(solicitudes.length == 0)">{{solicitudes.length}} {{tituloEventos}}</div>
+      <!-- TABLA CON REGISTROS SOLICITUD -->
+      <div style="display:flex; flex-flow: column; overflow: auto;">
+        <table class='informative' *ngIf="!(solicitudes.length == 0)">
+          <tr>
+            <!-- <th class=''><input type="checkbox" [checked]="estanTodosSeleccionados()" (change)="checkAll($event)"></th> -->
+            <th class=''>File</th>
+            <th class='' *ngIf="!(isInterviewer || isTemplateCreator || isInterviewerScales)">Creation Date</th>
+            <th class=''>Due Date</th>
+            <th class='' *ngIf="isMaster">Assigned</th>
+            <th class=''>Customer Name</th>
+            <th class=''>Phone</th>
+            <th class=''>Type</th>
+            <th *ngIf="tileDashSelected == 1 || tileDashSelected == 2" class=''>Additional</th>
+            <th *ngIf="tileDashSelected == 3" class=''>Reason</th>
+            <!--<th class=''>Responsible User</th>-->
+            <th class=''>Email</th>
+            <!--<th class=''>Importance</th>-->
+            <!--<th class='' *ngIf="!(isInterviewer || isTemplateCreator || isInterviewerScales || isClinician)">Assignment editor</th>-->
+            <th class='' *ngIf="!(isInterviewer || isTemplateCreator || isVOC || isInterviewerScales || isClinician)">
+              Payment Status
+            </th>
+            <th class=''>File Status</th>
+            <th class='' *ngIf="tileDashSelected == 1 || tileDashSelected == 2">Interview Appointment</th>
+            <th class='' *ngIf="tileDashSelected == 1 || tileDashSelected == 2">Scales Appointment</th>
+            <!--<th class='' *ngIf="(isMaster || isVendor || isBackOffice)">Interview review</th>
+            <th class='' *ngIf="isTemplateCreator">Interview Scale</th>-->
+            <th class=''>Sales user</th>
+          </tr>
+          <tr *ngFor='let e of solicitudes | slice:paginacion.begin:paginacion.end'>
+            <!-- <td class=''><input type="checkbox" [checked]="estaSeleccionado(e.idSolicitud)"
+                (change)="check($event, e.idSolicitud)"></td> -->
+            <td class=''><a [routerLink]="['/solicitudes/solicitudes/', e.idSolicitud]">{{e.idSolicitud}}</a></td>
+             
+            <td class='accent' *ngIf="!(isInterviewer || isTemplateCreator || isInterviewerScales)">{{e.fechaInicio |
+              dateMMDDYYYY}}</td>
+            <td class='accent'>{{e.dueDate | dateMMDDYYYY}}</td>
+            <td class='accent' *ngIf="isMaster">{{e.abogado}}</td>
+            <td class=''><a [routerLink]="['/solicitudes/solicitudes/', e.idSolicitud]">{{e.cliente}}</a></td>
+            <td class='accent'>{{e.telefono | phone}}</td>
+            <td class='accent'>{{e.tipoSolicitud}}</td>
+            <td *ngIf="tileDashSelected == 1 || tileDashSelected == 2" class='accent'>{{ e.adicional}}</td>
+            <td *ngIf="tileDashSelected == 3" class='accent'>{{ e.motivo}}</td>
+            <!--<td class='accent'>{{e.usuarioRevisandoNombre}}</td>-->
+            <td class='accent'>{{e.email}}</td>
+            <!--<td style="text-align: center;"><span class="badge-status badge-color-important" style="margin: 0;"
+                *ngIf="e.importante.length > 0">{{e.importante}}</span></td>-->
+            <!--<td *ngIf="!(isInterviewer || isTemplateCreator || isInterviewerScales || isClinician)"
+              style="padding-top: 4px; padding-bottom: 3px; text-align: center; color: #75518c;">
+              <mat-icon svgIcon="done" *ngIf="e.asignacionTemplate" class="my-icon-pequenio"></mat-icon>
+            </td>-->
+            <td style="text-align: center;"
+              *ngIf="!(isInterviewer || isTemplateCreator || isVOC || isInterviewerScales || isClinician)"><span
+                class="badge-status" style="margin: 0;" [ngClass]="{'badge-color-partially': e.idEstatusPago == 1,
+                            'badge-color-complete': e.idEstatusPago == 2,
+                            'badge-color-hold': e.idEstatusPago == 3,
+                            'badge-color-na': e.idEstatusPago == 4}">{{e.estatusPago}}</span></td>
+            <td style="text-align: center;">
+              <div class="badge-wrapper">
+                <span class="badge-status" style="margin: 0;" [ngClass]="{
+                                    'badge-color-received': e.idEstatusSolicitud == 1,
+                                    'badge-color-reviewing': e.idEstatusSolicitud == 2,
+                                    'badge-color-interview': e.idEstatusSolicitud == 3,
+                                    'badge-color-refused': e.idEstatusSolicitud == 4,
+                                    'badge-color-no_show': e.idEstatusSolicitud == 5,
+                                    'badge-color-case': e.idEstatusSolicitud == 6,
+                                    'badge-color-lost': e.idEstatusSolicitud == 7,
+                                    'badge-color-won': e.idEstatusSolicitud == 8,
+                                    'badge-color-open': e.idEstatusSolicitud == 9,
+                                    'badge-color-ready_on_draft': e.idEstatusSolicitud == 10,
+                                    'badge-color-closed': e.idEstatusSolicitud == 11
+                                  }">
+                  {{ e.estatusSolicitud }}
+                </span>
+
+                <!-- Badge adicional -->
+                <span class="status-badge" *ngIf="e.importante">I</span>
+              </div>
+            </td>
+            <td *ngIf="tileDashSelected == 1 || tileDashSelected == 2" class='accent'>{{ e.fecha_schedule}}</td>
+            <td *ngIf="tileDashSelected == 1 || tileDashSelected == 2" class='accent'>{{ e.fecha_schedule_scales}}</td>
+            <td class='accent'>{{e.usuarioCreacion}}</td>
+          </tr>
+
+          <tr>
+            <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
+              <label>
+                Records per page</label>
+              <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()"
+                [ngModelOptions]="{standalone: true}" style="margin: 0 8px; font-family: regular; height: 24px;">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+              {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
+              <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+                (click)="paginacion.back();">
+                <mat-icon svgIcon="arrow-back"></mat-icon>
+              </button>
+              <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+                (click)="paginacion.forward();">
+                <mat-icon svgIcon="arrow-forward"></mat-icon>
+              </button>
+            </td>
+          </tr>
+
+        </table>
+      </div>
+
+
+       <div class="num-reg-tablas" *ngIf="!(eventos.length == 0)">{{eventos.length}} {{tituloEventos}} - <a style="font-size: 12px;">Some events belong to the same file</a></div>
+      <!-- TABLA CON REGISTROS EVENTOS -->
+      <div >
+        <table class='informative' *ngIf="!(eventos.length == 0)">
+          <tr>
+            <th class=''>Date</th>
+            <th class=''>User</th>
+            <th class=''>File</th>
+            <th class=''>Descripcion</th>
+            <th class=''>Sales user</th>
+          </tr>
+          <tr *ngFor='let e of eventos | slice:paginacion.begin:paginacion.end'>
+            <td class=''>{{e.fecha}}</td>
+            <td class=''>{{e.usuario}}</td>
+            <td class=''>{{e.idSolicitud}}</td>
+            <td class=''>{{e.descripcion}}</td>
+            <td class=''>{{e.usuarioCreacion}}</td>
+          </tr>
+
+          <tr>
+            <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
+              <label>
+                Records per page</label>
+              <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()"
+                [ngModelOptions]="{standalone: true}" style="margin: 0 8px; font-family: regular; height: 24px;">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+              {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
+              <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+                (click)="paginacion.back();">
+                <mat-icon svgIcon="arrow-back"></mat-icon>
+              </button>
+              <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+                (click)="paginacion.forward();">
+                <mat-icon svgIcon="arrow-forward"></mat-icon>
+              </button>
+            </td>
+          </tr>
+
+        </table>
+      </div>
+
+
+      <div class="num-reg-tablas" *ngIf="!(detSols.length == 0)">{{tituloEventos}}</div>
+      <!-- TABLA CON REGISTROS SOLS DET -->
+      <div >
+        <table class='informative' *ngIf="!(detSols.length == 0)">
+          <tr>
+            <th class=''>Date</th>
+            <th class=''>Number of files</th>
+             <th class=''>Active</th>
+              <th class=''>Closed</th>
+               <th class=''>Lost</th>
+                <th class=''>No show</th>
+          </tr>
+          <tr *ngFor='let e of detSols | slice:paginacion.begin:paginacion.end'>
+            <td class=''>{{e.fecha}}</td>
+            <td class=''>{{e.numero}}</td>
+             <td class=''>{{e.activas}}</td>
+              <td class=''>{{e.cerradas}}</td>
+               <td class=''>{{e.lost}}</td>
+                <td class=''>{{e.noshow}}</td>
+          </tr>
+
+          <tr>
+            <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
+              <label>
+                Records per page</label>
+              <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()"
+                [ngModelOptions]="{standalone: true}" style="margin: 0 8px; font-family: regular; height: 24px;">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+              {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
+              <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+                (click)="paginacion.back();">
+                <mat-icon svgIcon="arrow-back"></mat-icon>
+              </button>
+              <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+                (click)="paginacion.forward();">
+                <mat-icon svgIcon="arrow-forward"></mat-icon>
+              </button>
+            </td>
+          </tr>
+
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!--Cargando-->
+  <div class='iigwo-loading' *ngIf="cargando">
+    <mat-spinner></mat-spinner>
+  </div>
+
+</div>

@@ -1,0 +1,250 @@
+<app-workspace-nav>
+  <app-solicitudes-nav></app-solicitudes-nav>
+</app-workspace-nav>
+<div class='workspace'>
+  <div class='main'>
+
+    <app-experimental-menu titulo="Files">
+
+      <button (click)='crearSolicitud()' class="btn"
+        style="color: #FFFFFF;background: #239B56; border-radius: 5px; height: 20px; line-height: 20px;">
+        <mat-icon svgIcon="add-box"
+          style="color:rgba(255, 255, 255, 0.7); width: 15px; height: 15px;margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+        <label style="margin: auto;color: #FFFFFF;text-transform: none;">Create File</label>
+      </button>
+
+      <div class="iigwo-input" style="margin-bottom: 0px; ">
+        <select [(ngModel)]="filterClosed" style="font-size: 12px;height: 20px;" [ngModelOptions]="{standalone: true}">
+          <option *ngFor="let e of arrFilterClosed" [ngValue]="e">
+            {{e}}</option>
+        </select>
+      </div>
+
+      <div style="width: 1px; height: 20px;background-color: #ccc;margin-right: 8px; margin-left: 10px;"></div>
+
+      <button (click)='descargarExcel()' class="btn"
+        style="color: #000000;background: #e5e5e5; border-radius: 5px; height: 20px; line-height: 20px;">
+        <mat-icon svgIcon="exportD"
+          style="color:rgba(0, 0, 0, 0.7); width: 15px; height: 15px;margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+        <label style="margin: auto;color: #000000;text-transform: none;">Export</label>
+      </button>
+
+
+
+    </app-experimental-menu>
+
+    <div class='content'>
+
+      <!-- FILTRO -->
+      <div class="container" style="margin-bottom: 3px;">
+        <div class="left">
+          <div style="display: flex; align-items: center;">
+            <!--<div style="display: flex; align-items: center; justify-content: flex-end; min-width: 228px;">-->
+            
+            <!-- 
+            <div class="iigwo-input">
+              <label>Start Date</label>
+              <input type="date" [(ngModel)]="filterInputDate1">
+            </div>
+            <div class="iigwo-input">
+              <label>End Date</label>
+              <input type="date" [(ngModel)]="filterInputDate2">
+            </div>
+            --> 
+
+            <div class="iigwo-input">
+              <label>Start Date</label>
+              <mat-form-field appearance="outline" class="custom-datepicker">
+                <input matInput [matDatepicker]="startPicker" [(ngModel)]="filterStartDateMat" (dateChange)="onStartDateChange()">
+                <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                <mat-datepicker #startPicker></mat-datepicker>
+              </mat-form-field>
+            </div> 
+
+            <div class="iigwo-input">
+              <label>End Date</label>
+              <mat-form-field appearance="outline" class="custom-datepicker">
+                <input matInput [matDatepicker]="endPicker" [(ngModel)]="filterEndDateMat" (dateChange)="onEndDateChange()">
+                <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                <mat-datepicker #endPicker></mat-datepicker>
+              </mat-form-field>
+            </div> 
+
+
+            <div class="iigwo-input">
+              <label>Type</label>
+              <select [(ngModel)]="filterType" style="margin-right: 10px;" [ngModelOptions]="{standalone: true}">
+                <option *ngFor="let e of arrFilterTypes" [ngValue]="e">
+                  {{e}}</option>
+              </select>
+            </div>
+            <!--<div class="iigwo-input" style="text-align: center;">
+              <label for="myFiles" style="font-size: 12px;">My Files</label>
+              <input type="checkbox" style="width: 15px;line-height: 18px;margin: 0 6px 0 4px;" id="myFiles"
+                [checked]="filterMyFiles" (change)="filterMyFiles = !filterMyFiles">
+            </div>-->
+            <div class="iigwo-input"
+              *ngIf="filterType == 'All' || filterType == 'File' || filterType == 'Customer' || filterType == 'Case number' ||  filterType == 'Email' ||  filterType == 'Therapist' ">
+              <label>Value</label>
+              <input type="text" placeholder="Enter a value" [(ngModel)]="filterInputText">
+            </div>
+            <div *ngIf="filterType == 'Creation Date'" class="flex">
+              <div class="iigwo-input">
+                <label>From</label>
+                <input type="date" [(ngModel)]="filterInputDate1">
+              </div>
+              <div class="iigwo-input">
+                <label>To</label>
+                <input type="date" [(ngModel)]="filterInputDate2">
+              </div>
+            </div>
+            <div class="iigwo-input" *ngIf="filterType == 'File Status'">
+              <label>Status</label>
+              <select [(ngModel)]="filterInputText" style="margin-right: 10px;" [ngModelOptions]="{standalone: true}">
+                <option *ngFor="let e of arrFilterFileStatus" [ngValue]="e.descripcion">
+                  {{e.descripcion}}</option>
+              </select>
+            </div>
+            <div class="iigwo-input" *ngIf="filterType == 'Payment Status'">
+              <label>Status</label>
+              <select [(ngModel)]="filterInputText" style="margin-right: 10px;" [ngModelOptions]="{standalone: true}">
+                <option *ngFor="let e of arrFilterStatusPago" [ngValue]="e.descripcion">
+                  {{e.descripcion}}</option>
+              </select>
+            </div>
+            <div class="iigwo-input" *ngIf="filterType == 'Treatment plan'">
+              <label>Has treatment plan</label>
+              <select [(ngModel)]="filterInputText" style="margin-right: 10px;" [ngModelOptions]="{standalone: true}">
+                <option *ngFor="let e of arrFilterWaiver" [ngValue]="e.value">
+                  {{e.display}}</option>
+              </select>
+            </div>
+
+            <!--<button class="accent iigwo small" style="margin-top: 12px;" (click)="explorar()">Explore</button>
+            <button class="iigwo" style="margin-top: 12px" (click)='limpiarFechas()'>Clear dates</button>-->
+
+            <button (click)='explorar()' class="btn-color"
+              style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
+              <mat-icon svgIcon="searchD" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+              <span style="color: #ffffff; font-size: 13px;">Explore</span>
+            </button>
+
+            <button (click)='limpiarFechas()' class="btn-color"
+              style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+              <!--<mat-icon svgIcon="exportD" style="color: rgba(0, 0, 0, 0.7); width: 14px;  vertical-align: middle;"></mat-icon>-->
+              <span style="color: #000000; font-size: 13px;">Clear dates</span>
+            </button>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- TABLA CON REGISTROS -->
+      <div style="display:flex; flex-flow: column; overflow: auto;">
+        <table class='big' *ngIf="!(solicitudes.length == 0)">
+          <tr>
+            <!-- <th class=''><input type="checkbox" [checked]="estanTodosSeleccionados()" (change)="checkAll($event)"></th> -->
+            <th class=''>File</th>
+            <th class=''>Case number</th>
+            <th class=''>Creation Date</th>
+            <th class=''>Customer Name</th>
+            <th class=''>Approved Sessions</th>
+            <th class=''>Completed Sessions</th>
+            <th class=''>Pending Sessions</th>
+            <th class=''>Sessions Without Notes</th>
+            <th *ngIf="isVOC" class=''>Therapist</th>
+            <th class=''>Email</th>
+            <th class='' *ngIf="(isVOC)">Treatment plan</th>
+            <th class='' *ngIf="!(isTherapist)">Payment Status</th>
+            <th class=''>File Status</th>
+          </tr>
+          <tr *ngFor='let e of solicitudes | slice:paginacion.begin:paginacion.end'>
+            <!-- <td class=''><input type="checkbox" [checked]="estaSeleccionado(e.idSolicitud)"
+                (change)="check($event, e.idSolicitud)"></td> -->
+            <td class=''><a routerLink="{{e.idSolicitud}}">{{e.idSolicitud}}</a></td>
+            <td class=''><a routerLink="{{e.idSolicitud}}">{{e.numeroDeCaso}}</a></td>
+            <td class='accent'>{{e.fechaInicio | dateMMDDYYYY}}</td>
+            <td class=''><a routerLink="{{e.idSolicitud}}">{{e.cliente}}</a></td>
+
+            <td style="text-align: center;"><span class="badge-status badge-color-0"
+                style="margin: 0;">{{e.numSesiones}}</span>
+            </td>
+            <td style="text-align: center;"><span class="badge-status" [ngClass]="{
+                              'badge-color-0': (e.numSchedules === 0),
+                              'badge-color-6': (e.numSchedules > 0 )}" style="margin: 0;">{{e.numSchedules}}</span>
+            </td>
+            <td style="text-align: center;"><span class="badge-status" style="margin: 0;"
+                [ngClass]="{
+                              'badge-color-4': (e.sesionesPendientes == 0 || e.sesionesPendientes > 15),
+                              'badge-color-3': (e.sesionesPendientes < 0 || e.sesionesPendientes <= 5),
+                              'badge-color-2': (e.sesionesPendientes > 5 && e.sesionesPendientes <= 15)}">{{e.sesionesPendientes}}</span></td>
+            <td style="text-align: center;"><span class="badge-status badge-color-0"
+                style="margin: 0;">{{e.numSesionesSinNota}}</span></td>
+
+            <td *ngIf="isVOC" class='accent'>{{e.nombreTerapeuta}}</td>
+            <td class='accent'>{{e.email}}</td>
+            <td style="padding-top: 4px; padding-bottom: 3px; text-align: center; color: #75518c;" *ngIf="(isVOC)">
+              <mat-icon svgIcon="done" *ngIf="e.documento2" class="my-icon-pequenio"></mat-icon>
+            </td>
+            <td style="text-align: center;" *ngIf="!(isTherapist)"><span class="badge-status" style="margin: 0;"
+                [ngClass]="{'badge-color-partially': e.idEstatusPago == 1,
+                            'badge-color-complete': e.idEstatusPago == 2,
+                            'badge-color-hold': e.idEstatusPago == 3,
+                            'badge-color-na': e.idEstatusPago == 4}">{{e.estatusPago}}</span></td>
+            <td style="text-align: center;"><span class="badge-status" style="margin: 0;" [ngClass]="{'badge-color-received': e.idEstatusSolicitud == 1,
+                'badge-color-reviewing': e.idEstatusSolicitud == 2,
+                'badge-color-interview': e.idEstatusSolicitud == 3,
+                'badge-color-refused': e.idEstatusSolicitud == 4,
+                'badge-color-no_show': e.idEstatusSolicitud == 5,
+                'badge-color-case': e.idEstatusSolicitud == 6,
+								'badge-color-lost': e.idEstatusSolicitud == 7,
+								'badge-color-won': e.idEstatusSolicitud == 8,
+								'badge-color-open': e.idEstatusSolicitud == 9,
+								'badge-color-ready_on_draft': e.idEstatusSolicitud == 10,
+								'badge-color-closed': e.idEstatusSolicitud == 11,
+                'badge-color-in_approbal': e.idEstatusSolicitud == 13,
+                'badge-color-process': e.idEstatusSolicitud == 14}">{{e.estatusSolicitud}}</span></td>
+
+          </tr>
+
+          <tr>
+            <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
+              <label>
+                Records per page</label>
+              <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()"
+                [ngModelOptions]="{standalone: true}" style="margin: 0 8px; font-family: regular; height: 24px;">
+                <option value="20">20</option>
+                <option value="40">40</option>
+                <option value="80">80</option>
+                <option value="100">100</option>
+              </select>
+              {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
+              <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+                (click)="paginacion.back();">
+                <mat-icon svgIcon="arrow-back"></mat-icon>
+              </button>
+              <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+                (click)="paginacion.forward();">
+                <mat-icon svgIcon="arrow-forward"></mat-icon>
+              </button>
+            </td>
+          </tr>
+
+        </table>
+      </div>
+
+      <!-- MENSAJE DE NO HAY REGISTROS -->
+      <div *ngIf="solicitudes.length == 0">
+        <h3 style="margin:12px 0 6px 0">No results</h3>
+        <p style="max-width:396px;">There are no files within the search criteria. Make sure that the names are correct
+          and that they are searching in the appropriate field.</p>
+      </div>
+
+    </div>
+
+    <!--Cargando-->
+    <div class='iigwo-loading' *ngIf="cargando">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+</div>

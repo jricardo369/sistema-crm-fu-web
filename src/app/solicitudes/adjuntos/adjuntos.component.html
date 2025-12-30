@@ -1,0 +1,100 @@
+<div *ngIf="mostrarAdjuntos" style="
+                overflow-y: auto;">
+
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+       
+        <div class="div-img-label" >
+            <img style="margin-top: 2px;" width="15px" height="15px" src="assets/svg/atachmentsD.svg">
+            <h4>Attachments</h4>
+          </div>
+
+        <!--<button (click)='cargarAdjunto()' class="btn m-l-40" *ngIf="file.length > 0"
+            style="color: #239B56;background: #EAFAF1;border-radius: 5px; height: 28px; line-height: 28px;">
+            <mat-icon svgIcon="file-upload"></mat-icon>
+            <label>Upload File(s)</label>
+        </button>-->
+
+        <button  (click)='cargarAdjunto()' class="btn" *ngIf="file.length > 0"
+        style="color: #FFFFFF;background: #239B56; border-radius: 5px; height: 20px; line-height: 20px;margin-left: 5px;">
+        <mat-icon svgIcon="file-upload" style="color:rgba(255, 255, 255, 0.7); width: 15px; height: 15px;margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+        <label style="margin: auto;color: #FFFFFF;text-transform: none;">Upload File(s)</label>
+      </button>
+
+    </div>
+
+    <div>
+        <label for='fileId' [class]='file.length == 0 ?"button-label accent":"button-label"' tabindex="0" >
+            <span *ngIf="file.length == 0">Select Files</span>
+            <span *ngIf="file.length > 0">Selected Files</span>
+        </label>
+        <label style="display: inline-block; line-height: 32px; font-size: 13px; color:rgba(0,0,0,0.5);"
+            *ngIf="file.length == 0">No files selected</label>
+        <div *ngFor="let f of file" style="display: inline-block;">
+            <span class="badge-file-icon"><mat-icon svgIcon="attach_file"></mat-icon></span>
+            <span class="badge-file" style="padding-right: 21px;">{{f.name}}</span>
+            <span style="margin-left: -18px;">
+                <button class="iigwo adjuntos-options" (click)="quitarAdjunto(f)">
+                    <mat-icon style="margin-top: 1px;" svgIcon="close"></mat-icon>
+                </button>
+            </span>
+        </div>
+
+        <input id='fileId' type="file" #fileInput (change)="onFileSelected(fileInput.files)" 
+            style='display:none;' multiple>
+    </div>
+
+     <br>
+    <table class="informative" *ngIf="arrAdjunto.length > 0">
+        <tr>
+            <th>File</th>
+            <th></th>
+        </tr>
+        <tr *ngFor='let e of arrAdjunto'>
+            <td style="font-style: italic;"> 
+                <mat-icon svgIcon="attachD" style="color: rgb(77, 77, 77); width: 10px; height: 12px;"></mat-icon>  {{e.nombre}}</td>
+            <td style="display: flex;">
+
+                <!--<button (click)='abrirAdjunto(e)' class="btn-icon" style="color: gray;" matTooltip="Open" *ngIf="mostrarContenido(e.idUsuarioCargo)">
+                    <mat-icon svgIcon="eye"></mat-icon>
+                </button>-->
+
+                <!--
+                <button (click)='abrirAdjunto(e)' class="btn-icon" *ngIf="mostrarContenido(e.idUsuarioCargo)">
+                    <mat-icon svgIcon="eyeD" style="color: rgb(53, 53, 53); width: 22px; height: 22px;"></mat-icon>
+                </button>
+
+                <button (click)='descargarAdjunto(e)' class="btn-icon" *ngIf="mostrarContenido(e.idUsuarioCargo)">
+                    <mat-icon svgIcon="downloadD" style="color: rgb(93, 93, 201); width: 22px; height: 22px;"></mat-icon>
+                </button>
+
+                <button (click)='eliminarAdjunto(e)' class="btn-icon" *ngIf="mostrarContenido(e.idUsuarioCargo)">
+                    <mat-icon svgIcon="trashD" style="color: red; width: 22px; height: 22px;"></mat-icon>
+                </button>
+                -->
+
+                <button (click)='abrirAdjunto(e)' class="btn-icon" >
+                    <mat-icon svgIcon="eyeD" style="color: rgb(53, 53, 53); width: 22px; height: 22px;"></mat-icon>
+                </button>
+
+                <button (click)='descargarAdjunto(e)' class="btn-icon" >
+                    <mat-icon svgIcon="downloadD" style="color: rgb(93, 93, 201); width: 22px; height: 22px;"></mat-icon>
+                </button>
+
+                <button (click)='eliminarAdjunto(e)' class="btn-icon" >
+                    <mat-icon svgIcon="trashD" style="color: red; width: 22px; height: 22px;"></mat-icon>
+                </button>
+
+
+
+            </td>
+        </tr>
+    </table>
+    <p style="margin-bottom: 20px; font-size: 13px;" *ngIf="!arrAdjunto.length > 0">
+      <span>The file has no attachments.</span>
+    </p>
+</div>
+
+<!--Cargando-->
+<div class='iigwo-loading' *ngIf="cargando">
+    <mat-spinner></mat-spinner>
+</div>

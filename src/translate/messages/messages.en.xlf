@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file source-language="en" datatype="plaintext" original="ng2.template">
+        <body>
+            <trans-unit id="Bienvenido">
+                <target>Welcome! </target>
+            </trans-unit>
+            <trans-unit id="SeleccioneUnaOpcionDelMenu">
+                <target>Choose an option from the menu &#x2630;</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

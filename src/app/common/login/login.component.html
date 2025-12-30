@@ -1,0 +1,39 @@
+<div class="background">
+
+
+
+    <!--<div class="hero">
+        <img src="{{baseHref}}assets/img/cover.jpg" style="
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        ">
+    </div>-->
+
+    <div class="main">
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="logo"></div>
+        <form>
+           <img src="{{baseHref}}assets/img/company-logo-label.png"style="
+           width: 40%;
+        height: 40%;"
+           >
+            <h1>Psychological Evaluation</h1>
+            <p>Enter your credentials to login</p>
+            <input placeholder="User" [(ngModel)]="user.usuario" [ngModelOptions]="{standalone: true}"
+                autocapitalize="none">
+            <input placeholder="Password" type="password" [(ngModel)]="user.contrasenia" [ngModelOptions]="{standalone: true}"
+                >
+            <button (click)="ingresar()">Login</button>
+            <a (click)="recuperar()">Forgot your password?</a>
+        </form>
+        <!--<div class="langs">
+            <a (click)="changeLang('en')">en</a>
+            <a (click)="changeLang('es')">es</a>
+        </div>-->
+    </div>
+    <div class='iigwo-loading' *ngIf="loading">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>

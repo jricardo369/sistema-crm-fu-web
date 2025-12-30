@@ -1,0 +1,3009 @@
+@use '@angular/material' as mat;
+
+
+html {
+  @include mat.theme((
+    color: (
+      primary: mat.$violet-palette,
+      tertiary: mat.$orange-palette,
+      theme-type: light,
+    ),
+    density: 0
+  ));
+}
+
+
+$app-primary: #75518c;
+$app-primary-light: #e1bee7;
+$app-accent: #8837a2;
+$app-accent100: #e1bee7;
+$app-accent-light: #e1bee7;
+$app-accent-darker: #7b1fa2;
+$app-primary500: #9c27b0;
+$app-primary900: #4a148c;
+$app-secondary: #00949b;
+
+
+
+$app-case-manager: #9340D3;
+$app-scale: #40A4D3;
+//$app-clinician: #1d919c; 
+$app-clinician: #f3a8c7;
+$app-editor: #319757;
+
+$app-reject: #eb6c45;
+$app-no-show: #FFB300;
+
+
+
+
+:root {
+
+	--app-primary: #{$app-primary};
+	--app-primary-light: #{$app-primary-light};
+	--app-secondary: #{$app-secondary};
+
+	--app-case-manager: #{$app-case-manager};
+	--app-scale: #{$app-scale};
+	--app-clinician: #{$app-clinician};
+	--app-editor: #{$app-editor};
+
+	--app-reject: #{$app-reject};
+	--app-no-show: #{$app-no-show};
+
+  @include mat.progress-spinner-overrides((
+    active-indicator-color: $app-primary
+  ));
+
+}
+
+
+  .iigwo-loading mat-spinner {
+	width: 64pt;
+	height: 64pt;
+	top: calc(38% - 32pt);
+	position: absolute;
+}
+
+
+
+::ng-deep .mat-mdc-menu-title {
+  color: red !important; /* Color personalizado */
+  font-weight: bold; /* Estilo adicional si lo necesitas */
+}
+
+.custom-menu-title {
+  .mat-mdc-menu-title {
+    color:$app-primary;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  }
+}
+
+
+/* ============================================================================ */
+
+/* ============================================================================ */
+/* ODL CSS STARTS */
+/* ============================================================================ */
+
+
+
+@font-face {
+	font-family: regular;
+	src: url('assets/font/RobotoCondensed-Regular.ttf');
+}
+
+@font-face {
+	font-family: light;
+	src: url('assets/font/RobotoCondensed-Light.ttf');
+}
+
+@font-face {
+	font-family: bold;
+	src: url('assets/font/RobotoCondensed-Bold.ttf');
+}
+
+.mat-mdc-dialog-actions {
+  margin-bottom: 10px !important;
+  margin-right: 20px !important;
+  margin-left: 20px !important;
+  justify-content: flex-end;
+  
+  
+}
+
+.link {
+	color: $app-primary;
+	font-weight: bold;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+body {
+	margin: 0;
+	font-family: regular;
+	font-size: 13px;
+}
+
+.flex1 {
+	flex: 1;
+	display: flex;
+	flex-direction: row;
+}
+
+b {
+	font-weight: normal;
+	font-family: bold;
+}
+
+hr {
+	margin: 12px 0;
+	border: none;
+	height: 1px;
+	background: rgba(0, 0, 0, 0.2);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: normal;
+}
+
+h1 {
+	font-size: 32px;
+	font-family: light;
+}
+
+h2 {
+	font-size: 24px;
+	font-family: light;
+}
+
+h3 {
+	font-size: 18px;
+}
+
+h4 {
+	font-size: 16px;
+}
+
+h5 {
+	font-size: 13px;
+	margin-top: auto;
+}
+
+h6 {
+	font-size: 11px;
+}
+
+ul,
+ol {
+	font-size: 13px;
+	line-height: 18px;
+	color: rgba(0, 0, 0, 0.75);
+	max-width: 396px;
+}
+
+li {
+	margin: 0 0 6px 0;
+}
+
+p a {
+	text-decoration: underline;
+}
+
+
+.important-header {
+	background: $app-primary500;
+	color: white;
+	padding: 6px;
+}
+
+/* ----------------------------------------------------- */
+/* ----------------------------------------------------- */
+
+/* Style the textarea */
+.iigwo-input textarea {
+  outline: #622285; /* Remove default browser outline */
+}
+
+/* Change border color when textarea is focused (selected) */
+.iigwo-input textarea:focus {
+	border: solid 2px;
+  border-color: rgb(117, 50, 193) !important; /* Blue border on focus */
+  //box-shadow: 0 0 5px rgba(111, 13, 156, 0.5); /* Optional: Add a subtle glow */
+}
+
+app-bar {
+	position: fixed;
+	width: 100%;
+	height: 48px;
+	background: $app-primary;
+	box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.666);
+	z-index: 3;
+	display: flex;
+}
+
+app-bar button.iigwo.menu-button {
+	padding: 0;
+	width: 40px;
+	height: 40px;
+	margin: 4px;
+	border: none;
+	position: absolute;
+	border-radius: 50%;
+	margin-left: 12px;
+	background: none;
+}
+
+app-bar button.iigwo.menu-button:hover {
+	background: rgba(255, 255, 255, 0.125);
+}
+
+app-bar button.iigwo.menu-button:active {
+	background: rgba(255, 255, 255, 0.250);
+}
+
+app-bar button.iigwo.menu-button mat-icon,
+app-bar button.iigwo.menu-button svg {
+	margin: 0 auto;
+	width: 24px;
+	height: 100%;
+	padding: 0;
+	display: block;
+}
+
+app-bar button.iigwo.menu-button svg * {
+	fill: white;
+}
+
+
+
+app-bar #user-button {
+	padding: 0;
+	width: 32px;
+	height: 32px;
+	margin: 8px;
+	border-radius: 50%;
+	border: none;
+	position: absolute;
+	right: 0;
+}
+
+app-bar #user-button mat-icon,
+app-bar #user-button svg {
+	margin: 0;
+	width: 32px;
+	height: 32px;
+	padding: 0;
+	display: block;
+}
+
+app-bar .app-nav-user {
+	background: white;
+	width: 0;
+	height: 0;
+	top: 100%;
+	position: absolute;
+	margin: 12px;
+	right: 0;
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+	overflow: hidden;
+	transition: 0.25s;
+}
+
+app-bar .app-nav-user .container {
+	padding: 12px;
+	// min-height:112px;
+	min-height: 177px;
+	min-width: 284px;
+	box-sizing: border-box;
+	position: relative;
+}
+
+app-bar .app-nav-user:focus {
+	height: 148px;
+	width: 196px;
+	outline: none;
+}
+
+app-bar .app-nav-user svg {
+	background: rgba(0, 0, 0, 0.05);
+	fill: rgba(0, 0, 0, 0.25);
+	height: 96px;
+	width: 96px;
+}
+
+app-bar .app-nav-right {
+	position: absolute;
+	top: 0;
+	//right:0;
+	margin: 12px;
+	//left:calc(96px + 12px);
+}
+
+app-bar .app-nav-right label:first-of-type {
+	font-size: 16px;
+	font-family: regular;
+}
+
+app-bar .app-nav-right label {
+	margin-bottom: 6px;
+	display: block;
+	font-size: 13px;
+	font-family: light;
+	color: rgba(0, 0, 0, 0.85);
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.avatar-circle {
+	margin-right: 8px;
+	/* Tamaño del círculo */
+	width: 32px;
+	height: 32px;
+  
+	/* Lo convierte en un círculo */
+	border-radius: 50%;
+  
+	/* Color de fondo (ajústalo al que prefieras) */
+	background-color: #75518c;
+  
+	/* Centrar la letra tanto horizontal como verticalmente */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+  
+	/* Color y estilo de la letra */
+	color: #fff;
+	font-size: 0.8rem;
+	font-weight: bold;
+  }
+
+  .div-img-label{
+	display: flex;
+	flex-direction: row;
+	gap: 2px;
+	align-items: center;
+  }
+
+  ::ng-deep .div-img-label span {
+	margin-bottom: 5px !important;
+	display: inline-block;
+  }
+
+/* ----------------------------------------------------- */
+
+.workspace-nav {
+	/*background:pink;*/
+	background: hsla(0, 0%, 97%, 1);
+	width: 200px;
+	height: calc(100% - 48px);
+	top: 48px;
+	position: fixed;
+	border-right: solid 1px rgba(0, 0, 0, 0.2);
+	z-index: 0;
+	box-sizing: border-box;
+	transition: 0.20s transform, 0.20s width;
+}
+
+/* ----------------------------------------------------- */
+
+.workspace-nav button.iigwo:focus {
+	border: none;
+}
+
+.workspace-nav button.iigwo.home {
+	margin: 0;
+	border: 0;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+	height: 64px;
+	border-radius: 0;
+	font-size: 18px;
+	background: none;
+	padding: 0;
+	line-height: 64px;
+	color: rgba(0, 0, 0, 0.5);
+	margin-bottom: 8px;
+	height: 64px;
+}
+
+.workspace-nav button.iigwo.home img,
+.workspace-nav button.iigwo.home svg {
+	width: 32px;
+	height: 32px;
+	margin: 16px;
+	left: 0;
+}
+
+.workspace-nav button.iigwo {
+	background: none;
+	margin: 0;
+	border-radius: 0;
+	border: none;
+	height: 36px;
+	width: 100%;
+	border: none;
+	padding: 0 0 0 15px;
+	color: rgba(0, 0, 0, 0.5);
+	line-height: 36px;
+
+	position: relative;
+	display: block;
+}
+
+.workspace-nav button.iigwo img,
+.workspace-nav button.iigwo svg {
+	width: 18px;
+	height: 18px;
+	margin-top: 9px;
+	margin-right: 24px;
+	margin-left: 8px;
+	
+	position: absolute;
+	left: 15px;
+	top: 0;
+}
+
+.workspace-nav button.iigwo label {
+	position: absolute;
+	left: 65px;
+	top: 0;
+	text-align: left;
+}
+
+.workspace-nav button.iigwo:hover {
+	background: rgba(156, 156, 156, 0.2);
+}
+
+.workspace-nav button.iigwo.accent svg * {
+	fill: $app-accent;
+}
+
+.workspace-nav button.iigwo:active,
+.workspace-nav button.iigwo.accent {
+	background: $app-accent-light;
+	color: $app-accent-darker;
+}
+
+.workspace-nav button.iigwo.accent:active {
+	background: $app-accent100
+}
+
+label.fake-button {
+	padding-left: 12px;
+	padding-top: 1px;
+	font-size: 13px !important;
+	display: inline-block !important;
+}
+
+.workspace-nav.shortened {
+	width: 64px;
+}
+
+.root-wrap.shortened .workspace {
+	left: 64px;
+}
+
+.mat-form-field-infix {
+  padding-top: 0px !important;
+}
+
+
+/* ----------------------------------------------------- */
+
+.workspace {
+	position: fixed;
+	left: 200px;
+	right: 0;
+	top: 48px;
+	transition: 0.2s;
+}
+
+.workspace .menu {
+	height: 64px;
+	border-bottom: solid 1px rgba(0, 0, 0, 0.2);
+	width: 100%;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	padding-left: 24px;
+}
+
+.workspace .menu label.home {
+	font-size: 18px;
+	color: rgba(0, 0, 0, 0.85);
+	margin-right: 64px;
+	flex-shrink: 0;
+	color: $app-accent-darker;
+}
+
+.workspace .menu button.iigwo {
+	color: $app-primary;
+	background: none;
+	text-transform: uppercase;
+	border: none;
+	margin: 0 12px 0 0;
+	position: relative;
+}
+
+.workspace .menu button.iigwo.primary svg * {
+	fill: white;
+}
+
+.workspace .menu button.iigwo.primary:hover,
+.workspace .menu button.iigwo.primary {
+	background: $app-primary;
+	color: white;
+}
+
+.workspace .menu button.iigwo.primary:active {
+	background: $app-primary;
+}
+
+.workspace .menu button.iigwo.accent svg * {
+	fill: white;
+}
+
+.workspace .menu button.iigwo.accent:hover,
+.workspace .menu button.iigwo.accent {
+	background: $app-accent;
+	color: white;
+}
+
+.workspace .menu button.iigwo.accent:active {
+	background: $app-accent-darker;
+}
+
+.workspace .menu button.iigwo:focus {
+	border: none;
+}
+
+.workspace .menu button.iigwo:hover {
+	background: rgba($app-primary, 0.05);
+}
+
+.workspace .menu button.iigwo:active {
+	background: rgba($app-primary, 0.20);
+}
+
+.workspace .menu button.iigwo mat-icon {
+	width: 20px;
+	height: 20px;
+	margin: 6px 3px 6px -6px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin: 6px;
+}
+
+.workspace .menu button.iigwo img,
+.workspace .menu button.iigwo svg {
+	width: 20px;
+	height: 20px;
+	margin: 0;
+}
+
+.workspace .menu button.iigwo label {
+	line-height: 32px;
+	height: 32;
+	margin-top: 6px;
+	padding-left: 18px;
+	margin: 0;
+	/* vertical-align: text-top; */
+}
+
+.workspace .menu button.iigwo svg * {
+	fill:$app-primary;
+}
+
+.workspace .menu button.iigwo[disabled] {
+	background: none;
+	color: hsla(0, 0%, 75%, 1);
+}
+
+.workspace .menu button.iigwo.accent[disabled] {
+	background: none;
+	color: hsla(0, 0%, 75%, 1);
+}
+
+.workspace .menu button.iigwo[disabled] svg * {
+	fill: hsla(0, 0%, 75%, 1);
+}
+
+.workspace .alternative.menu button.iigwo {
+	color: white;
+}
+
+.workspace .alternative.menu {
+	background-color: darken($app-primary, 5%);
+}
+
+.workspace .alternative.menu label.home {
+	color: white;
+}
+
+.workspace .alternative.menu button.iigwo:hover {
+	background: rgba(white, 0.15);
+}
+
+.workspace .alternative.menu button.iigwo:active {
+	background: rgba(white, 0.50);
+}
+
+.workspace .alternative.menu button.iigwo svg * {
+	fill: white;
+}
+
+/* ----------------------------------------------------- */
+
+.workspace {
+	display: flex;
+	bottom: 0;
+}
+
+.workspace .main {
+	flex: 1;
+	position: relative;
+	height: 100%;
+	width: 100%;
+}
+
+.workspace .aux {
+	flex-shrink: 0;
+	background: #fbfbfb;
+	border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.workspace .content {
+	padding: 24px;
+	box-sizing: border-box;
+	position: absolute;
+	overflow: auto;
+	bottom: 0;
+	top: 64px;
+	left: 0;
+	right: 0;
+	overflow-x: hidden;
+}
+
+/* ----------------------------------------------------- */
+
+button.iigwo.small {
+	height: 24px;
+	min-width: 24px;
+	line-height: 30px;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+button.iigwo.small svg {
+	margin: 3px;
+}
+
+button.iigwo * {
+	cursor: pointer;
+}
+
+.fake-button,
+button.iigwo {
+	line-height: 28px;
+	display: inline-flex;
+	flex-direction: row;
+	font-size: 13px;
+	font-family: regular;
+	padding: 0 12px 0 0;
+	border-radius: 2px;
+	cursor: pointer;
+	background: white;
+	color: hsla(0, 0%, 25%, 1);
+	border: solid 1px rgba(0, 0, 0, 0.1);
+	box-sizing: border-box;
+	outline: none;
+	overflow: hidden;
+	transition: 0.125s ease-out;
+	vertical-align: top;
+	margin: 0 12px 12px 0;
+	padding-left: 12px;
+	min-height: 22px;
+	height: 22px;
+	line-height: 20px;
+	border-radius: 5px;
+}
+
+button.iigwo:active {
+	transition: 0.125s;
+}
+
+button.iigwo img,
+button.iigwo svg {
+	width: 14px;
+	vertical-align: middle;
+	height: 14px;
+	margin: 7px 7px 0 -5px;
+	flex-shrink: 0;
+}
+
+button.iigwo svg * {
+	fill: hsla(0, 0%, 50%, 1);
+}
+
+button.iigwo mat-icon *{
+	color: #ffffff; 
+	width: 14px;  
+	vertical-align: middle;
+	margin-right: 5px;
+    margin-left: -5px;
+}
+
+.fake-button:focus,
+button.iigwo:focus {
+	border: dashed 1px $app-primary;
+}
+
+.fake-button:active,
+button.iigwo:active {
+	background: hsla(0, 0%, 93%, 1);
+}
+
+/* BUTTON IIGWO PRIMARY */
+
+.fake-button.primary,
+button.iigwo.primary {
+	background: $app-primary;
+	color: white;
+}
+
+.fake-button.primary:focus,
+button.iigwo.primary:focus {
+	border: dashed 1px white;
+}
+
+.fake-button.primary:active,
+button.iigwo.primary:active {
+	background: $app-primary900;
+}
+
+.fake-button.accent:active,
+button.iigwo.accent:active {
+	background: $app-accent;
+}
+
+/* BUTTON IIGWO ACCENT */
+
+.fake-button.accent,
+button.iigwo.accent {
+	background: $app-accent;
+	color: white;
+}
+
+.button-label.accent {
+	background: $app-accent;
+	color: white;
+	border-radius: 5px;
+    height: 20px;
+    line-height: 20px;
+    min-height: 22px;
+	padding: 5px;
+    margin-right: 5px;
+    padding-right: 8px;
+    padding-left: 8px;
+	cursor: pointer;
+}
+
+.button-label {
+	border: dashed 1px $app-primary;
+	background: white;
+	color: rgb(0, 0, 0);
+	border-radius: 5px;
+    height: 20px;
+    line-height: 20px;
+    min-height: 22px;
+	padding: 5px;
+    margin-right: 5px;
+    padding-right: 8px;
+    padding-left: 8px;
+	cursor: pointer;
+}
+
+
+button.iigwo.accent svg * {
+	fill: white;
+}
+
+.fake-button.accent:focus,
+button.iigwo.accent:focus {
+	border-color: #fbfbfb;
+}
+
+.fake-button.accent:active,
+button.iigwo.accent:active {
+	background: $app-accent;
+}
+
+/* BUTTON IIGWO DISABLED */
+
+button.iigwo[disabled],
+button.iigwo[disabled] * {
+	cursor: default;
+}
+
+button.iigwo[disabled] {
+	background: hsla(0, 0%, 95%, 1) !important;
+	color: hsla(0, 0%, 75%, 1) !important;
+}
+
+button.iigwo[disabled] svg * {
+	fill: hsla(0, 0%, 75%, 1);
+}
+
+/* ----------------------------------------------------- */
+
+p {
+	font-size: 13px;
+	margin: 0 12px 12px 0;
+	color: rgba(0, 0, 0, 0.5);
+	max-width: 396px;
+}
+
+a {
+	text-decoration: none;
+	color: $app-primary;
+	cursor: pointer;
+}
+
+a.rec {
+	font-size: 13px;
+	font-family: regular;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+/* ----------------------------------------------------- */
+
+table {
+	background: none;
+	border-collapse: collapse;
+	color: rgba(0, 0, 0, 0.7);
+	margin: 0 12px 12px 0;
+}
+
+table tr td a {
+	text-decoration: underline;
+}
+
+th {
+	text-align: left;
+	font-weight: normal;
+	padding: 8px 18px 8px 6px;
+	/*border-bottom: 1px solid rgba(0,0,0,0.1);*/
+	font-size: 11px;
+	color: rgba(255, 255, 255, 0.95);
+	background: $app-primary;
+}
+
+td {
+	font-size: 12px;
+	line-height: 18px;
+	padding: 7px 18px 7px 6px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+	background-color: white;
+	vertical-align: top;
+}
+
+th.accent {
+	font-weight: bold;
+}
+
+.number {
+	text-align: right;
+}
+
+/*table.big th {font-size:12px;padding-bottom:8px;}table.big td {font-size:13px;}
+
+/* ----------------------------------------------------- */
+
+barcode-scanner {
+	background: hsla(0, 0%, 93%, 1);
+	height: 100%;
+	display: flex;
+	align-items: center;
+	position: relative;
+	overflow: hidden;
+}
+
+#pos-input-window {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 0 48px;
+	padding-bottom: 16px;
+	z-index: 1;
+	position: relative;
+}
+
+#pos-input-window svg * {
+	fill: rgba(0, 0, 0, 0.5);
+}
+
+#pos-input-window svg {
+	width: 96px;
+	height: 96px;
+	flex-shrink: 0;
+}
+
+#pos-input-window h3 {
+	font-size: 18px;
+	font-family: light;
+	font-weight: normal;
+	color: rgba(0, 0, 0, 0.8);
+	margin: 12px 0 0 0;
+}
+
+#pos-input-window input {
+	font-size: 36px;
+	font-family: light;
+	font-weight: normal;
+	color: rgba(0, 0, 0, 0.2);
+	margin: 12px 0 0 0;
+	border: none;
+	width: 120%;
+	text-align: center;
+	background: none;
+}
+
+#pos-input-window p {
+	font-size: 13px;
+	color: rgba(0, 0, 0, 0.5);
+	text-align: center;
+	margin: 16px 0 0 0;
+	height: 5em;
+	/*para evitar relayout*/
+}
+
+#pos-input-background,
+#pos-input-background2 {
+	height: 128px;
+	width: 128px;
+	background: $app-primary;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	margin: auto;
+	border-radius: 50%;
+	transition: ease-in 0.333s;
+	transform: scale(10);
+	opacity: 0;
+}
+
+@keyframes pos-input-animation {
+	0% {
+		transform: scale(0);
+		opacity: 1;
+	}
+
+	100% {
+		transform: scale(10);
+		opacity: 0.8;
+	}
+}
+
+#pos-input.active #pos-input-background {
+	transition: 0;
+	animation: pos-input-animation ease-in-out 0.5s;
+	transform: scale(10);
+	opacity: 0.8;
+}
+
+@keyframes pos-input-animation2 {
+	0% {
+		transform: scale(0);
+		opacity: 1;
+	}
+
+	100% {
+		transform: scale(10);
+		opacity: 0;
+	}
+}
+
+#pos-input-background2.active {
+	animation: pos-input-animation2 ease-in-out 0.5s;
+	transform: scale(10);
+	opacity: 0;
+}
+
+
+
+#pos-input.active #pos-input-window svg * {
+	fill: rgba(255, 255, 255, 1.0);
+}
+
+#pos-input.active #pos-input-window h3,
+#pos-input.active #pos-input-window p {
+	color: white;
+}
+
+#pos-input.active #pos-input-window input {
+	background: white;
+	border-radius: 2px;
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+	color: rgba(0, 0, 0, 0.75);
+	outline: none;
+	transition: ease-in 0.25s;
+}
+
+/* ----------------------------------------------------- */
+
+.iigwo-input input[readOnly] {
+	border-color: rgba(0, 0, 0, 0.0);
+	border-left: rgba(0, 0, 0, 0.2) 1px solid;
+}
+
+.iigwo-input {
+	margin-bottom: 12px;
+	margin-right: 12px;
+}
+
+.iigwo-input.inline {
+	/*width: 160px;*/
+	display: inline-block;
+}
+
+.iigwo-input label {
+	display: block;
+	color: rgba(0, 0, 0, 0.7);
+	margin-bottom: 4px;
+	font-size: 12px;
+	font-family: regular;
+	//letter-spacing: 0.3px;
+	line-height: 1.2;
+}
+
+.iigwo-input p {
+	font-size: 11px;
+	font-family: regular;
+}
+
+.iigwo-input select,
+.iigwo-input textarea,
+.iigwo-input input {
+	color: rgba(0, 0, 0, 1);
+	padding: 0 6px;
+	border: solid 1px rgba(0, 0, 0, 0.2);
+	font-size: 13px;
+	border-radius: 1px;
+	width: 100%;
+	max-width: 320px;
+	font-family: regular;
+	box-sizing: border-box;
+	height: 24px;
+	vertical-align: top;
+}
+
+.iigwo-input textarea {
+	padding-top: 5px;
+	min-width: 200px;
+	max-width: 200px;
+	min-height: 36px;
+}
+
+.iigwo-input textarea[readOnly],
+.iigwo-input select[disabled] {
+	border-top: none;
+	border-bottom: none;
+	border-right: none;
+}
+
+.iigwo-input-date input:focus,
+.iigwo-input input:focus {
+	outline: none;
+	border-color: $app-primary;
+}
+
+.iigwo-input.error input {
+	border-color: #ef9a9a;
+}
+
+.iigwo-input.error input:focus {
+	border-color: #E57373;
+}
+
+.iigwo-input.error label {
+	color: #F44336;
+}
+
+.iigwo-input.error+p {
+	color: #D32F2F;
+}
+
+/* ------------------------------------------------------ */
+
+/* The switch - the box around the slider */
+.switch {
+	position: relative;
+	display: inline-block !important;
+	width: 48px;
+	height: 24px;
+	overflow: hidden;
+	background: none;
+	border: solid 1px rgba(0, 0, 0, 0.1);
+	box-sizing: border-box;
+	cursor: pointer;
+	line-height: 24px;
+	text-align: right;
+	padding-right: 6px;
+}
+
+.switch input {
+	display: none;
+}
+
+.switch .slider {
+	background: rgba(0, 0, 0, 0.1);
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 18px;
+	width: 18px;
+	margin: 2px;
+	border-radius: 1px;
+	transition: 0.1s;
+	transform: scale(0.85);
+}
+
+input:checked+.slider {
+	background: $app-primary;
+	opacity: 1;
+	transform: scale(1);
+}
+
+input[type=radio], input[type=checkbox] {
+  accent-color: $app-primary;
+}
+
+.switch:active input+.slider {
+	transform: scale(0.70);
+}
+
+.switch label {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 8;
+	line-height: 24px;
+	height: 24px;
+}
+
+/* ------------------------------------------------------ */
+
+@keyframes fadeinXXX {
+	0% {
+		background: rgba(0, 0, 0, 0);
+	}
+
+	100% {
+		background: rgba(0, 0, 0, 0.333);
+	}
+}
+
+.iigwo-dialog-background {
+	animation: fadeinXXX 0.175s ease-out;
+	padding: 24px;
+	padding-top: 72px;
+	background: rgba(0, 0, 0, 0.333);
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
+@keyframes popup {
+	0% {
+		transform: scale(0.85);
+		opacity: 0;
+	}
+
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+.iigwo-dialog {
+	transform-origin: top center;
+	animation: popup 0.175s ease-out;
+	border: solid 1px rgba(0, 0, 0, 0.1);
+	border-radius: 1px;
+	padding: 24px 12px 12px 24px;
+	/* position: fixed; */
+	background: white;
+	z-index: 2;
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.iigwo-dialog h3 {
+	font-family: regular;
+	font-weight: normal;
+	font-size: 14px;
+	color: rgba(0, 0, 0, 0.85);
+	line-height: 14px;
+	margin: 0;
+	margin: 0 12px 12px 0;
+}
+
+.iigwo-dialog p {
+	color: rgba(0, 0, 0, 0.70);
+}
+
+/* -------- */
+
+.iigwo-loading {
+	background: rgba(255, 255, 255, 0.75);
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	z-index: 6;
+	color: $app-primary;
+}
+
+
+/* ------- */
+.iigwo-panel {
+	border: solid 1px rgba(0, 0, 0, 0.1);
+	border-radius: 2px;
+	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
+	padding: 12px 12px 0 12px;
+	margin: 0 0 24px 0;
+	width: 312px;
+}
+
+/* -------- */
+@keyframes login {
+	from {
+		opacity: 0;
+		transform: scale(1.0) translateY(12px)
+	}
+
+	to {
+		opacity: 1;
+		transform: scale(1.0) translateY(0);
+	}
+}
+
+login-component .magnus {
+	display: block;
+	padding: 16px;
+	box-sizing: border-box;
+	flex-direction: column;
+	align-items: center;
+	padding-top: 32px;
+	position: absolute;
+	width: 100%;
+	z-index: 1;
+	animation: login 0.35s ease-out;
+}
+
+login-component .magnus h1,
+login-component .magnus h3,
+login-component .magnus h5 {
+	text-align: center;
+	font-family: light;
+	font-weight: normal;
+	margin: 0;
+	font-size: 42px;
+	margin: 16px;
+	color: rgba(0, 0, 0, 0.75);
+}
+
+login-component .magnus h3 {
+	font-size: 18px;
+	margin-top: 20px;
+}
+
+login-component .magnus h5 {
+	font-size: 16px
+}
+
+login-component .magnus {
+	perspective: 640px;
+}
+
+login-component .magnus form {
+	background: whitesmoke;
+	padding: 32px;
+	box-sizing: border-box;
+	max-width: 320px;
+	margin: auto;
+	margin-top: 24px;
+	border-radius: 4px;
+	position: relative;
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+
+	transform-origin: top;
+	transform-style: preserve-3d;
+	transform: rotateX(0deg);
+}
+
+login-component .magnus input,
+login-component .magnus button.iigwo {
+	display: block;
+	margin: 0 0 12px 0;
+	height: 42px;
+	line-height: 0px;
+	box-sizing: border-box;
+	padding: 12px;
+	width: 100%;
+	border-radius: 2px;
+	border: solid 1px rgba(0, 0, 0, 0.1);
+	display: block;
+}
+
+login-component .magnus button.iigwo {
+	margin-bottom: 0;
+}
+
+login-component .magnus form mat-icon {
+	display: block;
+	width: 96px;
+	height: 96px;
+	margin: 0 auto 32px auto;
+}
+
+login-component .magnus form svg {
+	background: rgba(0, 0, 0, 0.05);
+	display: block;
+	height: 96px;
+	width: 96px;
+	border-radius: 50%;
+	fill: rgba(0, 0, 0, 0.2);
+	padding: 8px;
+	box-sizing: border-box;
+}
+
+login-component img.logo {
+	display: block;
+	width: 192px;
+	margin: auto;
+	margin-bottom: 36px;
+}
+
+login-component .iigwo-input {
+	margin: 0;
+}
+
+not-found-component .workspace {
+	padding: 24px;
+	display: block;
+	height: 100vh;
+	box-sizing: border-box;
+	left: 0;
+}
+
+not-found-component h1 {
+	margin: 0 0 12px 0;
+	font-size: 48px;
+	color: rgba(0, 0, 0, 0.666);
+}
+
+not-found-component h3 {
+	color: rgba(0, 0, 0, 0.5);
+}
+
+not-found-component a {
+	display: block;
+	margin: 0 0 3px 0;
+	font-family: bold;
+}
+
+not-found-component p {
+	color: rgba(0, 0, 0, 0.333);
+}
+
+not-found-component ul li {
+	color: rgba(0, 0, 0, 0.666);
+}
+
+/*=======*/
+
+.iigwo-input-check {
+	margin-bottom: 12px;
+}
+
+.iigwo-input-check label {
+	display: block;
+	color: rgba(0, 0, 0, 0.85);
+	margin-bottom: 4px;
+	font-size: 12px;
+}
+
+.iigwo-input-check input {
+	color: rgba(0, 0, 0, 0.85);
+	padding: 4px 6px;
+	border: solid 1px rgba(0, 0, 0, 0.1);
+	font-size: 13px;
+	border-radius: 1px;
+	max-width: 480px;
+	font-family: regular;
+}
+
+.iigwo-input-gasto {
+	margin-bottom: 12px;
+}
+
+.iigwo-input-gasto label {
+	color: rgba(0, 0, 0, 0.85);
+	margin-bottom: 4px;
+	font-size: 12px;
+}
+
+.iigwo-input-gasto input {
+	color: rgba(0, 0, 0, 0.85);
+	padding: 4px 6px;
+	border: solid 1px rgba(0, 0, 0, 0.1);
+	font-size: 13px;
+	border-radius: 1px;
+	max-width: 480px;
+	font-family: regular;
+}
+
+/*-----------------*/
+.app-nav-menu {
+	position: fixed;
+}
+
+.app-nav-menu-bar {
+	position: fixed;
+	height: 48px;
+	top: 0;
+	width: 100%;
+	background: white;
+}
+
+.app-nav-menu-panel {
+	position: fixed;
+	top: 0;
+	width: 220px;
+	bottom: 0;
+	left: 0;
+	background: white;
+	box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.1666);
+}
+
+.app-nav-menu-panel-content {
+	background: white;
+	position: absolute;
+	top: 49px;
+	bottom: 12px;
+	width: 100%;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.app-nav-menu-panel button.iigwo {
+	width: 100%;
+	height: 45px;
+	border-radius: 0;
+	border-width: 0;
+	margin: 0;
+	font-size: 15px;
+	position: relative;
+	text-align: left;
+}
+
+.app-nav-menu-panel button.iigwo:hover {
+	background: rgba(0, 0, 0, 0.05);
+}
+
+.app-nav-menu-panel button.iigwo img,
+.app-nav-menu-panel button.iigwo svg {
+	position: absolute;
+	left: 24px;
+	top: 4px;
+	width: 24px;
+	height: 24px;
+}
+
+.app-nav-menu-panel button.iigwo label {
+	margin-left: 55px;
+	line-height: 48px;
+}
+
+.iigwo-pseudo {
+	height: 44px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+	position: relative;
+	margin-bottom: 12px;
+}
+
+.iigwo-pseudo svg {
+	position: absolute;
+	left: 0;
+	top: 0;
+	margin: 10px 18px;
+	height: 24px;
+	width: 24px;
+}
+
+.iigwo-pseudo svg * {
+	fill: rgba(0, 0, 0, 0.125);
+}
+
+.iigwo-pseudo input {
+	height: 44px;
+	padding: 0;
+	border: none;
+	margin-left: 64px;
+	font-size: 13px;
+	font-family: regular;
+	outline: none;
+}
+
+.app-nav-menu-panel-home {
+	height: 49px !important;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+button.iigwo.app-nav-menu-panel-home img {
+	width: 32px;
+	height: 32px;
+	margin-top: 4px;
+	left: 20px;
+}
+
+button.iigwo.app-nav-menu-panel-home label {
+	text-transform: uppercase;
+	font-size: 16px;
+	margin-left: 50px;
+}
+
+@keyframes fadeinXXX20 {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 0.2;
+	}
+}
+
+.app-nav-menu-hide {
+	animation: fadeinXXX20 0.333s ease-out;
+	position: fixed;
+	top: 48px;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: black;
+	position: fixed;
+	opacity: 0.2;
+}
+
+.app-nav-menu-panel {
+	transition: ease-out 0.25s;
+}
+
+.hidden .app-nav-menu-bar {
+	display: none;
+}
+
+.hidden .app-nav-menu-hide {
+	display: none;
+}
+
+.hidden .app-nav-menu-panel {
+	transform: translate3d(calc(-100% - 8px), 0, 0);
+}
+
+.iigwo-input-date input {
+	color: rgba(0, 0, 0, 1);
+	padding: 0 6px;
+	border: solid 1px rgba(0, 0, 0, 0.2);
+	font-size: 13px;
+	border-radius: 1px;
+	max-width: 100px;
+	font-family: regular;
+	box-sizing: border-box;
+	height: 32px;
+	vertical-align: top;
+}
+
+.iigwo-item {
+	background: white;
+	border: solid 1px rgba(0, 0, 0, 0.15);
+	height: 40px;
+	display: flex;
+	margin-bottom: 12px;
+	border-radius: 1px;
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+	padding-left: 6px;
+	width: 312px;
+	margin-top: 12px;
+}
+
+.iigwo-item+.iigwo-item {
+	margin-bottom: 12px;
+	margin-top: -13px;
+}
+
+.iigwo-item-buttons {
+	height: 40px;
+	margin-left: auto;
+}
+
+.iigwo-item-buttons button {
+	margin: 0;
+	height: 40px !important;
+	border-color: transparent;
+	background: none;
+}
+
+.iigwo-item select {
+	border: none;
+	background: none;
+}
+
+.mat-calendar-table-header {
+  background-color: white !important;
+}
+
+:host ::ng-deep mat-form-field {
+  width: 100px;
+}
+
+:host ::ng-deep mat-form-field .mat-form-field-infix {
+  height: 15px;
+}
+
+:host ::ng-deep mat-form-field .mat-form-field-infix input.mat-input-element {
+  border: 1px solid gray;
+  box-sizing: border-box;
+  height: 15px;
+  line-height: 15px;
+  padding: 0 5px;
+}
+
+:host ::ng-deep .mat-calendar-table-header {
+  background-color: white !important;
+}
+
+
+.appNavSearchBar {
+	background: white;
+	width: 448px;
+	margin: 6px 0 6px 0;
+	height: 36px;
+	border-radius: 2px;
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+	position: relative;
+	overflow: hidden;
+	border-radius: 2px 2px 0 0;
+	overflow: visible;
+	z-index: 7;
+}
+
+.appNavSearchBar mat-icon {
+	height: 18px;
+	width: 56px;
+	margin-top: 10px;
+}
+
+.appNavSearchBar mat-icon svg {
+	fill: rgba(0, 0, 0, 0.666);
+}
+
+.appNavSearchBar input {
+	border: none;
+	margin: 0;
+	position: absolute;
+	top: 0;
+	left: 56px;
+	right: 0px;
+	bottom: 0;
+	width: calc(100% - 56px);
+	font-family: regular;
+	font-size: 15px;
+	background: none;
+	outline: none;
+	height: 36px;
+}
+
+.appNavSearchBar.blured {
+	background: rgba(255, 255, 255, 0.2);
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.125);
+}
+
+.appNavSearchBar.blured svg {
+	fill: rgba(255, 255, 255, 0.8);
+}
+
+.appNavSearchBar+.appNavMenuSearchLock {
+	background: black;
+	padding: 1em;
+	position: fixed;
+	top: 48px;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	opacity: 0.3333;
+}
+
+.appNavSearchBar.blured+.appNavMenuSearchLock {
+	display: none;
+}
+
+.searchBarResults {
+	background: white;
+	margin: 5px 0 0 0;
+	max-height: calc(100vh - 56px);
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+	overflow: auto;
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+	z-index: 50;
+}
+
+.iigwo-list-item {
+	margin: 0;
+	display: block;
+	height: 64px;
+	padding-top: 12px;
+	padding-bottom: 12px;
+	box-sizing: border-box;
+	transition: 0.125s;
+	position: relative;
+}
+
+.iigwo-list-item:hover {
+	background: rgba(0, 0, 0, 0.05);
+	cursor: pointer;
+}
+
+.iigwo-list-item mat-icon {
+	height: 24px;
+	width: 24px;
+	float: left;
+	margin: 20px 16px;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.iigwo-list-item mat-icon.accent svg {
+	fill: $app-primary;
+	transform: scale(0.666)
+}
+
+.iigwo-list-item mat-icon svg {
+	fill: rgba(0, 0, 0, 0.666);
+}
+
+.iigwo-list-item mat-icon+h1 {
+	line-height: 40px;
+}
+
+.iigwo-list-item h3,
+.iigwo-list-item h2,
+.iigwo-list-item h1 {
+	padding-left: 56px;
+	margin: 0;
+	font-family: regular;
+	font-size: 16px;
+	color: rgba(0, 0, 0, 0.999);
+	line-height: 20px;
+}
+
+.iigwo-list-item h3 {
+	font-size: 13px;
+	color: rgba(0, 0, 0, 0.666);
+
+}
+
+
+.carga-de-facturas {
+	display: flex;
+	min-height: 100%;
+}
+
+.pedido-div {
+	transition: 0.333s;
+	border: solid 1px rgba(0, 0, 0, 0);
+	flex: 1;
+	padding: 12px 12px 0 12px;
+	max-width: 320px;
+}
+
+
+
+
+/* ============================================================================ */
+/* ODL CSS END */
+/* ============================================================================ */
+
+.camarones {
+
+	mat-dialog-container {
+		overflow: hidden;
+	}
+}
+
+/* ============================================================================ */
+
+.table-wrapper {
+	overflow: auto;
+	border: solid rgba(0, 0, 0, 0.2) 0px;
+	//border-width: 0 1px;
+}
+
+.mobile-only-bar {
+	display: none;
+}
+
+// MOBILE
+@media (max-width: 480px) {
+
+	.workspace-nav {
+
+		transform: translateX(-100%);
+		z-index: 2;
+		top: 0;
+		bottom: 0;
+		height: auto;
+		box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0);
+
+		&.opened {
+			transform: translate(0);
+			box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.1666);
+		}
+
+		.mobile-only-bar {
+
+			height: 48px;
+			display: block;
+			border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+			margin-bottom: -1px;
+
+			#moduleMenu {
+				padding: 0;
+				width: 40px;
+				height: 40px;
+				margin: 4px;
+				border: none;
+				position: absolute;
+				border-radius: 50%;
+				margin-left: 12px;
+				background: none;
+
+				mat-icon {
+					margin: 0 0 0 8px;
+					display: block;
+
+					svg {
+						margin: 8px -7px;
+						width: 24px;
+						height: 24px;
+						padding: 0;
+						display: block;
+					}
+				}
+			}
+		}
+
+	}
+
+	.workspace-nav-mobile-shadow {
+		background: rgba(0, 0, 0, 0.54);
+		height: 100vh;
+		width: 100vw;
+		top: 0;
+		left: 0;
+		z-index: 1;
+		position: fixed;
+	}
+
+	.workspace {
+		left: 0;
+	}
+
+	.appNavSearchBar {
+		display: none;
+	}
+
+}
+
+/* ============================================================================ */
+
+.side-sheet-content-wrap {
+
+	display: flex;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 64px;
+	bottom: 0;
+
+	.content {
+		position: initial;
+		overflow: auto;
+		flex: 1;
+	}
+}
+
+.header-panel {
+	background: white;
+	width: auto;
+	max-width: calc(100vw - 24px);
+	box-sizing: border-box;
+	transform: translate(0);
+	padding: 20px;
+	min-width: 180px;
+	order: 1;
+	border-left: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+@media(max-width:480px) {
+	.header-panel {
+		transition: 0.2s ease-out transform;
+		margin: 0;
+		border-left: 1px solid rgba(0, 0, 0, 0.2);
+		border-right: none;
+		padding: 20px;
+		bottom: 0;
+		right: 0;
+		top: 0;
+		position: absolute;
+		box-shadow: 0px 6px 6px -3px rgba(0, 0, 0, 0.2), 0px 10px 14px 1px rgba(0, 0, 0, 0.14), 0px 4px 18px 3px rgba(0, 0, 0, 0.12);
+	}
+
+	.hidden.header-panel {
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.5);
+		transform: translateX(100%);
+	}
+
+	.workspace-nav.shortened {
+		width: 256px;
+	}
+
+	.root-wrap.shortened .workspace {
+		left: 0;
+	}
+}
+
+/* ============================================================================ */
+
+table.informative {
+	th {
+		background: rgba(0, 0, 0, 0.05);
+		color: #000;
+		font-family: bold;
+		font-size: 12px;
+	}
+	td{
+		font-family: regular;
+	}
+}
+
+// ----------------------- Currency Input -----------------------
+
+.currency {
+	position: relative;
+}
+
+.currency input {
+	padding-right: 27px;
+}
+
+.currency span {
+	position: absolute;
+	padding: 4px 9px 0 10px;
+	right: 2px;
+}
+
+.wrapper {
+	position: relative;
+}
+
+.wrapper span {
+	position: absolute;
+	right: 8px;
+}
+
+.wrapper a {
+	position: absolute;
+	right: 8px;
+}
+
+.iigwo-input .wrapper label > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3px;
+}
+
+.iigwo-input .wrapper label > div a {
+  display: inline-block;
+  position: static !important;
+}
+
+.iigwo-input .wrapper label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.iigwo-input .wrapper label > div a.attended,
+.iigwo-input .wrapper label > div a.clear,
+.iigwo-input .wrapper label > div a.finish {
+  margin: 3px 0 !important;
+}
+
+
+
+//Wrapper para imagen label y a
+.wrapper-labels{
+display: flex;
+flex-direction: row;
+gap: 2px;
+align-items: center;
+}
+
+.wrapper-labels label {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  width: 100%;
+}
+
+.wrapper-labels label a {
+  margin-left: auto; /* empuja el enlace al extremo derecho */
+  position: static;  /* evita posiciones absolutas previas */
+  margin-right: 3px;
+  font-size: 12px;
+}
+
+
+
+
+
+
+
+.badge {
+	display: inline-block;
+	min-width: 5px;
+	padding: 2px 5px;
+	font-size: 12px;
+	line-height: 1;
+	color: #fff;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	background-color: $app-primary;
+	border-radius: 10px;
+	margin-left: 4px;
+}
+
+.badge-status {
+	display: inline-block;
+	min-width: 5px;
+	padding: 4px 9px;
+	font-size: 12px;
+	line-height: 1;
+	//color: #fff;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	background-color: $app-secondary;
+	border-radius: 10px;
+	margin-left: 4px;
+}
+
+.renglon p {
+	margin: 0px;
+}
+
+html,
+body {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+}
+
+.mat_select_design {
+	color: #000;
+	padding: 4px 6px;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	font-size: 13px;
+	border-radius: 1px;
+	width: 100%;
+	max-width: 320px;
+	font-family: regular;
+	box-sizing: border-box;
+	height: 24px;
+	vertical-align: top;
+}
+
+td.accent {
+	//color: mat-color($app-accent, darker);
+	color: #000;
+}
+
+p.accent {
+	color: $app-accent-darker;
+}
+
+.btn-search mat-icon svg {
+	margin-top: 3px !important;
+}
+
+.button-solo-icon {
+	background: none;
+	border: none;
+}
+
+.badge-status {
+	display: inline-block;
+	min-width: 5px;
+	padding: 5px 9px 4px;
+	font-size: 12px;
+	line-height: 10px;
+	//color: #fff;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	background-color: $app-secondary;
+	border-radius: 10px;
+	margin-left: 4px;
+	font-family: regular;
+}
+
+.badge-color-blue {
+	background-color: transparent;
+	background-image: radial-gradient(transparent, rgba(30, 144, 255, 0.3));
+	color: rgb(30, 144, 255);
+}
+
+//ESTATUS DE SOLICITUD
+// 1 - Received - color fondo: B8E8B6 y letra 144C11
+.badge-color-received {
+	background-color: #B8E8B6;
+	color: #144C11;
+}
+// 2 - Reviewing - color fondo: 97E0FC y letra 2F687E
+.badge-color-reviewing {
+	background-color: #97E0FC;
+	color: #2F687E;
+}
+// 3 - Interview - color fondo FFCFE8 y letra 830E4C
+.badge-color-interview {
+	background-color: #FFCFE8;
+	color: #830E4C;
+}
+// 4 - Refused - color fondo FFE0C6 y letra AE6534
+.badge-color-refused {
+	background-color: #FFE0C6;
+	color: #AE6534;
+}
+// 5 - No show - color fondo C5F6E3 y letra 31453D
+.badge-color-no_show {
+	background-color: #C5F6E3;
+	color: #31453D;
+}
+// 6 - Case - color fondo ECFFBE y letra 6B9112
+.badge-color-case {
+	background-color: #ECFFBE;
+	color: #6B9112;
+}
+// 7 - Lost - - color fondo FFDBCC y letra AA7159
+.badge-color-lost {
+	background-color: #FFDBCC;
+	color: #AA7159;
+}
+// 8 - Won - color fondo B7E4CB y letra 3B7856
+.badge-color-won {
+	background-color: #B7E4CB;
+	color: #3B7856;
+}
+// 9 - Open - color fondo B5E2E9 y letra 088395
+.badge-color-open {
+	background-color: #B5E2E9;
+	color: #088395;
+}
+// 10 - Ready on draft - color fondo C5C0F1 y letra 4C3BCF
+.badge-color-ready_on_draft {
+	background-color: #C5C0F1;
+	color: #4C3BCF;
+}
+// 11 - Closed - color fondo AF47D2 y letra EFBFFF
+.badge-color-closed {
+	background-color: #AF47D2;
+	color: #EFBFFF;
+}
+// 13 - In approval - color fondo 97E0FC y letra 2F687E
+.badge-color-in_approbal {
+	background-color: #97E0FC;
+	color: #2F687E;
+}
+// 14 - Process - color fondo ECFFBE y letra 6B9112
+.badge-color-process {
+	background-color: #ECFFBE;
+	color: #6B9112;
+}
+
+//ESTATUS DE SOLICITUD SOLO LETRA
+// 1 - Received - color fondo: B8E8B6 y letra 144C11
+.badge-color-received-sl {
+	color: #144C11;
+}
+// 2 - Reviewing - color fondo: 97E0FC y letra 2F687E
+.badge-color-reviewing-sl {
+	color: #2F687E;
+}
+// 3 - Interview - color fondo FFCFE8 y letra 830E4C
+.badge-color-interview-sl {
+	color: #830E4C;
+}
+// 4 - Refused - color fondo FFE0C6 y letra AE6534
+.badge-color-refused-sl {
+	color: #AE6534;
+}
+// 5 - No show - color fondo C5F6E3 y letra 31453D
+.badge-color-no_show-sl {
+	color: #31453D;
+}
+// 6 - Case - color fondo ECFFBE y letra 6B9112
+.badge-color-case-sl {
+	color: #6B9112;
+}
+// 7 - Lost - - color fondo FFDBCC y letra AA7159
+.badge-color-lost-sl {
+	color: #AA7159;
+}
+// 8 - Won - color fondo B7E4CB y letra 3B7856
+.badge-color-won-sl {
+	color: #3B7856;
+}
+// 9 - Open - color fondo B5E2E9 y letra 088395
+.badge-color-open-sl {
+	color: #088395;
+}
+// 10 - Ready on draft - color fondo C5C0F1 y letra 4C3BCF
+.badge-color-ready_on_draft-sl {
+	color: #4C3BCF;
+}
+// 11 - Closed - color fondo AF47D2 y letra EFBFFF
+.badge-color-closed-sl {
+	color: #EFBFFF;
+}
+// 13 - In approval - color fondo 97E0FC y letra 2F687E
+.badge-color-in_approbal-sl {
+	color: #2F687E;
+}
+// 14 - Process - color fondo ECFFBE y letra 6B9112
+.badge-color-process-sl {
+	color: #6B9112;
+}
+
+//ESTATUS DE PAGO
+// 1 - Partially - color fondo FAC2FB y letra 744674
+.badge-color-partially {
+	background-color: #FAC2FB;
+	color: #744674;
+}
+// 2 - Complete - color fondo 72CBB8 y letra 3B5B54
+.badge-color-complete {
+	background-color: #72CBB8;
+	color: #3B5B54;
+}
+// 3 - Hold - color fondo F0EDCF y letra 49 f462E
+.badge-color-hold {
+	background-color: #F0EDCF;
+	color: #49462E;
+}
+// 4 - NA - color fondo B7B5B7 y letra negra
+.badge-color-na {
+	background-color: #B7B5B7;
+	color: #000000;
+}
+
+.badge-color-active {
+	background-color: #e1eab5;
+	color: rgb(36, 125, 51);
+}
+.badge-color-inactive {
+	background-color: #f98d8d;
+	color: rgb(133, 46, 27);
+}
+.badge-color-bloqueo {
+	background-color: #e9c389;
+	color: rgb(174, 139, 35);
+}
+
+//EDAD
+// 1 - color fondo: D3D9FF y letra 263D9E
+.badge-color-1 {
+	background-color: #D3D9FF;
+	color: #263D9E;
+}
+// 2 - color fondo: F2E0A1 y letra 7A7B42
+.badge-color-2 {
+	background-color: #F2E0A1;
+	color: #7A7B42;
+}
+// 3 - color fondo: F77E7E y letra 9E2626
+.badge-color-3 {
+	background-color: #F77E7E;
+	color: #9E2626;
+}
+// 4
+.badge-color-4 {
+	background-color: #abebc6;
+	color: #1d8348;
+}
+.badge-color-5 {
+	background-color: #fdeac9;
+	color: #936a1e;
+}
+.badge-color-6 {
+	background-color: #bfedf1;
+	color: #1a5256;
+}
+// 0
+.badge-color-0 {
+	background-color: #DCDCDC;
+	color: #333333;
+}
+
+//TIPO DE EVENTO
+// Info - color DBDBDB y letra negra
+.badge-color-info {
+	background-color: #DBDBDB;
+	color: #000000;
+}
+// Schedule - color 98DBC3 y letra 317059
+.badge-color-schedule {
+	background-color: #98DBC3;
+	color: #317059;
+}
+// Important - color FFB4B4 y letra BC1313
+.badge-color-important {
+	background-color: #FFB4B4;
+	color: #BC1313;
+}
+// Notification - color FDEBD0 y letra B9770E
+.badge-color-notification {
+	background-color: #FDEBD0;
+	color: #B9770E;
+}
+// Suicide - color FFCDB4 y letra 9D461A
+.badge-color-suicide {
+	background-color: #FFCDB4;
+	color: #9D461A;
+}
+// Amanda Interview - color E9D1F4 y letra 5C3170
+.badge-color-amanda_interview {
+	background-color: #E9D1F4;
+	color: #5C3170;
+}
+.badge-color-no-show {
+	background-color: #f7d3af;
+	color: #a16224;
+}
+
+.badge-color-reject-file {
+	background-color: #fbccac;
+	color: #f47c2c;
+}
+
+
+
+// Payment - color fondo B7E4CB y letra 3B7856
+.badge-color-payment {
+	background-color: #B7E4CB;
+	color: #3B7856;
+}
+
+// Schedule Title - color F4DEFF y letra 612B7C
+.badge-color-schedule-title {
+	background-color: #F4DEFF;
+	color: $app-case-manager;
+}
+
+.badge-color-schedule-title .mat-icon{
+	color: $app-case-manager;
+	width: 10px; 
+	height: 10px;
+	margin-bottom: 0px;
+}
+
+// Schedule Scales Title - color E0FFFF y letra 00949B
+.badge-color-schedule-scales-title {
+	background-color: #d4f0fd;
+	color: $app-scale;
+}
+
+.badge-color-schedule-scales-title .mat-icon {
+	color: $app-scale;
+	width: 10px; 
+	height: 10px;
+	margin-bottom: 0px;
+}
+
+// Schedule Scales Title - color E0FFFF y letra 00949B
+.badge-color-schedule-clinician-title {
+	background-color: #ffecf4;
+	color: $app-clinician;
+}
+
+.badge-color-schedule-clinician-title .mat-icon {
+	color: $app-clinician;
+	width: 10px; 
+	height: 10px;
+	margin-bottom: 0px;
+}
+
+// Due Date Title - color FFF3E0 y letra D79E43
+.badge-color-due-date-title {
+	background-color: #FFF3E0;
+	color: #D79E43;
+}
+
+
+// Paid - color 8CC9AB y letra 224E38
+.badge-color-paid {
+	background-color: #8CC9AB;
+	color: #224E38;
+}
+
+// Pay - color 3D9596 y letra blanca
+.badge-color-pay {
+	background-color: #3D9596 !important;
+	color: #FFFFFF !important;
+}
+
+
+.workspace .content-left {
+	padding: 24px;
+	box-sizing: border-box;
+	position: absolute;
+	overflow: auto;
+	bottom: 0;
+	top: 64px;
+	left: 0;
+	right: 280px;
+	overflow-x: hidden;
+
+	button {
+		width: fit-content;
+	}
+}
+
+.workspace .content-right {
+	padding: 24px;
+	box-sizing: border-box;
+	position: absolute;
+	overflow: auto;
+	bottom: 0;
+	top: 64px;
+	right: 0;
+	overflow-x: hidden;
+	width: 280px;
+}
+
+.btn {
+	cursor: pointer;
+    transition: 0.125s ease-out background-color;
+    height: 32px;
+    flex-shrink: 0;
+    background: white;
+    border: none;
+    outline: none;
+    font-size: 13px;
+    font-family: regular;
+    color: #612c7e;
+    line-height: 32px;
+    margin-right: 12px;
+    border-radius: 2px;
+    padding: 0 12px 0 6px;
+    display: flex;
+    align-items: center;
+	* {
+		cursor: pointer;
+	}
+}
+
+.btn-color {
+	cursor: pointer;
+    transition: 0.125s ease-out background-color;
+    flex-shrink: 0;
+    background: white;
+    border: none;
+    outline: none;
+    font-size: 13px;
+    font-family: regular;
+    color: $app-accent;
+    line-height: 32px;
+    margin-right: 12px;
+    border-radius: 2px;
+    padding: 0 12px 0 6px;
+    align-items: center;
+	* {
+		cursor: pointer;
+	}
+	border-radius: 5px; 
+	height: 23px; 
+	margin-top: 12px;
+    display: flex; 
+	align-items: center; 
+	justify-content: center; 
+	padding: 0 8px; 
+	gap: 4px;
+}
+
+.btn-color-accent{
+	background-color: $app-accent;
+}
+
+.btn-icon {
+	cursor: pointer;
+    background: transparent;
+    border: none;
+    display: flex;
+	* {
+		cursor: pointer;
+	}
+}
+
+.m-l-40 {
+  margin-left: 40px;
+}
+
+.color-primary {
+	color: $app-primary;
+}
+
+
+td {
+  vertical-align: middle;
+}
+
+
+.iigwo-input label[required]::after {
+  content: "*";
+  color: red;
+  font-weight: bold;
+}
+
+.my-icon-pequenio {
+	transform: scale(0.8);
+  }
+
+//Componente de labels info solicitud
+.info-component {
+	display: flex; 
+	align-items: center; 
+	margin-bottom: 4px;
+}
+
+.info-component mat-icon {
+	color:rgba(48, 48, 48, 0.7); width: 10px; height: 10px; margin-right: 3px;
+}
+
+.info-component label {
+	color:rgba(73, 73, 73, 0.7); font-size: 12px;
+}
+
+.error-fecha{
+	color: red; 
+	font-size: 12px; 
+	margin-left: 4px;
+}
+
+//Colores generales
+
+.color-verde-fu {
+color: #3D9596;
+}
+
+.color-fondo-verde-fu {
+background-color: #3D9596;
+}
+
+.color-fondo-naranja-fu {
+background-color: #dd8b33;
+}
+
+
+
+
+
+
+
+ 
+
+
+
+/* Estilos personalizados para el datepicker */
+.custom-datepicker {
+  width: calc(100% - 6px) !important;
+  max-width: calc(100% - 6px) !important;
+  font-family: regular;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Label del datepicker */
+::ng-deep .custom-datepicker .mdc-floating-label {
+  font-size: 13px !important;
+  color: rgba(0, 0, 0, 0.7) !important;
+  font-family: regular;
+}
+
+::ng-deep .custom-datepicker.mat-focused .mdc-floating-label {
+  color: #7b1fa2 !important;
+  font-size: 13px !important;
+  font-family: regular;
+}
+
+/* Input del datepicker */
+::ng-deep .custom-datepicker .mat-mdc-input-element {
+  height: 24px !important;
+  font-size: 13px !important;
+  color: #333 !important;
+  font-family: regular;
+  line-height: 24px !important;
+  padding-right: 8px !important;
+  padding-left: 0px !important;
+  margin-right: 0 !important;
+  margin-left: -8px !important;
+}
+
+/* Contenedor del input */
+::ng-deep .custom-datepicker .mat-mdc-text-field-wrapper {
+  height: 24px !important;
+  align-items: center !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  font-family: regular;
+}
+
+/* Contenedor principal del form field */
+::ng-deep .custom-datepicker .mat-mdc-form-field-flex {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Contenedor de infix */
+::ng-deep .custom-datepicker .mat-mdc-form-field-infix {
+  width: calc(100% - 37px) !important; /* Reducido el espacio reservado para el botón */
+  max-width: calc(100% - 37px) !important;
+  box-sizing: border-box !important;
+  padding-left: 0px !important;
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+
+/* Contorno del datepicker */
+::ng-deep .custom-datepicker .mdc-notched-outline__leading,
+::ng-deep .custom-datepicker .mdc-notched-outline__notch,
+::ng-deep .custom-datepicker .mdc-notched-outline__trailing {
+  border-color: rgba(0, 0, 0, 0.2) !important;
+  border-width: 1px !important;
+  border-radius: 0px !important;
+}
+
+::ng-deep .custom-datepicker.mat-focused .mdc-notched-outline__leading,
+::ng-deep .custom-datepicker.mat-focused .mdc-notched-outline__notch,
+::ng-deep .custom-datepicker.mat-focused .mdc-notched-outline__trailing {
+  border-color: #7b1fa2 !important;
+  border-width: 2px !important;
+}
+
+/* Botón del datepicker */
+::ng-deep .custom-datepicker .mat-datepicker-toggle {
+  color: #7b1fa2 !important;
+  width: 20px !important;
+  height: 20px !important;
+  margin-right: 4px !important;
+  flex-shrink: 0 !important;
+}
+
+/* Contenedor del suffix */
+::ng-deep .custom-datepicker .mat-mdc-form-field-icon-suffix {
+  width: 28px !important;
+  padding-left: 2px !important;
+  padding-right: 2px !important;
+}
+
+/* Ícono del datepicker más pequeño */
+::ng-deep .custom-datepicker .mat-datepicker-toggle-default-icon {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+::ng-deep .custom-datepicker .mat-datepicker-toggle .mat-icon {
+  width: 16px !important;
+  height: 16px !important;
+  font-size: 16px !important;
+}
+
+::ng-deep .custom-datepicker .mat-datepicker-toggle svg {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+/* Estilo para el header del calendario */
+::ng-deep .mat-calendar-table-header {
+  background-color: white !important;
+}
+
+/* Selectores alternativos para el header del calendario */
+::ng-deep .mat-calendar-table-header-row {
+  background-color: white !important;
+}
+
+::ng-deep .mat-calendar-table thead {
+  background-color: white !important;
+}
+
+::ng-deep .mat-calendar-table thead tr {
+  background-color: white !important;
+}
+
+::ng-deep .mat-calendar-table thead th {
+  background-color: white !important;
+}
+
+::ng-deep .mat-datepicker-popup .mat-calendar-table-header {
+  background-color: white !important;
+}
+
+/* Estilos globales para el calendario - usando selectores más específicos */
+::ng-deep .cdk-overlay-container .mat-datepicker-popup {
+  font-size: 12px !important;
+}
+
+::ng-deep .cdk-overlay-container .mat-calendar {
+  width: 280px !important;
+  font-size: 12px !important;
+  /*transform: scale(0.9) !important;*/
+  transform-origin: top left !important;
+}
+
+::ng-deep .cdk-overlay-container .mat-calendar-table {
+  font-size: 12px !important;
+}
+
+::ng-deep .cdk-overlay-container .mat-calendar-body-cell {
+  width: 32px !important;
+  height: 32px !important;
+  font-size: 12px !important;
+}
+
+::ng-deep .cdk-overlay-container .mat-calendar-body-cell-content {
+  width: 28px !important;
+  height: 28px !important;
+  line-height: 28px !important;
+  font-size: 12px !important;
+}
+
+::ng-deep .cdk-overlay-container .mat-calendar-table-header {
+  font-size: 12px !important;
+  background-color: white !important;
+}
+
+::ng-deep .cdk-overlay-container .mat-calendar-table-header th {
+  font-size: 12px !important;
+  width: 32px !important;
+  height: 28px !important;
+}
+
+::ng-deep .cdk-overlay-container .mat-calendar-controls {
+  font-size: 12px !important;
+}
+
+::ng-deep .cdk-overlay-container .mat-calendar-period-button {
+  font-size: 12px !important;
+}
+
+::ng-deep .cdk-overlay-container .mat-calendar-previous-button,
+::ng-deep .cdk-overlay-container .mat-calendar-next-button {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+::ng-deep .cdk-overlay-container .mat-calendar-body-label {
+  font-size: 12px !important;
+}
+
+/* Centrar el contenido del calendario */
+
+::ng-deep .cdk-overlay-container .mat-calendar-content {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+}
+
+::ng-deep .cdk-overlay-container .mat-calendar-table {
+  margin: 0 auto !important;
+  width: 100% !important;
+  max-width: 280px !important;
+}
+
+::ng-deep .cdk-overlay-container .mat-calendar {
+  margin: 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  padding: 0 !important;
+}
+
+/* Quitar padding excesivo de todos los elementos del calendario */
+::ng-deep .cdk-overlay-container .mat-datepicker-popup {
+  padding: 8px !important;
+}
+
+::ng-deep .cdk-overlay-container .mat-calendar-header {
+  padding: 4px 8px !important;
+}
+
+::ng-deep .cdk-overlay-container .mat-calendar-controls {
+  padding: 4px 0 !important;
+  margin: 0 !important;
+}
+
+::ng-deep .cdk-overlay-container .mat-calendar-content {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+::ng-deep .cdk-overlay-container .mat-calendar-table {
+  padding: 0 !important;
+  margin: 0 auto !important;
+}
+
+::ng-deep .cdk-overlay-container .mat-calendar-table-header {
+  padding: 0 !important;
+}
+
+::ng-deep .cdk-overlay-container .mat-calendar-table-header th {
+  padding: 2px !important;
+}
+
+::ng-deep .cdk-overlay-container .mat-calendar-body-cell {
+  padding: 4px !important;
+}
+
+::ng-deep .cdk-overlay-container .mat-calendar-body-cell-content {
+  padding: 4px !important;
+  margin: 1px !important;
+}
+
+::ng-deep .mat-calendar-body-cell {
+  padding: 10px !important;
+}
+
+
+
+
+
+
+
+/* Estilos para mejorar el espaciado de meses en mat-datepicker - versión mejorada */
+::ng-deep .mat-datepicker-popup .mat-calendar-table {
+  border-spacing: 2px 2px !important;
+}
+
+::ng-deep .mat-datepicker-popup .mat-calendar-body-cell {
+  padding: 0 !important;
+  width: 25px !important;
+  height: 25px !important;
+  position: relative !important;
+}
+
+::ng-deep .mat-datepicker-popup .mat-calendar-body-cell-content {
+    width: 25px !important;
+  height: 20px !important;
+  line-height: 40px !important;
+  border-radius: 6px !important;
+  margin: 4px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 11px !important;
+}
+
+/* Específicamente para la vista de meses */
+::ng-deep .mat-datepicker-popup .mat-calendar-body tr {
+  margin-bottom: 4px !important;
+}
+
+::ng-deep .mat-datepicker-popup .mat-calendar-body td {
+  padding: 4px !important;
+}
+
+/* Hover effect */
+::ng-deep .mat-datepicker-popup .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover .mat-calendar-body-cell-content:not(.mat-calendar-body-selected) {
+  background-color: rgba(123, 31, 162, 0.1) !important;
+}
+
+/* Selected state */
+::ng-deep .mat-datepicker-popup .mat-calendar-body-selected {
+  background-color: #7b1fa2 !important;
+  color: white !important;
+}
+
+/* Container padding */
+::ng-deep .mat-datepicker-popup .mat-calendar {
+  padding: 8px !important;
+}
+
+/* Alternative selectors for newer versions */
+::ng-deep .mat-mdc-datepicker-popup .mat-calendar-table {
+  border-spacing: 2px 2px !important;
+}
+
+::ng-deep .mat-mdc-datepicker-popup .mat-calendar-body-cell {
+  padding: 0 !important;
+  width: 25px !important;
+  height: 25px !important;
+}
+
+::ng-deep .mat-mdc-datepicker-popup .mat-calendar-body-cell-content {
+  width: 25px !important;
+  height: 20px !important;
+  line-height: 40px !important;
+  border-radius: 6px !important;
+  margin: 4px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 11px !important;
+}
+
+/* Ocultar subscript wrapper y eliminar alineamiento inferior del datepicker */
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
+}
+
+::ng-deep .mat-mdc-form-field-bottom-align {
+  align-items: stretch !important;
+}
+
+::ng-deep .mat-mdc-form-field {
+  line-height: normal !important;
+}
+
+::ng-deep .mat-mdc-form-field-flex {
+  align-items: center !important;
+}
+
+
+

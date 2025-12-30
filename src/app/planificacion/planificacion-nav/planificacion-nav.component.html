@@ -1,0 +1,7 @@
+<button
+    *ngFor='let workspace of workspaces; let i = index' 
+    class='{{i == 0 ? "iigwo home" : (isWorkspaceCurrentPath(workspace) ? "iigwo accent" : "iigwo")}}'
+	(click)='navigateToWorkspacePath($event, workspace)'>
+    <mat-icon svgIcon="{{workspace.svgName}}"></mat-icon>
+    <label>{{workspace.label}}</label>
+</button>

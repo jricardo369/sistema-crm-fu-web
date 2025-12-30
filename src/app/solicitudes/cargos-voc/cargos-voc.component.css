@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.left,
+.right {
+  flex: 1;
+}
+
+.left {
+  text-align: left;
+}
+
+.right {
+  align-content: end;
+}
+
+.flex {
+  display: flex;
+}
+
+.pagado{
+  color: #117a65;font-style: oblique;
+}

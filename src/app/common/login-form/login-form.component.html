@@ -1,0 +1,16 @@
+<form>
+
+    <mat-icon svgIcon="person"></mat-icon>
+    <div class='iigwo-input'>
+        <input [(ngModel)]='user.usuario' name='usuario' placeholder="User">
+    </div>
+    <div class='iigwo-input'>
+        <input [(ngModel)]='password' name='password' placeholder="Password" type="password">
+    </div>
+    <button class='iigwo accent' (click)='ingresar()'>
+        Login</button>
+</form>
+<!-- LOADING -->
+<div class='iigwo-loading' *ngIf="loading">
+    <mat-spinner></mat-spinner>
+</div>

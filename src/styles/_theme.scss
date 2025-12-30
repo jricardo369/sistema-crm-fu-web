@@ -1,0 +1,52 @@
+/*@use '@angular/material' as mat;
+@include mat.core();
+
+
+
+
+// Definición de paletas usando la nueva sintaxis
+$app-secondary: mat.define-palette(mat.$green-palette, 600);
+$app-primary: mat.define-palette(mat.$purple-palette, 700); 
+$app-accent: mat.define-palette(mat.$purple-palette, 500);
+
+$app-warn: mat.define-palette(mat.$red-palette);
+
+// Función para obtener colores personalizados
+@function get-custom-color($palette, $color-name) {
+  @return map.get(map.get($palette, custom), $color-name);
+}
+
+// Definición de temas con la nueva sintaxis
+$app-theme: mat.define-light-theme((
+  color: (
+    primary: $app-primary,
+    accent: $app-accent,
+    warn: $app-warn,
+  )
+));
+
+$app-alt-theme: mat.define-dark-theme((
+  color: (
+    primary: $app-primary,
+    accent: $app-accent,
+    warn: $app-warn,
+  )
+));
+
+// Theme Init
+@include mat.all-component-themes($app-theme);
+
+.theme-alternate {
+  @include mat.all-component-colors($app-alt-theme);
+}
+
+
+$custom-typography: mat-typography-config(
+    $font-family: 'regular',
+    $headline: mat-typography-level(24px, 32px, 700),
+    $body-1: mat-typography-level(13px, 16px, 500)
+);
+@include mat.typography-hierarchy($custom-typography);
+@include mat.all-component-typographies($custom-typography);
+
+*/

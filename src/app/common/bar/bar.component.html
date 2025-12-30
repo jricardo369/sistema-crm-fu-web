@@ -1,0 +1,119 @@
+<button class='iigwo menu-button' (click)='openNavMenu()'>
+    <mat-icon svgIcon="menu"></mat-icon>
+</button>
+
+<img src="{{baseHref}}assets/img/company-logo-label-white.png" style="
+    height: 25px;
+    margin: 10px 0 0 1px;
+    padding-right: 1px;
+    margin-left: 50px;
+    padding-left: 7px;
+    ">
+
+<!-- ============================================================================================ -->
+<!-- BUSQUEDA DE PANTALLAS -->
+
+<!--<div [class]="searchBarClass">
+    <mat-icon svgIcon="search"></mat-icon>
+    <input [(ngModel)]="searchBarQuery" type="text" (focus)="onSearchBarFocus()" (blur)="onSearchBarBlur()"
+        [placeholder]="searchBarPlaceholder" (ngModelChange)="onSearchBarChange()">
+
+    <div class="searchBarResults" *ngIf="searchSections.length > 0 || searchScreens.length > 0">
+        <div class="iigwo-list-item" *ngFor="let ele of searchSections" (mousedown)="onSearchSectionClick(ele)">
+            <mat-icon [svgIcon]="ele.svgName"></mat-icon>
+            <h1>{{ele.title}}</h1>
+        </div>
+        <hr *ngIf="searchSections.length > 0 && searchScreens.length > 0"/>
+        <div class="iigwo-list-item" *ngFor="let ele of searchScreens" (mousedown)="onSearchScreenClick(ele)">
+
+            <mat-icon [svgIcon]="ele.svgName" style="transform: scale(0.75);"></mat-icon>
+            <h2>{{ele.title}}</h2>
+            <h3>{{ele.subtitle}}</h3>
+        </div>
+    </div>
+</div>-->
+<div class='appNavMenuSearchLock'></div>
+
+<!-- ============================================================================================ -->
+<!-- RESUMEN DEL USUARIO -->
+
+<label style="
+        right: 32px;
+        margin: 14px 18px 0px 0;
+        text-align: right;
+        color: white;
+        padding-right: 32px;
+        line-break: loose;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding-left: 10px;
+        margin-left: auto;
+    ">{{usuario.nombre}}</label>
+
+<button id='user-button' class='iigwo' (click)='focusUserDiv()'>
+    <!--{{baseHref}}assets/img/portrait-demo.png-->
+    <img src="{{this.imageUsuario}}" style="
+            height: 32px;
+            width: 32px;
+            margin: 0;
+            border-radius: 50%;
+        ">
+
+         <!--<div *ngIf="!tieneImagen" class="avatar-circle" style="background-color:{{color}}">{{iniciales}}</div>-->
+</button>
+
+<!-- ============================================================================================ -->
+<!-- RESUMEN DEL USUARIO -->
+
+<div #userDiv class='app-nav-user' tabindex="1">
+    <div class='container'>
+        <!--
+            <img src="{{baseHref}}assets/img/portrait-demo.png" style="
+            height: 96px;
+            width: 96px;
+            margin: 0;
+            border-radius: 1px;
+            ">
+        -->    
+        <div class='app-nav-right'>
+            <label>{{usuario.usuario}}</label>
+            <label>{{usuario.nombre}}</label>
+            <a routerLink="/credenciales" style="font-size:13px;" (focus)="focusUserDiv()"
+               >Credentials</a>
+
+            <button class='iigwo' (click)='logout()' (focus)="focusUserDiv()" style="display: block;margin-top: 16px;"
+               >Logout</button>
+
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================================================ -->
+<!-- MENU DE MODULOS -->
+
+<div #menuDiv [ngClass]='{"app-nav-menu":true, "hidden":utilService.appNavMenuHidden}'>
+    <div class='app-nav-menu-hide' (click)="closeAppNavMenu()">
+    </div>
+    <div class='app-nav-menu-bar'>
+    </div>
+    <div class='app-nav-menu-panel'>
+        <button class='iigwo app-nav-menu-panel-home' (click)='onNavHomeItemClick()' style='background: none;'>
+            <label>Psychol. Evaluation</label>
+            <img src="{{baseHref}}assets/img/logo.png">
+        </button>
+        <div class='app-nav-menu-panel-content'>
+            <div class='iigwo-pseudo'>
+                <input #appNavMenuFilterInput placeholder="Filter modules"
+                    [(ngModel)]="appNavMenuFilter" (ngModelChange)="filterChange()" type="text">
+                <mat-icon svgIcon="filter-list"></mat-icon>
+            </div>
+            <button class='iigwo' *ngFor="let e of filteredModuloItems" (click)="onNavItemClick(e)">
+                <label>{{e.title}}</label>
+                <mat-icon [svgIcon]="e.svgName"></mat-icon>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================================================ -->

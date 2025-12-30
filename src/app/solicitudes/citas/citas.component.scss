@@ -1,0 +1,138 @@
+.cita {
+  border: solid 1px rgba(0, 0, 0, 0.2);
+  display: grid;
+  padding: 15px 8px 8px;
+  border-radius: 3.5px;
+  margin: 10px;
+  cursor: pointer;
+  // border-top: solid 3px #2D9596;
+
+  // border-top-color: #612c7e99;
+  border-top-width: 3px;
+  border-top-style: solid;
+}
+
+.cita p {
+  margin-bottom: 0;
+  font-size: 12px;
+}
+
+.cita p.nombre {
+  // font-family: regular;
+  font-size: 13px;
+  color: black;
+  margin-bottom: 3px;
+}
+
+.header-dia {
+  margin: 10px;
+  text-align: center;
+  font-size: 16px;
+  // background-color: #7b1fa21f;
+  border: dashed 1.9px #7b1fa261;
+  border-radius: 7px;
+  padding: 2px;
+  margin-top: 0;
+  letter-spacing: 3px;
+}
+
+.header-dia-fecha {
+  font-size: 12px;
+  margin-top: 0;
+  letter-spacing: 3px;
+  margin-bottom: 3px;
+  align-items: center;
+  text-align: center;
+}
+
+.cita-dia {
+  border: solid 1px rgba(0, 0, 0, 0.2);
+  display: grid;
+  padding: 10px;
+  border-radius: 3.5px;
+  margin: 1px;
+  cursor: pointer;
+  // border-right: solid 3px rgb(66, 170, 122);
+  width: 200px;
+  margin-bottom: 7px;
+
+  // border-right-color: #612c7e99;
+  border-top-width: 3px;
+  border-top-style: solid;
+}
+
+.cita-dia p {
+  margin-bottom: 0;
+  font-size: 12px;
+}
+
+.cita-dia p.nombre {
+  // font-family: regular;
+  font-size: 13px;
+  color: black;
+  margin-bottom: 3px;
+}
+
+.cita-dia p.comentario {
+  font-family: regular;
+  font-size: 13px;
+  color: rgb(70, 121, 128);
+}
+
+.header-cita-dia {
+  margin-top: 5px;
+  font-size: 15px;
+  color: #C07F00;
+}
+
+.separador {
+  border-right: dashed 1.9px lightgray;
+  display: block;
+  // height: 500px;
+}
+
+.columna-dia {
+  min-height: 100%;
+  width: 100%;
+  min-height: 350px;
+}
+
+.badge-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.important-badge {
+  background-color: red;
+  color: white;
+  font-size: 8px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 11px;
+  font-weight: bold;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.important-badge[_ngcontent-elr-c3] {
+  background-color: red;
+  color: white;
+  font-size: 8px;
+  width: 18px;
+  height: 11px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 11px;
+  font-weight: bold;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 1280px) {
+  .important-badge {
+    font-size: 8px;
+  width: 18px;
+  height: 11px;
+  line-height: 11px;
+  }
+}

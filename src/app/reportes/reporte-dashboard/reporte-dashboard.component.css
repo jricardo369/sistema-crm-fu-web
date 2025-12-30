@@ -1,0 +1,143 @@
+.num-reg-tablas{
+  font-size: 14px;
+  margin-bottom: 10px;
+  margin-top: 25px;
+  color:#555;
+}
+
+.stats-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  /*justify-content: center;*/
+  margin-top: 20px;
+}
+
+.stats-containerv2 {
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  /*justify-content: center;*/
+  margin-top: 20px;
+  background-color: #f2f2f2;
+}
+
+.vertical-separator {
+  width: 1px;
+  background-color: #ccc;
+  margin: 0 10px;
+  align-self: stretch;
+}
+
+.vertical-separatorv2 {
+  width: 1px;
+  background-color: #848484;
+  margin: 0 10px;
+  align-self: stretch;
+}
+
+.stat-card-sencillo {
+  background-color: white;
+  width: 150px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-card {
+  background-color: white;
+  /*border-radius: 10px;*/
+  /*box-shadow: 0 4px 8px rgba(0,0,0,0.1);*/
+  /*padding: 20px;*/
+  width: 150px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  user-select: none;
+  /*margin-bottom: 25px;
+  margin-top: 20px;*/
+}
+
+.stat-cardv2 {
+  background-color: white;
+  border-radius: 10px;
+  /*box-shadow: 0 4px 8px rgba(0,0,0,0.1);*/
+  /*padding: 20px;*/
+  width: 150px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  user-select: none;
+  /*margin-bottom: 25px;
+  margin-top: 20px;*/
+}
+
+.stat-title {
+  color: #555;
+  font-size: 16px;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.stat-titlev2 {
+  color: #555;
+  font-size: 16px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.stat-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-top: auto;
+}
+
+.stat-contentv2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.stat-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+}
+
+.clickable-div {
+  cursor: pointer;
+  user-select: none; /* Prevent text selection */
+}
+
+.status-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: red;
+  color: white;
+  font-size: 10px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 16px;
+  font-weight: bold;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.badge-wrapper {
+  position: relative;
+  display: inline-block;
+}

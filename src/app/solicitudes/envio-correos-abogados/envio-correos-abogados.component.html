@@ -1,0 +1,82 @@
+<app-workspace-nav>
+  <app-solicitudes-nav></app-solicitudes-nav>
+</app-workspace-nav>
+<div class='workspace'>
+  <div class='main'>
+
+    <app-experimental-menu titulo="Law Firms">
+
+      <button (click)='obtenerCorreosEnviados()'
+        style="color: #D4AC0D;background: #FEF9E7;border-radius: 5px; height: 28px; line-height: 28px;">
+        <mat-icon svgIcon="refresh"></mat-icon>
+        <label>Refresh</label>
+      </button>
+
+    </app-experimental-menu>
+
+    <div class='content'>
+      <div style="display: inline-flex;">
+        <div style="display: inline-flex;">
+          <div class="iigwo-input">
+            <label>Start Date</label>
+            <input type="date" [(ngModel)]="fechaI" (change)="obtenerCorreosEnviados()">
+          </div>
+          <div class="iigwo-input">
+            <label>End Date </label>
+            <input type="date" [(ngModel)]="fechaF" (change)="obtenerCorreosEnviados()">
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button (click)='enviarNotificaciones()' class='accent iigwo' [disabled]="seleccion.length == 0">
+            <!-- <mat-icon svgIcon="add-box"></mat-icon> -->
+            <label style="margin: auto;">Send Notification</label>
+          </button>
+      </div>
+
+      <table class="informative">
+        <tr>
+          <th class=''><input type="checkbox" [checked]="estanTodosSeleccionados()" (change)="checkAll()"></th>
+          <th>Law Firm</th>
+          <th>Number of mails</th>
+        </tr>
+        <tr *ngFor='let e of arrReporteCorreosEnviados | slice:paginacion.begin:paginacion.end'>
+          <td class=''><input type="checkbox" [checked]="estaSeleccionado(e.nombre)"
+              (change)="check($event, e.nombre)"></td>
+          <td class='accent'>{{e.nombre}}</td>
+          <td style="text-align: center;"><span class="badge-status" style="margin: 0;" [ngClass]="{'badge-color-0': e.numero == 0,
+            'badge-color-1': e.numero >= 1}">{{e.numero}}</span></td>
+        </tr>
+        <tr>
+          <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
+            <label>
+              Records per page</label>
+            <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()" [ngModelOptions]="{standalone: true}"
+              style="margin: 0 8px; font-family: regular; height: 24px;">
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+            {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
+            <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+              (click)="paginacion.back();">
+              <mat-icon svgIcon="arrow-back"></mat-icon>
+            </button>
+            <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+              (click)="paginacion.forward();">
+              <mat-icon svgIcon="arrow-forward"></mat-icon>
+            </button>
+          </td>
+        </tr>
+      </table>
+
+    </div>
+
+    <!--Cargando-->
+    <div class='iigwo-loading' *ngIf="cargando">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+</div>

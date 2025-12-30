@@ -1,0 +1,36 @@
+td {
+  vertical-align: middle;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;     /* Centra verticalmente */
+  /*justify-content: center;*/ /* Centra horizontalmente */
+  /*padding: 8px;*/
+  /*border-radius: 4px;*/
+}
+
+.avatarr {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 8px;
+  color: #b3a0c4; 
+  
+}
+
+.user-text {
+  font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+
+
+

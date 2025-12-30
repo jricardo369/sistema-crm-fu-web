@@ -1,0 +1,24 @@
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.mt-0 {
+  margin-top: 0;
+}
+
+.ml-25 {
+  margin-left: 25px;
+}
+
+.mb-20 {
+  margin-bottom: 25px;
+}
+
+
+.subtitulo{
+  font-family:regular;
+  font-size: 16px;
+      display: block;
+    width: 150px;
+    color: rgb(102, 102, 102);
+}

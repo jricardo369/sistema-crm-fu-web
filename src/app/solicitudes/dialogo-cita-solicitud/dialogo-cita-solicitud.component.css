@@ -1,0 +1,28 @@
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.iigwo-input textarea {
+  max-width: 450px;
+  min-height: 80px;
+}
+
+.note {
+  border-left-color: #612c7e99;
+  border-left-width: 3px;
+  border-left-style: solid;
+  padding-left: 6px;
+  margin-top: 5px;
+
+  p {
+    margin: 0;
+    margin-top: 3px;
+    margin-left: 6px;
+    max-width: fit-content;
+    font-family: regular;
+  }
+
+  .label{
+    font-family: regular;
+  }
+}

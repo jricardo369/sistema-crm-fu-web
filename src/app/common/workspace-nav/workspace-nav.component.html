@@ -1,0 +1,16 @@
+<div class='workspace-nav' 
+[ngClass]="{ 
+    opened: utilService.workspaceNavMenuOpened, 
+    bigMenuOpened: !utilService.appNavMenuHidden,
+    shortened: utilService.workspaceNavMenuShortened
+}">
+    <div class="mobile-only-bar">
+        <button class='iigwo menu-button' id="moduleMenu"
+            (click)='utilService.appNavMenuHidden=false'>
+            <mat-icon svgIcon="menu"></mat-icon>
+        </button>
+    </div>
+    <ng-content></ng-content>
+</div>
+<div *ngIf='utilService.workspaceNavMenuOpened' class="workspace-nav-mobile-shadow"
+    (click)='utilService.workspaceNavMenuOpened=false'></div>

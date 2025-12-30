@@ -1,0 +1,12 @@
+// src/styles/_palettes.scss
+$custom-purple: (
+  50: #f3e5f5,
+  100: #e1bee7,
+  // ... completa todos los tonos necesarios
+  700: #7b1fa2, // Dark Lavender
+  contrast: (
+    50: rgba(black, 0.87),
+    // ... contrastes para cada tono
+    700: white
+  )
+) !default;

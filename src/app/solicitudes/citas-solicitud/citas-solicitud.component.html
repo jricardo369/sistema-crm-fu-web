@@ -1,0 +1,118 @@
+<div *ngIf="mostrarCitas" style="
+                overflow-y: auto;">
+
+  <div style="display: flex; align-items: center; justify-content: space-between;">
+    <div class="div-img-label" >
+      <img style="margin-top: 2px;" width="15px" height="15px" src="assets/svg/calendarD.svg">
+      <h4>Schedules</h4>
+    </div>
+
+    <!--<button (click)='crearCita()' class="btn m-l-40" *ngIf="idEstatusSolicitud != 11"
+      style="color: #239B56;background: #EAFAF1;border-radius: 5px; height: 28px; line-height: 28px;">
+      <mat-icon svgIcon="add"></mat-icon>
+      <label>Add Schedule</label>
+    </button>-->
+
+    <button *ngIf="idEstatusSolicitud != 11" (click)='crearCita()' class="btn"
+        style="color: #FFFFFF;background: #239B56; border-radius: 5px; height: 20px; line-height: 20px;margin-left: 10px;">
+        <mat-icon svgIcon="add" style="color:rgba(255, 255, 255, 0.7); width: 15px; height: 15px;margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+        <label style="margin: auto;color: #FFFFFF;text-transform: none;">Add Schedule</label>
+      </button>
+  </div>
+
+  <table class="informative" *ngIf="arrCitaSolicitud.length > 0">
+    <tr>
+
+       <th >Creation Date</th>
+      <th >Appointment date and time</th>
+      <th >Actions</th>
+      
+    </tr>
+    <tr *ngFor='let e of arrCitaSolicitud | slice:paginacion.begin:paginacion.end'>
+
+       <td >{{e.fechaCreacion}}</td>
+      <td >{{e.fecha}} {{e.hora}} {{e.tipo}}   <span *ngIf="e.dosCitas" style="color: #41949B; font-weight: bold;font-style: oblique;">Two schedules</span></td>
+      <!--<td >
+        <div style="display: flex; align-items: center; gap: 15px;">
+          <span>{{ e.fecha }}</span>
+          <span>{{ e.hora }}</span>
+          <span>{{ e.tipo }}</span>
+          
+          <button>Ver</button>
+          <button>Editar</button>
+        </div>
+      </td>-->
+
+      <td style="display: flex;" *ngIf="e.tieneNota == false">
+
+        <button (click)='verCita(e)' class="btn m-l-40" *ngIf="!e.noShow"
+          style="color: #808080;border-radius: 2px; height: 23px; line-height: 23px;border-radius: 10px;text-decoration: underline;padding: 0px;margin: 0px; margin-right: 20px;"
+          matTooltip="Open">
+          <mat-icon class="icono-btn" svgIcon="add-box"></mat-icon>
+          <label>Add note</label>
+        </button>
+
+        <button (click)='no_show(e)' class="btn m-l-40"
+          style="color: #d59c51;border-radius: 2px; height: 23px; line-height: 23px;border-radius: 10px;text-decoration: underline;padding: 0px;margin: 0px; margin-right: 20px;"
+          matTooltip="No-show" *ngIf="!e.noShow">
+          <mat-icon class="icono-btn" svgIcon="calendar-slash"></mat-icon>
+          <label>No show</label>
+        </button>
+
+        <button  class="btn m-l-40"
+          style="color: #ac4a4a;border-radius: 2px; height: 23px; line-height: 23px;border-radius: 10px;padding: 0px;margin: 0px; margin-right: 12px;font-style: oblique;font-size: 12px;"
+          matTooltip="No-show" *ngIf="e.noShow">
+          <label>No show appointment</label>
+        </button>
+
+        <button  *ngIf="e.noShow == false" (click)='eliminarCita(e)' class="btn m-l-40"
+          style="color: #ac4a4a;border-radius: 2px; height: 23px; line-height: 23px;border-radius: 10px;text-decoration: underline;padding: 0px;margin: 0px; margin-right: 20px;"
+          matTooltip="trashD">
+          <mat-icon class="icono-btn" svgIcon="trashD"></mat-icon>
+          <label>Delete schedule</label>
+        </button>
+
+      </td>
+
+     
+
+      <td style="display: flex;" *ngIf="e.tieneNota == true">
+
+        <button (click)='verCita(e)' class="btn m-l-40"
+          style="color: #dc83d2;border-radius: 2px; height: 23px; line-height: 23px;border-radius: 10px;text-decoration: underline;padding: 0px;margin: 0px;margin-right: 20px;"
+          matTooltip="View">
+          <mat-icon class="icono-btn" svgIcon="comments"></mat-icon>
+          <label>View note</label>
+        </button>
+
+      </td>
+    </tr>
+    <tr>
+      <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
+        <label>
+          Records per page</label>
+        <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()" [ngModelOptions]="{standalone: true}"
+          style="margin: 0 8px; font-family: regular; height: 24px;">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+        {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
+        <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+          (click)="paginacion.back();">
+          <mat-icon svgIcon="arrow-back"></mat-icon>
+        </button>
+        <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+          (click)="paginacion.forward();">
+          <mat-icon svgIcon="arrow-forward"></mat-icon>
+        </button>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<!--Cargando-->
+<div class='iigwo-loading' *ngIf="cargando">
+  <mat-spinner></mat-spinner>
+</div>

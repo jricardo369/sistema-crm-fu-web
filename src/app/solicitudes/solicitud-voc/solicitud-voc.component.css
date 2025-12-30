@@ -1,0 +1,87 @@
+textarea {
+  width: 100%;
+  max-width: 320px;
+  min-height: 60px;
+}
+
+.column {
+  flex-flow: column;
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  display: flex;
+}
+
+.input-row {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.external-link-color {
+color: #5DADE2;
+}
+
+
+.badge-file {
+display: inline-block;
+min-width: 5px;
+padding: 4px 9px;
+line-height: 1.9;
+text-align: center;
+white-space: nowrap;
+vertical-align: middle;
+border-radius: 10px;
+font-size: 13px;
+background-color: rgba(0, 0, 0, 0.05);
+height: 24px;
+padding-left: 26px;
+margin-bottom: 4px;
+margin-left: -28px;
+margin-top: -7px;
+}
+
+.badge-file-icon {
+/* position: absolute !important;*/
+margin: 4px !important;
+margin-left: 6px !important;
+}
+
+.badge-file-icon mat-icon {
+width: 20px !important;
+height: 20px !important;
+margin-top: 6px !important;
+margin-left: 2px !important;
+}
+
+.badge-file-icon svg {
+width: 20px !important;
+height: 20px !important;
+}
+
+.adjuntos-options {
+height: fit-content !important;
+border: none !important;
+margin: 0 0 0 0 !important;
+padding: 0 !important;
+background: transparent !important;
+}
+
+
+
+/* Ocultar subscript wrapper y eliminar alineamiento inferior del datepicker */
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
+}
+
+::ng-deep .mat-mdc-form-field-bottom-align {
+  align-items: stretch !important;
+}
+
+::ng-deep .mat-mdc-form-field {
+  line-height: normal !important;
+}
+
+::ng-deep .mat-mdc-form-field-flex {
+  align-items: center !important;
+}

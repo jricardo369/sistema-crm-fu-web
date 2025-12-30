@@ -1,0 +1,22 @@
+<div class="icon-buttons" style="margin-left: -16px; margin-right: 12px;" *ngIf="isBackButtonEnabled">
+    <button (click)='goBack()'>
+        <mat-icon svgIcon="arrow-back"></mat-icon>
+    </button>
+</div>
+
+<label title (click)="hel()" *ngIf="title">{{title}}</label>
+
+<ng-content select="label[title]" *ngIf="!title"></ng-content>
+
+<div class="my-spacer"></div>
+
+<div class="icon-buttons mobile" style="margin-left: auto" *ngIf="isMoreButtonVisible">
+    <ng-content select="button[mobileIcon]"></ng-content>
+    <button class="menu-trigger" (click)='openMenu()'>
+        <mat-icon svgIcon="more-vert"></mat-icon>
+    </button>
+</div>
+
+<div class='items' #items [ngClass]="{items:true, open:isMenuOpen}">
+    <ng-content></ng-content>
+</div>

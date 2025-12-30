@@ -1,0 +1,375 @@
+
+textarea {
+    width: 100%;
+    max-width: 320px;
+    min-height: 60px;
+}
+
+.column {
+    flex-flow: column;
+    position: relative;
+    width: 100%;
+    max-width: 340px;
+    display: flex;
+}
+
+.input-row {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.external-link-color {
+  color: #5DADE2;
+}
+
+.badge-file {
+  display: inline-block;
+  min-width: 5px;
+  padding: 4px 9px;
+  line-height: 1.9;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+border-radius: 10px;
+  font-size: 13px;
+  background-color: rgba(0, 0, 0, 0.05);
+  height: 24px;
+  padding-left: 26px;
+  margin-bottom: 4px;
+  margin-left: -28px;
+  margin-top: -7px;
+}
+
+.badge-file-icon {
+  /* position: absolute !important;*/
+  margin: 4px !important;
+  margin-left: 6px !important;
+}
+
+.badge-file-icon mat-icon {
+  width: 20px !important;
+  height: 20px !important;
+  margin-top: 6px !important;
+  margin-left: 2px !important;
+}
+
+.badge-file-icon svg {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.adjuntos-options {
+  height: fit-content !important;
+  border: none !important;
+  margin: 0 0 0 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.attended{
+color: #41949B;
+}
+
+.attended-titulo-solicitud{
+  color: #41949B;
+  font-size: 13.5px;
+    margin-top: 2px;
+    margin-left: 10px;
+  }
+
+.notattended{
+color:gray;
+}
+
+.horizontal-container {
+  display: flex;
+  align-items: center;
+}
+
+.form-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.form-grid > .iigwo-input {
+  flex: 1 1 280px;
+}
+
+
+
+
+
+
+
+
+
+
+/* Contenedor principal */
+.custom-form-field {
+  width: 100%;
+  font-family: regular; /* Cambia la fuente */
+}
+
+/* Contorno normal */
+::ng-deep .custom-form-field .mdc-notched-outline__leading,
+::ng-deep .custom-form-field .mdc-notched-outline__notch,
+::ng-deep .custom-form-field .mdc-notched-outline__trailing {
+  border-color: rgba(0, 0, 0, 0.2)!important; /* Color del borde normal */
+  border-width: 1px !important; /* Grosor del borde */
+  border-radius: 0px !important; /* Bordes redondeados */
+}
+
+/* Contorno al enfocar */
+::ng-deep .custom-form-field.mat-focused .mdc-notched-outline__leading,
+::ng-deep .custom-form-field.mat-focused .mdc-notched-outline__notch,
+::ng-deep .custom-form-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: #7b1fa2 !important; /* Color del borde al enfocar */
+  border-width: 2px !important;
+}
+
+/* Etiqueta (label) */
+::ng-deep .custom-form-field .mdc-floating-label {
+  font-size: 12px !important;
+  color: #7b1fa2 !important; /* Color de la etiqueta */
+  font-family: regular;
+}
+
+/* Etiqueta al enfocar */
+::ng-deep .custom-form-field.mat-focused .mdc-floating-label {
+  color: #7b1fa2 !important; /* Color de la etiqueta al enfocar */
+}
+
+/* Texto del input */
+::ng-deep .custom-form-field .mat-mdc-input-element {
+  font-size: 12px !important;
+  color: #333 !important; /* Color del texto */
+  font-family: regular;
+  padding: 0px 0 !important; /* Espaciado vertical */
+}
+
+/* Placeholder */
+::ng-deep .custom-form-field .mat-mdc-text-field-wrapper input::placeholder {
+  color: #a0a0a0 !important;
+  font-style: italic !important;
+}
+
+/* Panel de autocompletado */
+::ng-deep .custom-form-field .mat-mdc-autocomplete-panel {
+  border-radius: 8px !important;
+  margin-top: 8px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+ font-family: regular;
+}
+
+/* Opciones del autocompletado */
+::ng-deep .custom-form-field .mat-mdc-option {
+  min-height: 40px !important; /* Altura de las opciones */
+  padding: 8px 16px !important;
+  font-size: 12px !important;
+  border-bottom: 1px solid #f0f0f0 !important;
+}
+
+/* Opción seleccionada */
+::ng-deep .custom-form-field .mat-mdc-option.mdc-list-item--selected {
+  background-color: #f5f7fa !important;
+  font-weight: 500 !important;
+}
+
+/* Opción al pasar el mouse */
+::ng-deep .custom-form-field .mat-mdc-option:hover:not(.mdc-list-item--disabled) {
+  background-color: #f8f9fa !important;
+}
+
+
+
+
+
+
+
+
+
+ 
+/* Contenedor principal - altura general */
+::ng-deep .custom-form-field .mat-mdc-text-field-wrapper {
+  height: 25px !important; /* Altura deseada */
+  align-items: center !important;
+}
+
+/* Input interno */
+::ng-deep .custom-form-field .mat-mdc-input-element {
+  height: 100% !important;
+  padding: 16px 0 !important; /* Ajuste de padding vertical */
+  font-size: 12px !important;
+}
+
+/* Etiqueta flotante */
+::ng-deep .custom-form-field .mdc-floating-label {
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+}
+
+::ng-deep .custom-form-field.mat-mdc-form-field.mat-focused .mdc-floating-label,
+::ng-deep .custom-form-field.mat-mdc-form-field.mat-form-field-has-value .mdc-floating-label {
+  top: 24px !important; /* Posición cuando está elevada */
+  transform: translateY(-100%) scale(0.75) !important;
+}
+
+/* Contorno (outline) */
+::ng-deep .custom-form-field .mdc-notched-outline {
+  height: 100% !important;
+}
+
+::ng-deep .custom-form-field .mdc-notched-outline__notch {
+  height: 100% !important;
+}
+
+/* Autocompletado - altura de las opciones */
+::ng-deep .custom-form-field .mat-mdc-option {
+  min-height: 40px !important; /* Altura de cada opción */
+  line-height: 1.4 !important;
+  padding: 8px 16px !important;
+}
+
+/* Panel de autocompletado */
+::ng-deep .custom-form-field .mat-mdc-autocomplete-panel {
+  max-height: 300px !important; /* Altura máxima del panel */
+}
+
+
+
+/* En tu archivo CSS del componente */
+::ng-deep .custom-form-field .mat-mdc-form-field-subscript-wrapper {
+  height: 10px !important;
+  min-height: 10px !important;
+  margin-top: 2px !important; /* Ajusta según necesites */
+  overflow: visible !important; /* Para asegurar que el texto no se corte */
+}
+
+/* Ajustar los mensajes de error/hint dentro del contenedor */
+::ng-deep .custom-form-field .mat-mdc-form-field-hint,
+::ng-deep .custom-form-field .mat-mdc-form-field-error {
+  line-height: 10px !important;
+  font-size: 10px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  white-space: normal !important;
+}
+
+/* Ajustar posicionamiento para apariencia outline */
+::ng-deep .custom-form-field.mat-form-field-appearance-outline .mat-mdc-form-field-subscript-wrapper {
+  position: relative !important;
+  top: -5px !important; /* Ajusta según necesites */
+}
+
+
+/* Contenedor principal del autocompletado */
+::ng-deep .custom-autocomplete .mat-mdc-autocomplete-panel {
+  font-family: regular; /* Cambia la fuente */
+  font-size: 12px !important; /* Tamaño de fuente */
+  line-height: 1.4 !important; /* Espaciado entre líneas */
+}
+
+/* Opciones individuales */
+::ng-deep .custom-autocomplete .mat-mdc-option {
+  font-family: regular;
+  font-size: inherit !important;
+  padding: 8px 16px !important; /* Espaciado interno */
+}
+
+/* Texto dentro de las opciones */
+::ng-deep .custom-autocomplete .mat-mdc-option .mdc-list-item__primary-text {
+  font-size: 12px !important;
+  font-weight: 500 !important; /* Grosor de fuente */
+  color: #333 !important; /* Color de texto */
+  line-height: 1.4 !important;
+}
+
+/* Texto secundario dentro de las opciones */
+::ng-deep .custom-autocomplete .mat-mdc-option .mdc-list-item__secondary-text {
+  font-size: 12px !important;
+  color: #666 !important;
+  font-weight: 400 !important;
+  line-height: 1.4 !important;
+}
+
+/* Opción seleccionada */
+::ng-deep .custom-autocomplete .mat-mdc-option.mdc-list-item--selected {
+  font-weight: 600 !important; /* Grosor diferente para seleccionado */
+  background-color: #f5f7fa !important;
+}
+
+/* Opción al pasar el mouse */
+::ng-deep .custom-autocomplete .mat-mdc-option:hover:not(.mdc-list-item--disabled) {
+  background-color: #e8f0fe !important;
+}
+
+
+
+.action-links {
+  margin-top: 10px;
+   margin-bottom: 2px;
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  font-size: 11px;
+}
+
+.action-links a {
+  text-decoration: none;
+  transition: color 0.3s;
+  text-decoration: underline;
+}
+
+.action-links-split {
+  display: flex !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  width: 100% !important;
+  font-size: 11px !important;
+}
+
+.addNewLayer{
+  color: #00949B;
+}
+
+.addMailToExistingContact{
+  color: app-accent;
+}
+
+.clearLawyer{
+  font-size: 11px;
+  text-decoration: underline;
+  cursor: pointer;
+  color:rgb(119, 23, 58);
+    * {
+        cursor: pointer;
+    }
+}
+
+.addMailLawyerToFile{
+  font-size: 11px;
+  text-decoration: underline;
+  cursor: pointer;
+  color:rgb(36, 31, 132);
+    * {
+        cursor: pointer;
+    }
+}
+
+.separator {
+  margin: 0 10px;
+  color: #6c757d;
+}
+
+.unassigned-color {
+	color: #b69c4c !important;
+}
+
+
+
+
+
+
+

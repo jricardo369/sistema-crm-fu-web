@@ -1,0 +1,193 @@
+<app-workspace-nav>
+    <app-general-nav></app-general-nav>
+</app-workspace-nav>
+<div class='workspace'>
+    <div class='main'>
+
+        <app-experimental-menu titulo="Lawyers">
+        
+            <button (click)='crearUsuario()' class="btn"
+                style="color: #FFFFFF;background: #239B56; border-radius: 5px; height: 20px; line-height: 20px;margin-left: 10px;">
+                <mat-icon svgIcon="add"
+                    style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+                <label style="margin: auto;color: #FFFFFF;text-transform: none;">New Lawyer</label>
+            </button>
+        
+            <button (click)='refrescar()' class="btn"
+                style="color: #FFFFFF;background: #f3c956; border-radius: 5px; height: 20px; line-height: 20px;margin-left: 10px;">
+                <mat-icon svgIcon="refresh"
+                    style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+                <label style="margin: auto;color: #FFFFFF;text-transform: none;">Refresh</label>
+            </button>
+        
+            <!--<button [disabled]='seleccion.length == 0' (click)='eliminar()' class="btn"
+                style="color: #FFFFFF;background: #CB4335; border-radius: 5px; height: 20px; line-height: 20px;margin-left: 10px;">
+                <mat-icon svgIcon="trashD"
+                    style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+                <label style="margin: auto;color: #FFFFFF;text-transform: none;">Delete</label>
+            </button>-->
+        
+            <button (click)='descargarExcel()' class="btn"
+                style="color: #000000;background: #e5e5e5; border-radius: 5px; height: 20px; line-height: 20px;">
+                <mat-icon svgIcon="exportD"
+                    style="color:rgba(0, 0, 0, 0.7); width: 15px; height: 15px;margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+                <label style="margin: auto;color: #000000;text-transform: none;">Export Data</label>
+            </button>
+        
+        </app-experimental-menu>
+
+        <div class='content'>
+
+            <!-- FILTRO -->
+            <div *ngIf="false" style="margin-bottom: 20px;">
+
+                <h5 *ngIf="filters.length < 1" style="margin: 0 0 3px 0;">Search</h5>
+                <h5 *ngIf="filters.length > 0" style="margin: 0 0 12px 0;">Search</h5>
+
+                <div *ngFor="let f of filters">
+
+                    <div class="iigwo-input inline">
+                        <select [(ngModel)]="f.campo" [ngModelOptions]="{standalone: true}">
+                            <option value="firma">Lawyer Firm</option>
+                            <option value="nombre">Name</option>
+                            <option value="email">Email</option>
+                            <option value="telefono">Phone</option>
+                            <option value="sinonimos">Synonyms</option>
+                        </select>
+                    </div>
+
+                    <div class="iigwo-input inline">
+                        <select [(ngModel)]="f.operador" [ngModelOptions]="{standalone: true}">
+                            <option value="==">Same</option>
+                            <option value=">">Higher</option>
+                            <option value=">=">Greater or Equal</option>
+                            <option value="<">Less</option>
+                            <option value="<=">Minor or Equal</option>
+                            <option value="startsWith">Start with</option>
+                            <option value="endsWith">Ends with</option>
+                            <option value="includes">It contains</option>
+                        </select>
+                    </div>
+
+                    <div class="iigwo-input inline">
+                        <input placeholder="Text / Number" [(ngModel)]="f.valor">
+                    </div>
+
+                    <button class="iigwo small" style="padding:0;min-height: 26px;" (click)="agregarFiltro()">
+                        <mat-icon svgIcon="add"></mat-icon>
+                    </button>
+
+                    <button class="iigwo small" style="padding:0;min-height: 26px;" (click)="eliminarFiltro(f)">
+                        <mat-icon svgIcon="remove"></mat-icon>
+                    </button>
+
+                    <br>
+
+                </div>
+
+
+                <button *ngIf='filters.length > 0' class="accent iigwo small" (click)="aplicarFiltros()">Apply
+                    filters</button>
+                <button *ngIf='filters.length > 0' class="iigwo small" (click)="limpiarFiltros()">Clean filters</button>
+                <p *ngIf='filters.length == 0' style="font-size:11px;">
+                    Add one or more filters to facilitate the search for lawyers
+                </p>
+                <button *ngIf='filters.length == 0' class="iigwo small" (click)="agregarFiltro()">Add filter</button>
+
+
+            </div>
+
+
+            <!-- TABLA CON REGISTROS -->
+            <div >
+                <!--<input type="date" [(ngModel)]="filterFecha" placeholder="Filtrar por fecha" />
+                <div class="iigwo-input inline">
+                    <label>Order by creation date</label>
+                    <select [(ngModel)]="orderFecha">
+                        <option value="asc">Ascendente</option>
+                        <option value="desc">Descendente</option>
+                    </select>
+                </div>
+                -->
+                <table class='big' *ngIf="!(abogadosFiltrados.length == 0)">
+                    <tr>
+                        <!--<th class=''><input type="checkbox" [checked]="estanTodosSeleccionados()"
+                                (change)="checkAll($event)"></th>-->
+                        <th class=''>Law Firm</th>
+                        <th class=''>
+                            <div class="iigwo-input inline" style="margin-bottom: 0px; margin-right: 0px;">
+                                <input type="text" [(ngModel)]="filterNombre" placeholder="Filter by name" />
+                            </div>
+                        </th>
+                        <!--<th class=''>Email</th>-->
+                        <th class=''>Phone</th>
+                        <th class=''>Synonyms</th>
+                        <th class=''>
+                            <div class="iigwo-input" style="margin-bottom: 0px; margin-right: 0px;">
+                                <select [(ngModel)]="orderFecha">
+                                    <option value="asc">Ascendente</option>
+                                    <option value="desc">Descendente</option>
+                                </select>
+                            </div>
+                        </th>
+                         <th class=''>Coupon</th>
+                    </tr>
+                    <tr *ngFor='let e of abogadosFiltrados | slice:paginacion.begin:paginacion.end'>
+                        <!--<td class=''><input type="checkbox" [checked]="estaSeleccionado(e.idAbogado)"
+                                (change)="check($event, e.idAbogado)"></td>-->
+                        <td class=''><a (click)="editarUsuario(e.idAbogado)">{{e.firma}}</a></td>
+                        <td class=''><a (click)="editarUsuario(e.idAbogado)">{{e.nombre}}</a></td>
+                        <!--<td class='accent'>{{e.email}}</td>-->
+                        <td class='accent'>{{e.telefono | phone}}</td>
+                        <td class='accent'>{{e.sinonimos}}</td>
+                        <td class='accent'>{{e.fechaCreacion}}</td>
+                        <td style="font-size: 11.5px;" class='accent' *ngIf="e.cupon">
+                            <mat-icon  svgIcon="done" style="color:#00949B; width: 14px; height: 14px"></mat-icon>
+                            <label>{{e.fechaCupon}}</label>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
+                            <label>Records per page</label>
+                            <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()"
+                                [ngModelOptions]="{standalone: true}"
+                                style="margin: 0 8px; font-family: regular; height: 24px;">
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
+                            <button class="iigwo small"
+                                style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+                                (click)="paginacion.back();">
+                                <mat-icon svgIcon="arrow-back"></mat-icon>
+                            </button>
+                            <button class="iigwo small"
+                                style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+                                (click)="paginacion.forward();">
+                                <mat-icon svgIcon="arrow-forward"></mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+
+            <!-- MENSAJE DE NO HAY REGISTROS -->
+            <div *ngIf="abogados.length == 0">
+                <h3 style="margin:12px 0 6px 0">No results</h3>
+                <p style="max-width:396px;">There are no users within the search criteria. Make sure that the names are
+                    correct and that they are searching in the appropriate field.</p>
+            </div>
+
+        </div>
+
+        <!--Cargando-->
+        <div class='iigwo-loading' *ngIf="cargando">
+            <mat-spinner></mat-spinner>
+        </div>
+    </div>
+</div>

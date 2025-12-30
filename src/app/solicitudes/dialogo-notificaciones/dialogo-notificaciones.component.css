@@ -1,0 +1,77 @@
+.iigwo-input {
+  margin-right: 0;
+}
+
+.badge-file {
+  display: inline-block;
+  min-width: 5px;
+  padding: 4px 9px;
+  line-height: 1.9;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+border-radius: 10px;
+  font-size: 13px;
+  background-color: rgba(0, 0, 0, 0.05);
+  height: 24px;
+  padding-left: 26px;
+  margin-bottom: 4px;
+  margin-left: -28px;
+  margin-top: -7px;
+}
+
+.badge-file-icon {
+  /* position: absolute !important;*/
+  margin: 4px !important;
+  margin-left: 6px !important;
+}
+
+.badge-file-icon mat-icon {
+  width: 20px !important;
+  height: 20px !important;
+  margin-top: 6px !important;
+  margin-left: 2px !important;
+}
+
+.badge-file-icon svg {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.adjuntos-options {
+  height: fit-content !important;
+  border: none !important;
+  margin: 0 0 0 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.badge-file-name {
+  max-width: 263px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: inline-block;
+}
+
+textarea {
+  width: 100%;
+  max-width: 320px;
+  min-height: 60px;
+}
+
+
+.flex-start {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  margin-bottom: 12px;
+}
+
+.flex-start div.iigwo-input {
+  margin: 0 0 0 20px;
+}
+
+.flex-start div.iigwo-input:first-child {
+  margin: 0;
+}

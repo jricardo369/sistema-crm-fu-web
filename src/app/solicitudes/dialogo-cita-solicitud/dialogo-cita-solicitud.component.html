@@ -1,0 +1,295 @@
+<h2 mat-dialog-title style="font-family: regular;color:#75518c" [ngClass]="{'mb-0': creando && !verCampoSolicitud}">{{creando ? "New Schedule" : ("Note Schedule "
+  + citaSolicitud.fecha + " at " + citaSolicitud.hora + " " + citaSolicitud.tipo)}}</h2>
+
+<mat-dialog-content style="padding-right: 12px;" *ngIf="creando">
+
+  <div style="width: 450px;">
+    <div class="iigwo-input" *ngIf="verCampoSolicitud">
+      <label>File</label>
+      <select [(ngModel)]="citaSolicitud.idSolicitud"  [disabled]="!creando" [ngModelOptions]="{standalone: true}">
+        <option *ngFor='let o of arrSolicitudesVoc' [ngValue]="o.idSolicitud">{{o.numeroDeCaso + " - " + o.cliente}}
+        </option>
+      </select>
+    </div>
+
+    <div class="iigwo-input" style="margin: 0; margin-right: 12px; text-align: end;">
+      <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;"
+        id="dosCitas" [checked]="citaSolicitud.dosCitas" (change)="citaSolicitud.dosCitas = !citaSolicitud.dosCitas">
+      <label for="dosCitas" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">It is for two
+        appointments</label>
+    </div>
+
+    <div class="iigwo-input">
+      <label>Description</label>
+      <textarea [(ngModel)]="citaSolicitud.comentario"></textarea>
+    </div>
+
+    <div style="display: flex;">
+      <div class="iigwo-input">
+        <label>Date</label>
+        <input type="date" [(ngModel)]="citaSolicitud.fecha">
+      </div>
+      <div class="iigwo-input">
+        <label>Time</label>
+        <select [(ngModel)]="citaSolicitud.hora" style="min-width: 74px;" [ngModelOptions]="{standalone: true}">
+          <option *ngFor="let time of arrTime" [ngValue]="time">
+            {{time}}</option>
+        </select>
+      </div>
+      <div class="iigwo-input">
+        <label>Type</label>
+        <select [(ngModel)]="citaSolicitud.tipo" style="min-width: 60px;" [ngModelOptions]="{standalone: true}">
+          <option value="AM">AM</option>
+          <option value="PM">PM</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<!-- <mat-dialog-content style="padding-right: 12px;" *ngIf="!creando">
+  <div style="width: 450px;">
+    <div class="iigwo-input">
+      <label>Note</label>
+      <textarea [(ngModel)]="nuevaNotaCita.descripcion"></textarea>
+    </div>
+    <div style="margin-right: 12px;" *ngIf="arrNotasCita.length > 0">
+      <label>Notes</label>
+      <div class="note" *ngFor="let nota of arrNotasCita">
+        <label>{{nota.fecha}}</label>
+        <p>{{nota.descripcion}}</p>
+      </div>
+    </div>
+
+  </div>
+</mat-dialog-content> -->
+<mat-dialog-content style="padding-right: 12px;" *ngIf="!creando">
+  <div style="width: 450px;">
+    <div class="iigwo-input">
+      <label>Date</label>
+      <input type="date" [(ngModel)]="notaCita.fechaCreacion" readonly disabled>
+    </div>
+    <div class="iigwo-input">
+      <label>Type</label>
+      <select [(ngModel)]="notaCita.tipo" [ngModelOptions]="{standalone: true}">
+        <option *ngFor='let o of arrTipoNota' [ngValue]="o">{{o}}</option>
+      </select>
+    </div>
+    <div class="iigwo-input">
+      <label>Client Referred by</label>
+      <select [(ngModel)]="notaCita.referencia" [ngModelOptions]="{standalone: true}">
+        <option *ngFor='let o of arrReferencia' [ngValue]="o">{{o}}</option>
+      </select>
+    </div>
+    <div class="iigwo-input">
+      <label>Lenght of session</label>
+      <form>
+        <input type="radio" id="tiempoSesion1" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="tiempoSesion" [(ngModel)]="notaCita.tiempoSesion" value="105+ minutes"/>
+        <label for="tiempoSesion1" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">105+ minutes</label><br>
+        <input type="radio" id="tiempoSesion2" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="tiempoSesion" [(ngModel)]="notaCita.tiempoSesion" value="75-104 minutes"/>
+        <label for="tiempoSesion2" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">75-104 minutes</label><br>
+        <input type="radio" id="tiempoSesion3" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="tiempoSesion" [(ngModel)]="notaCita.tiempoSesion" value="45-74 minutes"/>
+        <label for="tiempoSesion3" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">45-74 minutes</label><br>
+        <input type="radio" id="tiempoSesion4" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="tiempoSesion" [(ngModel)]="notaCita.tiempoSesion" value="0-44 minutes"/>
+        <label for="tiempoSesion4" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">0-44 minutes</label>
+      </form>
+    </div>
+    <div class="iigwo-input">
+      <label>Main Focus of Therapy</label>
+      <p style="font-size: 12px;">Why was the client referred?</p>
+      <textarea [(ngModel)]="notaCita.enfoquePrincipal"></textarea>
+    </div>
+    <div class="iigwo-input">
+      <label required>Si an Hi Assessed?</label>
+      <form>
+        <input type="radio" id="siHiAsignado1" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="siHiAsignado" [(ngModel)]="inputSiHiAsignado" value="Yes"/>
+        <label for="siHiAsignado1" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Yes</label><br>
+        <input type="radio" id="siHiAsignado2" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="siHiAsignado" [(ngModel)]="inputSiHiAsignado" value="No"/>
+        <label for="siHiAsignado2" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">No</label>
+      </form>
+    </div>
+    <div class="iigwo-input">
+      <label required>Location verified at the beginning of session?</label>
+      <form>
+        <input type="radio" id="locacionVerificada1" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="locacionVerificada" [(ngModel)]="inputLocacionVerificada" value="Yes"/>
+        <label for="locacionVerificada1" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Yes</label><br>
+        <input type="radio" id="locacionVerificada2" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="locacionVerificada" [(ngModel)]="inputLocacionVerificada" value="No"/>
+        <label for="locacionVerificada2" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">No</label>
+      </form>
+    </div>
+    <hr>
+    <p style="font-size: 12px;font-family:regular;line-height: 1.2;">Current clinical status related to diagnosis:<br>Rate the status of the client symptoms/behaviors on a scale from 1 to 9.<br>With 1 representing the lowest score and 9 the highest. Worsened: 1 2 3; Relatively unchanged: 4 5 6; Improved: 7 8 9.</p>
+    <br>
+    <label style="font-size: 14px;font-family:regular;line-height: 1.2;color:black">SYMPTOMS/BEHAVIORS MUST MATCH GOALS FROM THE TP/ASSESSMENT</label>
+    <br><br>
+    <label style="font-size: 14px;font-family:regular;line-height: 1.2;color:black">VOC CLIENTS</label>
+    <p style="font-size: 12px;font-family:regular;line-height: 1.2"> Goals must come from level cross cutting scale.</p>
+    <div class="iigwo-input">
+      <label required>Symptom/Behavior</label>
+      <input type="text" [(ngModel)]="notaCita.sintomaComportamiento1">
+    </div>
+    <div class="iigwo-input">
+      <label required>Rating</label>
+      <form>
+        <input type="radio" id="rating1-1" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating1" [(ngModel)]="notaCita.rating1" value="1"/>
+        <label for="rating1-1" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">1</label><br>
+        <input type="radio" id="rating1-2" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating1" [(ngModel)]="notaCita.rating1" value="2"/>
+        <label for="rating1-2" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">2</label><br>
+        <input type="radio" id="rating1-3" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating1" [(ngModel)]="notaCita.rating1" value="3"/>
+        <label for="rating1-3" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">3</label><br>
+        <input type="radio" id="rating1-4" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating1" [(ngModel)]="notaCita.rating1" value="4"/>
+        <label for="rating1-4" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">4</label><br>
+        <input type="radio" id="rating1-5" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating1" [(ngModel)]="notaCita.rating1" value="5"/>
+        <label for="rating1-5" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">5</label><br>
+        <input type="radio" id="rating1-6" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating1" [(ngModel)]="notaCita.rating1" value="6"/>
+        <label for="rating1-6" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">6</label><br>
+        <input type="radio" id="rating1-7" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating1" [(ngModel)]="notaCita.rating1" value="7"/>
+        <label for="rating1-7" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">7</label><br>
+        <input type="radio" id="rating1-8" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating1" [(ngModel)]="notaCita.rating1" value="8"/>
+        <label for="rating1-8" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">8</label><br>
+        <input type="radio" id="rating1-9" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating1" [(ngModel)]="notaCita.rating1" value="9"/>
+        <label for="rating1-9" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">9</label>
+      </form>
+    </div>
+    <div class="iigwo-input">
+      <label required>Symptom/Behavior</label>
+      <input type="text" [(ngModel)]="notaCita.sintomaComportamiento2">
+    </div>
+    <div class="iigwo-input">
+      <label required>Rating</label>
+      <form>
+        <input type="radio" id="rating2-1" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating2" [(ngModel)]="notaCita.rating2" value="1"/>
+        <label for="rating2-1" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">1</label><br>
+        <input type="radio" id="rating2-2" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating2" [(ngModel)]="notaCita.rating2" value="2"/>
+        <label for="rating2-2" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">2</label><br>
+        <input type="radio" id="rating2-3" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating2" [(ngModel)]="notaCita.rating2" value="3"/>
+        <label for="rating2-3" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">3</label><br>
+        <input type="radio" id="rating2-4" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating2" [(ngModel)]="notaCita.rating2" value="4"/>
+        <label for="rating2-4" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">4</label><br>
+        <input type="radio" id="rating2-5" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating2" [(ngModel)]="notaCita.rating2" value="5"/>
+        <label for="rating2-5" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">5</label><br>
+        <input type="radio" id="rating2-6" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating2" [(ngModel)]="notaCita.rating2" value="6"/>
+        <label for="rating2-6" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">6</label><br>
+        <input type="radio" id="rating2-7" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating2" [(ngModel)]="notaCita.rating2" value="7"/>
+        <label for="rating2-7" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">7</label><br>
+        <input type="radio" id="rating2-8" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating2" [(ngModel)]="notaCita.rating2" value="8"/>
+        <label for="rating2-8" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">8</label><br>
+        <input type="radio" id="rating2-9" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating2" [(ngModel)]="notaCita.rating2" value="9"/>
+        <label for="rating2-9" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">9</label>
+      </form>
+    </div><div class="iigwo-input">
+      <label required>Symptom/Behavior</label>
+      <input type="text" [(ngModel)]="notaCita.sintomaComportamiento3">
+    </div>
+    <div class="iigwo-input">
+      <label required>Rating</label>
+      <form>
+        <input type="radio" id="rating3-1" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating3" [(ngModel)]="notaCita.rating3" value="1"/>
+        <label for="rating3-1" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">1</label><br>
+        <input type="radio" id="rating3-2" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating3" [(ngModel)]="notaCita.rating3" value="2"/>
+        <label for="rating3-2" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">2</label><br>
+        <input type="radio" id="rating3-3" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating3" [(ngModel)]="notaCita.rating3" value="3"/>
+        <label for="rating3-3" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">3</label><br>
+        <input type="radio" id="rating3-4" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating3" [(ngModel)]="notaCita.rating3" value="4"/>
+        <label for="rating3-4" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">4</label><br>
+        <input type="radio" id="rating3-5" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating3" [(ngModel)]="notaCita.rating3" value="5"/>
+        <label for="rating3-5" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">5</label><br>
+        <input type="radio" id="rating3-6" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating3" [(ngModel)]="notaCita.rating3" value="6"/>
+        <label for="rating3-6" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">6</label><br>
+        <input type="radio" id="rating3-7" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating3" [(ngModel)]="notaCita.rating3" value="7"/>
+        <label for="rating3-7" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">7</label><br>
+        <input type="radio" id="rating3-8" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating3" [(ngModel)]="notaCita.rating3" value="8"/>
+        <label for="rating3-8" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">8</label><br>
+        <input type="radio" id="rating3-9" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="rating3" [(ngModel)]="notaCita.rating3" value="9"/>
+        <label for="rating3-9" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">9</label>
+      </form>
+    </div>
+    <hr>
+    <div class="iigwo-input">
+      <label required>Content of the Therapy Session</label>
+      <p style="font-size: 12px;">Why was the client referred?</p>
+      <div>
+        <input type="checkbox" id="tipoContenidoSesion1" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" [(ngModel)]="tipoContenidoSesion1"/>
+        <label for="tipoContenidoSesion1" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Symptoms/Behavior</label><br>
+        <input type="checkbox" id="tipoContenidoSesion2" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" [(ngModel)]="tipoContenidoSesion2"/>
+        <label for="tipoContenidoSesion2" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Home Situation</label><br>
+        <input type="checkbox" id="tipoContenidoSesion3" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" [(ngModel)]="tipoContenidoSesion3"/>
+        <label for="tipoContenidoSesion3" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Psychological Stressors</label><br>
+        <input type="checkbox" id="tipoContenidoSesion4" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" [(ngModel)]="tipoContenidoSesion4"/>
+        <label for="tipoContenidoSesion4" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Medical</label><br>
+        <input type="checkbox" id="tipoContenidoSesion5" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" [(ngModel)]="tipoContenidoSesion5"/>
+        <label for="tipoContenidoSesion5" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Risk Factors</label><br>
+        <input type="checkbox" id="tipoContenidoSesion6" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" [(ngModel)]="tipoContenidoSesion6"/>
+        <label for="tipoContenidoSesion6" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Environmental</label><br>
+        <input type="checkbox" id="tipoContenidoSesion7" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" [(ngModel)]="tipoContenidoSesion7"/>
+        <label for="tipoContenidoSesion7" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Other</label>
+      </div>
+    </div>
+    <div class="iigwo-input">
+      <label required>Comments</label>
+      <textarea [(ngModel)]="notaCita.comentarios"></textarea>
+    </div>
+    <div class="iigwo-input">
+      <label required>Response to Intervention</label>
+      <form>
+        <input type="radio" id="respuestaDeIntervencion1" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="respuestaDeIntervencion" [(ngModel)]="notaCita.respuestaDeIntervencion" value="Poor"/>
+        <label for="respuestaDeIntervencion1" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Poor</label><br>
+        <input type="radio" id="respuestaDeIntervencion2" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="respuestaDeIntervencion" [(ngModel)]="notaCita.respuestaDeIntervencion" value="Fair"/>
+        <label for="respuestaDeIntervencion2" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Fair</label><br>
+        <input type="radio" id="respuestaDeIntervencion3" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;" name="respuestaDeIntervencion" [(ngModel)]="notaCita.respuestaDeIntervencion" value="Good"/>
+        <label for="respuestaDeIntervencion3" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Good</label>
+      </form>
+    </div>
+    <div class="iigwo-input">
+      <label required>Summary of tour assessment of the client's progress towards TX goals:</label>
+      <textarea [(ngModel)]="notaCita.resumenEvaluacion"></textarea>
+    </div>
+    <div class="iigwo-input">
+      <label required>TX plan for the immediate future:</label>
+      <textarea [(ngModel)]="notaCita.planFuturo"></textarea>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+
+   <button (click)='cerrar("cerrar")' class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;margin-right:auto;">
+    <!--<mat-icon svgIcon="exportD" style="color: rgba(0, 0, 0, 0.7); width: 14px;  vertical-align: middle;"></mat-icon>-->
+    <span style="color: #000000; font-size: 13px;">Close</span>
+  </button>
+
+  <button (click)='crear()' class="btn-color" style="color: #ffffff; background: #8837a2;margin-bottom: 5px;margin-left:0;" *ngIf="creando">
+    <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+    <span style="color: #ffffff; font-size: 13px;">Generate</span>
+  </button>
+
+  <button (click)='eliminar()' class="btn-color" style="color: #ffffff; background: #be2929;margin-bottom: 5px;margin-right:5px;" *ngIf="!creando">
+    <mat-icon svgIcon="trashD" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+    <span style="color: #ffffff; font-size: 13px;">Delete</span>
+  </button>
+
+   <button (click)='descargarCita()' class="btn-color" style="color: #ffffff; background: dodgerblue;margin-bottom: 5px;margin-left:0;" *ngIf="!creando">
+    <mat-icon svgIcon="downloadD" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+    <span style="color: #ffffff; font-size: 13px;">Download</span>
+  </button>
+
+  <button (click)='guardarNota()' class="btn-color" style="color: #ffffff; background: #8837a2;margin-bottom: 5px;margin-left:0;" *ngIf="!creando">
+    <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+    <span style="color: #ffffff; font-size: 13px;">Save</span>
+  </button>
+  
+            
+  
+  <!--<button class="iigwo" style="margin-left:auto;" (click)='cerrar("cerrar")'>Close</button>
+  <button class="iigwo accent" style="margin-right:0;" (click)='crear()' *ngIf="creando">Generate</button>
+  <button class="iigwo" style="color: #FFFFFF;background: dodgerblue;" (click)='descargarCita()'
+    *ngIf="!creando">Download</button>-->
+  <!-- <button class="iigwo" style="color: #FFFFFF;background: #EAB570;" (click)='no_show()'
+    *ngIf="!creando">No-show</button> 
+  <button class="iigwo accent" style="margin-right:0;" (click)='guardarNota()' *ngIf="!creando">Save</button>-->
+
+</mat-dialog-actions>
+
+<!-- CARGANDO-->
+<div class='iigwo-loading' *ngIf="cargando">
+  <mat-spinner></mat-spinner>
+</div>
