@@ -7,25 +7,33 @@ import { DisponibilidadUsuario } from 'src/model/disponibilidad-usuario';
 import { PaginationManager } from 'src/util/pagination';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { Usuario } from "src/model/usuario";
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
 
+import { CLINICIAN, INTERVIEWER, INTERVIEWER_SCALES, } from 'src/app/app.config';
+
+
 import { DateMMDDYYYYPipe } from 'src/app/common/pipes/date-pipe.pipe';
 import { DatePipe } from '@angular/common';
 
+import { US_STATES } from 'src/app/app.config';
+
+
 @Component({
-  standalone: true,imports: [RouterModule,FormsModule,CommonModule,MatIconModule,MatProgressSpinnerModule,MatDialogModule,DateMMDDYYYYPipe],
+  standalone: true, imports: [RouterModule, FormsModule, CommonModule, MatIconModule, MatProgressSpinnerModule, MatDialogModule, DateMMDDYYYYPipe],
   selector: 'app-dialogo-siguiente-proceso',
   templateUrl: './dialogo-siguiente-proceso.component.html',
   styleUrls: ['./dialogo-siguiente-proceso.component.css'],
-  providers:[
+  providers: [
     DatePipe
   ]
 })
 export class DialogoSiguienteProcesoComponent implements OnInit {
 
+  usuario: Usuario = new Usuario();
   cargando: boolean = false;
 
   fecha: string = "";
@@ -36,9 +44,17 @@ export class DialogoSiguienteProcesoComponent implements OnInit {
   idDisponibilidadSelected: number = null;
   idSolicitud: number = null;
   idUsuario: number = null;
+  estado: string = null;
   interviewerCaseManager: boolean = false;
   interviewerScales: boolean = false;
   interviewerClinician: boolean = false;
+  arrStates: any[] = [];
+  rol: string = '';
+
+  /*isInterviewer: boolean = false;
+  isInterviewerScales: boolean = false;
+  */
+  isClinician: boolean = false;
 
   constructor(
     private disponibilidadUsuariosService: DisponibilidadUsuariosService,
@@ -48,13 +64,31 @@ export class DialogoSiguienteProcesoComponent implements OnInit {
     public dialogRef: MatDialogRef<DialogoSiguienteProcesoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
-      this.idSolicitud = data.idSolicitud;
-      this.idUsuario = data.idUsuario;
-      this.interviewerCaseManager = data.interviewerCaseManager;
-      this.interviewerScales = data.interviewerScales;
-      this.interviewerClinician = data.interviewerClinician;
-      this.paginacion.size = 5;
-      
+    this.usuario = JSON.parse(localStorage.getItem("objUsuario"));
+
+    this.idSolicitud = data.idSolicitud;
+    this.idUsuario = data.idUsuario;
+    this.estado = data.estado == null ? "All" : data.estado;
+    this.interviewerCaseManager = data.interviewerCaseManager;
+    this.interviewerScales = data.interviewerScales;
+    this.interviewerClinician = data.interviewerClinician;
+    this.paginacion.size = 5;
+    this.arrStates = [{ name: "All", abbreviation: "All" }, ...US_STATES];
+
+    if (this.interviewerScales) {
+      this.rol = INTERVIEWER_SCALES;
+    } else if (this.interviewerClinician) {
+      this.rol = CLINICIAN;
+    } else if (this.interviewerCaseManager) {
+      this.rol = INTERVIEWER;
+    }
+
+    this.isClinician = this.rol == CLINICIAN ? true : false;
+
+    /*this.isInterviewer = this.usuario.rol == INTERVIEWER ? true : false;
+    this.isInterviewerScales = this.usuario.rol == INTERVIEWER_SCALES ? true : false;
+    this.isClinician = this.usuario.rol == CLINICIAN ? true : false;*/
+
   }
 
   ngOnInit(): void {
@@ -75,13 +109,12 @@ export class DialogoSiguienteProcesoComponent implements OnInit {
   }
 
   obtenerDisponibilidadUsuarios() {
-    if(this.fecha == "") return;
+    if (this.fecha == "") return;
     this.cargando = true;
-    var clinician = this.interviewerClinician;
-    this.disponibilidadUsuariosService.obtenerDisponibilidadUsuariosPorDia(this.fecha, this.fechaAnterior, (this.interviewerScales ? 8 : 5),this.idSolicitud, clinician)
+    this.disponibilidadUsuariosService.obtenerDisponibilidadUsuariosPorDia(this.fecha, this.fechaAnterior, this.rol, this.idSolicitud, this.estado)
       .then((disponibilidadUsuarios) => {
         this.arrDisponibilidadUsuario = disponibilidadUsuarios;
-        this.paginacion.setArray(this.arrDisponibilidadUsuario,10);
+        this.paginacion.setArray(this.arrDisponibilidadUsuario, 10);
       })
       .catch((reason) => this.utilService.manejarError(reason))
       .then(() => (this.cargando = false));
@@ -91,25 +124,25 @@ export class DialogoSiguienteProcesoComponent implements OnInit {
     let disponibilidadSelected = this.arrDisponibilidadUsuario[this.arrDisponibilidadUsuario.findIndex(disponibilidad => disponibilidad.idDisponibilidad == this.idDisponibilidadSelected)];
     console.log(disponibilidadSelected)
     this.cargando = true;
-    
+
     let choosePromise;
     if (this.interviewerScales) {
       choosePromise = this.solicitudesService.envioInterviewerScales(this.idSolicitud, this.fechaAnterior, this.idUsuario, disponibilidadSelected.idDisponibilidad);
     } else if (this.interviewerClinician) {
       choosePromise = this.solicitudesService.envioClinicianProcess(this.idSolicitud, this.fechaAnterior, this.idUsuario, disponibilidadSelected.idDisponibilidad);
-    }else if (this.interviewerCaseManager) {
+    } else if (this.interviewerCaseManager) {
       choosePromise = this.solicitudesService.envioCaseManager(this.idSolicitud, this.fechaAnterior, this.idUsuario, disponibilidadSelected.idDisponibilidad);
     } else {
       choosePromise = this.solicitudesService.envioSiguienteProceso(this.idSolicitud, this.fechaAnterior, this.idUsuario, disponibilidadSelected.idDisponibilidad);
     }
-    
+
     choosePromise
-    .then(() => {
-      this.cargando = false;
-      this.cerrar('enviado');
-    })
-    .catch((reason) => this.utilService.manejarError(reason))
-    .then(() => (this.cargando = false));
+      .then(() => {
+        this.cargando = false;
+        this.cerrar('enviado');
+      })
+      .catch((reason) => this.utilService.manejarError(reason))
+      .then(() => (this.cargando = false));
   }
 
   cerrar(accion: string = "") { this.dialogRef.close(accion); }

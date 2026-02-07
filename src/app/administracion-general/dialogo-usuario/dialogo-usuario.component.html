@@ -66,17 +66,63 @@
         <input type="email" [(ngModel)]="usuario.correoElectronico">
       </div>
 
-       <div style="display:flex; margin-bottom: 12px;">
-        <div style="min-width: 332px; margin-right: 12px;">
-          <div class="iigwo-input" style="margin: 0;" *ngIf="!creando">
-            <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 0;"
-              id="ausencia" [checked]="usuario.ausencia" (change)="usuario.ausencia = !usuario.ausencia">
-            <label for="ausencia"
-              style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Absence</label>
+  <div class="iigwo-input" *ngIf="!creando && (usuario.rol == '5'|| usuario.rol == '11')">
+    <!--
+        <label>State</label>
+        <div class="input-row" style="margin-bottom: 4px;">
+           <select [(ngModel)]="stateSelected" [ngModelOptions]="{standalone: true}">
+                <option *ngFor="let state of arrStates" [ngValue]="state.abbreviation">
+                  {{state.abbreviation}}</option>
+              </select>
+          <button (click)='agregarEstadoUsuario()' class="btn-icon" matTooltip="Add">
+            <mat-icon svgIcon="add"></mat-icon>
+          </button>
+        </div>-->
+
+         
+
+        
+        <div class="input-row" style="margin-bottom: 4px;">
+          <div class="iigwo-input">
+            <label>State</label>
+            <select [(ngModel)]="stateSelected" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let state of arrStates" [ngValue]="state.abbreviation">
+                {{state.abbreviation}}</option>
+            </select>
+          </div>
+          <div class="iigwo-input">
+            <label>License</label>
+            <input type="email" [(ngModel)]="licencia">
+          </div>
+          <button (click)='agregarEstadoUsuario()' class="btn-icon" matTooltip="Add">
+            <mat-icon svgIcon="add"></mat-icon>
+          </button>
+        </div>
+      
+
+        
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; align-items: start;">
+          <div *ngFor="let esUs of estadosUsuario" style="display: block; 
+              background-color: #f0f0f0; 
+              border-radius: 16px; 
+              padding: 0.5px 2px; 
+              margin-top: 3px;
+              width: fit-content;
+              align-items: center;">
+            <span class="badge-file-icon" style="color: rgb(221, 131, 53); vertical-align: middle;"><mat-icon
+              svgIcon="pinD" style="width: 17px; height: 17px;"></mat-icon></span>
+            <span style="margin-right: 7px; font-family: regular; vertical-align: middle;font-size:12px">{{esUs.estado}} - Lic #{{esUs.noLicencia}}</span>
+            <span style="margin-left: 8px; vertical-align: middle;">
+              <button style="background: none; border: none; cursor: pointer;vertical-align: middle;"
+                (click)="eliminarEstadoUsuario(esUs.idEstadoUsuario)">
+                <mat-icon style="margin-top: 1px;width: 15px;vertical-align: middle;" svgIcon="close"></mat-icon>
+              </button>
+            </span>
           </div>
         </div>
+        
       </div>
-
     </div>
 
     <div style="min-width: 332px;">
@@ -163,6 +209,17 @@
       <div class="iigwo-input" *ngIf="usuario.withSupervision && usuario.rol == '10'">
         <label>Supervisor</label>
         <input type="text" [(ngModel)]="usuario.supervisor">
+      </div>
+
+      <div style="display:flex; margin-bottom: 12px;">
+        <div style="min-width: 332px; margin-right: 12px;">
+          <div class="iigwo-input" style="margin: 0;" *ngIf="!creando">
+            <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 0;"
+              id="ausencia" [checked]="usuario.ausencia" (change)="usuario.ausencia = !usuario.ausencia">
+            <label for="ausencia"
+              style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Absence</label>
+          </div>
+        </div>
       </div>
 
       <br>

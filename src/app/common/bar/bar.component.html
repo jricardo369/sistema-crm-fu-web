@@ -77,13 +77,17 @@
             ">
         -->    
         <div class='app-nav-right'>
-            <label>{{usuario.usuario}}</label>
             <label>{{usuario.nombre}}</label>
+            <label>{{usuario.usuario}}</label>
             <a routerLink="/credenciales" style="font-size:13px;" (focus)="focusUserDiv()"
-               >Credentials</a>
-
-            <button class='iigwo' (click)='logout()' (focus)="focusUserDiv()" style="display: block;margin-top: 16px;"
-               >Logout</button>
+               >View profile</a>
+               
+            <button (click)='logout()' (focus)="focusUserDiv()" class="btn-color btn-color-accent" style="color: #FFFFFF;">
+                <span style="color: #FFFFFF; font-size: 13px;">Logout</span>
+            </button>
+             <!-- <button class='iigwo' (click)='logout()' (focus)="focusUserDiv()" style="display: block;margin-top: 16px;"
+               >Logout</button>-->
+            <label style="margin-top: 7px;">V10.0</label>
 
         </div>
     </div>

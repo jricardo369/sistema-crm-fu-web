@@ -133,7 +133,7 @@ export class DialogoNoShowYRejectSolicitudComponent implements OnInit {
 
     if (this.filterMotivoCancel === undefined) {
       this.utilService.mostrarDialogoSimple("Warning", "Reason for cancellation cannot be empty");
-    }else{
+    } else {
 
       var motivoCancelF = "";
       var booleanSeguir = true;
@@ -152,7 +152,7 @@ export class DialogoNoShowYRejectSolicitudComponent implements OnInit {
       //console.log('motivo cancel:'+motivoCancelF);
 
       if (booleanSeguir) {
-        this.solicitudesService.reasignarSolicitud(this.idSolicitud, this.usuario.idUsuario, this.filterUsuario,motivoCancelF, true)
+        this.solicitudesService.rejectSolicitud(this.idSolicitud, this.usuario.idUsuario, this.filterUsuario, motivoCancelF, true)
           .then(() => {
             this.cargando = false;
             this.router.navigate(['/solicitudes/solicitudes']);

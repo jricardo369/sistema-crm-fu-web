@@ -7,17 +7,25 @@
     <app-experimental-menu titulo="Schedules">
 
       <button (click)='crearCita()' class="btn" *ngIf="isTherapist"
-            style="color: #FFFFFF;background: #239B56; border-radius: 5px; height: 20px; line-height: 20px;">
-            <mat-icon svgIcon="add-box" style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
-            <label style="margin: auto;color: #FFFFFF;text-transform: none;">Add Schedule</label>
-          </button>
+        style="color: #FFFFFF;background: #239B56; border-radius: 5px; height: 20px; line-height: 20px;">
+        <mat-icon svgIcon="add-box"
+          style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+        <label style="margin: auto;color: #FFFFFF;text-transform: none;">Add Schedule</label>
+      </button>
 
       <button (click)='refrescar()' class="btn"
-            style="color: #FFFFFF;background: #f3c956; border-radius: 5px; height: 20px; line-height: 20px;">
-            <mat-icon svgIcon="refresh" style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
-            <label style="margin: auto;color: #FFFFFF;text-transform: none;">Refresh</label>
-          </button>
-      
+        style="color: #FFFFFF;background: #f3c956; border-radius: 5px; height: 20px; line-height: 20px;">
+        <mat-icon svgIcon="refresh"
+          style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+        <label style="margin: auto;color: #FFFFFF;text-transform: none;">Refresh</label>
+      </button>
+
+       <button (click)='enviarRecordatorios()' class="btn"
+        style="color: #FFFFFF;background: #798af4; border-radius: 5px; height: 20px; line-height: 20px; margin-left: auto;">
+        <mat-icon svgIcon="reminderD"
+          style="color:rgba(255, 255, 255, 0.7); width: 11px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+        <label style="margin: auto;color: #FFFFFF;text-transform: none;">Send week reminder</label>
+      </button>
 
     </app-experimental-menu>
 
@@ -26,25 +34,22 @@
       <div style="display:flex; justify-content: space-between; align-items: flex-end;">
 
         <div style="display: inline-flex;width: 100%;gap: 12px;align-items: left;">
-        
-          <!--<div class="iigwo-input" style="margin-right: 12px;">
-                    <label>Date</label>
-                    <input type="date" [(ngModel)]="filterFecha" (change)="refrescar()">
-                  </div>-->
-        
+
           <app-week-navigator *ngIf="!mostrarDatosDia" [referenceDate]="currentWeek"
-            (referenceDateChange)="onWeekRefChange($event)" (weekRangeChange)="onWeekRangeChange($event)"></app-week-navigator>
-        
-        
+            (referenceDateChange)="onWeekRefChange($event)"
+            (weekRangeChange)="onWeekRangeChange($event)"></app-week-navigator>
+
+
           <div *ngIf="mostrarDatosDia" class="iigwo-input">
             <label>Date</label>
             <mat-form-field appearance="outline" class="custom-datepicker">
-              <input matInput [matDatepicker]="picker" [(ngModel)]="filterFechaMat" (dateChange)="onFilterFechaMatChange()">
+              <input matInput [matDatepicker]="picker" [(ngModel)]="filterFechaMat"
+                (dateChange)="onFilterFechaMatChange()">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
           </div>
-        
+
           <div class="iigwo-input" style="min-width: 120px;" *ngIf="(isMaster || isVendor || isBackOffice)">
             <label>User</label>
             <select [(ngModel)]="filterUsuario" (change)="refrescar()" [ngModelOptions]="{standalone: true}">
@@ -52,14 +57,22 @@
                 {{e.nombre}}</option>
             </select>
           </div>
-          
+
           <div class="iigwo-input" *ngIf="(isMaster || isVendor || isBackOffice)">
             <label>Appointment status</label>
             <select [(ngModel)]="filterAppointmentStatus" [ngModelOptions]="{standalone: true}" (change)="refrescar()">
               <option *ngFor="let s of appointmentStatuses" [ngValue]="s">{{ s }}</option>
             </select>
           </div>
-        
+
+          <div class="iigwo-input">
+            <label>State</label>
+            <select [(ngModel)]="stateSelected" [ngModelOptions]="{standalone: true}" (change)="refrescar()">
+              <option *ngFor="let state of arrStates" [ngValue]="state.abbreviation">
+                {{state.abbreviation}}</option>
+            </select>
+          </div>
+
           <div class="iigwo-input" style="display: flex; align-items: flex-end;height: 40px;"
             *ngIf="(isMaster || isVendor || isBackOffice || isInterviewer || isInterviewerScales || isClinician)">
             <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;"
@@ -68,7 +81,7 @@
             <label for="viewAvalability"
               style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">ViewAvailability</label>
           </div>
-        
+
           <div class="iigwo-input" *ngIf="(isMaster || isVendor || isBackOffice) && filterViewAvalability">
             <label>User type</label>
             <select [(ngModel)]="filterRol" [ngModelOptions]="{standalone: true}" (change)="refrescar()">
@@ -77,80 +90,117 @@
             </select>
           </div>
 
-           <button class="btn-color" (click)='citasDia()' 
-         [ngStyle]="{'color': 'var(--app-secondary)', 'background': '#FFFFFF','margin-top': '18px',
+          <button class="btn-color" (click)='citasDia()'
+            [ngStyle]="{'color': 'var(--app-secondary)', 'background': '#FFFFFF','margin-top': '18px',
          'margin-bottom': '15px','font-style': 'italic','border': '1px solid var(--app-secondary)', 'margin-left': 'auto'}">
-           <span style="color: #000000; font-size: 13px;"
-           [ngStyle]="{'color': 'var(--app-secondary)', 'font-size': '13px'}" >{{citasPorDia}}</span>
-        </button>
-        
+            <span style="color: #000000; font-size: 13px;"
+              [ngStyle]="{'color': 'var(--app-secondary)', 'font-size': '13px'}">{{citasPorDia}}</span>
+          </button>
+
         </div>
 
-       
-        
+
+
       </div>
 
-      
+
 
       <div *ngIf="mostrarDatosDia">
 
         <div>
           <p class="accent header-cita-dia">Day Schedules {{filterFecha | dateMMDDYYYY}}</p>
         </div>
-        <div class="cita-dia" *ngFor="let c of citasDeDia" style="border-color:gray;" [style.border-top-color]="c.color ? c.color : '#00000033'"
-          (click)="verCita(c)">
-          <div style="display: inline-flex"><p class="nombre">{{c.nombreUsuario}}</p><span *ngIf="c.importante.length > 0" class="important-badge">I</span></div>
-          <div style="display: inline-flex">
-        
-            <div *ngIf="!isTherapist" class="div-img-label">
-              <mat-icon svgIcon="calendarD" style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-              <p *ngIf="!filterViewAvalability; else elseTemplate">
-                {{c.hora + " " + c.tipo}} &#9679; {{"File " + c.idSolicitud}}
-              </p>
+        <div class="cita-dia" *ngFor="let c of citasDeDia" style="border-color:gray; position: relative;"
+          [style.border-top-color]="c.color ? c.color : '#00000033'">
+
+          <img
+            *ngIf="!c.finSchedule && c?.importante?.length == 0 && (isInterviewer || isInterviewerScales || isClinician)"
+            src="assets/svg/reminder.svg" width="11" height="11" style="position: absolute; top: 4px; right: 4px;"
+            (click)="enviarRecordatorio(c)" />
+
+          <div *ngIf="c?.importante?.length > 0">
+            <img src="assets/svg/reminder.svg"
+              *ngIf="!c.finSchedule && (isInterviewer || isInterviewerScales || isClinician)" width="11" height="11"
+              style="position: absolute; top: 4px; right: 16px;"  (click)="enviarRecordatorio(c)"/>
+
+            <svg *ngIf="c?.importante?.length > 0" width="9" height="9"
+              style="position: absolute; top: 4px; right: 4px;">
+              <circle cx="4" cy="4" r="4" [attr.fill]="'red'"></circle>
+            </svg>
+
+          </div>
+
+          <div (click)="verCita(c)">
+
+            <div style="display: inline-flex;">
+              <p class="nombre">{{c.nombreUsuario}}</p>
             </div>
-            <div *ngIf="isTherapist" class="div-img-label">
-              <mat-icon svgIcon="calendarD" style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-              <p *ngIf="!filterViewAvalability; else elseTemplate">
-                {{c.hora + " " + c.tipo}} &#9679; {{c.cliente}}
-              </p>
+            <div style="display: inline-flex">
+
+              <div *ngIf="!isTherapist" class="div-img-label">
+                <mat-icon svgIcon="calendarD"
+                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                <p *ngIf="!filterViewAvalability; else elseTemplate">
+                  {{c.hora + " " + c.tipo}} &#9679; {{"File " + c.idSolicitud}}
+                </p>
+              </div>
+              <div *ngIf="isTherapist" class="div-img-label">
+                <mat-icon svgIcon="calendarD"
+                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                <p *ngIf="!filterViewAvalability; else elseTemplate">
+                  {{c.hora + " " + c.tipo}} &#9679; {{c.cliente}}
+                </p>
+              </div>
+
+
+              <ng-template #elseTemplate>
+                <p>{{c.hora + " " + c.tipo}}</p>
+              </ng-template>
+            </div>
+            <p class="comentario">{{c.comentario}}</p>
+            <div style="display: flex; justify-content: space-between; margin-top: 4px;">
+              <div>
+                <div *ngIf="!isTherapist && !isVOC && !filterViewAvalability">
+                  <div *ngIf="c.finSchedule" class="div-img-label">
+                    <mat-icon svgIcon="seenD"
+                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                    <p style="color:#41949B">Attended </p>
+                  </div>
+                  <div *ngIf="!c.finSchedule" class="div-img-label">
+                    <p style="color:#d04d21">Not attended</p>
+                  </div>
+                </div>
+                <div *ngIf="isTherapist">
+                  <div *ngIf="c.tieneNota" class="div-img-label">
+                    <mat-icon svgIcon="seenD"
+                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                    <p style="color:#41949B">With note </p>
+                  </div>
+                  <div *ngIf="!c.tieneNota" class="div-img-label">
+                    <p style="color:#d04d21">No note </p>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <p *ngIf="isMaster || isBackOffice" [ngClass]="{'badge-color-received-sl': c.idEstaSol == 1,
+                            'badge-color-reviewing-sl': c.idEstaSol == 2,
+                            'badge-color-interview-sl': c.idEstaSol == 3,
+                            'badge-color-refused-sl': c.idEstaSol == 4,
+                            'badge-color-no_show-sl': c.idEstaSol == 5,
+                            'badge-color-case-sl': c.idEstaSol == 6,
+                            'badge-color-lost-sl': c.idEstaSol == 7,
+                            'badge-color-won-sl': c.idEstaSol == 8,
+                            'badge-color-open-sl': c.idEstaSol == 9,
+                            'badge-color-ready_on_draft-sl': c.idEstaSol == 10,
+                            'badge-color-closed-sl': c.idEstaSol == 11}">{{c.descEst}}</p>
+              </div>
             </div>
 
-          <p *ngIf="isMaster || isBackOffice" [ngClass]="{'badge-color-received-sl': c.idEstaSol == 1,
-              'badge-color-reviewing-sl': c.idEstaSol == 2,
-              'badge-color-interview-sl': c.idEstaSol == 3,
-              'badge-color-refused-sl': c.idEstaSol == 4,
-              'badge-color-no_show-sl': c.idEstaSol == 5,
-              'badge-color-case-sl': c.idEstaSol == 6,
-              'badge-color-lost-sl': c.idEstaSol == 7,
-              'badge-color-won-sl': c.idEstaSol == 8,
-              'badge-color-open-sl': c.idEstaSol == 9,
-              'badge-color-ready_on_draft-sl': c.idEstaSol == 10,
-              'badge-color-closed-sl': c.idEstaSol == 11}">{{c.descEst}}</p>
-          <ng-template #elseTemplate>
-            <p>{{c.hora + " " + c.tipo}}</p>
-          </ng-template>
-        </div>
-          <p class="comentario">{{c.comentario}}</p>
-          <div *ngIf="!isTherapist && !isVOC">
-            
-            <div *ngIf="c.finSchedule" lass="div-img-label">
-              <mat-icon svgIcon="seenD" style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-              <p  style="color:#41949B">Attended </p>
-            </div>
-             <div *ngIf="!c.finSchedule" class="div-img-label">
-                <p  style="color:#d04d21">Not attended</p>
-              </div>
           </div>
-          <div *ngIf="isTherapist">
-              <div *ngIf="c.tieneNota" class="div-img-label">
-                <mat-icon svgIcon="seenD" style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p  style="color:#41949B">With note </p>
-              </div>
-               <div *ngIf="!c.tieneNota" class="div-img-label">
-                <p  style="color:#d04d21">No note </p>
-              </div>
-            </div>
+
         </div>
+
+
         <div *ngIf="!(citasDeDia.length > 0)">
           <label style="border: 0;font-size: 13px; color: gray; text-align: left;" *ngIf="!conCitas">
             No appointments scheduled for this day.</label>
@@ -162,63 +212,97 @@
       <div style="display:flex; overflow: auto; margin-top: 5px;" *ngIf="!mostrarDatosDia">
         <div class="separador"></div>
         <div class="columna-dia">
+
           <div>
             <p class="accent header-dia-fecha">{{lunes}}</p>
             <p class="accent header-dia">MONDAY</p>
           </div>
-          <div class="cita" *ngFor="let c of citas.lunes" style="border-color:gray;" [style.border-top-color]="c.color ? c.color : '#00000033'"
-            (click)="verCita(c)">
-            <div style="display: inline-flex"><p class="nombre">{{c.nombreUsuario}}</p><span *ngIf="c.importante.length > 0" class="important-badge">I</span></div>
-            <div style="display: inline-flex">
 
+          <div class="cita" *ngFor="let c of citas.lunes" style="border-color:gray; position: relative;"
+            [style.border-top-color]="c.color ? c.color : '#00000033'">
+
+            <img
+              *ngIf="!c.finSchedule && c?.importante?.length == 0 && (isInterviewer || isInterviewerScales || isClinician)"
+              src="assets/svg/reminder.svg" width="11" height="11" style="position: absolute; top: 4px; right: 4px;" (click)="enviarRecordatorio(c)" />
+
+            <div *ngIf="c?.importante?.length > 0">
+              <img src="assets/svg/reminder.svg"
+                *ngIf="!c.finSchedule && (isInterviewer || isInterviewerScales || isClinician)" width="11" height="11"
+                style="position: absolute; top: 4px; right: 16px;" (click)="enviarRecordatorio(c)" />
+
+              <svg *ngIf="c?.importante?.length > 0" width="9" height="9"
+                style="position: absolute; top: 4px; right: 4px;">
+                <circle cx="4" cy="4" r="4" [attr.fill]="'red'"></circle>
+              </svg>
+
+            </div>
+
+            <div  (click)="verCita(c)">
+
+            <div style="display: inline-flex;">
+              <p class="nombre">{{c.nombreUsuario}}</p>
+            </div>
+            <div style="display: inline-flex">
               <div *ngIf="!isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD" style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                <mat-icon svgIcon="calendarD"
+                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
                 <p *ngIf="!filterViewAvalability; else elseTemplate">
                   {{c.hora + " " + c.tipo}} &#9679; {{"File " + c.idSolicitud}}
                 </p>
               </div>
               <div *ngIf="isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD" style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                <mat-icon svgIcon="calendarD"
+                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
                 <p *ngIf="!filterViewAvalability; else elseTemplate">
                   {{c.hora + " " + c.tipo}} &#9679; {{c.cliente}}
                 </p>
               </div>
-              
-              <p *ngIf="isMaster || isBackOffice" [ngClass]="{'badge-color-received-sl': c.idEstaSol == 1,
-              'badge-color-reviewing-sl': c.idEstaSol == 2,
-              'badge-color-interview-sl': c.idEstaSol == 3,
-              'badge-color-refused-sl': c.idEstaSol == 4,
-              'badge-color-no_show-sl': c.idEstaSol == 5,
-              'badge-color-case-sl': c.idEstaSol == 6,
-              'badge-color-lost-sl': c.idEstaSol == 7,
-              'badge-color-won-sl': c.idEstaSol == 8,
-              'badge-color-open-sl': c.idEstaSol == 9,
-              'badge-color-ready_on_draft-sl': c.idEstaSol == 10,
-              'badge-color-closed-sl': c.idEstaSol == 11}">{{c.descEst}}</p>
-              
+
 
               <ng-template #elseTemplate>
                 <p>{{c.hora + " " + c.tipo}}</p>
               </ng-template>
             </div>
-            <div *ngIf="!isTherapist && !isVOC">
-              <div *ngIf="c.finSchedule" class="div-img-label">
-                <mat-icon svgIcon="seenD" style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p  style="color:#41949B">Attended </p>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 4px;">
+              <div>
+                <div *ngIf="!isTherapist && !isVOC && !filterViewAvalability">
+                  <div *ngIf="c.finSchedule" class="div-img-label">
+                    <mat-icon svgIcon="seenD"
+                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                    <p style="color:#41949B">Attended </p>
+                  </div>
+                  <div *ngIf="!c.finSchedule" class="div-img-label">
+                    <p style="color:#d04d21">Not attended</p>
+                  </div>
+                </div>
+                <div *ngIf="isTherapist">
+                  <div *ngIf="c.tieneNota" class="div-img-label">
+                    <mat-icon svgIcon="seenD"
+                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                    <p style="color:#41949B">With note </p>
+                  </div>
+                  <div *ngIf="!c.tieneNota" class="div-img-label">
+                    <p style="color:#d04d21">No note </p>
+                  </div>
+                </div>
               </div>
-               <div *ngIf="!c.finSchedule" class="div-img-label">
-                <p  style="color:#d04d21">Not attended</p>
+              <div>
+                <p *ngIf="isMaster || isBackOffice" [ngClass]="{'badge-color-received-sl': c.idEstaSol == 1,
+                            'badge-color-reviewing-sl': c.idEstaSol == 2,
+                            'badge-color-interview-sl': c.idEstaSol == 3,
+                            'badge-color-refused-sl': c.idEstaSol == 4,
+                            'badge-color-no_show-sl': c.idEstaSol == 5,
+                            'badge-color-case-sl': c.idEstaSol == 6,
+                            'badge-color-lost-sl': c.idEstaSol == 7,
+                            'badge-color-won-sl': c.idEstaSol == 8,
+                            'badge-color-open-sl': c.idEstaSol == 9,
+                            'badge-color-ready_on_draft-sl': c.idEstaSol == 10,
+                            'badge-color-closed-sl': c.idEstaSol == 11}">{{c.descEst}}</p>
               </div>
             </div>
-            <div *ngIf="isTherapist">
-              <div *ngIf="c.tieneNota" class="div-img-label">
-                <mat-icon svgIcon="seenD" style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p  style="color:#41949B">With note </p>
-              </div>
-               <div *ngIf="!c.tieneNota" class="div-img-label">
-                <p  style="color:#d04d21">No note </p>
-              </div>
-            </div>
+          </div>
+
           </div>
         </div>
         <div class="separador"></div>
@@ -227,58 +311,92 @@
             <p class="accent header-dia-fecha">{{martes}}</p>
             <p class="accent header-dia">TUESDAY</p>
           </div>
-          <div class="cita" *ngFor="let c of citas.martes" style="border-color:gray;" [style.border-top-color]="c.color ? c.color : '#00000033'"
-            (click)="verCita(c)">
-            <div style="display: inline-flex"><p class="nombre">{{c.nombreUsuario}}</p><span *ngIf="c.importante.length > 0" class="important-badge">I</span></div>
+          <div class="cita" *ngFor="let c of citas.martes" style="border-color:gray; position: relative;"
+            [style.border-top-color]="c.color ? c.color : '#00000033'" >
+            <img
+              *ngIf="!c.finSchedule && c?.importante?.length == 0 && (isInterviewer || isInterviewerScales || isClinician)"
+              src="assets/svg/reminder.svg" width="11" height="11" style="position: absolute; top: 4px; right: 4px;" (click)="enviarRecordatorio(c)"/>
+
+            <div *ngIf="c?.importante?.length > 0">
+              <img src="assets/svg/reminder.svg"
+                *ngIf="!c.finSchedule && (isInterviewer || isInterviewerScales || isClinician)" width="11" height="11"
+                style="position: absolute; top: 4px; right: 16px;" (click)="enviarRecordatorio(c)" />
+
+              <svg *ngIf="c?.importante?.length > 0" width="9" height="9"
+                style="position: absolute; top: 4px; right: 4px;">
+                <circle cx="4" cy="4" r="4" [attr.fill]="'red'"></circle>
+              </svg>
+
+            </div>
+
+            <div  (click)="verCita(c)">
+
+            <div style="display: inline-flex;">
+              <p class="nombre">{{c.nombreUsuario}}</p>
+            </div>
+
             <div style="display: inline-flex">
-              
+
 
               <div *ngIf="!isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD" style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                <mat-icon svgIcon="calendarD"
+                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
                 <p *ngIf="!filterViewAvalability; else elseTemplate">
                   {{c.hora + " " + c.tipo}} &#9679; {{"File " + c.idSolicitud}}
                 </p>
               </div>
               <div *ngIf="isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD" style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                <mat-icon svgIcon="calendarD"
+                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
                 <p *ngIf="!filterViewAvalability; else elseTemplate">
                   {{c.hora + " " + c.tipo}} &#9679; {{c.cliente}}
                 </p>
               </div>
 
-              <p *ngIf="isMaster || isBackOffice" [ngClass]="{'badge-color-received-sl': c.idEstaSol == 1,
-              'badge-color-reviewing-sl': c.idEstaSol == 2,
-              'badge-color-interview-sl': c.idEstaSol == 3,
-              'badge-color-refused-sl': c.idEstaSol == 4,
-              'badge-color-no_show-sl': c.idEstaSol == 5,
-              'badge-color-case-sl': c.idEstaSol == 6,
-              'badge-color-lost-sl': c.idEstaSol == 7,
-              'badge-color-won-sl': c.idEstaSol == 8,
-              'badge-color-open-sl': c.idEstaSol == 9,
-              'badge-color-ready_on_draft-sl': c.idEstaSol == 10,
-              'badge-color-closed-sl': c.idEstaSol == 11}">{{c.descEst}}</p>
               <ng-template #elseTemplate>
                 <p>{{c.hora + " " + c.tipo}}</p>
               </ng-template>
             </div>
-            <div *ngIf="!isTherapist && !isVOC">
-              <div *ngIf="c.finSchedule" class="div-img-label">
-                <mat-icon svgIcon="seenD" style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p  style="color:#41949B">Attended </p>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 4px;">
+              <div>
+                <div *ngIf="!isTherapist && !isVOC && !filterViewAvalability">
+                  <div *ngIf="c.finSchedule" class="div-img-label">
+                    <mat-icon svgIcon="seenD"
+                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                    <p style="color:#41949B">Attended </p>
+                  </div>
+                  <div *ngIf="!c.finSchedule" class="div-img-label">
+                    <p style="color:#d04d21">Not attended</p>
+                  </div>
+                </div>
+                <div *ngIf="isTherapist">
+                  <div *ngIf="c.tieneNota" class="div-img-label">
+                    <mat-icon svgIcon="seenD"
+                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                    <p style="color:#41949B">With note </p>
+                  </div>
+                  <div *ngIf="!c.tieneNota" class="div-img-label">
+                    <p style="color:#d04d21">No note </p>
+                  </div>
+                </div>
               </div>
-               <div *ngIf="!c.finSchedule" class="div-img-label">
-                <p  style="color:#d04d21">Not attended</p>
+              <div>
+                <p *ngIf="isMaster || isBackOffice" [ngClass]="{'badge-color-received-sl': c.idEstaSol == 1,
+                            'badge-color-reviewing-sl': c.idEstaSol == 2,
+                            'badge-color-interview-sl': c.idEstaSol == 3,
+                            'badge-color-refused-sl': c.idEstaSol == 4,
+                            'badge-color-no_show-sl': c.idEstaSol == 5,
+                            'badge-color-case-sl': c.idEstaSol == 6,
+                            'badge-color-lost-sl': c.idEstaSol == 7,
+                            'badge-color-won-sl': c.idEstaSol == 8,
+                            'badge-color-open-sl': c.idEstaSol == 9,
+                            'badge-color-ready_on_draft-sl': c.idEstaSol == 10,
+                            'badge-color-closed-sl': c.idEstaSol == 11}">{{c.descEst}}</p>
               </div>
             </div>
-            <div *ngIf="isTherapist">
-              <div *ngIf="c.tieneNota" class="div-img-label">
-                <mat-icon svgIcon="seenD" style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p  style="color:#41949B">With note </p>
-              </div>
-               <div *ngIf="!c.tieneNota" class="div-img-label">
-                <p  style="color:#d04d21">No note </p>
-              </div>
             </div>
+
           </div>
         </div>
         <div class="separador"></div>
@@ -287,57 +405,92 @@
             <p class="accent header-dia-fecha">{{miercoles}}</p>
             <p class="accent header-dia">WEDNESDAY</p>
           </div>
-          <div class="cita" *ngFor="let c of citas.miercoles" style="border-color:gray;" [style.border-top-color]="c.color ? c.color : '#00000033'"
-           (click)="verCita(c)">
-           <div style="display: inline-flex"><p class="nombre">{{c.nombreUsuario}}</p><span *ngIf="c.importante.length > 0" class="important-badge">I</span></div>
+          <div class="cita" *ngFor="let c of citas.miercoles" style="border-color:gray; position: relative;"
+            [style.border-top-color]="c.color ? c.color : '#00000033'">
+
+            <img
+              *ngIf="!c.finSchedule && c?.importante?.length == 0 && (isInterviewer || isInterviewerScales || isClinician)"
+              src="assets/svg/reminder.svg" width="11" height="11" (click)="enviarRecordatorio()"
+              style="position: absolute; top: 4px; right: 4px;" />
+
+            <div *ngIf="c?.importante?.length > 0">
+              <img src="assets/svg/reminder.svg"
+                *ngIf="!c.finSchedule && (isInterviewer || isInterviewerScales || isClinician)" width="11" height="11"
+                style="position: absolute; top: 4px; right: 16px;"  (click)="enviarRecordatorio(c)"/>
+
+              <svg *ngIf="c?.importante?.length > 0" width="9" height="9"
+                style="position: absolute; top: 4px; right: 4px;">
+                <circle cx="4" cy="4" r="4" [attr.fill]="'red'"></circle>
+              </svg>
+
+            </div>
+
+            <div  (click)="verCita(c)">
+
+            <div style="display: inline-flex;">
+              <p class="nombre">{{c.nombreUsuario}}</p>
+            </div>
             <div style="display: inline-flex">
-              
+
               <div *ngIf="!isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD" style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                <mat-icon svgIcon="calendarD"
+                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
                 <p *ngIf="!filterViewAvalability; else elseTemplate">
                   {{c.hora + " " + c.tipo}} &#9679; {{"File " + c.idSolicitud}}
                 </p>
               </div>
               <div *ngIf="isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD" style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                <mat-icon svgIcon="calendarD"
+                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
                 <p *ngIf="!filterViewAvalability; else elseTemplate">
                   {{c.hora + " " + c.tipo}} &#9679; {{c.cliente}}
                 </p>
               </div>
 
-              <p *ngIf="isMaster || isBackOffice" [ngClass]="{'badge-color-received-sl': c.idEstaSol == 1,
-              'badge-color-reviewing-sl': c.idEstaSol == 2,
-              'badge-color-interview-sl': c.idEstaSol == 3,
-              'badge-color-refused-sl': c.idEstaSol == 4,
-              'badge-color-no_show-sl': c.idEstaSol == 5,
-              'badge-color-case-sl': c.idEstaSol == 6,
-              'badge-color-lost-sl': c.idEstaSol == 7,
-              'badge-color-won-sl': c.idEstaSol == 8,
-              'badge-color-open-sl': c.idEstaSol == 9,
-              'badge-color-ready_on_draft-sl': c.idEstaSol == 10,
-              'badge-color-closed-sl': c.idEstaSol == 11}">{{c.descEst}}</p>
               <ng-template #elseTemplate>
                 <p>{{c.hora + " " + c.tipo}}</p>
               </ng-template>
             </div>
-            <div *ngIf="!isTherapist && !isVOC">
-              <div *ngIf="c.finSchedule" class="div-img-label">
-                <mat-icon svgIcon="seenD" style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p  style="color:#41949B">Attended </p>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 4px;">
+              <div>
+                <div *ngIf="!isTherapist && !isVOC && !filterViewAvalability">
+                  <div *ngIf="c.finSchedule" class="div-img-label">
+                    <mat-icon svgIcon="seenD"
+                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                    <p style="color:#41949B">Attended </p>
+                  </div>
+                  <div *ngIf="!c.finSchedule" class="div-img-label">
+                    <p style="color:#d04d21">Not attended</p>
+                  </div>
+                </div>
+                <div *ngIf="isTherapist">
+                  <div *ngIf="c.tieneNota" class="div-img-label">
+                    <mat-icon svgIcon="seenD"
+                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                    <p style="color:#41949B">With note </p>
+                  </div>
+                  <div *ngIf="!c.tieneNota" class="div-img-label">
+                    <p style="color:#d04d21">No note </p>
+                  </div>
+                </div>
               </div>
-               <div *ngIf="!c.finSchedule" class="div-img-label">
-                <p  style="color:#d04d21">Not attended</p>
+              <div>
+                <p *ngIf="isMaster || isBackOffice" [ngClass]="{'badge-color-received-sl': c.idEstaSol == 1,
+                            'badge-color-reviewing-sl': c.idEstaSol == 2,
+                            'badge-color-interview-sl': c.idEstaSol == 3,
+                            'badge-color-refused-sl': c.idEstaSol == 4,
+                            'badge-color-no_show-sl': c.idEstaSol == 5,
+                            'badge-color-case-sl': c.idEstaSol == 6,
+                            'badge-color-lost-sl': c.idEstaSol == 7,
+                            'badge-color-won-sl': c.idEstaSol == 8,
+                            'badge-color-open-sl': c.idEstaSol == 9,
+                            'badge-color-ready_on_draft-sl': c.idEstaSol == 10,
+                            'badge-color-closed-sl': c.idEstaSol == 11}">{{c.descEst}}</p>
               </div>
             </div>
-            <div *ngIf="isTherapist">
-              <div *ngIf="c.tieneNota" class="div-img-label">
-                <mat-icon svgIcon="seenD" style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p  style="color:#41949B">With note </p>
-              </div>
-               <div *ngIf="!c.tieneNota" class="div-img-label">
-                <p  style="color:#d04d21">No note </p>
-              </div>
             </div>
+
           </div>
         </div>
         <div class="separador"></div>
@@ -346,57 +499,89 @@
             <p class="accent header-dia-fecha">{{jueves}}</p>
             <p class="accent header-dia">THURSDAY</p>
           </div>
-          <div class="cita" *ngFor="let c of citas.jueves" style="border-color:gray;" [style.border-top-color]="c.color ? c.color : '#00000033'"
-            (click)="verCita(c)">
-            <div style="display: inline-flex"><p class="nombre">{{c.nombreUsuario}}</p><span *ngIf="c.importante.length > 0" class="important-badge">I</span></div>
+          <div class="cita" *ngFor="let c of citas.jueves" style="border-color:gray; position: relative;"
+            [style.border-top-color]="c.color ? c.color : '#00000033'" >
+            <img
+              *ngIf="!c.finSchedule && c?.importante?.length == 0 && (isInterviewer || isInterviewerScales || isClinician)"
+              src="assets/svg/reminder.svg" width="11" height="11" style="position: absolute; top: 4px; right: 4px;"  (click)="enviarRecordatorio(c)"/>
+
+            <div *ngIf="c?.importante?.length > 0">
+              <img src="assets/svg/reminder.svg"
+                *ngIf="!c.finSchedule && (isInterviewer || isInterviewerScales || isClinician)" width="11" height="11"
+                style="position: absolute; top: 4px; right: 16px;"  (click)="enviarRecordatorio(c)"/>
+
+              <svg *ngIf="c?.importante?.length > 0" width="9" height="9"
+                style="position: absolute; top: 4px; right: 4px;">
+                <circle cx="4" cy="4" r="4" [attr.fill]="'red'"></circle>
+              </svg>
+
+            </div>
+
+            <div  (click)="verCita(c)">
+            <div style="display: inline-flex;">
+              <p class="nombre">{{c.nombreUsuario}}</p>
+            </div>
             <div style="display: inline-flex">
-              
+
               <div *ngIf="!isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD" style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                <mat-icon svgIcon="calendarD"
+                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
                 <p *ngIf="!filterViewAvalability; else elseTemplate">
                   {{c.hora + " " + c.tipo}} &#9679; {{"File " + c.idSolicitud}}
                 </p>
               </div>
               <div *ngIf="isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD" style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                <mat-icon svgIcon="calendarD"
+                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
                 <p *ngIf="!filterViewAvalability; else elseTemplate">
                   {{c.hora + " " + c.tipo}} &#9679; {{c.cliente}}
                 </p>
               </div>
 
-              <p *ngIf="isMaster || isBackOffice" [ngClass]="{'badge-color-received-sl': c.idEstaSol == 1,
-              'badge-color-reviewing-sl': c.idEstaSol == 2,
-              'badge-color-interview-sl': c.idEstaSol == 3,
-              'badge-color-refused-sl': c.idEstaSol == 4,
-              'badge-color-no_show-sl': c.idEstaSol == 5,
-              'badge-color-case-sl': c.idEstaSol == 6,
-              'badge-color-lost-sl': c.idEstaSol == 7,
-              'badge-color-won-sl': c.idEstaSol == 8,
-              'badge-color-open-sl': c.idEstaSol == 9,
-              'badge-color-ready_on_draft-sl': c.idEstaSol == 10,
-              'badge-color-closed-sl': c.idEstaSol == 11}">{{c.descEst}}</p>
               <ng-template #elseTemplate>
                 <p>{{c.hora + " " + c.tipo}}</p>
               </ng-template>
             </div>
-            <div *ngIf="!isTherapist && !isVOC">
-              <div *ngIf="c.finSchedule" class="div-img-label">
-                <mat-icon svgIcon="seenD" style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p  style="color:#41949B">Attended </p>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 4px;">
+              <div>
+                <div *ngIf="!isTherapist && !isVOC && !filterViewAvalability">
+                  <div *ngIf="c.finSchedule" class="div-img-label">
+                    <mat-icon svgIcon="seenD"
+                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                    <p style="color:#41949B">Attended </p>
+                  </div>
+                  <div *ngIf="!c.finSchedule" class="div-img-label">
+                    <p style="color:#d04d21">Not attended</p>
+                  </div>
+                </div>
+                <div *ngIf="isTherapist">
+                  <div *ngIf="c.tieneNota" class="div-img-label">
+                    <mat-icon svgIcon="seenD"
+                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                    <p style="color:#41949B">With note </p>
+                  </div>
+                  <div *ngIf="!c.tieneNota" class="div-img-label">
+                    <p style="color:#d04d21">No note </p>
+                  </div>
+                </div>
               </div>
-               <div *ngIf="!c.finSchedule" class="div-img-label">
-                <p  style="color:#d04d21">Not attended</p>
+              <div>
+                <p *ngIf="isMaster || isBackOffice" [ngClass]="{'badge-color-received-sl': c.idEstaSol == 1,
+                            'badge-color-reviewing-sl': c.idEstaSol == 2,
+                            'badge-color-interview-sl': c.idEstaSol == 3,
+                            'badge-color-refused-sl': c.idEstaSol == 4,
+                            'badge-color-no_show-sl': c.idEstaSol == 5,
+                            'badge-color-case-sl': c.idEstaSol == 6,
+                            'badge-color-lost-sl': c.idEstaSol == 7,
+                            'badge-color-won-sl': c.idEstaSol == 8,
+                            'badge-color-open-sl': c.idEstaSol == 9,
+                            'badge-color-ready_on_draft-sl': c.idEstaSol == 10,
+                            'badge-color-closed-sl': c.idEstaSol == 11}">{{c.descEst}}</p>
               </div>
             </div>
-            <div *ngIf="isTherapist">
-              <div *ngIf="c.tieneNota" class="div-img-label">
-                <mat-icon svgIcon="seenD" style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p  style="color:#41949B">With note </p>
-              </div>
-               <div *ngIf="!c.tieneNota" class="div-img-label">
-                <p  style="color:#d04d21">No note </p>
-              </div>
-            </div>
+          </div>
+
           </div>
         </div>
         <div class="separador"></div>
@@ -405,57 +590,89 @@
             <p class="accent header-dia-fecha">{{viernes}}</p>
             <p class="accent header-dia">FRIDAY</p>
           </div>
-          <div class="cita" *ngFor="let c of citas.viernes" style="border-color:gray;" [style.border-top-color]="c.color ? c.color : '#00000033'"
-            (click)="verCita(c)">
-            <div style="display: inline-flex"><p class="nombre">{{c.nombreUsuario}}</p><span *ngIf="c.importante.length > 0" class="important-badge">I</span></div>
+          <div class="cita" *ngFor="let c of citas.viernes" style="border-color:gray; position: relative;"
+            [style.border-top-color]="c.color ? c.color : '#00000033'" >
+            <img
+              *ngIf="!c.finSchedule && c?.importante?.length == 0 && (isInterviewer || isInterviewerScales || isClinician)"
+              src="assets/svg/reminder.svg" width="11" height="11" style="position: absolute; top: 4px; right: 4px;"  (click)="enviarRecordatorio(c)"/>
+
+            <div *ngIf="c?.importante?.length > 0">
+              <img src="assets/svg/reminder.svg"
+                *ngIf="!c.finSchedule && (isInterviewer || isInterviewerScales || isClinician)" width="11" height="11"
+                style="position: absolute; top: 4px; right: 16px;" (click)="enviarRecordatorio(c)"/>
+
+              <svg *ngIf="c?.importante?.length > 0" width="9" height="9"
+                style="position: absolute; top: 4px; right: 4px;">
+                <circle cx="4" cy="4" r="4" [attr.fill]="'red'"></circle>
+              </svg>
+
+            </div>
+
+            <div  (click)="verCita(c)">
+            <div style="display: inline-flex;">
+              <p class="nombre">{{c.nombreUsuario}}</p>
+            </div>
             <div style="display: inline-flex">
-              
+
               <div *ngIf="!isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD" style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                <mat-icon svgIcon="calendarD"
+                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
                 <p *ngIf="!filterViewAvalability; else elseTemplate">
                   {{c.hora + " " + c.tipo}} &#9679; {{"File " + c.idSolicitud}}
                 </p>
               </div>
               <div *ngIf="isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD" style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                <mat-icon svgIcon="calendarD"
+                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
                 <p *ngIf="!filterViewAvalability; else elseTemplate">
                   {{c.hora + " " + c.tipo}} &#9679; {{c.cliente}}
                 </p>
               </div>
 
-              <p *ngIf="isMaster || isBackOffice" [ngClass]="{'badge-color-received-sl': c.idEstaSol == 1,
-              'badge-color-reviewing-sl': c.idEstaSol == 2,
-              'badge-color-interview-sl': c.idEstaSol == 3,
-              'badge-color-refused-sl': c.idEstaSol == 4,
-              'badge-color-no_show-sl': c.idEstaSol == 5,
-              'badge-color-case-sl': c.idEstaSol == 6,
-              'badge-color-lost-sl': c.idEstaSol == 7,
-              'badge-color-won-sl': c.idEstaSol == 8,
-              'badge-color-open-sl': c.idEstaSol == 9,
-              'badge-color-ready_on_draft-sl': c.idEstaSol == 10,
-              'badge-color-closed-sl': c.idEstaSol == 11}">{{c.descEst}}</p>
               <ng-template #elseTemplate>
                 <p>{{c.hora + " " + c.tipo}}</p>
               </ng-template>
             </div>
-            <div *ngIf="!isTherapist && !isVOC">
-              <div *ngIf="c.finSchedule" class="div-img-label">
-                <mat-icon svgIcon="seenD" style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p  style="color:#41949B">Attended </p>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 4px;">
+              <div>
+                <div *ngIf="!isTherapist && !isVOC && !filterViewAvalability">
+                  <div *ngIf="c.finSchedule" class="div-img-label">
+                    <mat-icon svgIcon="seenD"
+                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                    <p style="color:#41949B">Attended </p>
+                  </div>
+                  <div *ngIf="!c.finSchedule" class="div-img-label">
+                    <p style="color:#d04d21">Not attended</p>
+                  </div>
+                </div>
+                <div *ngIf="isTherapist">
+                  <div *ngIf="c.tieneNota" class="div-img-label">
+                    <mat-icon svgIcon="seenD"
+                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                    <p style="color:#41949B">With note </p>
+                  </div>
+                  <div *ngIf="!c.tieneNota" class="div-img-label">
+                    <p style="color:#d04d21">No note </p>
+                  </div>
+                </div>
               </div>
-               <div *ngIf="!c.finSchedule" class="div-img-label">
-                <p  style="color:#d04d21">Not attended</p>
+              <div>
+                <p *ngIf="isMaster || isBackOffice" [ngClass]="{'badge-color-received-sl': c.idEstaSol == 1,
+                            'badge-color-reviewing-sl': c.idEstaSol == 2,
+                            'badge-color-interview-sl': c.idEstaSol == 3,
+                            'badge-color-refused-sl': c.idEstaSol == 4,
+                            'badge-color-no_show-sl': c.idEstaSol == 5,
+                            'badge-color-case-sl': c.idEstaSol == 6,
+                            'badge-color-lost-sl': c.idEstaSol == 7,
+                            'badge-color-won-sl': c.idEstaSol == 8,
+                            'badge-color-open-sl': c.idEstaSol == 9,
+                            'badge-color-ready_on_draft-sl': c.idEstaSol == 10,
+                            'badge-color-closed-sl': c.idEstaSol == 11}">{{c.descEst}}</p>
               </div>
             </div>
-            <div *ngIf="isTherapist">
-              <div *ngIf="c.tieneNota" class="div-img-label">
-                <mat-icon svgIcon="seenD" style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p  style="color:#41949B">With note </p>
-              </div>
-               <div *ngIf="!c.tieneNota" class="div-img-label">
-                <p  style="color:#d04d21">No note </p>
-              </div>
             </div>
+
           </div>
         </div>
         <div class="separador"></div>
@@ -464,57 +681,89 @@
             <p class="accent header-dia-fecha">{{sabado}}</p>
             <p class="accent header-dia">SATURDAY</p>
           </div>
-          <div class="cita" *ngFor="let c of citas.sabado" style="border-color:gray;" [style.border-top-color]="c.color ? c.color : '#00000033'"
-            (click)="verCita(c)">
-            <div style="display: inline-flex"><p class="nombre">{{c.nombreUsuario}}</p><span *ngIf="c.importante.length > 0" class="important-badge">I</span></div>
+          <div class="cita" *ngFor="let c of citas.sabado" style="border-color:gray; position: relative;"
+            [style.border-top-color]="c.color ? c.color : '#00000033'" >
+            <img
+              *ngIf="!c.finSchedule && c?.importante?.length == 0 && (isInterviewer || isInterviewerScales || isClinician)"
+              src="assets/svg/reminder.svg" width="11" height="11" style="position: absolute; top: 4px; right: 4px;"  (click)="enviarRecordatorio(c)"/>
+
+            <div *ngIf="c?.importante?.length > 0">
+              <img src="assets/svg/reminder.svg"
+                *ngIf="!c.finSchedule && (isInterviewer || isInterviewerScales || isClinician)" width="11" height="11"
+                style="position: absolute; top: 4px; right: 16px;" (click)="enviarRecordatorio(c)"/>
+
+              <svg *ngIf="c?.importante?.length > 0" width="9" height="9"
+                style="position: absolute; top: 4px; right: 4px;">
+                <circle cx="4" cy="4" r="4" [attr.fill]="'red'"></circle>
+              </svg>
+
+            </div>
+
+            <div  (click)="verCita(c)">
+            <div style="display: inline-flex;">
+              <p class="nombre">{{c.nombreUsuario}}</p>
+            </div>
             <div style="display: inline-flex">
-              
+
               <div *ngIf="!isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD" style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                <mat-icon svgIcon="calendarD"
+                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
                 <p *ngIf="!filterViewAvalability; else elseTemplate">
                   {{c.hora + " " + c.tipo}} &#9679; {{"File " + c.idSolicitud}}
                 </p>
               </div>
               <div *ngIf="isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD" style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                <mat-icon svgIcon="calendarD"
+                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
                 <p *ngIf="!filterViewAvalability; else elseTemplate">
                   {{c.hora + " " + c.tipo}} &#9679; {{c.cliente}}
                 </p>
               </div>
 
-              <p *ngIf="isMaster || isBackOffice" [ngClass]="{'badge-color-received-sl': c.idEstaSol == 1,
-              'badge-color-reviewing-sl': c.idEstaSol == 2,
-              'badge-color-interview-sl': c.idEstaSol == 3,
-              'badge-color-refused-sl': c.idEstaSol == 4,
-              'badge-color-no_show-sl': c.idEstaSol == 5,
-              'badge-color-case-sl': c.idEstaSol == 6,
-              'badge-color-lost-sl': c.idEstaSol == 7,
-              'badge-color-won-sl': c.idEstaSol == 8,
-              'badge-color-open-sl': c.idEstaSol == 9,
-              'badge-color-ready_on_draft-sl': c.idEstaSol == 10,
-              'badge-color-closed-sl': c.idEstaSol == 11}">{{c.descEst}}</p>
               <ng-template #elseTemplate>
                 <p>{{c.hora + " " + c.tipo}}</p>
               </ng-template>
             </div>
-            <div *ngIf="!isTherapist && !isVOC">
-              <div *ngIf="c.finSchedule" class="div-img-label">
-                <mat-icon svgIcon="seenD" style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p  style="color:#41949B">Attended </p>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 4px;">
+              <div>
+                <div *ngIf="!isTherapist && !isVOC && !filterViewAvalability">
+                  <div *ngIf="c.finSchedule" class="div-img-label">
+                    <mat-icon svgIcon="seenD"
+                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                    <p style="color:#41949B">Attended </p>
+                  </div>
+                  <div *ngIf="!c.finSchedule" class="div-img-label">
+                    <p style="color:#d04d21">Not attended</p>
+                  </div>
+                </div>
+                <div *ngIf="isTherapist">
+                  <div *ngIf="c.tieneNota" class="div-img-label">
+                    <mat-icon svgIcon="seenD"
+                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                    <p style="color:#41949B">With note </p>
+                  </div>
+                  <div *ngIf="!c.tieneNota" class="div-img-label">
+                    <p style="color:#d04d21">No note </p>
+                  </div>
+                </div>
               </div>
-               <div *ngIf="!c.finSchedule" class="div-img-label">
-                <p  style="color:#d04d21">Not attended</p>
+              <div>
+                <p *ngIf="isMaster || isBackOffice" [ngClass]="{'badge-color-received-sl': c.idEstaSol == 1,
+                            'badge-color-reviewing-sl': c.idEstaSol == 2,
+                            'badge-color-interview-sl': c.idEstaSol == 3,
+                            'badge-color-refused-sl': c.idEstaSol == 4,
+                            'badge-color-no_show-sl': c.idEstaSol == 5,
+                            'badge-color-case-sl': c.idEstaSol == 6,
+                            'badge-color-lost-sl': c.idEstaSol == 7,
+                            'badge-color-won-sl': c.idEstaSol == 8,
+                            'badge-color-open-sl': c.idEstaSol == 9,
+                            'badge-color-ready_on_draft-sl': c.idEstaSol == 10,
+                            'badge-color-closed-sl': c.idEstaSol == 11}">{{c.descEst}}</p>
               </div>
             </div>
-            <div *ngIf="isTherapist">
-              <div *ngIf="c.tieneNota" class="div-img-label">
-                <mat-icon svgIcon="seenD" style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p  style="color:#41949B">With note </p>
-              </div>
-               <div *ngIf="!c.tieneNota" class="div-img-label">
-                <p  style="color:#d04d21">No note </p>
-              </div>
-            </div>
+            </div>  
+
           </div>
         </div>
         <div class="separador"></div>
@@ -523,67 +772,94 @@
             <p class="accent header-dia-fecha">{{domingo}}</p>
             <p class="accent header-dia">SUNDAY</p>
           </div>
-          <div class="cita" *ngFor="let c of citas.domingo" style="border-color:gray;" [style.border-top-color]="c.color ? c.color : '#00000033'"
-            (click)="verCita(c)">
-            <div style="display: inline-flex"><p class="nombre">{{c.nombreUsuario}}</p><span *ngIf="c.importante.length > 0" class="important-badge">I</span></div>
+          <div class="cita" *ngFor="let c of citas.domingo" style="border-color:gray; position: relative;"
+            [style.border-top-color]="c.color ? c.color : '#00000033'">
+
+            <img *ngIf="!c.finSchedule" src="assets/svg/reminder.svg" width="11" height="11"
+              style="position: absolute; top: 4px; right: 4px;"  (click)="enviarRecordatorio(c)"/>
+
+            <div *ngIf="c?.importante?.length > 0">
+              <img src="assets/svg/reminder.svg"
+                *ngIf="!c.finSchedule && (isInterviewer || isInterviewerScales || isClinician)" width="11" height="11"
+                style="position: absolute; top: 4px; right: 16px;" (click)="enviarRecordatorio(c)"/>
+
+              <svg *ngIf="c?.importante?.length > 0" width="9" height="9"
+                style="position: absolute; top: 4px; right: 4px;">
+                <circle cx="4" cy="4" r="4" [attr.fill]="'red'"></circle>
+              </svg>
+
+            </div>
+
+            <div  (click)="verCita(c)">
+            <div style="display: inline-flex;">
+              <p class="nombre">{{c.nombreUsuario}}</p>
+            </div>
+
             <div style="display: inline-flex">
-              
+
               <div *ngIf="!isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD" style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                <mat-icon svgIcon="calendarD"
+                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
                 <p *ngIf="!filterViewAvalability; else elseTemplate">
                   {{c.hora + " " + c.tipo}} &#9679; {{"File " + c.idSolicitud}}
                 </p>
               </div>
               <div *ngIf="isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD" style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                <mat-icon svgIcon="calendarD"
+                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
                 <p *ngIf="!filterViewAvalability; else elseTemplate">
                   {{c.hora + " " + c.tipo}} &#9679; {{c.cliente}}
                 </p>
               </div>
 
-              <p *ngIf="isMaster || isBackOffice" [ngClass]="{'badge-color-received-sl': c.idEstaSol == 1,
-              'badge-color-reviewing-sl': c.idEstaSol == 2,
-              'badge-color-interview-sl': c.idEstaSol == 3,
-              'badge-color-refused-sl': c.idEstaSol == 4,
-              'badge-color-no_show-sl': c.idEstaSol == 5,
-              'badge-color-case-sl': c.idEstaSol == 6,
-              'badge-color-lost-sl': c.idEstaSol == 7,
-              'badge-color-won-sl': c.idEstaSol == 8,
-              'badge-color-open-sl': c.idEstaSol == 9,
-              'badge-color-ready_on_draft-sl': c.idEstaSol == 10,
-              'badge-color-closed-sl': c.idEstaSol == 11}">{{c.descEst}}</p>
               <ng-template #elseTemplate>
                 <p>{{c.hora + " " + c.tipo}}</p>
               </ng-template>
             </div>
-            <div *ngIf="!isTherapist && !isVOC">
-              <div *ngIf="c.finSchedule" class="div-img-label">
-                <mat-icon svgIcon="seenD" style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p  style="color:#41949B">Attended </p>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 4px;">
+              <div>
+                <div *ngIf="!isTherapist && !isVOC && !filterViewAvalability">
+                  <div *ngIf="c.finSchedule" class="div-img-label">
+                    <mat-icon svgIcon="seenD"
+                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                    <p style="color:#41949B">Attended </p>
+                  </div>
+                  <div *ngIf="!c.finSchedule" class="div-img-label">
+                    <p style="color:#d04d21">Not attended</p>
+                  </div>
+                </div>
+                <div *ngIf="isTherapist">
+                  <div *ngIf="c.tieneNota" class="div-img-label">
+                    <mat-icon svgIcon="seenD"
+                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
+                    <p style="color:#41949B">With note </p>
+                  </div>
+                  <div *ngIf="!c.tieneNota" class="div-img-label">
+                    <p style="color:#d04d21">No note </p>
+                  </div>
+                </div>
               </div>
-              <div *ngIf="!c.finSchedule" class="div-img-label">
-                <p  style="color:#d04d21">Not attended</p>
+              <div>
+                <p *ngIf="isMaster || isBackOffice" [ngClass]="{'badge-color-received-sl': c.idEstaSol == 1,
+                            'badge-color-reviewing-sl': c.idEstaSol == 2,
+                            'badge-color-interview-sl': c.idEstaSol == 3,
+                            'badge-color-refused-sl': c.idEstaSol == 4,
+                            'badge-color-no_show-sl': c.idEstaSol == 5,
+                            'badge-color-case-sl': c.idEstaSol == 6,
+                            'badge-color-lost-sl': c.idEstaSol == 7,
+                            'badge-color-won-sl': c.idEstaSol == 8,
+                            'badge-color-open-sl': c.idEstaSol == 9,
+                            'badge-color-ready_on_draft-sl': c.idEstaSol == 10,
+                            'badge-color-closed-sl': c.idEstaSol == 11}">{{c.descEst}}</p>
               </div>
             </div>
-            <div *ngIf="isTherapist">
-              <div *ngIf="c.tieneNota" class="div-img-label">
-                <mat-icon svgIcon="seenD" style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p  style="color:#41949B">With note </p>
-              </div>
-               <div *ngIf="!c.tieneNota" class="div-img-label">
-                <p  style="color:#d04d21">No note </p>
-              </div>
-            </div>
+            </div>  
+
           </div>
         </div>
         <div class="separador"></div>
       </div>
-
-      <!-- <p style="margin-top: 12px; margin-bottom: 18px; font-size: 11px;">
-                <span>Si necesita ayuda puede leer el
-                </span>
-                <a target="_blank" [href]='utilService.rutaManual("ManualAdministracionGeneral")'>manual de Administración General</a>
-            </p> -->
 
     </div>
 
@@ -591,6 +867,6 @@
     <div class='iigwo-loading' *ngIf="cargando">
       <mat-spinner></mat-spinner>
     </div>
-    
+
   </div>
 </div>

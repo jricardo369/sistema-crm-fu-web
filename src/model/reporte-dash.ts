@@ -6,4 +6,6 @@ export class ReporteDash {
   lost: number;
   rejectFile: number;
   cancelSchedules: number;
+  ventas: number;
+  verVentas: boolean;
 }

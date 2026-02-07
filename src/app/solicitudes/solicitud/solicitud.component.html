@@ -12,14 +12,15 @@
         <label style="margin: auto;color: #FFFFFF;text-transform: none;">Refresh File</label>
       </button>
 
-      <div *ngIf="solicitud.idEstatusSolicitud != 1" style="width: 1px;
+      <div *ngIf="solicitud.fecha_schedule || solicitud.fecha_schedule_scales || solicitud.fechaClinicianAppo"
+        style="width: 1px;
         height: 20px;
         background-color: #ccc;margin-right: 8px; margin-left: 10px;"></div>
 
       <span class="badge-status badge-color-schedule-title"
         *ngIf="(isMaster || isVendor || isBackOffice || isInterviewer || isTemplateCreator) && solicitud.fecha_schedule">Intv. Case Mgr
         {{solicitud.fecha_schedule | dateMMDDYYYY:'datetime'}}
-        <mat-icon *ngIf="solicitud.finIntIni" svgIcon="seenD"></mat-icon>
+        <mat-icon *ngIf="solicitud.finIntIni" svgIcon="finishD"></mat-icon>
       </span>
 
       <a *ngIf="solicitud.finIntIni && isInterviewer" class="attended-titulo-solicitud">Attended</a>
@@ -28,14 +29,14 @@
         *ngIf="(isMaster || isVendor || isBackOffice || isTemplateCreator || isInterviewerScales) && solicitud.fecha_schedule_scales">Intv.
         Scale
         {{solicitud.fecha_schedule_scales | dateMMDDYYYY:'datetime'}}
-        <mat-icon *ngIf="solicitud.finIntSc" svgIcon="seenD"></mat-icon>
+        <mat-icon *ngIf="solicitud.finIntSc" svgIcon="finishD"></mat-icon>
       </span>
 
       <span class="badge-status badge-color-schedule-clinician-title"
         *ngIf="(isMaster || isVendor || isBackOffice || isTemplateCreator || isClinician) && solicitud.fechaClinicianAppo">Intv.
         Clinician
         {{solicitud.fechaClinicianAppo | dateMMDDYYYY:'datetime'}}
-        <mat-icon *ngIf="solicitud.finAsgClnc" svgIcon="seenD"></mat-icon>
+        <mat-icon *ngIf="solicitud.finAsgClnc" svgIcon="finishD"></mat-icon>
       </span>
 
       <a *ngIf="solicitud.finIntSc && isInterviewerScales" class="attended-titulo-solicitud">Attended</a>
@@ -46,6 +47,7 @@
 
       <span class="badge-status badge-color-due-date-title" *ngIf="solicitud.dueDate">Due Date
         {{solicitud.dueDate | dateMMDDYYYY:'datetime'}}</span>
+
 
     </app-experimental-menu>
 
@@ -61,6 +63,12 @@
               <input [ngModel]="solicitud.fechaInicio" (ngModelChange)='solicitud.fechaInicio = $event' type="date">
             </div>
 
+            <div *ngIf="!creando" style="margin-bottom: 10px;padding:5px">
+              <label style="color: rgb(191, 71, 23); font-size: 0.9em;margin-bottom: 10px;margin-top:15px"
+                *ngIf="solicitud.importantNotes.length != '' && !creado">
+                <mat-icon svgIcon="important" style="color: red; width: 16px;  vertical-align: middle;"></mat-icon> {{solicitud.importantNotes}}
+              </label>
+            </div>
 
             <div class="iigwo-input">
               <label>Customer Name</label>
@@ -240,20 +248,6 @@
               <input type="text" [(ngModel)]="solicitud.numeroDeCaso">
             </div>
 
-            <!--
-            <div class="iigwo-input" *ngIf="isMaster && editando">
-              <div class="wrapper">
-                <label>Assigned clinician <a *ngIf="solicitud.interviewMaster" class="attended"> Appointment
-                    attended</a> <a *ngIf="solicitud.assignedClinician > 0 && !solicitud.interviewMaster"
-                    (click)="limpiarAssignedClinician()">Clear</a> </label>
-                <select [(ngModel)]="solicitud.assignedClinician" [disabled]="solicitud.idEstatusSolicitud == 11 "
-                  [ngModelOptions]="{standalone: true}">
-                  <option *ngFor="let o of arrAssignedClinicians" [ngValue]="o.idUsuario">
-                    {{o.nombre}}</option>
-                </select>
-              </div>
-            </div>-->
-
             <div class="iigwo-input" *ngIf="(isMaster || isBackOffice) && editando && solicitud.idRolUsInt != 11">
               <div class="wrapper">
               <label>Assigned clinician <a *ngIf="solicitud.interviewMaster" class="attended"> Appointment
@@ -312,18 +306,6 @@
                   <a class="addNewLayer" (click)="onNuevoAbogado()">Add new lawyer</a>
                  <div style="width: 1px;  height: 12px; background-color: #ccc;margin-right: 8px; margin-left: 10px;"></div>
                 <a class="addMailToExistingContact" (click)="onAgregarEmailAbogado()">Add an email to an existing contact</a>
-                
-              <!--<button (click)='onNuevoAbogado()' class="btn-color" 
-                  [ngStyle]="{'background': '#ffffff','border': '1px solid var(--app-secondary)'}" >
-                  <span  [ngStyle]="{'color': 'var(--app-secondary)','font-size': '11px'}">Add new lawyer
-                  to file</span>
-                </button>
-                
-                <button (click)='onAgregarEmailAbogado()' class="btn-color" 
-                  [ngStyle]="{'background': '#ffffff','border': '1px solid var(--app-primary)'}" >
-                  <span  [ngStyle]="{'color': 'var(--app-primary)','font-size': '11px'}">Add other lawyer mail
-                  to file</span>
-                </button>-->
               </div>
             </div>
 
@@ -351,6 +333,13 @@
               <label style="color: #FF603B;" *ngIf="solicitud.conCupon">This lawyer has already used his coupon</label>
             </div>
 
+                  <!--<div class="iigwo-input"
+              *ngIf="!(isInterviewer || isInterviewerScales || isTemplateCreator || isVendor || isClinician) && !creando">
+              <label>Case number</label>
+              <input type="text" [(ngModel)]="solicitud.caseNumber">
+            </div>-->
+
+            <!--
             <label style="color: rgb(159, 111, 24); font-size: 0.9em;margin-bottom: 10px;margin-top:15px"
               *ngIf="!(isInterviewer || isInterviewerScales || isTemplateCreator || isVendor || isClinician)">
               ⚠️ This fields will be deprecated, use the new "Lawyer" field.
@@ -395,6 +384,7 @@
               <label>Paralegal Phones</label>
               <input type="text" [(ngModel)]="solicitud.paralegalTelefonos">
             </div>
+          -->
 
           </div>
 
@@ -445,16 +435,6 @@
         style="display:flex; flex-flow: column; border-left: solid 1px rgba(0, 0, 0, 0.2);">
 
 
-        <!--
-        <div class="iigwo-input" *ngIf="(isMaster || isVendor || isBackOffice || isGhostwriting)">
-          <div class="div-img-label">
-            <mat-icon svgIcon="userD"
-              style="color:rgba(48, 48, 48, 0.7); width: 10px; height: 10px;margin-bottom: 8px;"></mat-icon>
-            <label>Responsible User</label>
-          </div>
-          <input [ngModel]="solicitud.usuarioRevisandoNombre" readOnly style="font-weight: 600;">
-        </div>
-        -->
 
         <div style="margin-bottom: 10px; " *ngIf="(isMaster || isVendor || isBackOffice || isGhostwriting || isTemplateCreator)">
           <div class="info-component">
@@ -548,23 +528,6 @@
 
         <div *ngIf="(isBackOffice || isMaster || isVendor || isClinician)">
 
-        <!--
-        <div class="iigwo-input">
-          <div class="div-img-label">
-            <mat-icon svgIcon="userD"
-              style="color:rgba(48, 48, 48, 0.7); width: 10px; height: 10px;margin-bottom: 8px;"></mat-icon>
-            <label>Interview Clinician - <a *ngIf="solicitud.finAsgClnc" class="attended">Attended</a> <a
-                *ngIf="!solicitud.finAsgClnc" class="notattended">Not attended yet</a> </label>
-          </div>
-
-          <input [ngModel]="solicitud.usuarioClinicianNombre" readOnly style="font-weight: 600;"
-            *ngIf="solicitud.usuarioClinicianNombre else notIntClnc">
-          <ng-template #notIntClnc>
-            <input value="Unassigned" readOnly>
-          </ng-template>
-          </div>
-          -->
-
 
 
           <div style="margin-bottom: 10px; " *ngIf="solicitud.idRolUsInt != 11">
@@ -588,22 +551,6 @@
       
 
         <div *ngIf="(isBackOffice || isMaster || isVendor || isTemplateCreator)">
-
-           <!--
-          <div class="iigwo-input">
-          <div class="div-img-label">
-            <mat-icon svgIcon="userD"
-              style="color:rgba(48, 48, 48, 0.7); width: 10px; height: 10px;margin-bottom: 8px;"></mat-icon>
-            <label>Editor user<a *ngIf="solicitud.finAsgTmp" class="attended"> - Attended</a> </label>
-          </div>
-
-          <input [ngModel]="solicitud.usuarioTemplate" readOnly style="font-weight: 600;">
-          <ng-template #notIntSc>
-            <input value="Unassigned" readOnly>
-          </ng-template>
-        </div>
-        </div>
-        -->
 
 
         <div style="margin-bottom: 12px; ">
@@ -654,19 +601,7 @@
 
           </div>
           <div class="horizontal-container">
-            <!--<span class="badge-status"
-              [ngClass]="{'badge-color-received': solicitud.idEstatusSolicitud == 1,
-                            'badge-color-reviewing': solicitud.idEstatusSolicitud == 2,
-                            'badge-color-interview': solicitud.idEstatusSolicitud == 3,
-                            'badge-color-refused': solicitud.idEstatusSolicitud == 4,
-                            'badge-color-no_show': solicitud.idEstatusSolicitud == 5,
-                            'badge-color-case': solicitud.idEstatusSolicitud == 6,
-                            'badge-color-lost': solicitud.idEstatusSolicitud == 7,
-                            'badge-color-won': solicitud.idEstatusSolicitud == 8,
-                            'badge-color-open': solicitud.idEstatusSolicitud == 9,
-                            'badge-color-ready_on_draft': solicitud.idEstatusSolicitud == 10,
-                            'badge-color-closed': solicitud.idEstatusSolicitud == 11}">{{solicitud.estatusSolicitud}}</span>-->
-            <button *ngIf="solicitud.idEstatusSolicitud == 1 && (isMaster || isVendor || isBackOffice)"
+            <button *ngIf="(solicitud.idEstatusSolicitud == 1 || solicitud.idEstatusSolicitud == 2 || solicitud.idEstatusSolicitud == 10) && (isMaster || isVendor || isBackOffice)"
               (click)='cambiarEstatusSolicitud(7)' class="btn"
               style="color: #FFFFFF;background: #ff745f; border-radius: 5px; height: 23px; line-height: 23px;margin-left: 5px;">
               <mat-icon svgIcon="cancel"
@@ -688,17 +623,13 @@
                     'badge-color-hold': solicitud.idEstatusPago == 3,
                     'badge-color-na': solicitud.idEstatusPago == 4}">{{solicitud.estatusPago}}</span>
           </div>
-          <!--<span class="badge-status" [ngClass]="{'badge-color-partially': solicitud.idEstatusPago == 1,
-                    'badge-color-complete': solicitud.idEstatusPago == 2,
-                    'badge-color-hold': solicitud.idEstatusPago == 3,
-                    'badge-color-na': solicitud.idEstatusPago == 4}">{{solicitud.estatusPago}}</span>-->
           <input [ngModel]="solicitud.adeudo" readOnly
             *ngIf="!(isInterviewer || isTemplateCreator || isVOC || isInterviewerScales)">
         </div>
 
-        <div class="iigwo-input" *ngIf="solicitud.importante.length > 0">
+        <!--<div class="iigwo-input" *ngIf="solicitud.importante.length > 0">
           <span class="badge-status badge-color-important">This file is Important</span>
-        </div>
+        </div>-->
 
         <div class="iigwo-input" *ngIf="editando">
           <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;"
@@ -706,14 +637,11 @@
           <label for="waiver" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Waiver</label>
         </div>
 
-        <!--<div class="iigwo-input" *ngIf="(isMaster || isVendor || isBackOffice )">
-          <div class="div-img-label">
-            <mat-icon svgIcon="calendarD"
-              style="color:rgba(48, 48, 48, 0.7); width: 10px; height: 11.5px;margin-bottom: 7px;"></mat-icon>
-            <label>Due Date</label>
-          </div>
-          <input [ngModel]="solicitud.dueDate" (ngModelChange)='solicitud.dueDate = $event' type="date">
-        </div>-->
+        <div class="iigwo-input" *ngIf="editando">
+          <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;"
+            id="signedClnc" [checked]="solicitud.signedClnc" (change)="solicitud.signedClnc = !solicitud.signedClnc">
+          <label for="signedClnc" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Signed by Clinician</label>
+        </div>
 
         <div class="iigwo-input">
           <div class="wrapper-labels">
@@ -746,8 +674,11 @@
 
           <!--  MASTER, VENDOR, BACKOFFICE, GHOSTRITING -->
 
+          <!-- ng anterior quitar si ya funciona bien el nuevo
+          *ngIf="solicitud.idEstatusSolicitud != 11 && (isBackOffice || isMaster || isVendor || isGhostwriting) && solicitud.usuarioInterview != 0 " 
+ -->
           <button (click)='siguienteProceso()' class="btn-color"
-            *ngIf="solicitud.idEstatusSolicitud != 11 && (isBackOffice || isMaster || isVendor || isGhostwriting) && solicitud.usuarioInterview != 0 "
+            *ngIf="solicitud.idEstatusSolicitud != 11 && (isBackOffice || isMaster || isVendor || isGhostwriting) && solicitud.finIntIni && solicitud.finIntSc && ( solicitud.finAsgClnc || solicitud.idRolUsInt == 11 ) && solicitud.finAsgTmp  "
             style="color: #FFFFFF; background: #9340D3;">
             <span style="color: #FFFFFF; font-size: 13px;">Send to next process</span>
             <mat-icon svgIcon="sendD"
@@ -782,7 +713,7 @@
           </div>
 
           <button (click)='asignarTemplate()' class="btn-color"
-            *ngIf="(solicitud.idEstatusSolicitud == 2 || solicitud.idEstatusSolicitud == 3) && solicitud.asignacionTemplate == false && (isMaster || isVendor || isBackOffice) "
+            *ngIf="solicitud.finIntIni && solicitud.finIntSc && ( solicitud.finAsgClnc || solicitud.idRolUsInt == 11 )  && !solicitud.asignacionTemplate && (isMaster || isVendor || isBackOffice) "
             [ngStyle]="{'background': 'var(--app-editor)', 'color': '#FFFFFF'}" >
             <span style="color: #FFFFFF; font-size: 13px;">Assign Template</span>
             <mat-icon svgIcon="assignD2"
@@ -854,8 +785,11 @@
 
           <!--  INICIO SCALES -->
 
+          <!-- if anterior
+            *ngIf="!solicitud.finIntSc && isInterviewerScales && (solicitud.idEstatusSolicitud == 1 || solicitud.idEstatusSolicitud == 2||solicitud.idEstatusSolicitud == 3)" -->
+
           <button (click)='envioFinEntrevistaScales()' class="btn-color"
-            *ngIf="!solicitud.finIntSc && isInterviewerScales && (solicitud.idEstatusSolicitud == 1 || solicitud.idEstatusSolicitud == 2||solicitud.idEstatusSolicitud == 3)"
+            *ngIf="!solicitud.finIntSc && isInterviewerScales" 
             [ngStyle]="{'background': 'var(--app-case-manager)', 'color': '#FFFFFF'}">
             <span style="color: #FFFFFF; font-size: 13px;">Finish file review</span>
             <mat-icon svgIcon="sendD"
@@ -863,7 +797,7 @@
           </button>
 
           <button (click)='cambiarEstatusSolicitud(4)' class="btn-color"
-            *ngIf="!solicitud.finIntSc && isInterviewerScales &&  (solicitud.idEstatusSolicitud == 1 || solicitud.idEstatusSolicitud == 2||solicitud.idEstatusSolicitud == 3)"
+            *ngIf="!solicitud.finIntSc && isInterviewerScales" 
             [ngStyle]="{'background': 'var(--app-reject)', 'color': '#FFFFFF'}">
             <span style="color: #FFFFFF; font-size: 13px;">Reject File</span>
             <mat-icon svgIcon="cancel"
@@ -871,7 +805,7 @@
           </button>
 
           <button (click)='cambiarEstatusSolicitud(5)' class="btn-color"
-            *ngIf="!solicitud.finIntSc && isInterviewerScales &&  (solicitud.idEstatusSolicitud == 1 || solicitud.idEstatusSolicitud == 2||solicitud.idEstatusSolicitud == 3)"
+            *ngIf="!solicitud.finIntSc && isInterviewerScales" 
             [ngStyle]="{'background': 'var(--app-no-show)', 'color': '#FFFFFF'}">
             <span style="color: #FFFFFF; font-size: 13px;">No show</span>
             <mat-icon svgIcon="calendar-slash"
@@ -884,7 +818,7 @@
           <!--  INICIO TEMPLATE -->
 
           <button (click)='siguienteProceso()' class="btn-color"
-            *ngIf="isTemplateCreator && (solicitud.idEstatusSolicitud == 2||solicitud.idEstatusSolicitud == 3)"
+            *ngIf="isTemplateCreator && (solicitud.idEstatusSolicitud == 1 || solicitud.idEstatusSolicitud == 2|| solicitud.idEstatusSolicitud == 3 )"
             [ngStyle]="{'background': 'var(--app-case-manager)', 'color': '#FFFFFF'}">
             <span style="color: #FFFFFF; font-size: 13px;">Send to next process</span>
             <mat-icon svgIcon="sendD"
@@ -892,7 +826,7 @@
           </button>
 
           <button (click)='cambiarEstatusSolicitud(4)' class="btn-color"
-            *ngIf="isTemplateCreator && (solicitud.idEstatusSolicitud == 2||solicitud.idEstatusSolicitud == 3)"
+            *ngIf="isTemplateCreator && ( solicitud.idEstatusSolicitud == 1 || solicitud.idEstatusSolicitud == 2||solicitud.idEstatusSolicitud == 3 )"
             [ngStyle]="{'background': 'var(--app-reject)', 'color': '#FFFFFF'}">
             <span style="color: #FFFFFF; font-size: 13px;">Reject File</span>
             <mat-icon svgIcon="cancel"

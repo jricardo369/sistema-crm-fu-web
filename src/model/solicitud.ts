@@ -60,12 +60,16 @@ export class Solicitud {
 
   idAbogado: number;
   emailAboSel: string;
-    lostFile: boolean;
+  lostFile: boolean;
 
-    conCupon: boolean;
-    fechaCupon: string;
-    sexo: string;
-    idRolUsInt: number;
-    fechaClinicianAppo: string;
+  conCupon: boolean;
+  fechaCupon: string;
+  sexo: string;
+  idRolUsInt: number;
+  fechaClinicianAppo: string;
+
+  importantNotes: string;
+  caseNumber: string;
+  signedClnc: boolean;
 
 }

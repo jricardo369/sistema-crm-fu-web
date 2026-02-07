@@ -20,42 +20,7 @@
   display: flex;
 }
 
-.badge-wrapper {
-  position: relative;
-  display: inline-block;
-}
 
-.status-badge {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  background-color: red;
-  color: white;
-  font-size: 10px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  text-align: center;
-  line-height: 16px;
-  font-weight: bold;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
-}
-
-.pagos-badge {
-  position: absolute;
-  top: -7px;
-  right: -23px;
-  background-color: rgb(185, 185, 185);
-  color: rgb(29, 26, 59);
-  font-size: 9.5px;
-  width: 48px;
-  height: 16px;
-  border-radius: 10px;
-  text-align: center;
-  line-height: 16px;
-  font-weight: bold;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
-}
 
 
 

@@ -33,5 +33,6 @@ export class Usuario {
     withSupervision: boolean;
     supervisor: string;
     unpaidVocFlag: boolean;
+    estado: string;
 
 }

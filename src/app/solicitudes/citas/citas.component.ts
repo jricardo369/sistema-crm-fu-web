@@ -17,7 +17,9 @@ import { SolicitudesNavComponent } from 'src/app/solicitudes/solicitudes-nav/sol
 import { ExperimentalMenuComponent } from 'src/app/common/experimental-menu/experimental-menu.component';
 import { DateMMDDYYYYPipe } from 'src/app/common/pipes/date-pipe.pipe';
 import { DatePipe } from '@angular/common';
-import { firstValueFrom } from 'rxjs';
+import { EMPTY, firstValueFrom } from 'rxjs';
+import { DialogoSimpleComponent } from 'src/app/common/dialogo-simple/dialogo-simple.component';
+import { switchMap,filter, catchError  } from 'rxjs/operators';
 
 import { formatearFecha } from '../../util/date-utils';
 
@@ -28,6 +30,7 @@ import { MatInputModule } from '@angular/material/input';
 
  import { WeekNavigatorComponent } from '../../common/week-navigator/week-navigator.component';
 import { Rol } from 'src/model/rol';
+import { US_STATES } from 'src/app/app.config';
 
 
 export class Semana {
@@ -62,6 +65,8 @@ export class CitasComponent implements OnInit {
   // Para binding con app-week-navigator
   currentWeek: Date = new Date();
 
+  arrStates: any[] = [];
+  stateSelected: string = '';
   usuario: Usuario = new Usuario();
   cargando: boolean = false;
   mostrarDatosDia: boolean = false;
@@ -117,6 +122,9 @@ export class CitasComponent implements OnInit {
     let hoy: Date = new Date(Date.now());
     this.filterFecha = this.utilService.dateAsYYYYMMDD(hoy);
     this.filterFechaMat = hoy;
+     // Build list with an "All" option first without mutating US_STATES
+    this.arrStates = [{ name: "All", abbreviation: "All" }, ...US_STATES];
+    this.stateSelected = "All";
 
     this.usuario = JSON.parse(localStorage.getItem('objUsuario'));
     this.isAdministrator = this.usuario.rol == ADMINISTRATOR ? true : false;
@@ -194,7 +202,7 @@ export class CitasComponent implements OnInit {
     //console.log("Filter fecha:"+this.filterFecha);
     this.citaSolicitudService
       .obtenerCitasPorSemana(this.filterFecha, this.filterUsuario, this.filterViewAvalability, 
-        this.usuario.idUsuario,this.filterRol,this.filterAppointmentStatus)
+        this.usuario.idUsuario,this.filterRol,this.filterAppointmentStatus,this.stateSelected)
       .then(citas => {
         // this.citas = citas; 
         this.citasGeneral = citas;
@@ -410,6 +418,81 @@ export class CitasComponent implements OnInit {
       })
       .catch(reason => this.utilService.manejarError(reason))
       .then(() => this.cargando = false)
+  }
+
+  enviarRecordatorio(cita: CitaSolicitud){
+     
+   const dialogRef = this.dialog.open(DialogoSimpleComponent, {
+       data: {
+         titulo: 'Sending appointment reminder email',
+         texto: 'Do you really want to send a notification email to schedule an appointment on ' + cita.fecha + ' at ' + cita.hora + ' ' + cita.tipo + ' to '+ cita.nombreUsuario + ' ?',
+         botones: [
+           { texto: 'Cancel', color: '', valor: '' },
+           { texto: 'Yes', color: 'primary', valor: 'ok' },
+         ]
+       },
+       disableClose: true,
+     });
+   
+     dialogRef.afterClosed().pipe(
+       filter(valor => valor === 'ok'),
+       switchMap(() => {
+        //Envio de recordatorio
+        this.cargando = true;
+        return this.citaSolicitudService.enviarRecordatorio(cita.idEvento);
+       }),
+       catchError(error => {
+         this.utilService.manejarError(error);
+         return EMPTY;
+       })
+     ).subscribe(() => {
+       this.cargando = false;
+     });
+  }
+
+   enviarRecordatorios(){
+
+    let baseDate: Date;
+    if (this.filterFecha) {
+      const [year, month, day] = this.filterFecha.split('-').map(Number);
+      baseDate = new Date(year, month - 1, day);
+    } else {
+      baseDate = new Date();
+    }
+
+    const monday = this.obtenerPrimerDiaDeSemana(baseDate);
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+
+
+    const currentWeek = this.utilService.dateAsMMDDYYYY(monday) + ' to ' + this.utilService.dateAsMMDDYYYY(sunday);
+
+   const dialogRef = this.dialog.open(DialogoSimpleComponent, {
+       data: {
+         titulo: 'Sending appointment reminder email',
+         texto: 'Do you really want to send a notification email to schedules appointments for the week ' + currentWeek + ' ?',
+         botones: [
+           { texto: 'Cancel', color: '', valor: '' },
+           { texto: 'Yes', color: 'primary', valor: 'ok' },
+         ]
+       },
+       disableClose: true,
+     });
+   
+     dialogRef.afterClosed().pipe(
+       filter(valor => valor === 'ok'),
+       switchMap(() => {
+        //Envio de recordatorio
+        this.cargando = true;
+        return this.citaSolicitudService.enviarRecordatorios(this.filterFecha,this.usuario.idUsuario);
+       }),
+       catchError(error => {
+         this.utilService.manejarError(error);
+         return EMPTY;
+       })
+     ).subscribe(() => {
+       this.cargando = false;
+     });
   }
 
 }

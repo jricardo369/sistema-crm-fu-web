@@ -4,9 +4,6 @@
 <div class='workspace'>
   <div class='main'>
     <app-experimental-menu [titulo]="titulo" backButtonEnabled="true">
-      <!-- <span class="badge-status badge-color-schedule-title"
-        *ngIf="(isInterviewer || isInterviewerScales) && solicitud.fecha_schedule">Schedule
-        {{solicitud.fecha_schedule | dateMMDDYYYY}}</span> -->
     </app-experimental-menu>
 
     <div style="display:flex; flex-flow: row" *ngIf="creando || solicitud.idSolicitud">
@@ -14,10 +11,6 @@
         style="display:flex; flex-flow: column;">
         <div style="display:flex; flex-flow: row; flex-wrap: wrap;">
           <div class="column">
-            <!-- <div class="iigwo-input" *ngIf="creando">
-              <label>Creation Date</label>
-              <input [ngModel]="solicitud.fechaInicio | dateMMDDYYYY" readOnly>
-            </div> -->
 
             <div class="iigwo-input">
               <label>Customer Name</label>
@@ -38,14 +31,8 @@
               </select>
             </div>
 
-            <!-- <div class="iigwo-input">
-              <label>Additional</label>
-              <input type="text" [(ngModel)]="solicitud.adicional" [readOnly]="solicitud.idEstatusSolicitud == 11">
-            </div> -->
-
             <div class="iigwo-input">
               <div class="wrapper">
-                <!--<label>Phone<a (click)="validatePhone()">Validate Phone</a></label>-->
                 <label>Phone</label>
                 <input type="text" [(ngModel)]="solicitud.telefono" [readOnly]="solicitud.idEstatusSolicitud == 11"
                   (input)="onPhoneNumberInput($event.target.value)" placeholder="(###) ###-####" maxlength="14">
@@ -56,12 +43,6 @@
               <label>Email</label>
               <input type="email" [(ngModel)]="solicitud.email" [readOnly]="solicitud.idEstatusSolicitud == 11">
             </div>
-
-            <!-- <div class="iigwo-input">
-              <label>Birth Date</label>
-              <input [ngModel]="solicitud.fechaNacimiento" (ngModelChange)='solicitud.fechaNacimiento = $event'
-                type="date" [readOnly]="solicitud.idEstatusSolicitud == 11">
-            </div> -->
 
             <div class="iigwo-input">
               <div class="wrapper">
@@ -93,21 +74,26 @@
           </div>
 
           <div class="column">
-            <div  style="display: inline-flex; justify-content: space-evenly; margin-bottom: 5px;" *ngIf="editando && !fechaParaNuevoConteoDeVOC">
-              <div class="iigwo-input" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+            <div style="display: inline-flex; justify-content: space-evenly; margin-bottom: 5px;"
+              *ngIf="editando && !fechaParaNuevoConteoDeVOC">
+              <div class="iigwo-input"
+                style="display: flex; flex-direction: column; align-items: center; text-align: center;">
                 <label>Sessions</label>
                 <span class="badge-status badge-color-0" style="margin: 0;">{{solicitud.numSesiones}}</span>
               </div>
-              <div class="iigwo-input" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+              <div class="iigwo-input"
+                style="display: flex; flex-direction: column; align-items: center; text-align: center;">
                 <label>Schedules</label>
                 <div style="display: flex; align-items: center;">
-                <span class="badge-status badge-color-0" style="margin: 0;">{{solicitud.numSchedules}}</span>
-                <button toolTip="Sincronizar" (click)='syncSolicitudSesiones()' style="width: 15px; height: 15px; padding: 0; border: none; background: transparent; display: inline-flex; align-items: center; justify-content: center; margin-left: 5px; margin-top: -2px;">
+                  <span class="badge-status badge-color-0" style="margin: 0;">{{solicitud.numSchedules}}</span>
+                  <button toolTip="Sincronizar" (click)='syncSolicitudSesiones()'
+                    style="width: 15px; height: 15px; padding: 0; border: none; background: transparent; display: inline-flex; align-items: center; justify-content: center; margin-left: 5px; margin-top: -2px;">
                     <mat-icon svgIcon="syncD" style="color: rgb(30, 65, 163); width: 15px; height: 15px;"></mat-icon>
-                </button>
+                  </button>
                 </div>
               </div>
-              <div  class="iigwo-input" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+              <div class="iigwo-input"
+                style="display: flex; flex-direction: column; align-items: center; text-align: center;">
                 <label>Pending Sessions</label>
                 <span class="badge-status" style="margin: 0;"
                   [ngClass]="{'badge-color-4': (solicitud.sesionesPendientes == 0 || solicitud.sesionesPendientes > 15),
@@ -116,26 +102,31 @@
               </div>
             </div>
 
-            <div style="display: inline-flex; justify-content: space-evenly; margin-bottom: 5px;" *ngIf="editando && fechaParaNuevoConteoDeVOC">
-              <div class="iigwo-input" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+            <div style="display: inline-flex; justify-content: space-evenly; margin-bottom: 5px;"
+              *ngIf="editando && fechaParaNuevoConteoDeVOC">
+              <div class="iigwo-input"
+                style="display: flex; flex-direction: column; align-items: center; text-align: center;">
                 <label>Approved Sessions</label>
                 <span class="badge-status badge-color-0" style="margin: 0;">{{solicitud.numSesiones}}</span>
               </div>
-              <div class="iigwo-input" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+              <div class="iigwo-input"
+                style="display: flex; flex-direction: column; align-items: center; text-align: center;">
                 <label>Completed Sessions</label>
                 <div style="display: flex; align-items: center;">
-                <span class="badge-status badge-color-0" style="margin: 0;">{{solicitud.numSchedules}}</span>
-                 
+                  <span class="badge-status badge-color-0" style="margin: 0;">{{solicitud.numSchedules}}</span>
+
                 </div>
               </div>
-              <div class="iigwo-input" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+              <div class="iigwo-input"
+                style="display: flex; flex-direction: column; align-items: center; text-align: center;">
                 <label>Pending Sessions</label>
                 <span class="badge-status" style="margin: 0;"
                   [ngClass]="{'badge-color-4': (solicitud.sesionesPendientes == 0 || solicitud.sesionesPendientes > 15),
                               'badge-color-3': (solicitud.sesionesPendientes < 0 || solicitud.sesionesPendientes <= 5),
                               'badge-color-2': (solicitud.sesionesPendientes > 5 && solicitud.sesionesPendientes <= 15)}">{{solicitud.sesionesPendientes}}</span>
               </div>
-              <div class="iigwo-input" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+              <div class="iigwo-input"
+                style="display: flex; flex-direction: column; align-items: center; text-align: center;">
                 <label>Sessions Without Notes</label>
                 <span class="badge-status badge-color-0" style="margin: 0;">{{solicitud.numSesionesSinNota}}</span>
               </div>
@@ -149,20 +140,19 @@
             <div class="iigwo-input" *ngIf="editando">
               <label>Intake form</label>
               <div style="display: flex;">
-              
+
                 <input type="checkbox" style="width: 15px; margin: 0 6px 0 4px;" [checked]="solicitud.documento1"
                   (change)="document1CheckChange()" [readOnly]="solicitud.idEstatusSolicitud == 11">
-                <!--<input [ngModel]="solicitud.fechaDoc1" (ngModelChange)='solicitud.fechaDoc1 = $event' type="date"
-                                [readOnly]="!solicitud.documento1 || solicitud.idEstatusSolicitud == 11">-->
-              
+
                 <div class="iigwo-input">
                   <mat-form-field appearance="outline" class="custom-datepicker">
-                    <input matInput [matDatepicker]="pickerFN" [(ngModel)]="fechaDoc1Mat" (dateChange)="changeFechaDoc1()">
+                    <input matInput [matDatepicker]="pickerFN" [(ngModel)]="fechaDoc1Mat"
+                      (dateChange)="changeFechaDoc1()">
                     <mat-datepicker-toggle matSuffix [for]="pickerFN"></mat-datepicker-toggle>
                     <mat-datepicker #pickerFN></mat-datepicker>
                   </mat-form-field>
                 </div>
-              
+
               </div>
             </div>
             <div class="iigwo-input" *ngIf="editando">
@@ -171,12 +161,10 @@
                 <input type="checkbox" style="width: 15px; margin: 0 6px 0 4px;" [checked]="solicitud.documento2"
                   (change)="document2CheckChange()" [readOnly]="solicitud.idEstatusSolicitud == 11">
 
-                <!--<input [ngModel]="solicitud.fechaDoc2" (ngModelChange)='solicitud.fechaDoc2 = $event' type="date"
-                  [readOnly]="!solicitud.documento2 || solicitud.idEstatusSolicitud == 11">-->
-
-                 <div class="iigwo-input">
+                <div class="iigwo-input">
                   <mat-form-field appearance="outline" class="custom-datepicker">
-                    <input matInput [matDatepicker]="pickerFN" [(ngModel)]="fechaDoc2Mat" (dateChange)="changeFechaDoc2()">
+                    <input matInput [matDatepicker]="pickerFN" [(ngModel)]="fechaDoc2Mat"
+                      (dateChange)="changeFechaDoc2()">
                     <mat-datepicker-toggle matSuffix [for]="pickerFN"></mat-datepicker-toggle>
                     <mat-datepicker #pickerFN></mat-datepicker>
                   </mat-form-field>
@@ -184,21 +172,16 @@
 
               </div>
             </div>
-            
-            <!--<div class="iigwo-input">
-              <label>Birth Date</label>
-              <input [ngModel]="solicitud.fechaNacimiento" (ngModelChange)='solicitud.fechaNacimiento = $event'
-                type="date">
-            </div>-->
 
             <div class="iigwo-input">
               <label>Birth Date</label>
               <mat-form-field appearance="outline" class="custom-datepicker">
-                <input matInput [matDatepicker]="pickerFN" [(ngModel)]="fechaNacimientoMat" (dateChange)="changeFechaNacimientoMat()">
+                <input matInput [matDatepicker]="pickerFN" [(ngModel)]="fechaNacimientoMat"
+                  (dateChange)="changeFechaNacimientoMat()">
                 <mat-datepicker-toggle matSuffix [for]="pickerFN"></mat-datepicker-toggle>
                 <mat-datepicker #pickerFN></mat-datepicker>
               </mat-form-field>
-            </div> 
+            </div>
 
             <div class="iigwo-input" *ngIf="editando && !(isInterviewer || isInterviewerScales)">
               <label>Address (Number, City and Postal Code)</label>
@@ -215,10 +198,6 @@
           </div>
         </div>
 
-
-
-
-
         <button *ngIf="creando" class='accent iigwo' style="margin-top: 12px;" (click)='crearSolicitud()'>
           <label>Create</label>
         </button>
@@ -230,8 +209,8 @@
 
         <!-- CITAS DE LA SOLICITUD -->
         <div style="display:flex; flex-flow: row;" *ngIf="solicitud.idSolicitud">
-          <app-citas-solicitud [idSolicitud]="solicitud.idSolicitud"
-            [idUsuario]="usuario.idUsuario" (citaActualizada)="refreshSolicitudCompleta()"></app-citas-solicitud>
+          <app-citas-solicitud [idSolicitud]="solicitud.idSolicitud" [idUsuario]="usuario.idUsuario"
+            (citaActualizada)="refreshSolicitudCompleta()"></app-citas-solicitud>
         </div>
 
         <!-- ADJUNTOS DE LA SOLICITUD -->
@@ -250,13 +229,17 @@
       </div>
       <div class='content-right' *ngIf="editando"
         style="display:flex; flex-flow: column; border-left: solid 1px rgba(0, 0, 0, 0.2);">
-        <div class="iigwo-input">
-          <div class="div-img-label">
-            <mat-icon svgIcon="calendarD"
-              style="color:rgba(0, 0, 0, 0.7); width: 11.5px; margin-bottom: 7px;"></mat-icon>
+
+        <div style="margin-bottom: 10px; ">
+          <div class="info-component">
+            <mat-icon style="color:rgba(48, 48, 48, 0.7); width: 11px; height: 11px;margin-bottom: 5px;"
+              svgIcon="calendarD"></mat-icon>
             <label>Creation Date</label>
           </div>
-          <input [ngModel]="solicitud.fechaInicio | dateMMDDYYYY" readOnly>
+          <div>
+            <label>{{solicitud.fechaInicio |
+              dateMMDDYYYY}}</label>
+          </div>
         </div>
 
         <div class="iigwo-input">
@@ -264,8 +247,8 @@
             <mat-icon svgIcon="fileD"
               style="color:rgba(48, 48, 48, 0.7); width: 12px; height: 12px;margin-bottom: 5px;"></mat-icon>
             <label>File Status</label>
-          </div>
-          <span class="badge-status" [ngClass]="{'badge-color-received': solicitud.idEstatusSolicitud == 1,
+
+            <span class="badge-status" [ngClass]="{'badge-color-received': solicitud.idEstatusSolicitud == 1,
                     'badge-color-reviewing': solicitud.idEstatusSolicitud == 2,
                     'badge-color-interview': solicitud.idEstatusSolicitud == 3,
                     'badge-color-refused': solicitud.idEstatusSolicitud == 4,
@@ -278,32 +261,33 @@
                     'badge-color-closed': solicitud.idEstatusSolicitud == 11,
                     'badge-color-in_approbal': solicitud.idEstatusSolicitud == 13,
                     'badge-color-process': solicitud.idEstatusSolicitud == 14}">{{solicitud.estatusSolicitud}}</span>
+          </div>
         </div>
+
+
 
         <div class="iigwo-input" *ngIf="!(isTherapist)">
           <div class="div-img-label">
             <mat-icon svgIcon="moneyD"
-              style="color:rgba(101, 101, 101, 0.7); width: 12px; height: 12px;margin-bottom: 7px;"></mat-icon>
+              style="color:rgba(48, 48, 48, 0.7); width: 12px; height: 12px;margin-bottom: 5px;"></mat-icon>
             <label>Payment Status</label>
-          </div>
-          <span class="badge-status" [ngClass]="{'badge-color-partially': solicitud.idEstatusPago == 1,
+            <span class="badge-status" [ngClass]="{'badge-color-partially': solicitud.idEstatusPago == 1,
                     'badge-color-complete': solicitud.idEstatusPago == 2,
                     'badge-color-hold': solicitud.idEstatusPago == 3,
                     'badge-color-na': solicitud.idEstatusPago == 4}">{{solicitud.estatusPago}}</span>
-          <input [ngModel]="solicitud.adeudo" readOnly>
+          </div>
+          <!--<input [ngModel]="solicitud.adeudo" readOnly>-->
         </div>
 
-        <div class="iigwo-input" *ngIf="!(isTherapist)">
-          <div class="div-img-label">
-            <mat-icon svgIcon="userD"
-              style="color:rgba(101, 101, 101, 0.7); width: 10px; height: 10px;margin-bottom: 8px;"></mat-icon>
+        <div style="margin-bottom: 10px; " *ngIf="!(isTherapist)">
+          <div class="info-component">
+            <mat-icon svgIcon="userD"></mat-icon>
             <label>Therapist</label>
           </div>
-          <input [ngModel]="solicitud.nombreTerapeuta" readOnly style="font-weight: 600;"
-            *ngIf="solicitud.nombreTerapeuta else notIntSc">
-          <ng-template #notIntSc>
-            <input value="Unassigned" readOnly>
-          </ng-template>
+          <div>
+            <label>{{ solicitud.nombreTerapeuta && solicitud.nombreTerapeuta.trim().length > 0 ?
+              solicitud.nombreTerapeuta : 'Unassigned' }}</label>
+          </div>
         </div>
 
         <div class="iigwo-input" *ngIf="solicitud.info !== null">

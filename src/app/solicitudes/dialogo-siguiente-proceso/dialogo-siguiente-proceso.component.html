@@ -5,17 +5,28 @@
 
 <mat-dialog-content>
   <div style="display: inline-flex;">
+
     <div class="iigwo-input">
       <label>Date</label>
-      <input [ngModel]="fecha"
-        (ngModelChange)='fecha = $event; obtenerDisponibilidadUsuarios()' type="date">
+      <input [ngModel]="fecha" (ngModelChange)='fecha = $event; obtenerDisponibilidadUsuarios()' type="date">
     </div>
+
+    <div class="iigwo-input" *ngIf="isClinician" >
+      <label>State</label>
+      <select [(ngModel)]="estado" [ngModelOptions]="{standalone: true}" (ngModelChange)='estado = $event; obtenerDisponibilidadUsuarios()'>
+        <option *ngFor="let state of arrStates" [ngValue]="state.abbreviation">
+          {{state.abbreviation}}</option>
+      </select>
+    </div>
+
     <div class="iigwo-input" style="text-align: center;">
-      <label for="fechaAnterior"
-        style="font-size: 12px;">Previous Date</label>
-      <input type="checkbox" style="width: 15px;line-height: 18px;margin: 0 6px 0 4px;"
-        id="fechaAnterior" [checked]="fechaAnterior" (change)="fechaAnterior = !fechaAnterior; obtenerDisponibilidadUsuarios()">
+      <label for="fechaAnterior" style="font-size: 12px;">Previous Date</label>
+      <input type="checkbox" style="width: 15px;line-height: 18px;margin: 0 6px 0 4px;" id="fechaAnterior"
+        [checked]="fechaAnterior" (change)="fechaAnterior = !fechaAnterior; obtenerDisponibilidadUsuarios()">
     </div>
+
+    
+
   </div>
   <table class="informative" *ngIf="arrDisponibilidadUsuario.length > 0">
     <tr>

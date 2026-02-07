@@ -51,6 +51,8 @@ $app-no-show: #FFB300;
 	--app-reject: #{$app-reject};
 	--app-no-show: #{$app-no-show};
 
+	--app-accent: #{$app-accent};
+
   @include mat.progress-spinner-overrides((
     active-indicator-color: $app-primary
   ));
@@ -122,8 +124,12 @@ $app-no-show: #FFB300;
 
 body {
 	margin: 0;
-	font-family: regular;
+	font-family: regular !important;
 	font-size: 13px;
+}
+
+html {
+	font-family: regular !important;
 }
 
 .flex1 {
@@ -2116,6 +2122,57 @@ align-items: center;
 	margin-left: 4px;
 }
 
+.badge-date {
+	display: inline-block;
+	min-width: 5px;
+	padding: 4px 8px;
+	font-size: 11px;
+	line-height: 1;
+	//color: #fff;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	border-radius: 10px;
+	margin-left: 4px;
+}
+
+.badge-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.status-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: red;
+  color: white;
+  font-size: 10px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 16px;
+  font-weight: bold;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.pagos-badge {
+  position: absolute;
+  top: -7px;
+  right: -23px;
+  background-color: rgb(185, 185, 185);
+  color: rgb(29, 26, 59);
+  font-size: 9.5px;
+  width: 48px;
+  height: 16px;
+  border-radius: 10px;
+  text-align: center;
+  line-height: 16px;
+  font-weight: bold;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
 .renglon p {
 	margin: 0px;
 }
@@ -2182,6 +2239,7 @@ p.accent {
 	background-image: radial-gradient(transparent, rgba(30, 144, 255, 0.3));
 	color: rgb(30, 144, 255);
 }
+
 
 //ESTATUS DE SOLICITUD
 // 1 - Received - color fondo: B8E8B6 y letra 144C11

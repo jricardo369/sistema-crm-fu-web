@@ -34,7 +34,7 @@ export const SOLICITUDES_ITEMS: AppBarNavItem[] = [
   },
   {
     module: SOLICITUDES_MODULE,
-    svgName: 'schedule',
+    svgName: 'calendarMenuD',
     title: 'Schedules',
     subtitle: 'See scheduled appointments',
     uri: 'citas',

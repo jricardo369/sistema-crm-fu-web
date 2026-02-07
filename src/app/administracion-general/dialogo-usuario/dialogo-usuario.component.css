@@ -8,3 +8,9 @@ textarea {
     display: flex;
     align-items: center;
 }
+
+.input-row {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}

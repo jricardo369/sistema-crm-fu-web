@@ -369,10 +369,28 @@ export class SolicitudesService {
     );
   }
 
-  reasignarSolicitud(idSolicitud: number, idUsuarioEnvio: number, idUsuarioSeleccionado: number, motivo: string, esRechazo: boolean = false): Promise<any> {
+  rejectSolicitud(idSolicitud: number, idUsuarioEnvio: number, idUsuarioSeleccionado: number, motivo: string, esRechazo: boolean = false): Promise<any> {
     return new Promise<any>((resolve, reject) =>
       this.http
-        .put(API_URL + "solicitudes/reasignar/" + idSolicitud + "/" + idUsuarioSeleccionado + "?idUsuarioEnvio=" + idUsuarioEnvio + (esRechazo ? "&motivo=" + motivo : ""), {
+        .put(API_URL + "solicitudes/reject/" + idSolicitud + "/" + idUsuarioSeleccionado + "?idUsuarioEnvio=" + idUsuarioEnvio + (esRechazo ? "&motivo=" + motivo : ""), {
+          withCredentials: true,
+          observe: "response",
+          headers: new HttpHeaders()
+            .append("Content-Type", "application/json")
+            .append("Authorization", localStorage.getItem("auth_token")),
+        })
+        .toPromise()
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((reason) => reject(reason))
+    );
+  }
+
+  envioTemplate(idSolicitud: number, idUsuarioEnvio: number, idUsuarioSeleccionado: number): Promise<any> {
+    return new Promise<any>((resolve, reject) =>
+      this.http
+        .put(API_URL + "solicitudes/envio-template/" + idSolicitud + "/" + idUsuarioSeleccionado + "?idUsuarioEnvio=" + idUsuarioEnvio, {
           withCredentials: true,
           observe: "response",
           headers: new HttpHeaders()

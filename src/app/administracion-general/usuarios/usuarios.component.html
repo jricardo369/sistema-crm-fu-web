@@ -93,8 +93,9 @@
 
                 </div>
                 
-                <button *ngIf='filters.length > 0' (click)='aplicarFiltros()' class=" iigwo btn-color"
-                    style="color: #FFFFFF; background: #9340D3;border: 0.5px solid #b1b1b1;margin-top: 18px;">
+                <button *ngIf='filters.length > 0' (click)='aplicarFiltros()' class=" iigwo btn-color btn-color-accent"
+                    style="color: #FFFFFF; border: 0.5px solid #b1b1b1;margin-top: 18px;"
+                    [ngStyle]="{'color':'#FFFFFF','background': 'var(--app-accent)','margin-top': '18px'}">
                     <span style="color: #FFFFFF; font-size: 13px;">Apply filters</span>
                 </button>
 

@@ -7,9 +7,6 @@ PORTAL-DENTAL-QAS
 ng build --prod --optimization --build-optimizer --aot --base-href /es/ --deploy-url /es/ --i18n-locale=es --output-path=dist/ROOT
 ng build --prod --optimization --build-optimizer --aot --base-href /es/ --deploy-url /es/ --i18n-locale=es --output-path=dist/ROOT/es
 
-REM ESTE ES PARA LA VERSION EN RAIZ
-ng build --prod --optimization --build-optimizer --aot --base-href / --deploy-url / --i18n-locale=es --output-path=dist/ROOT
-
 Angular 20
 ng build --configuration=production --base-href=/ --deploy-url=/ --output-path=dist/ROOT
 

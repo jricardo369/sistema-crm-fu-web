@@ -29,23 +29,32 @@
             <th>Type</th>
         </tr>
         <tr *ngFor='let e of arrEventoSolicitud | slice:paginacion.begin:paginacion.end'>
-            <td style="white-space: nowrap;padding: 5px;">{{e.fecha | date:'MM/dd/yyyy HH:mm':'':'en'}}</td>
-            <td style="padding: 5px;">{{e.usuario}}</td>
-            <td style="padding: 5px;">{{e.evento}}</td>
-            <td style="font-style: italic;padding: 5px;">{{e.descripcion}}</td>
-            <td style="text-align: center;padding: 5px;"><span class="badge-status" style="margin: 0;"
-              [ngClass]="{
-                'badge-color-info': e.tipo == 'Info',
-                'badge-color-schedule': e.tipo == 'Schedule',
-                'badge-color-important': e.tipo == 'Important',
-                'badge-color-notification': e.tipo == 'Notification',
-                'badge-color-suicide': e.tipo == 'Suicide',
-                'badge-color-amanda_interview': e.tipo == 'Interview review',
-                'badge-color-no-show': e.tipo == 'No show',
-                'badge-color-reject-file': e.tipo == 'Reject File'
-            }">{{e.tipo}}</span>
-              <img *ngIf="e.tipo == 'Schedule' && e.estatusSchedule == 0" src="assets/img/cross-out.png" style="width: 8px;" alt="Scheduled canceled">
-            </td>
+          <td style="white-space: nowrap;padding: 5px;">{{e.fecha | date:'MM/dd/yyyy HH:mm':'':'en'}}</td>
+          <td style="padding: 5px;">{{e.usuario}}</td>
+          <td style="padding: 5px;">{{e.evento}}</td>
+          <td style="font-style: italic;padding: 5px;">{{e.descripcion}}</td>
+          <td style="text-align: center;padding: 5px;">
+            <div style="position: relative; display: inline-block;">
+
+              <mat-icon *ngIf="e.tipo == 'Schedule' && !e.finSchedule && e.estatusSchedule == 0" svgIcon="cancelD"
+                style="position: absolute; top: -3px; right: -3px; width: 13px; height: 13px; margin: 0;color:red"></mat-icon>
+
+              <mat-icon *ngIf="e.tipo == 'Schedule' && e.finSchedule" svgIcon="finishD"
+                style="position: absolute; top: -3px; right: -3px; width: 13px; height: 13px; margin: 0;color:green"></mat-icon>
+                
+              <span class="badge-status" style="margin: 0;" [ngClass]="{
+                            'badge-color-info': e.tipo == 'Info',
+                            'badge-color-schedule': e.tipo == 'Schedule',
+                            'badge-color-important': e.tipo == 'Important',
+                            'badge-color-notification': e.tipo == 'Notification',
+                            'badge-color-suicide': e.tipo == 'Suicide',
+                            'badge-color-amanda_interview': e.tipo == 'Interview review',
+                            'badge-color-no-show': e.tipo == 'No show',
+                            'badge-color-reject-file': e.tipo == 'Reject File'
+                        }">{{e.tipo}}</span>
+              <!--<img *ngIf="e.tipo == 'Schedule' && e.estatusSchedule == 0" src="assets/img/cross-out.png" style="width: 8px;" alt="Scheduled canceled">-->
+            </div>
+          </td>
         </tr>
         <tr>
           <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">

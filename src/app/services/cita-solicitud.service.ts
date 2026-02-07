@@ -126,18 +126,18 @@ export class CitaSolicitudService {
     console.log('2. Verificación exitosa:', verifyResponse);
     
     // Luego prueba tu endpoint real
-    await this.obtenerCitasPorSemana('2025-10-06', 0, false, 15,"5","All");
+    await this.obtenerCitasPorSemana('2025-10-06', 0, false, 15,"5","All","");
     
   } catch (error) {
     console.error('Test failed:', error);
   }
 }
 
-  obtenerCitasPorSemana(filterFecha: string, filterUsuario: number, filterViewAvalability: boolean, idUsuario: number, rol: string, estatusCita: string): Promise<CitaSolicitud[]> {
+  obtenerCitasPorSemana(filterFecha: string, filterUsuario: number, filterViewAvalability: boolean, idUsuario: number, rol: string, estatusCita: string, estado: string): Promise<CitaSolicitud[]> {
     //this.testAuthentication();
     return new Promise<CitaSolicitud[]>((resolve, reject) => this.http
       .get(API_URL + 'citas/citas-de-usuario-semana/' + idUsuario + "?fecha=" + filterFecha + "&filtro=" + (filterUsuario > 0 ? filterUsuario : "") + "&disponibilidad=" + filterViewAvalability+
-      "&idRol="+rol+"&estatusCita="+estatusCita,
+      "&idRol="+rol+"&estatusCita="+estatusCita+"&estado="+estado,
         {
           withCredentials: true,
           observe: 'response',
@@ -209,4 +209,41 @@ export class CitaSolicitudService {
         .catch((reason) => reject(reason))
     );
   }
+
+  enviarRecordatorio(idEvento: number): Promise<CitaSolicitud[]> {
+    return new Promise<CitaSolicitud[]>((resolve, reject) =>
+      this.http
+        .get(API_URL + "citas/recordatorio/" + idEvento , {
+          withCredentials: true,
+          observe: "response",
+          headers: new HttpHeaders()
+            .append("Content-Type", "application/json")
+            .append("Authorization", localStorage.getItem("auth_token")),
+        })
+        .toPromise()
+        .then((response) => {
+          resolve(response.body as CitaSolicitud[]);
+        })
+        .catch((reason) => reject(reason))
+    );
+  }
+
+  enviarRecordatorios(fecha: string,idUsuario: number): Promise<CitaSolicitud[]> {
+    return new Promise<CitaSolicitud[]>((resolve, reject) =>
+      this.http
+        .get(API_URL + "citas/recordatorios/" + fecha+"?idUsuario="+idUsuario, {
+          withCredentials: true,
+          observe: "response",
+          headers: new HttpHeaders()
+            .append("Content-Type", "application/json")
+            .append("Authorization", localStorage.getItem("auth_token")),
+        })
+        .toPromise()
+        .then((response) => {
+          resolve(response.body as CitaSolicitud[]);
+        })
+        .catch((reason) => reject(reason))
+    );
+  }
+
 }

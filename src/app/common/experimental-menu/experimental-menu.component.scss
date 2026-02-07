@@ -52,9 +52,9 @@
 $desk-height: 32px;
 
 .items {
-
     display: flex;
     overflow: hidden;
+    flex: 1;
 
     ::ng-deep button {
 

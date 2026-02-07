@@ -13,10 +13,11 @@ export class DisponibilidadUsuariosService {
     
    }
 
-  obtenerDisponibilidadUsuariosPorDia(fecha: string, fechaAnterior: boolean, rol: number, idSolicitud: number, clinician: boolean): Promise<DisponibilidadUsuario[]> {
+  obtenerDisponibilidadUsuariosPorDia(fecha: string, fechaAnterior: boolean, rol: string, idSolicitud: number, estado: string): Promise<DisponibilidadUsuario[]> {
     return new Promise<DisponibilidadUsuario[]>((resolve, reject) =>
       this.http
-        .get(API_URL + "disponibilidad-usuarios/de-dia/" + fecha + "?rol=" + rol + "&fechaAnterior=" + fechaAnterior+"&idSolicitud="+idSolicitud+"&clinician="+clinician, {
+        .get(API_URL + "disponibilidad-usuarios/de-dia/" + fecha + "?rol=" + rol + "&fechaAnterior=" + fechaAnterior
+          +"&idSolicitud="+idSolicitud+"&estado="+estado, {
           withCredentials: true,
           observe: "response",
           headers: new HttpHeaders()

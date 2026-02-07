@@ -1,10 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UsuariosService } from 'src/app/services/usuarios.service';
+import { EstadoUsuarioService } from 'src/app/services/estado-usuario.service';
 import { UtilService } from 'src/app/services/util.service';
 import { Usuario } from './../../../model/usuario';
 import { Permiso } from './../../../model/permiso';
 import { Rol } from './../../../model/rol';
+import { EstadoUsuario } from './../../../model/estado-usuario';
 import { DialogoSimpleComponent } from 'src/app/common/dialogo-simple/dialogo-simple.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -13,6 +15,7 @@ import { CommonModule} from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
+import {  US_STATES } from 'src/app/app.config';
 
 @Component({
   standalone: true,imports: [RouterModule,FormsModule,CommonModule,MatIconModule,MatProgressSpinnerModule,MatDialogModule],
@@ -22,12 +25,17 @@ import { MatDialogModule } from '@angular/material/dialog';
 })
 export class DialogoUsuarioComponent implements OnInit {
 
+  arrStates: any[] = [];
+  stateSelected: string = '';
+  licencia: string = '';
+
   cargando: boolean = false;
   creando: boolean = false;
   titulo: string = 'Usuario';
   usuario: Usuario = new Usuario();
   permisos: Permiso[] = [];
   roles: Rol[] = [];
+  estadosUsuario: EstadoUsuario[] = [];
 
   public file: File[] = [];
 
@@ -45,15 +53,19 @@ export class DialogoUsuarioComponent implements OnInit {
   constructor(
 
     private usuariosService: UsuariosService,
+    private estadoUsuarioService: EstadoUsuarioService,
     public utilService: UtilService,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<DialogoUsuarioComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+      
+    this.arrStates = US_STATES;
 
     this.permisos.push({ id: 1, nombre: "Send Notifications" });
     this.permisos.push({ id: 2, nombre: "Add Events" });
     this.permisos.push({ id: 3, nombre: "Add Payments" });
     this.permisos.push({ id: 4, nombre: "Edit requests" });
+   
 
     if (data.idUsuario) {
       this.titulo = "Edit User"
@@ -65,6 +77,8 @@ export class DialogoUsuarioComponent implements OnInit {
       this.creando = true;
       this.usuario.permisos = [];
     }
+
+     this.obtenerEstadosUsuario();
 
    
   }
@@ -217,6 +231,54 @@ export class DialogoUsuarioComponent implements OnInit {
       })
       .catch(reason => this.utilService.manejarError(reason))
       .then(() => this.cargando = false);
+  }
+
+  obtenerEstadosUsuario() {
+    this.cargando = true;
+    this.estadoUsuarioService
+      .obtenerEstadosUsuarios(this.usuario.idUsuario)
+      .then(estadosUsuario => {
+        this.estadosUsuario = estadosUsuario;
+      })
+      .catch(reason => this.utilService.manejarError(reason))
+      .then(() => this.cargando = false);
+  }
+
+   agregarEstadoUsuario() {
+    console.log(this.usuario)
+    this.cargando = true;
+    this.estadoUsuarioService
+      .insertarEstadoUsuario(this.stateSelected, this.usuario.idUsuario,0,this.licencia)
+      .then(estadoUsuario => {
+        this.obtenerEstadosUsuario();
+      })
+      .catch(reason => this.utilService.manejarError(reason))
+      .then(() => this.cargando = false);
+  }
+
+  eliminarEstadoUsuario(idEstadoUsuario: number) {
+    this.dialog.open(DialogoSimpleComponent, {
+      data: {
+        titulo: 'Delete state for user',
+        texto: 'Do you really want to delete the state for the user? This action is not reversible.',
+        botones: [
+          { texto: 'Cancel', color: '', valor: '' },
+          { texto: 'Delete state', color: 'primary', valor: 'eliminar' },
+        ]
+      },
+      disableClose: true,
+    }).afterClosed().toPromise().then(valor => {
+      if (valor == 'eliminar') {
+        this.cargando = true;
+        this.estadoUsuarioService
+          .eliminarEstadoUSuario(idEstadoUsuario)
+          .then(usuario => {
+            this.obtenerEstadosUsuario();
+          })
+          .catch(reason => this.utilService.manejarError(reason))
+          .then(() => this.cargando = false);
+      }
+    }).catch(reason => this.utilService.manejarError(reason));
   }
 
 }

@@ -147,6 +147,17 @@
           </div>
         </div>
 
+          <!-- Archivos vendidos -->
+        <div *ngIf="reporteDash.verVentas == true" class="stat-cardv2" (click)='obtenerDetalleEventosSolicitudes(7,"Sales made")'>
+          <div class="stat-titlev2">Sales made</div>
+          <div class="stat-contentv2">
+            <div class="stat-icon">
+              <mat-icon svgIcon="salesD" style="color:rgb(18, 106, 96); width: 40px; height: 40px;"></mat-icon>
+            </div>
+            <div class="stat-value">{{ reporteDash.ventas}}</div>
+          </div>
+        </div>
+
       </div>
 
       <div *ngIf="false" class="stats-containerv2">
@@ -235,6 +246,8 @@
           </div>
         </div>
 
+      
+
       </div>
 
       <div class="num-reg-tablas" *ngIf="!(solicitudes.length == 0)">{{solicitudes.length}} {{tituloEventos}}</div>
@@ -295,7 +308,10 @@
                             'badge-color-hold': e.idEstatusPago == 3,
                             'badge-color-na': e.idEstatusPago == 4}">{{e.estatusPago}}</span></td>
             <td style="text-align: center;">
-              <div class="badge-wrapper">
+              <div class="badge-wrapper" style="position: relative; display: inline-block;">
+                <svg  *ngIf="e.importantNotes" width="10" height="10" style="position: absolute; top: -3px; right: -3px;">
+                  <circle cx="5" cy="5" r="5" fill="red"></circle>
+                </svg>
                 <span class="badge-status" style="margin: 0;" [ngClass]="{
                                     'badge-color-received': e.idEstatusSolicitud == 1,
                                     'badge-color-reviewing': e.idEstatusSolicitud == 2,
@@ -312,8 +328,6 @@
                   {{ e.estatusSolicitud }}
                 </span>
 
-                <!-- Badge adicional -->
-                <span class="status-badge" *ngIf="e.importante">I</span>
               </div>
             </td>
             <td *ngIf="tileDashSelected == 1 || tileDashSelected == 2" class='accent'>{{ e.fecha_schedule}}</td>

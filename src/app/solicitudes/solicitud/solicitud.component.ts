@@ -595,6 +595,7 @@ private ejecutarLimpiezaClinico(): Observable<any> {
       data: {
         idSolicitud: this.solicitud.idSolicitud,
         idUsuario: this.usuario.idUsuario,
+        estado: this.solicitud.estado,
         interviewerCaseManager: true,
         interviewerScales: false,
         interviewerClinician: false
@@ -621,7 +622,8 @@ private ejecutarLimpiezaClinico(): Observable<any> {
         idUsuario: this.usuario.idUsuario,
          interviewerCaseManager: false,
         interviewerScales: false,
-        interviewerClinician: true
+        interviewerClinician: true,
+        estado: this.solicitud.estado
       },
       disableClose: true,
     }).afterClosed().toPromise().then(valor => {
@@ -751,7 +753,7 @@ private ejecutarLimpiezaClinico(): Observable<any> {
           ).then(valor => {
             if (valor == 'ok') {
               this.cargando = true;
-              this.solicitudesService.reasignarSolicitud(this.solicitud.idSolicitud, this.usuario.idUsuario, campos[0].value, "")
+              this.solicitudesService.envioTemplate(this.solicitud.idSolicitud, this.usuario.idUsuario, campos[0].value)
                 .then(() => {
                   this.cargando = false;
                   //this.goBack();

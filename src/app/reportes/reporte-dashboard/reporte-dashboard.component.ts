@@ -240,6 +240,9 @@ export class ReporteDashboardComponent implements OnInit {
     if(tileDash == 6){
       valor = this.reporteDash.cancelSchedules;
     }
+    if(tileDash == 7){
+      valor = this.reporteDash.ventas;
+    }
     //console.log('valor: ' + valor);
 
     if(valor != 0){

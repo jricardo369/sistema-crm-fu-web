@@ -16,4 +16,6 @@ export class CitaSolicitud {
     pagado: boolean;
 
     color: string;
+    idEvento: number;
+
   }

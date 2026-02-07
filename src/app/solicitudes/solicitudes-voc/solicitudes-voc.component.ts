@@ -222,6 +222,8 @@ export class SolicitudesVocComponent implements OnInit {
   limpiarFechas() {
     this.filterInputDate1 = "";
     this.filterInputDate2 = "";  
+    this.filterStartDateMat = null;
+      this.filterEndDateMat = null;
 }
 
  esFechaNuevoConteoVOC(fechaInicio: Date) {
