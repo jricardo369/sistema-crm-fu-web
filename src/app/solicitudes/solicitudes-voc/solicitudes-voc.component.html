@@ -172,7 +172,8 @@
             <td *ngIf="isVOC" class='accent'>{{e.nombreTerapeuta}}</td>
             <td class='accent'>{{e.email}}</td>
             <td style="padding-top: 4px; padding-bottom: 3px; text-align: center; color: #75518c;" *ngIf="(isVOC)">
-              <mat-icon svgIcon="done" *ngIf="e.documento2" class="my-icon-pequenio"></mat-icon>
+              <mat-icon svgIcon="okD"*ngIf="e.documento2"
+                  style="width: 15px; height: 15px;"></mat-icon>
             </td>
             <td style="text-align: center;" *ngIf="!(isTherapist)"><span class="badge-status" style="margin: 0;"
                 [ngClass]="{'badge-color-partially': e.idEstatusPago == 1,

@@ -35,4 +35,12 @@ export class ConfiguracionService {
             });
     }
 
+     getConfiguracion(codigo: string): Observable<Configuracion> {
+        return this.http.get<Configuracion>(API_URL + 'configuraciones/'+codigo,
+            {
+                withCredentials: true,
+                headers: new HttpHeaders().append('Content-Type', 'application/json').append('Authorization', localStorage.getItem('auth_token'))
+            });
+    }
+
 }

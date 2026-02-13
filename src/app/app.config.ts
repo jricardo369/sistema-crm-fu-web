@@ -1,5 +1,6 @@
 export const VERSION_PORTAL = 'Versión 2025.07.25-10:37';
-export const EMPRESA_PORTAL = '© / 2025';
+export const EMPRESA_PORTAL = '© / 2026';
+export const VERSION_WEB = 'V10.0-1';
 
 /*--------------------------------------
 

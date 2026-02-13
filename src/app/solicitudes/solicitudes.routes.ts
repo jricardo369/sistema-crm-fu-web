@@ -8,6 +8,7 @@ import { SolicitudVocComponent } from './solicitud-voc/solicitud-voc.component';
 import { HomeComponent } from './home/home.component';
 import { CitasComponent } from './citas/citas.component';
 import { CargosVocComponent } from './cargos-voc/cargos-voc.component';
+import { CalendarComponent } from './calendar/calendar.component';
 
  const SOLICITUDES_ROUTES: Routes = [
   { 
@@ -41,6 +42,10 @@ import { CargosVocComponent } from './cargos-voc/cargos-voc.component';
   { 
     path: 'citas', 
     component: CitasComponent 
+  },
+  { 
+    path: 'calendar', 
+    component: CalendarComponent 
   },
   { 
     path: 'cargos-voc', 

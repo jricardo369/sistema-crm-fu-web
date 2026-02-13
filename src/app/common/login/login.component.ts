@@ -9,6 +9,7 @@ import { SeguridadService } from 'src/app/services/seguridad.service';
 import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormsModule } from '@angular/forms';
+import { VERSION_WEB } from 'src/app/app.config';
 
 @Component({
   standalone: true,imports: [RouterModule,
@@ -23,6 +24,7 @@ import { FormsModule } from '@angular/forms';
 export class LoginComponent {
 
   baseHref = document.baseURI;
+  versionWeb = VERSION_WEB;
 
   user: Usuario = new Usuario();
   loading = false;

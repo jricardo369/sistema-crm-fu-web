@@ -1,0 +1,41 @@
+<div class="calendario-container">
+  <div class="calendario">
+    <div class="header-row">
+      <div class="time-header">Time</div>
+      <div class="day-header" *ngFor="let dia of diasSemana; let i = index">
+        <div class="day-name">{{ dia }}</div>
+        <div class="day-date">{{ obtenerFechaPorDia(i) }}</div>
+      </div>
+    </div>
+    
+    <div class="time-row" *ngFor="let hora of horas">
+      <div class="time-cell">{{ hora }}</div>
+      <div class="day-cell" *ngFor="let dia of diasSemana; let i = index">
+        <div 
+          *ngFor="let cita of obtenerCitasPorDiaYHora(i, hora)" 
+          class="cita"
+          [ngStyle]="{'background-color': procesarColor(cita.color, cita)}"
+          [class.cita-finalizada]="cita.finSchedule"
+          [class.cita-pendiente]="!cita.finSchedule"
+        >
+          <div class="importante-indicator" *ngIf="cita.importante && cita.importante.trim()"></div>
+          <div class="cita-nombre">{{ cita.nombreUsuario }}</div>
+          <div class="cita-hora-row">
+            <span class="calendar-icon">📅</span>
+            <span class="cita-hora">{{ cita.hora }} {{ cita.tipo }}</span>
+            <img class="campana-pendiente" src="assets/svg/reminder.svg" alt="Recordatorio pendiente" *ngIf="!cita.finSchedule">
+            <span class="cita-separator">-</span>
+            <span class="cita-file">File: {{ cita.idSolicitud }}</span>
+          </div>
+          <div class="cita-attended-row">
+            <div class="badges-left">
+              <span class="cita-estatus estatus-badge badge-right not-attended" *ngIf="!cita.finSchedule">Not attended</span>
+              <span class="cita-estatus estatus-badge badge-right attended" *ngIf="cita.finSchedule">Attended</span>
+            </div>
+            <span class="cita-estatus estatus-badge badge-right" *ngIf="cita.descEst">{{ cita.descEst }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

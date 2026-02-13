@@ -3,7 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterModule } from '@angular/router';
 import { UtilService } from 'src/app/services/util.service';
 import { CitaSolicitud } from 'src/model/cita-solicitud';
+import { Configuracion } from 'src/model/configuracion';
 import { CitaSolicitudService } from 'src/app/services/cita-solicitud.service';
+import { ConfiguracionService } from 'src/app/services/configuracion.service';
 import { Usuario } from 'src/model/usuario';
 import { DialogoCitaSolicitudComponent } from '../dialogo-cita-solicitud/dialogo-cita-solicitud.component';
 import { ADMINISTRATOR, BACKOFFICE, GHOSTWRITING, INTERVIEWER, INTERVIEWER_SCALES, MASTER, TEMPLATE_CREATOR, THERAPIST, VENDOR, VOC, CLINICIAN } from 'src/app/app.config';
@@ -28,7 +30,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
- import { WeekNavigatorComponent } from '../../common/week-navigator/week-navigator.component';
+import { WeekNavigatorComponent } from '../../common/week-navigator/week-navigator.component';
+import { CalendarComponent } from '../calendar/calendar.component';
 import { Rol } from 'src/model/rol';
 import { US_STATES } from 'src/app/app.config';
 
@@ -53,7 +56,7 @@ export class Semana {
     SolicitudesNavComponent,
     ExperimentalMenuComponent, DateMMDDYYYYPipe,
   MatDatepickerModule,MatNativeDateModule,MatFormFieldModule,MatInputModule,
-WeekNavigatorComponent],
+WeekNavigatorComponent, CalendarComponent],
   selector: 'app-citas',
   templateUrl: './citas.component.html',
   styleUrls: ['./citas.component.scss'],
@@ -62,6 +65,13 @@ WeekNavigatorComponent],
   ]
 })
 export class CitasComponent implements OnInit {
+
+  configuracionCalendario: Configuracion | null = null;
+  versionCalendario: string = '1';
+
+  // Flag para forzar el re-render del calendario (versión 2)
+  calendarMounted: boolean = true;
+
   // Para binding con app-week-navigator
   currentWeek: Date = new Date();
 
@@ -116,6 +126,7 @@ export class CitasComponent implements OnInit {
 
     private citaSolicitudService: CitaSolicitudService,
     private usuariosService: UsuariosService,
+    private configuracionService: ConfiguracionService,
     private router: Router,
     public utilService: UtilService,
     private dialog: MatDialog) {
@@ -152,6 +163,8 @@ export class CitasComponent implements OnInit {
       
     }
 
+    this.obtenerTipoCalendario();
+
     this.refrescar();
 
   }
@@ -159,12 +172,28 @@ export class CitasComponent implements OnInit {
   ngOnInit(): void {
   }
 
+ async obtenerTipoCalendario() {
+  this.cargando = true;
+  try {
+    this.configuracionCalendario = await firstValueFrom(this.configuracionService.getConfiguracion('TIPO-CALENDARIO')
+    );
+    this.versionCalendario = this.configuracionCalendario.valor;
+
+  } catch (error) {
+    this.utilService.manejarError(error);
+  } finally {
+    this.cargando = false;
+  }
+}
+
   // Handlers para eventos del WeekNavigator
   onWeekRefChange(d: Date) {
     this.currentWeek = d;
     // Actualiza filtro y refresca citas de la semana
     this.filterFecha = this.utilService.dateAsYYYYMMDD(d);
     this.refrescar();
+    // Forzar recarga visual del calendario
+    this.reloadCalendar();
   }
 
   onWeekRangeChange(range: { start: Date; end: Date }) {
@@ -172,6 +201,8 @@ export class CitasComponent implements OnInit {
     // por ahora ajustamos filterFecha al inicio de semana y refrescamos
     this.filterFecha = this.utilService.dateAsYYYYMMDD(range.start);
     this.refrescar();
+    // Forzar recarga visual del calendario
+    this.reloadCalendar();
   }
 
   getMonday(d) {
@@ -215,6 +246,8 @@ export class CitasComponent implements OnInit {
         if (this.citasPorDia === "Appointments per week") {
           this.citasPorElDia();
         }
+        // Recarga visual del calendario cuando cambian las citas/fechas
+        this.reloadCalendar();
       })
       .catch(reason => this.utilService.manejarError(reason))
       .then(() => this.cargando = false)
@@ -406,6 +439,8 @@ export class CitasComponent implements OnInit {
         this.filterFecha = "";
       }
       this.refrescar();
+      // Forzar recarga visual del calendario al cambiar la fecha
+      this.reloadCalendar();
     }
 
     obtenerRolesCitasDispo() {
@@ -494,5 +529,173 @@ export class CitasComponent implements OnInit {
        this.cargando = false;
      });
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Nuevo calendar
+
+readonly diasSemanaCalendar = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  readonly horas = this.generarHoras();
+
+  private generarHoras(): string[] {
+    const horas = [];
+    for (let i = 7; i <= 22; i++) {
+      const hora12 = i === 0 ? 12 : i > 12 ? i - 12 : i;
+      const periodo = i < 12 ? 'AM' : 'PM';
+      horas.push(`${hora12}:00 ${periodo}`);
+    }
+    return horas;
+  }
+
+  obtenerCitasPorDiaYHora(dia: number, hora: string): CitaSolicitud[] {
+    return this.citasGeneral.filter(cita => {
+      // Fecha puede venir como 'YYYY-MM-DD' o 'YYYY-MM-DD HH:mm:ss'
+      const [fechaParte] = cita.fecha.split(' ');
+      const [year, month, day] = fechaParte.split('-').map(Number);
+      const citaFecha = new Date(year, month - 1, day);
+
+      // Obtener la fecha para este día de la semana
+      const fechaDia = this.obtenerFechaPorDiaDate(dia);
+
+      // Comparar si es el mismo día (ignorando hora)
+      const mismoDia =
+        fechaDia.getFullYear() === citaFecha.getFullYear() &&
+        fechaDia.getMonth() === citaFecha.getMonth() &&
+        fechaDia.getDate() === citaFecha.getDate();
+
+      // Agrupar por hora del slot (ignorando minutos)
+      const slot = this.parseHoraSlot(hora); // p.ej. {hora12:7, periodo:'AM'}
+      const hc = this.parseHoraCita(cita.hora, cita.tipo); // incluye minutos
+
+      return mismoDia && hc.periodo === slot.periodo && hc.hora12 === slot.hora12;
+    });
+  }
+
+  private formatearHora12(hora: string, tipo: string): string {
+    const [horas, minutos] = hora.split(':').map(Number);
+    const hora12 = horas === 0 ? 12 : horas > 12 ? horas - 12 : horas;
+    return `${hora12}:${minutos.toString().padStart(2, '0')} ${tipo}`;
+  }
+
+  private convertirHoraFormato24(hora: string, tipo: string): string {
+    const [horas, minutos] = hora.split(':').map(Number);
+    let horas24 = horas;
+    
+    if (tipo === 'PM' && horas !== 12) {
+      horas24 = horas + 12;
+    } else if (tipo === 'AM' && horas === 12) {
+      horas24 = 0;
+    }
+    
+    return `${horas24.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}`;
+  }
+
+  // Parsear un slot "7:00 AM" a hora+periodo ignorando los minutos
+  private parseHoraSlot(horaSlot: string): { hora12: number; periodo: 'AM' | 'PM' } {
+    const parts = horaSlot.trim().split(' ');
+    const timePart = parts[0]; // "7:00"
+    const periodo = (parts[1] as 'AM' | 'PM') || 'AM';
+    const hora12 = Number(timePart.split(':')[0]);
+    return { hora12, periodo };
+  }
+
+  // Parsear hora de cita conservando minutos; ejemplo hora="07:30", tipo="AM"
+  private parseHoraCita(hora: string, tipo: string): { hora12: number; minutos: number; periodo: 'AM' | 'PM' } {
+    const [hStr, mStr] = hora.split(':');
+    const hora12 = Number(hStr);
+    const minutos = Number(mStr);
+    const periodo = (tipo as 'AM' | 'PM') || 'AM';
+    return { hora12, minutos, periodo };
+  }
+
+  obtenerEstatusClass(cita: CitaSolicitud): string {
+    if (cita.noShow) {
+      return 'estatus-noshow';
+    }
+    if (cita.pagado) {
+      return 'estatus-pagado';
+    }
+    if (cita.dosCitas) {
+      return 'estatus-doscitas';
+    }
+    return 'estatus-default';
+  }
+
+  procesarColor(colorHex: string | null, cita: CitaSolicitud): string {
+    // Si no hay color, usar un color por defecto
+    if (!colorHex) {
+      return 'rgba(100, 100, 100, 0.15)'; // Gris claro por defecto
+    }
+    
+    // Convertir hex a RGB
+    const hex = colorHex.replace('#', '');
+    const r = parseInt(hex.substr(0, 2), 16);
+    const g = parseInt(hex.substr(2, 2), 16);
+    const b = parseInt(hex.substr(4, 2), 16);
+    
+    // Aplicar 15% de opacidad
+    return `rgba(${r}, ${g}, ${b}, 0.15)`;
+  }
+
+  obtenerFechaPorDiaDate(diaIndex: number): Date {
+    // Parsear filterFecha a Date local para evitar problemas de zona horaria
+    const [y, m, d] = this.filterFecha.split('-').map(Number);
+    const fecha = new Date(y, m - 1, d);
+    const diaActual = fecha.getDay();
+    const lunes = new Date(fecha);
+
+    const diasLunes = diaActual === 0 ? 6 : diaActual - 1;
+    lunes.setDate(fecha.getDate() - diasLunes);
+
+    const fechaDia = new Date(lunes);
+    fechaDia.setDate(lunes.getDate() + diaIndex);
+
+    return fechaDia;
+  }
+
+  obtenerFechaPorDia(diaIndex: number): string {
+    const fechaDia = this.obtenerFechaPorDiaDate(diaIndex);
+    
+    const mes = (fechaDia.getMonth() + 1).toString().padStart(2, '0');
+    const dia = fechaDia.getDate().toString().padStart(2, '0');
+    const año = fechaDia.getFullYear();
+    
+    return `${mes}/${dia}/${año}`;
+  }
+
+  // Fuerza desmontar y montar el bloque del calendario (v2)
+  private reloadCalendar(): void {
+    this.calendarMounted = false;
+    setTimeout(() => {
+      this.calendarMounted = true;
+    });
+  }
+
+
 
 }

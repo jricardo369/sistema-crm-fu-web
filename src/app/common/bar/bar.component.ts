@@ -16,6 +16,7 @@ import { REPORTES_ITEMS } from 'src/app/reportes/reportes-nav-items';
 import { PLANIFICACION_ITEMS } from 'src/app/planificacion/planificacion-nav-items';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
+import { VERSION_WEB } from 'src/app/app.config';
 
 @Component({
     standalone: true,imports: [RouterModule,CommonModule,MatIconModule,FormsModule],
@@ -39,6 +40,7 @@ export class BarComponent {
 
     // WORKAROUND :( PARA EL AOT-COMPILATION
     baseHref = document.baseURI;
+    versionWeb = VERSION_WEB;
 
     /**
      * ARREGLO EN QUE SE GUARDAN LAS PANTALLAS FILTRADAS CON LA BARRA DE BUSQUEDA
