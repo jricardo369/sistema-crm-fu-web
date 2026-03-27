@@ -12,7 +12,6 @@ html {
   ));
 }
 
-
 $app-primary: #75518c;
 $app-primary-light: #e1bee7;
 $app-accent: #8837a2;
@@ -27,9 +26,17 @@ $app-secondary: #00949b;
 
 $app-case-manager: #9340D3;
 $app-scale: #40A4D3;
-//$app-clinician: #1d919c; 
-$app-clinician: #f3a8c7;
+$app-clinician: #ee86af;
 $app-editor: #319757;
+$app-terapeuta: #9c2679;
+$app-backoffice: #b8951a;
+
+$app-case-manager-bg: #e2c5f9;
+$app-scale-bg: #96d1ec;
+$app-clinician-bg: #fcd6e6;
+$app-editor-bg: #d8fae5;
+$app-terapeuta-bg: #fbb2e5;
+$app-backoffice-bg: #f2e0a2;
 
 $app-reject: #eb6c45;
 $app-no-show: #FFB300;
@@ -47,6 +54,15 @@ $app-no-show: #FFB300;
 	--app-scale: #{$app-scale};
 	--app-clinician: #{$app-clinician};
 	--app-editor: #{$app-editor};
+	--app-terapeuta: #{$app-terapeuta};
+	--app-backoffice: #{$app-backoffice};
+
+	--app-case-manager-bg: #{$app-case-manager-bg};
+	--app-scale-bg: #{$app-scale-bg};
+	--app-clinician-bg: #{$app-clinician-bg};
+	--app-editor-bg: #{$app-editor-bg};
+	--app-terapeuta-bg: #{$app-terapeuta-bg};
+	--app-backoffice-bg: #{$app-backoffice-bg};
 
 	--app-reject: #{$app-reject};
 	--app-no-show: #{$app-no-show};
@@ -82,6 +98,11 @@ $app-no-show: #FFB300;
   }
 }
 
+.title{
+	font-size: 16px;
+	color: $app-secondary;
+	margin: 0 0 12px 0;
+}
 
 /* ============================================================================ */
 
@@ -380,6 +401,27 @@ app-bar .app-nav-right label {
   ::ng-deep .div-img-label span {
 	margin-bottom: 5px !important;
 	display: inline-block;
+  }
+
+  .circulo-badge{
+	display:inline-block;
+	width:15px;
+	height:15px;
+	border-radius:50%;
+	font-weight:bold;
+	text-align:center;
+	line-height:15px;
+	font-size: 10px;
+  }
+  
+
+  .color-circulo-badge-block{
+	background:#D1EEE9;color:#007765;
+  }
+
+
+  .color-circulo-badge-activo{
+	background:#fff1cf;color:#f6bc2a;
   }
 
 /* ----------------------------------------------------- */
@@ -2218,6 +2260,19 @@ p.accent {
 	border: none;
 }
 
+.monto-total-outstanding{
+  font-size: 20px;
+  color: rgb(199, 42, 42);
+}
+
+.monto-payments{
+  font-size: 20px;
+}
+
+.monto-account-balance{
+  font-size: 20px;
+}
+
 .badge-status {
 	display: inline-block;
 	min-width: 5px;
@@ -2538,6 +2593,41 @@ p.accent {
 	background-color: #3D9596 !important;
 	color: #FFFFFF !important;
 }
+
+
+// ROLES DE USUARIO
+
+.badge-color-case-manager {
+	background-color: $app-case-manager-bg;
+	color: $app-case-manager;
+}
+
+.badge-color-scales {
+	background-color: $app-scale-bg;
+	color: $app-scale;
+}
+
+.badge-color-clinician {
+	background-color: $app-clinician-bg;
+	color: $app-clinician;
+}
+
+.badge-color-editor {
+	background-color: $app-editor-bg;
+	color: $app-editor;
+}
+
+.badge-color-terapeuta {
+	background-color: $app-terapeuta-bg;
+	color: $app-terapeuta;
+}
+
+.badge-color-backoffice {
+	background-color: $app-backoffice-bg;
+	color: $app-backoffice;
+}
+
+
 
 
 .workspace .content-left {

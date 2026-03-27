@@ -36,6 +36,14 @@ export const ADMIN_GENERAL_ITEMS: AppBarNavItem[] = [
   },
   {
     module: MODULE,
+    svgName: 'messagesD',
+    title: 'Message Settings',
+    subtitle: 'Manage messages settings',
+    uri: 'message-settings',
+    isVisibleFor: u => u.rol == "1"
+  },
+  {
+    module: MODULE,
     svgName: 'integrationsD',
     title: 'Integrations config',
     subtitle: 'Integrations config',

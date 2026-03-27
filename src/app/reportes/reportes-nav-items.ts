@@ -42,7 +42,7 @@ export const REPORTES_ITEMS: AppBarNavItem[] = [
     title: 'Comparison by Years',
     subtitle: 'Report of files comparison by years',
     uri: 'comparacion-anios',
-    isVisibleFor: u => [MASTER].some(rol => rol === u.rol) || u.usuario === 'edgar' || u.usuario === 'juan'
+    isVisibleFor: u => [MASTER].some(rol => rol === u.rol) || u.usuario === 'edgar' || u.usuario === 'juan' || u.usuario === 'ojuarez'
   }
   ,{
     module: REPORTES_MODULE,
@@ -50,6 +50,6 @@ export const REPORTES_ITEMS: AppBarNavItem[] = [
     title: 'Dashboard',
     subtitle: 'Dashboard',
     uri: 'reporte-dashboard',
-    isVisibleFor: u => [MASTER,BACKOFFICE].some(rol => rol === u.rol) 
+    isVisibleFor: u => [MASTER,BACKOFFICE].some(rol => rol === u.rol)  || u.usuario === 'juan' || u.usuario === 'ojuarez'
   }
 ];

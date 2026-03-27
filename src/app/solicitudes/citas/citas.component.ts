@@ -558,8 +558,40 @@ export class CitasComponent implements OnInit {
 
 
 // Nuevo calendar
-
 readonly diasSemanaCalendar = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+fechaSeleccionada: Date = new Date();
+  vista: 'week' | 'day' = 'week'; 
+  diaSeleccionado: number = 0;
+
+  cambiarVista(vista: 'week' | 'day') {
+    console.log('vista seleccionada: ' + vista);
+    this.vista = vista;
+    if (vista === 'day') {
+      this.diaSeleccionado = 0;
+    }
+  }
+
+  selectDay(index: number) {
+    this.diaSeleccionado = index;
+  }
+
+  obtenerDiaSeleccionado(): number {
+    return this.diaSeleccionado;
+  }
+
+  obtenerDiaSemanaSeleccionado(): string {
+    return this.diasSemanaCalendar[this.diaSeleccionado];
+  }
+
+  onFechaCambio(event: any) {
+    this.fechaSeleccionada = new Date(event.target.value);
+  }
+
+
+
+
+
   readonly horas = this.generarHoras();
 
   private generarHoras(): string[] {
@@ -593,6 +625,19 @@ readonly diasSemanaCalendar = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Fr
       const hc = this.parseHoraCita(cita.hora, cita.tipo); // incluye minutos
 
       return mismoDia && hc.periodo === slot.periodo && hc.hora12 === slot.hora12;
+    });
+  }
+
+  obtenerCitasPorDia(diaIndex: number): CitaSolicitud[] {
+    const fechaDia = this.obtenerFechaPorDiaDate(diaIndex);
+    return this.citasGeneral.filter(cita => {
+      const [year, month, day] = cita.fecha.split('-').map(Number);
+      const citaFecha = new Date(year, month - 1, day);
+      return (
+        fechaDia.getFullYear() === citaFecha.getFullYear() &&
+        fechaDia.getMonth() === citaFecha.getMonth() &&
+        fechaDia.getDate() === citaFecha.getDate()
+      );
     });
   }
 
@@ -696,6 +741,21 @@ readonly diasSemanaCalendar = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Fr
     });
   }
 
+  obtenerIniciales(nombre: string): string {
+    if (!nombre) return '';
+    const partes = nombre.trim().split(/\s+/);
+    if (partes.length >= 2) {
+      return (partes[0][0] + partes[1][0]).toUpperCase();
+    }
+    return nombre.substring(0, 2).toUpperCase();
+  }
+
+  obtenerColorSolido(colorHex: string | null): string {
+    if (!colorHex) {
+      return '#888888';
+    }
+    return colorHex;
+  }
 
 
 }

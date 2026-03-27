@@ -38,6 +38,22 @@
 
         <div class='content'>
 
+            <div>
+            <div style="margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                <div class="iigwo-input inline" style="margin-top: 20px;width: 180px;">
+                        <input [(ngModel)]="filterNombre"
+                    (keyup.enter)="aplicarFiltros()"
+                    placeholder="Filter by name, firm, synonyms or email">
+                    </div>
+
+                 <button (click)="aplicarFiltros()" class=" iigwo btn-color btn-color-accent"
+                    style="color: #FFFFFF; border: 0.5px solid #b1b1b1;margin-top: 18px;"
+                    [ngStyle]="{'color':'#FFFFFF','background': 'var(--app-accent)','margin-top': '18px'}">
+                    <span style="color: #FFFFFF; font-size: 13px;">Apply filters</span>
+                </button>
+            </div>
+            </div>
+
             <!-- FILTRO -->
             <div *ngIf="false" style="margin-bottom: 20px;">
 
@@ -100,34 +116,27 @@
 
             <!-- TABLA CON REGISTROS -->
             <div >
-                <!--<input type="date" [(ngModel)]="filterFecha" placeholder="Filtrar por fecha" />
-                <div class="iigwo-input inline">
-                    <label>Order by creation date</label>
-                    <select [(ngModel)]="orderFecha">
-                        <option value="asc">Ascendente</option>
-                        <option value="desc">Descendente</option>
-                    </select>
-                </div>
-                -->
+
+               
+
                 <table class='big' *ngIf="!(abogadosFiltrados.length == 0)">
                     <tr>
                         <!--<th class=''><input type="checkbox" [checked]="estanTodosSeleccionados()"
                                 (change)="checkAll($event)"></th>-->
                         <th class=''>Law Firm</th>
-                        <th class=''>
-                            <div class="iigwo-input inline" style="margin-bottom: 0px; margin-right: 0px;">
-                                <input type="text" [(ngModel)]="filterNombre" placeholder="Filter by name" />
-                            </div>
-                        </th>
+                        <th class=''>Name</th>
                         <!--<th class=''>Email</th>-->
                         <th class=''>Phone</th>
                         <th class=''>Synonyms</th>
                         <th class=''>
-                            <div class="iigwo-input" style="margin-bottom: 0px; margin-right: 0px;">
-                                <select [(ngModel)]="orderFecha">
-                                    <option value="asc">Ascendente</option>
-                                    <option value="desc">Descendente</option>
-                                </select>
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 4px;">
+                                <span>Creation date</span>
+                                <button type="button"
+                                        (click)="cambiarOrdenFecha()"
+                                        style="border: none; background: transparent; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                                    <mat-icon *ngIf="orderFecha === 'asc'" style="color:#FFFFFF;">arrow_upward</mat-icon>
+                                    <mat-icon *ngIf="orderFecha === 'desc'" style="color:#FFFFFF;">arrow_downward</mat-icon>
+                                </button>
                             </div>
                         </th>
                          <th class=''>Coupon</th>
@@ -138,7 +147,12 @@
                         <td class=''><a (click)="editarUsuario(e.idAbogado)">{{e.firma}}</a></td>
                         <td class=''><a (click)="editarUsuario(e.idAbogado)">{{e.nombre}}</a></td>
                         <!--<td class='accent'>{{e.email}}</td>-->
-                        <td class='accent'>{{e.telefono | phone}}</td>
+                        <td class='accent'>
+
+                             <mat-icon svgIcon="phoneD" *ngIf="e.telefono != null && e.telefono != ''"
+                  style="color:rgba(0, 0, 0, 0.7); width: 13px; height: 13px;margin-bottom: -2px;"></mat-icon>
+                            {{e.telefono | phone}}</td>
+
                         <td class='accent'>{{e.sinonimos}}</td>
                         <td class='accent'>{{e.fechaCreacion}}</td>
                         <td style="font-size: 11.5px;" class='accent' *ngIf="e.cupon">

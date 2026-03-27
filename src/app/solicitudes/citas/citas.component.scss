@@ -214,7 +214,7 @@ h2 {
 }
 
 .day-header {
-  padding: 10px 15px;
+  padding: 8px 12px;
   border-bottom: 1px solid #ddd;
   text-align: center;
   color: #8837a2;
@@ -259,7 +259,32 @@ h2 {
   border-right: 1px solid #ddd;
 }
 
+.day-cell-v2 {
+  padding: 5px;
+  min-height: 60px;
+  background-color: white;
+  position: relative;
+  border-bottom: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  overflow: hidden;
+}
+
 .citaN {
+  padding: 6px 8px;
+  margin: 2px 0;
+  border-radius: 4px;
+  font-size: 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  color: #333;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.citaN-v2 {
   padding: 6px 8px;
   margin: 2px 0;
   border-radius: 4px;
@@ -290,7 +315,11 @@ h2 {
   margin-left: auto;
 }
 
-
+.seccion-wee-day{
+  margin-left: auto; 
+  font-family: 'Roboto Condensed', sans-serif;
+  margin-top: 8px;
+}
 
 .badges-right {
   margin-left: auto;
@@ -309,6 +338,15 @@ h2 {
   margin-bottom: 2px;
   font-size: 12px;
   line-height: 1.2;
+}
+
+.cita-nombre-v2 {
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .cita-hora-row {
@@ -332,11 +370,16 @@ h2 {
 .cita-separator {
   font-size: 10px;
   opacity: 0.7;
-  margin: 0 2px;
+  margin: 0 1px;
 }
 
 .cita-file {
-  font-size: 10px;
+  font-size: 8px;
+  opacity: 0.8;
+}
+
+.cita-file-v2 {
+  font-size: 9px;
   opacity: 0.8;
 }
 
@@ -475,6 +518,176 @@ h2 {
   background-color: #d1ecf1;
   border: 1px solid #bee5eb;
   color: #0c5460;
+}
+
+.cita-nombre-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+.cita-iniciales {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 9px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.cita-hora-row {
+  margin-bottom: 2px;
+  display: block;
+  align-items: center;
+  gap: 4px;
+}
+
+.cita-hora-row-v2 {
+  margin-bottom: 0;
+  display: block;
+  align-items: center;
+  gap: 4px;
+  line-height: 1.2;
+}
+
+.cita-detalles-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  margin-bottom: 2px;
+  flex-wrap: wrap;
+}
+
+.cita-content-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.cita-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  justify-content: flex-start;
+}
+
+.day-count {
+  font-size: 10px;
+  color: #7f757e;
+  font-weight: normal;
+}
+
+ .vista-toggle {
+  display: flex;
+  gap: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #8837a2;
+}
+
+.vista-btn {
+  padding: 8px 16px;
+  border: none;
+  background-color: white;
+  color: #8837a2;
+  cursor: pointer;
+  font-family: regular;
+  transition: all 0.2s;
+  border-right: 1px solid #8837a2;
+}
+
+.vista-btn:hover {
+  background-color: #f3e8ff;
+}
+
+.vista-btn.active {
+  background-color: #8837a2;
+  color: white;
+}
+
+.day-selector {
+  display: flex;
+  gap: 5px;
+}
+
+.day-btn {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  background-color: white;
+  color: #666;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: regular;
+  font-size: 11px;
+  transition: all 0.2s;
+  margin-right: 3px;
+}
+
+.day-btn:hover {
+  border-color: #8837a2;
+  color: #8837a2;
+}
+
+.day-btn.active {
+  background-color: #8837a2;
+  color: white;
+  border-color: #8837a2;
+}
+
+.header-row.day-view {
+  grid-template-columns: 80px 1fr;
+}
+
+.time-row.day-view {
+  grid-template-columns: 80px 1fr;
+}
+
+.day-header.hidden,
+.day-cell.hidden {
+  display: none;
+}
+
+.day-header.single,
+.day-cell.single {
+  border-left: 1px solid #ddd;
+}
+
+.fecha-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+  padding: 10px 0;
+}
+
+.fecha-selector label {
+  font-weight: bold;
+  color: #8837a2;
+  font-size: 14px;
+}
+
+.fecha-selector input[type="date"] {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #333;
+  background-color: white;
+  cursor: pointer;
+}
+
+.fecha-selector input[type="date"]:focus {
+  outline: none;
+  border-color: #8837a2;
+  box-shadow: 0 0 0 2px rgba(136, 55, 162, 0.1);
 }
 
 /* Responsive font bump: +2px when width >= 1100px */

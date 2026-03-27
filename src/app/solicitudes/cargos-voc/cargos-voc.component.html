@@ -52,16 +52,6 @@
               <input type="text" placeholder="Enter a value" [(ngModel)]="filterInputText">
             </div>
 
-            <!--<button class="accent iigwo small" style="margin-top: 12px" (click)="refrescar()">Explore</button>
-            <button class="iigwo" style="margin-top: 12px" (click)='limpiarFechas()'>Clear dates</button>
-            <div style="margin-right: 5px;margin-left: -5px;color: gray;">&#9679;</div>
-
-            <button (click)='descargarExcel()' class="btn"
-              style="color: #000000;background: #e5e5e5; border-radius: 3px; height: 30px; line-height: 30px;">
-              <mat-icon svgIcon="exportD" style="color:rgba(0, 0, 0, 0.7); width: 13px; height: 13px;margin-bottom: 12px;margin-right: 5px;"></mat-icon>
-              <label style="margin: auto;color: #000000;text-transform: none;">Export excel</label>
-            </button>-->
-
             <button (click)='refrescar()' class="btn-color"
               style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
               <mat-icon svgIcon="searchD" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
@@ -100,9 +90,46 @@
 
       <!-- TABLA CON REGISTROS -->
       <div>
+
+        <div style="display: flex;margin-top: -15px;margin-bottom: 15px;">
+
+           <div style="margin-right: 20px;" *ngIf="mostrarEncabecadoNoPagos">
+            <div class="div-img-label" style="margin-bottom: 3px;">
+              <mat-icon svgIcon="moneyD" style="color: rgb(53, 53, 53); width: 14px; margin-bottom: 3px;margin-right: 5px;"></mat-icon>
+              <label style="margin-bottom: 0px;">Total Outstanding</label>
+            </div>
+            <div class="monto-total-outstanding">{{cargoVocCabecera.totalNoPagado | currency : 'USD' : 'symbol' : undefined :
+              'en-US'}}</div>
+        
+          </div>
+          
+
+           <div style="margin-right: 20px;" *ngIf="mostrarEncabecadoPagos">
+            <div class="div-img-label" style="margin-bottom: 3px;">
+              <mat-icon svgIcon="moneyListD"
+                style="color: rgb(53, 53, 53); width: 13px; margin-bottom: 3px;margin-right: 5px;"></mat-icon>
+              <label style="margin-bottom: 0px;">Payments</label>
+            </div>
+            <div class="monto-payments">{{cargoVocCabecera.totalPagado | currency : 'USD' : 'symbol' : undefined : 'en-US'}}
+            </div>
+          </div>
+        
+         
+         
+          <div *ngIf="mostrarEncabecadoBalance">
+            <div class="div-img-label" style="margin-bottom: 3px;">
+              <mat-icon svgIcon="account-balanceD"
+                style="color: rgb(53, 53, 53); width: 11px; margin-bottom: 4px;"></mat-icon>
+              <label style="margin-bottom: 0px;">Account Balance</label>
+            </div>
+            <div class="monto-account-balance">{{cargoVocCabecera.balance | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</div>
+        
+          </div>
+        </div>
+
         <table class="informative" *ngIf="!(arrCargos.length == 0)">
           <tr>
-            <th *ngIf="mostrarCheckAll" class=''><input type="checkbox" [checked]="estanTodosSeleccionados()" (change)="checkAll($event)"></th>
+            <!--<th *ngIf="mostrarCheckAll" class=''><input type="checkbox" [checked]="estanTodosSeleccionados()" (change)="checkAll($event)"></th>-->
             <th class=''>File</th>
             <th class=''>Id Schedule</th>
             <th class=''>Date</th>
@@ -118,15 +145,28 @@
              <th class='' *ngIf="filterTypeSearch && usuario.unpaidVocFlag">Unpaid</th>
           </tr>
           <tr *ngFor='let e of arrCargos | slice:paginacion.begin:paginacion.end'>
-            <td *ngIf="!e.pagado" class=''><input type="checkbox" [checked]="estaSeleccionado(e.idCita)"
-                (change)="check($event, e.idCita)"></td>
-            <td class='accent'>{{e.idFile}}</td>
+            <!--<td *ngIf="!e.pagado" class=''><input type="checkbox" [checked]="estaSeleccionado(e.idCita)"
+                (change)="check($event, e.idCita)"></td>-->
+            <td class='accent'>
+              
+              <input *ngIf="!e.pagado" type="checkbox" [checked]="estaSeleccionado(e.idCita)"
+                (change)="check($event, e.idCita)"> 
+                
+                {{e.idFile}}
+              
+              </td>
             <td>{{e.idCita}}</td>
             <td>{{e.fecha | dateMMDDYYYY}}</td>
             <td>{{e.caseNumber}}</td>
             <td class='accent'>{{e.cliente}}</td>
-            <td>{{e.telefono | phone}}</td>
-            <td>{{e.email}}</td>
+            <td>
+              <mat-icon svgIcon="phoneD" *ngIf="e.telefono != null && e.telefono != ''"
+                  style="color:rgba(0, 0, 0, 0.7); width: 13px; height: 13px;margin-bottom: -2px;margin-right: 2px;"></mat-icon>
+              {{e.telefono | phone}}</td>
+            <td>
+              <mat-icon svgIcon="emailD" *ngIf="e.email != ''"
+                  style="color:rgba(0, 0, 0, 0.7); width: 13px; height: 13px;margin-bottom: -2px;"></mat-icon>
+              {{e.email}}</td>
             <td *ngIf="e.pagado === false" class="number" style="color:red">{{e.amount | currency : 'USD' : 'symbol' :
               undefined : 'en-US'}}</td>
             <td *ngIf="e.pagado === true" class="number">{{e.amount | currency : 'USD' : 'symbol' : undefined :
@@ -138,7 +178,7 @@
               <label class="pagado" style="margin: 0;" *ngIf="e.pagado"> <mat-icon svgIcon="done"
                   style="color: #117a65; width: 15px; height: 15px;"></mat-icon> Paid</label>
               <button (click)='pagado(e)' class="btn-color color-fondo-verde-fu" *ngIf="!e.pagado"
-                style="color: #ffffff;margin-bottom: 5px;">
+                style="color: #ffffff;margin-top: -2px;">
                 <mat-icon svgIcon="cash" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
                 <label style="font-size: 11px;">Pay</label>
               </button>

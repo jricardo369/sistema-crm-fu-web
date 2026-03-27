@@ -16,7 +16,8 @@
                                 'badge-color-bloqueo': usuario.estatus == '3'}"> {{ getEstatusTexto(usuario.estatus)
           }}</span>
 
-        <button (click)='desbloquear()' class="btn m-l-40" *ngIf="usuario.estatus == '3'" style="color: #d59c51;border-radius: 2px; height: 23px; line-height: 23px;
+        <button (click)='desbloquear()' class="btn m-l-40" *ngIf="usuario.estatus == '3'" 
+        style="color: #d59c51;border-radius: 2px; height: 23px; line-height: 23px;
              text-decoration: underline;padding: 0px;margin: 0px; margin-right: 20px;margin-bottom: 10px;"
           matTooltip="Unlock">
           <label>Unlock</label>

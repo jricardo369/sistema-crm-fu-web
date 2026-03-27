@@ -32,6 +32,8 @@ export class HomeAdminComponent implements OnInit {
     const usuarioData = localStorage.getItem('objUsuario');
 
     this.usuario = JSON.parse(usuarioData);
+
+    console.log('Usuario en HomeAdminComponent:', this.usuario);
     
     if ([MASTER, BACKOFFICE, VOC,INTERVIEWER_SCALES,VENDOR].some(rol => rol === this.usuario.rol)) {
       this.router.navigate(['/administracion-general/abogados']);

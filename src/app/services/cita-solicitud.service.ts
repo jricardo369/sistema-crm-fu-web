@@ -5,6 +5,7 @@ import { API_URL } from '../app.config';
 import { CitaSolicitud } from 'src/model/cita-solicitud';
 import { CargoVoc } from 'src/model/cargo-voc';
 import { Observable } from 'rxjs';
+import { CargoVocCabecera } from 'src/model/cargos-voc-cabecera';
 
 @Injectable({
   providedIn: 'root'
@@ -151,8 +152,8 @@ export class CitaSolicitudService {
     );
   }
 
-  obtenerCargosPendientes(fechai: string, fechaf: string, filtro: string, idUsuario: number, campo: string,valor: string,tipo: string): Promise<CargoVoc[]> {
-    return new Promise<CargoVoc[]>((resolve, reject) => this.http
+  obtenerCargosPendientes(fechai: string, fechaf: string, filtro: string, idUsuario: number, campo: string,valor: string,tipo: string): Promise<CargoVocCabecera> {
+    return new Promise<CargoVocCabecera>((resolve, reject) => this.http
       .get(API_URL + 'citas/cargos-pendientes?idUsuario=' + idUsuario + "&fechai=" + fechai + "&fechaf=" + fechaf 
         + "&campo=" + campo+ "&valor=" + valor+ "&tipo=" + tipo,
         {
@@ -162,7 +163,7 @@ export class CitaSolicitudService {
         })
       .toPromise()
       .then(response => {
-        resolve(response.body as CargoVoc[]);
+        resolve(response.body as CargoVocCabecera);
       })
       .catch(reason => reject(reason))
     );

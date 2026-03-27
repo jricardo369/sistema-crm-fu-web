@@ -60,7 +60,10 @@ export class ReporteMovimientosUsuarioComponent implements OnInit {
   filterType: string = "";
   filterTypeF: string = "";
   filterInputText: string = "";
-  mostrarTotales: boolean;
+
+   mostrarEncabecadoPagos: boolean = false;
+  mostrarEncabecadoNoPagos: boolean = false;
+   mostrarEncabecadoBalance: boolean = false;
 
   // Propiedades auxiliares para los datepickers de Material
     filterStartDateMat: Date | null = null;
@@ -90,7 +93,6 @@ export class ReporteMovimientosUsuarioComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.mostrarTotales = true;
   }
 
   obtenerMovimientosUsuario() {
@@ -113,11 +115,19 @@ export class ReporteMovimientosUsuarioComponent implements OnInit {
         this.adeudosSinFiltrar = this.reporteMovimientos.adeudos;
         this.adeudos = this.adeudosSinFiltrar.filter(e => true);
 
-        if(this.filterType == 'Unpaid' || this.filterType == 'All'){
-          this.mostrarTotales = true;
-        }else{
-          this.mostrarTotales = false;
-        }
+        if(this.filterType == 'All' ) {
+      this.mostrarEncabecadoPagos = true;
+       this.mostrarEncabecadoNoPagos = true;
+       this.mostrarEncabecadoBalance = true;
+    }else if(this.filterType == 'Unpaid'){ 
+      this.mostrarEncabecadoPagos = false;
+      this.mostrarEncabecadoNoPagos = true;
+      this.mostrarEncabecadoBalance = false;
+    }else if(this.filterType == 'Paid'){ 
+      this.mostrarEncabecadoPagos = true;
+      this.mostrarEncabecadoNoPagos = false;
+      this.mostrarEncabecadoBalance = false;
+    }
        
         this.paginacion.setArray(this.adeudos,20);
       })

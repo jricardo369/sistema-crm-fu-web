@@ -11,7 +11,7 @@
                 <div style="min-width:320px;margin-right:24px;">
                     <!-- ================================================== -->
                     <!-- TEL-PRUEBA -->
-                    <h4 style="margin: 0 0 12px 0">Test Phone</h4>
+                    <h4 class="title">Test Phone</h4>
                     <div class="iigwo-input">
                         <label>Phone to test</label>
                         <input [(ngModel)]="phoneTest" [attr.readOnly]="cambiandoPhoneTest ? null : false"
@@ -46,25 +46,10 @@
                         </button>
                     </div>
 
-                    <!--
-                    <button class="iigwo" (click)="cambiandoPhoneTest=true" *ngIf="cambiandoPhoneTest==false">
-                        <label>Change phone</label>
-                    </button>
-                    <button class="iigwo accent" (click)="cambiarDato(7)" *ngIf="cambiandoPhoneTest==true">
-                        <label>Change phone</label>
-                    </button>
-                    <button class="iigwo" (click)="cancelarCambio(7)" *ngIf="cambiandoPhoneTest==true">
-                        <label>Cancel</label>
-                    </button>
-                    <button class="iigwo accent" (click)="testMessage()" style="background: #41949B;" *ngIf="cambiandoPhoneTest==false">
-                        <label>Send test message</label>
-                    </button>
-                    -->
-
                     <hr style="max-width:396px;margin-bottom:24px;">
                     <!-- ================================================== -->
                     <!-- TOKEN -->
-                    <h4 style="margin: 0 0 12px 0">Token</h4>
+                    <h4 class="title">Token</h4>
                     <div class="iigwo-input">
                         <label>Token id Podium</label>
                         <textarea [(ngModel)]="tokenId" [attr.readOnly]="cambiandoTokenId ? null : false"
@@ -91,23 +76,11 @@
                         </button>
                     
                     </div>
-                   
-                    <!--
-                    <button class="iigwo" (click)="cambiandoTokenId=true" *ngIf="cambiandoTokenId==false">
-                        <label>Change token id</label>
-                    </button>
-                    <button class="iigwo accent" (click)="cambiarDato(5)" *ngIf="cambiandoTokenId==true">
-                        <label>Change token id</label>
-                    </button>
-                    <button class="iigwo" (click)="cancelarCambio(5)" *ngIf="cambiandoTokenId==true">
-                        <label>Cancel</label>
-                    </button>
-                    -->
 
                     <hr style="max-width:396px;margin-bottom:24px;">
                     <!-- ================================================== -->
                     <!-- REFRESH-TOKEN -->
-                    <h4 style="margin: 0 0 12px 0">Refresh token</h4>
+                    <h4 class="title">Refresh token</h4>
                     <div class="iigwo-input">
                         <label>Refresh Token Podium</label>
                         <textarea [(ngModel)]="tokenCode" [attr.readOnly]="cambiandoTokenCode ? null : false"
@@ -136,7 +109,7 @@
                     <hr style="max-width:396px;margin-bottom:24px;">
                     <!-- ================================================== -->
                     <!-- CLIENT-SECRET -->
-                    <h4 style="margin: 0 0 12px 0">Client secret</h4>
+                    <h4 class="title">Client secret</h4>
                     <div class="iigwo-input">
                         <label>Client secret Podium</label>
                          <textarea [(ngModel)]="clientSecret" [attr.readOnly]="cambiandoClientSecret ? null : false"
@@ -164,22 +137,10 @@
                     
                     </div>
 
-                    <!--
-                    <button class="iigwo" (click)="cambiandoClientSecret=true" *ngIf="cambiandoClientSecret==false">
-                        <label>Change client secret</label>
-                    </button>
-                    <button class="iigwo accent" (click)="cambiarDato(3)" *ngIf="cambiandoClientSecret==true">
-                        <label>Change client secret</label>
-                    </button>
-                    <button class="iigwo" (click)="cancelarCambio(3)" *ngIf="cambiandoClientSecret==true">
-                        <label>Cancel</label>
-                    </button>
-                    -->
-
                     <hr style="max-width:396px;margin-bottom:24px;">
                     <!-- ================================================== -->
                     <!-- CLIENT-ID -->
-                    <h4 style="margin: 0 0 12px 0">Client id</h4>
+                    <h4 class="title">Client id</h4>
                     <div class="iigwo-input">
                         <label>Client id Podium</label>
                          <textarea [(ngModel)]="clientId" [attr.readOnly]="cambiandoClientId ? null : false"
@@ -207,23 +168,11 @@
                     
                     </div>
 
-                    <!--
-                    <button class="iigwo" (click)="cambiandoClientId=true" *ngIf="cambiandoClientId==false">
-                        <label>Change client id</label>
-                    </button>
-                    <button class="iigwo accent" (click)="cambiarDato(4)" *ngIf="cambiandoClientId==true">
-                        <label>Change client id</label>
-                    </button>
-                    <button class="iigwo" (click)="cancelarCambio(4)" *ngIf="cambiandoClientId==true">
-                        <label>Cancel</label>
-                    </button>
-                    -->
-
                     <hr style="max-width:396px;margin-bottom:24px;">
 
                     <!-- ================================================== -->
                     <!-- LOCATION UID -->
-                    <h4 style="margin: 0 0 12px 0">Location UId</h4>
+                    <h4 class="title">Location UId</h4>
                     <div class="iigwo-input">
                         <label>Location Uid</label>
                          <textarea [(ngModel)]="locationUid" [attr.readOnly]="cambiandoLocationUid ? null : false"
@@ -254,30 +203,6 @@
             
 
                     <hr style="max-width:396px;margin-bottom:24px;">
-
-
-                    <!-- ================================================== -->
-                    <!-- TEL-ENVIO -->
-                    <!--<h4 style="margin: 0 0 12px 0">Phone</h4>
-          <div class="iigwo-input">
-            <label>Phone GoTo</label>
-            <input [(ngModel)]="phoneGoTo"
-              [attr.readOnly]="cambiandoPhoneGoTo ? null : false"
-              (ngModelChange)="phoneGoTo"
-              (input)="phoneGoTo = onPhoneNumberInput($event.target.value)" placeholder="(###) ###-####" maxlength="14">
-            <p style="margin-top: 5px;">Telephone to send messages from GoTo</p>
-          </div>
-          <button class="iigwo" (click)="cambiandoPhoneGoTo=true"
-            *ngIf="cambiandoPhoneGoTo==false">
-            <label>Change phone</label>
-          </button>
-          <button class="iigwo accent" (click)="cambiarDato(6)" *ngIf="cambiandoPhoneGoTo==true">
-            <label>Change phone</label>
-          </button>
-          <button class="iigwo" (click)="cancelarCambio(6)" *ngIf="cambiandoPhoneGoTo==true">
-            <label>Cancel</label>
-          </button>
-          <hr style="max-width:396px;margin-bottom:24px;">-->
 
                 </div>
             </div>

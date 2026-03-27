@@ -23,6 +23,7 @@ import { DateMMDDYYYYPipe } from 'src/app/common/pipes/date-pipe.pipe';
 import { DatePipe } from '@angular/common';
 
 import { PhonePipe } from 'src/app/common/pipes/phone-pipe.pipe';
+import { CargoVocCabecera } from 'src/model/cargos-voc-cabecera';
 
 @Component({
   standalone: true, imports: [RouterModule, FormsModule, WorkspaceNavComponent, ExperimentalMenuComponent,
@@ -36,6 +37,7 @@ export class CargosVocComponent implements OnInit {
 
   cargando: boolean = false;
   arrCargos: CargoVoc[] = [];
+  cargoVocCabecera: CargoVocCabecera = new CargoVocCabecera;
   usuario: Usuario = new Usuario;
   paginacion: PaginationManager = new PaginationManager();
   seleccion: number[] = [];
@@ -49,6 +51,9 @@ export class CargosVocComponent implements OnInit {
   filterInputText: string = "";
   filterTypeSearch: boolean = false;
   mostrarCheckAll: boolean = false;
+  mostrarEncabecadoPagos: boolean = false;
+  mostrarEncabecadoNoPagos: boolean = false;
+   mostrarEncabecadoBalance: boolean = false;
 
   constructor(
     private citaSolicitudService: CitaSolicitudService,
@@ -86,6 +91,20 @@ export class CargosVocComponent implements OnInit {
       this.filterTypeSearch = true;
     }
 
+    if(this.filterType == 'All' ) {
+      this.mostrarEncabecadoPagos = true;
+       this.mostrarEncabecadoNoPagos = true;
+       this.mostrarEncabecadoBalance = true;
+    }else if(this.filterType == 'Unpaid'){ 
+      this.mostrarEncabecadoPagos = false;
+      this.mostrarEncabecadoNoPagos = true;
+      this.mostrarEncabecadoBalance = false;
+    }else if(this.filterType == 'Paid'){ 
+      this.mostrarEncabecadoPagos = true;
+      this.mostrarEncabecadoNoPagos = false;
+      this.mostrarEncabecadoBalance = false;
+    }
+
      if(this.filterType == 'All' ) {
       this.filterTypeSearch = false;
      }
@@ -94,7 +113,9 @@ export class CargosVocComponent implements OnInit {
     this.citaSolicitudService
       .obtenerCargosPendientes(this.filterInputDate1, this.filterInputDate2, this.filterInputText, this.usuario.idUsuario, this.filterTypeF, this.filterInputText, this.filterType)
       .then(cargos => {
-        this.arrCargos = cargos;
+        this.cargoVocCabecera = cargos;
+        this.arrCargos = cargos.cargoVoc;
+        console.log('Cargos obtenidos:', this.arrCargos);
         this.paginacion.setArray(this.arrCargos, 20);
       })
       .catch(reason => this.utilService.manejarError(reason))

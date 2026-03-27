@@ -11,7 +11,7 @@
         <div style="min-width:320px;margin-right:24px;">
           <!-- ================================================== -->
           <!-- LIMIT-TO-PAY -->
-          <h4 style="margin: 0 0 12px 0">Days allowed to pay</h4>
+          <h4 class="title">Days allowed to pay</h4>
           <div class="iigwo-input">
             <label>Total number of days allowed</label>
             <input [(ngModel)]="diasPermitidosParaPagar"
@@ -41,24 +41,11 @@
             
           </div>
 
-        <!--
-          <button class="iigwo" (click)="cambiandoDiasPermitidosParaPagar=true"
-            *ngIf="cambiandoDiasPermitidosParaPagar==false">
-            <label>Change number</label>
-          </button>
-          <button class="iigwo accent" (click)="cambiarDato(1)" *ngIf="cambiandoDiasPermitidosParaPagar==true">
-            <label>Change number</label>
-          </button>
-          <button class="iigwo" (click)="cancelarCambio(1)" *ngIf="cambiandoDiasPermitidosParaPagar==true">
-            <label>Cancel</label>
-          </button>
-          -->
-
           <hr style="max-width:396px;margin-bottom:24px;">
         <div *ngIf="false">
           <!-- ================================================== -->
           <!-- REFRESH-TOKEN -->
-          <h4 style="margin: 0 0 12px 0">Refresh token</h4>
+          <h4 class="title">Refresh token</h4>
           <div class="iigwo-input">
             <label>Refresh Token GoTo</label>
             <textarea [(ngModel)]="tokenCode"
@@ -85,7 +72,7 @@
           <hr style="max-width:396px;margin-bottom:24px;">
           <!-- ================================================== -->
           <!-- CLIENT-SECRET -->
-          <h4 style="margin: 0 0 12px 0">Client secret</h4>
+          <h4 class="title">Client secret</h4>
           <div class="iigwo-input">
             <label>Client secret GoTo</label>
             <input [(ngModel)]="clientSecret"
@@ -106,7 +93,7 @@
           <hr style="max-width:396px;margin-bottom:24px;">
           <!-- ================================================== -->
           <!-- CLIENT-ID -->
-          <h4 style="margin: 0 0 12px 0">Client id</h4>
+          <h4 class="title">Client id</h4>
           <div class="iigwo-input">
             <label>Client id GoTo</label>
             <input [(ngModel)]="clientId"
@@ -127,7 +114,7 @@
           <hr style="max-width:396px;margin-bottom:24px;">
           <!-- ================================================== -->
           <!-- TOKEN -->
-          <h4 style="margin: 0 0 12px 0">Token</h4>
+          <h4 class="title">Token</h4>
           <div class="iigwo-input">
             <label>Token id GoTo</label>
             <textarea [(ngModel)]="tokenId"
@@ -148,7 +135,7 @@
           <hr style="max-width:396px;margin-bottom:24px;">
           <!-- ================================================== -->
           <!-- TEL-ENVIO -->
-          <h4 style="margin: 0 0 12px 0">Phone</h4>
+          <h4 class="title">Phone</h4>
           <div class="iigwo-input">
             <label>Phone GoTo</label>
             <input [(ngModel)]="phoneGoTo"
@@ -170,7 +157,7 @@
           <hr style="max-width:396px;margin-bottom:24px;">
           <!-- ================================================== -->
           <!-- TEL-PRUEBA -->
-          <h4 style="margin: 0 0 12px 0">Test Phone</h4>
+          <h4 class="title">Test Phone</h4>
           <div class="iigwo-input">
             <label>Phone to test</label>
             <input [(ngModel)]="phoneTest"
@@ -196,7 +183,7 @@
           </div>
           <!-- ================================================== -->
           <!-- ADMIN-EMAIL -->
-          <h4 style="margin: 0 0 12px 0">Admin Email</h4>
+          <h4 class="title">Admin Email</h4>
           <div class="iigwo-input">
             <label>Email to send error notifications</label>
             <input [(ngModel)]="adminEmail"
@@ -226,95 +213,8 @@
           
           <hr style="max-width:396px;margin-bottom:24px;">
 
-          <!--
-          <h4 style="margin: 0 0 12px 0">Scheduled task payments</h4>
-          <div class="iigwo-input">
-            <label>Activate scheduled task for pending payments</label>
-            <input [(ngModel)]="jobPayments" type="checkbox"
-              [attr.readOnly]="cambiandoJobPayments ? null : false"
-              (ngModelChange)="jobPayments" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 0;">
-            <p style="margin-top: 5px;">Flag activation of task for sending email for pending payments</p>
-          </div>
-
-          <div style="display: flex; gap: 8px; align-items: center;">
-            <button (click)='cambiandoJobPayments=true' *ngIf="cambiandoJobPayments==false"
-              class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
-              <span style="color: #000000; font-size: 13px;">Change email(s)</span>
-            </button>
-          
-            <button (click)='cambiarDato(9)' *ngIf="cambiandoJobPayments==true" class="btn-color"
-              style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
-              <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
-              <span style="color: #ffffff; font-size: 13px;">Change email(s)</span>
-            </button>
-          
-            <button (click)="cancelarCambio(9)" *ngIf="cambiandoJobPayments==true" class="btn-color"
-              style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
-              <span style="color: #000000; font-size: 13px;">Cancel</span>
-            </button>
-          </div>
-          -->
-
-          <!--<button class="iigwo" (click)="cambiandoJobPayments=true"
-            *ngIf="cambiandoJobPayments==false">
-            <label>Change flag</label>
-          </button>
-          <button class="iigwo accent" (click)="cambiarDato(9)" *ngIf="cambiandoJobPayments==true">
-            <label>Change flag</label>
-          </button>
-          <button class="iigwo" (click)="cancelarCambio(9)" *ngIf="cambiandoJobPayments==true">
-            <label>Cancel</label>
-          </button>-->
-
-          <!--
-          <hr style="max-width:396px;margin-bottom:24px;">
-           <h4 style="margin: 0 0 12px 0">Scheduled task late requests</h4>
-           <div class="iigwo-input">
-             <label>Active scheduled task for late requests</label>
-             <input [(ngModel)]="jobLateRequest" type="checkbox"
-               [attr.readOnly]="cambiandoJobLateRequest ? null : false"
-               (ngModelChange)="jobLateRequest" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 0;">
-             <p style="margin-top: 5px;">Flag activation of task for sending email for late requests</p>
-           </div>
-           <button class="iigwo" (click)="cambiandoJobLateRequest=true"
-             *ngIf="cambiandoJobLateRequest==false">
-             <label>Change flag</label>
-           </button>
-           <button class="iigwo accent" (click)="cambiarDato(10)" *ngIf="cambiandoJobLateRequest==true">
-             <label>Change flag</label>
-           </button>
-           <button class="iigwo" (click)="cancelarCambio(10)" *ngIf="cambiandoJobLateRequest==true">
-             <label>Cancel</label>
-           </button>
-           <hr style="max-width:396px;margin-bottom:24px;">
-           -->
-
-            <!-- JOB-RECORDATORIO -->
-             <!--
-          <h4 style="margin: 0 0 12px 0">Active scheduled task appointment reminder</h4>
-          <div class="iigwo-input">
-            <label>Schedled task appointment reminder</label>
-            <input [(ngModel)]="jobRecordatorio" type="checkbox"
-              [attr.readOnly]="cambiandoJobRecordatorio ? null : false"
-              (ngModelChange)="jobRecordatorio" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 0;">
-            <p style="margin-top: 5px;">Flag activation of task for sending email for appointment reminder</p>
-          </div>
-          <button class="iigwo" (click)="cambiandoJobRecordatorio=true"
-            *ngIf="cambiandoJobRecordatorio==false">
-            <label>Change flag</label>
-          </button>
-          <button class="iigwo accent" (click)="cambiarDato(11)" *ngIf="cambiandoJobRecordatorio==true">
-            <label>Change flag</label>
-          </button>
-          <button class="iigwo" (click)="cancelarCambio(11)" *ngIf="cambiandoJobRecordatorio==true">
-            <label>Cancel</label>
-          </button>
-          <hr style="max-width:396px;margin-bottom:24px;">
--->
-           
-
             <!-- MAIL-BVND-CLIENTE -->
-          <h4 style="margin: 0 0 12px 0">Active welcome email for clients</h4>
+          <h4 class="title">Active welcome email for clients</h4>
           <div class="iigwo-input">
             <label>Welcome email for clients</label>
             <input [(ngModel)]="mailBvndClt" type="checkbox"
@@ -335,7 +235,7 @@
           <hr style="max-width:396px;margin-bottom:24px;">
 
            <!-- MAIL-BVND-ABOGADO -->
-           <h4 style="margin: 0 0 12px 0">Active welcome email for lawyers</h4>
+           <h4 class="title">Active welcome email for lawyers</h4>
            <div class="iigwo-input">
              <label>Welcome email for lawyers</label>
              <input [(ngModel)]="mailBvndAbo" type="checkbox"
@@ -356,7 +256,7 @@
            <hr style="max-width:396px;margin-bottom:24px;">
 
            <!-- NOMBRE CONTACTO -->
-          <h4 style="margin: 0 0 12px 0">Contact name</h4>
+          <h4 class="title">Contact name</h4>
           <div class="iigwo-input">
             <label>Contact name for messages</label>
             <input [(ngModel)]="contactName"
@@ -377,7 +277,7 @@
           <hr style="max-width:396px;margin-bottom:24px;">
 
           <!-- ORG CONTACTO -->
-          <h4 style="margin: 0 0 12px 0">Company name</h4>
+          <h4 class="title">Company name</h4>
           <div class="iigwo-input">
             <label>Company name for messages</label>
             <input [(ngModel)]="companyName"
@@ -398,7 +298,7 @@
           <hr style="max-width:396px;margin-bottom:24px;">
 
           <!-- TEL CONACTO -->
-          <h4 style="margin: 0 0 12px 0">Phone info</h4>
+          <h4 class="title">Phone info</h4>
           <div class="iigwo-input">
             <label>Phone info name for messages</label>
             <input [(ngModel)]="phoneInfo"
@@ -418,50 +318,8 @@
           </button>
           <hr style="max-width:396px;margin-bottom:24px;">
 
-          <!-- MENSAJE RECORDATORIO US -->
-          <h4 style="margin: 0 0 12px 0">Reminder message text</h4>
-          <div class="iigwo-input">
-            <label>Reminder message text US</label>
-            <textarea [(ngModel)]="mensajeRecordatorioUs"
-              [attr.readOnly]="cambiandoMensajeRecordatorioUs ? null : false"
-              (ngModelChange)="mensajeRecordatorioUs"></textarea>
-            <p style="margin-top: 5px;">Text reminder message for scheduled task</p>
-          </div>
-          <button class="iigwo" (click)="cambiandoMensajeRecordatorioUs=true"
-            *ngIf="cambiandoMensajeRecordatorioUs==false">
-            <label>Change message text US</label>
-          </button>
-          <button class="iigwo accent" (click)="cambiarDato(17)" *ngIf="cambiandoMensajeRecordatorioUs==true">
-            <label>Change message text US</label>
-          </button>
-          <button class="iigwo" (click)="cancelarCambio(17)" *ngIf="cambiandoMensajeRecordatorioUs==true">
-            <label>Cancel</label>
-          </button>
-          <hr style="max-width:396px;margin-bottom:24px;">
-
-           <!-- MENSAJE RECORDATORIO ES -->
-           <h4 style="margin: 0 0 12px 0">Reminder message text ES</h4>
-           <div class="iigwo-input">
-             <label>Reminder message text ES</label>
-             <textarea [(ngModel)]="mensajeRecordatorioEs"
-               [attr.readOnly]="cambiandoMensajeRecordatorioEs ? null : false"
-               (ngModelChange)="mensajeRecordatorioEs"></textarea>
-             <p style="margin-top: 5px;">Text reminder message ES for scheduled task</p>
-           </div>
-           <button class="iigwo" (click)="cambiandoMensajeRecordatorioEs=true"
-             *ngIf="cambiandoMensajeRecordatorioEs==false">
-             <label>Change message text ES</label>
-           </button>
-           <button class="iigwo accent" (click)="cambiarDato(18)" *ngIf="cambiandoMensajeRecordatorioEs==true">
-             <label>Change message text ES</label>
-           </button>
-           <button class="iigwo" (click)="cancelarCambio(18)" *ngIf="cambiandoMensajeRecordatorioEs==true">
-             <label>Cancel</label>
-           </button>
-           <hr style="max-width:396px;margin-bottom:24px;">
-
             <!-- VOC ADMIN MAIL -->
-          <h4 style="margin: 0 0 12px 0">VOC Admin mail</h4>
+          <h4 class="title">VOC Admin mail</h4>
           <div class="iigwo-input">
             <label>mail VOC admin</label>
             <input [(ngModel)]="vocAdminMail"

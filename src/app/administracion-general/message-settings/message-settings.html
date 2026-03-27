@@ -1,0 +1,110 @@
+<app-workspace-nav>
+  <app-general-nav></app-general-nav>
+</app-workspace-nav>
+<div class='workspace'>
+  <div class='main'>
+
+    <app-experimental-menu titulo="Messages Settings"></app-experimental-menu>
+
+    <div class='content'>
+      <div style="display:flex; flex-flow: row; max-height: 100%;">
+        <div style="min-width:320px;margin-right:24px;">
+          
+
+          <!-- MENSAJE RECORDATORIO US -->
+          <h4 class="title">Reminder appointment message US</h4>
+          <div class="iigwo-input">
+            <label >Reminder message US</label>
+            <textarea style="max-width: 600px;min-height: 70px;width: 600px;" [(ngModel)]="mensajeRecordatorioUs"
+              [attr.readOnly]="cambiandoMensajeRecordatorioUs ? null : false"
+              (ngModelChange)="mensajeRecordatorioUs"></textarea>
+            <p style="margin-top: 5px;">Remember that the values ​​in &#36;&#123;value&#125; are the values ​​that come from the request</p>
+          </div>
+          <button class="iigwo" (click)="cambiandoMensajeRecordatorioUs=true"
+            *ngIf="cambiandoMensajeRecordatorioUs==false">
+            <label>Change message text US</label>
+          </button>
+          <button class="iigwo accent" (click)="cambiarDato(17)" *ngIf="cambiandoMensajeRecordatorioUs==true">
+            <label>Change message text US</label>
+          </button>
+          <button class="iigwo" (click)="cancelarCambio(17)" *ngIf="cambiandoMensajeRecordatorioUs==true">
+            <label>Cancel</label>
+          </button>
+          <hr style="max-width:396px;margin-bottom:24px;">
+
+           <!-- MENSAJE RECORDATORIO ES -->
+           <h4 class="title" >Reminder appointment message ES</h4>
+           <div class="iigwo-input">
+             <label>Reminder message ES</label>
+             <textarea style="max-width: 600px;min-height: 70px;width: 600px;" [(ngModel)]="mensajeRecordatorioEs"
+               [attr.readOnly]="cambiandoMensajeRecordatorioEs ? null : false"
+               (ngModelChange)="mensajeRecordatorioEs"></textarea>
+             <p style="margin-top: 5px;">Remember that the values ​​in &#36;&#123;value&#125; are the values ​​that come from the request</p>
+           </div>
+           <button class="iigwo" (click)="cambiandoMensajeRecordatorioEs=true"
+             *ngIf="cambiandoMensajeRecordatorioEs==false">
+             <label>Change message text ES</label>
+           </button>
+           <button class="iigwo accent" (click)="cambiarDato(18)" *ngIf="cambiandoMensajeRecordatorioEs==true">
+             <label>Change message text ES</label>
+           </button>
+           <button class="iigwo" (click)="cancelarCambio(18)" *ngIf="cambiandoMensajeRecordatorioEs==true">
+             <label>Cancel</label>
+           </button>
+           <hr style="max-width:396px;margin-bottom:24px;">
+
+           <!-- MENSAJE PAYMENT US -->
+          <h4 class="title">Reminder payment message US</h4>
+          <div class="iigwo-input">
+            <label>Reminder payment message US</label>
+            <textarea style="max-width: 600px;min-height: 70px;width: 600px;" [(ngModel)]="mensajePaymentUs"
+              [attr.readOnly]="cambiandoMensajePaymentUs ? null : false"
+              (ngModelChange)="mensajePaymentUs"></textarea>
+            <p style="margin-top: 5px;">Remember that the values ​​in &#36;&#123;value&#125; are the values ​​that come from the request</p>
+          </div>
+          <button class="iigwo" (click)="cambiandoMensajePaymentUs=true"
+            *ngIf="cambiandoMensajePaymentUs==false">
+            <label>Change message text US</label>
+          </button>
+          <button class="iigwo accent" (click)="cambiarDato(17)" *ngIf="cambiandoMensajePaymentUs==true">
+            <label>Change message text US</label>
+          </button>
+          <button class="iigwo" (click)="cancelarCambio(17)" *ngIf="cambiandoMensajePaymentUs==true">
+            <label>Cancel</label>
+          </button>
+          <hr style="max-width:396px;margin-bottom:24px;">
+
+           <!-- MENSAJE PAYMENT ES -->
+           <h4 class="title">Reminder payment message ES</h4>
+           <div class="iigwo-input">
+             <label>Reminder payment message ES</label>
+             <textarea style="max-width: 600px;min-height: 70px;width: 600px;" [(ngModel)]="mensajePaymentEs"
+               [attr.readOnly]="cambiandoMensajePaymentEs ? null : false"
+               (ngModelChange)="mensajePaymentEs"></textarea>
+             <p style="margin-top: 5px;">Remember that the values ​​in &#36;&#123;value&#125; are the values ​​that come from the request</p>
+           </div>
+           <button class="iigwo" (click)="cambiandoMensajePaymentEs=true"
+             *ngIf="cambiandoMensajePaymentEs==false">
+             <label>Change message text ES</label>
+           </button>
+           <button class="iigwo accent" (click)="cambiarDato(18)" *ngIf="cambiandoMensajePaymentEs==true">
+             <label>Change message text ES</label>
+           </button>
+           <button class="iigwo" (click)="cancelarCambio(18)" *ngIf="cambiandoMensajePaymentEs==true">
+             <label>Cancel</label>
+           </button>
+           <hr style="max-width:396px;margin-bottom:24px;">
+
+            
+           
+
+        </div>
+      </div>
+    </div>
+
+    <!--Cargando-->
+    <div class='iigwo-loading' *ngIf="cargando">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+</div>

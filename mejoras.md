@@ -1,0 +1,1 @@
+Para tablas se puede cambia por primeMG tables, primeMG tiene otros componentes pero en este caso las tablas tienen mas funcionalidadess

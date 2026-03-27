@@ -94,14 +94,6 @@ export class ConfiguracionesComponent {
   phoneInfo: string = "";
   phoneInfoOld: string = "";
 
-  cambiandoMensajeRecordatorioUs: boolean = false;
-  mensajeRecordatorioUs: string = "";
-  mensajeRecordatorioUsOld: string = "";
-
-  cambiandoMensajeRecordatorioEs: boolean = false;
-  mensajeRecordatorioEs: string = "";
-  mensajeRecordatorioEsOld: string = "";
-
   cambiendoVOCAdminMail: boolean = false;
   vocAdminMail: string = "";
   vocAdminMailOld: string = "";
@@ -199,17 +191,10 @@ export class ConfiguracionesComponent {
           this.phoneInfo = this.arrConfiguraciones[index].valor;
           this.phoneInfoOld = this.phoneInfo;
           break;
-          case 17:
-          this.mensajeRecordatorioUs = this.arrConfiguraciones[index].valor;
-          this.mensajeRecordatorioUsOld = this.mensajeRecordatorioUs;
-          break;
-          case 18:
-          this.mensajeRecordatorioEs = this.arrConfiguraciones[index].valor;
-          this.mensajeRecordatorioUsOld = this.mensajeRecordatorioEs;
-          break;
+          
            case 24:
           this.vocAdminMail = this.arrConfiguraciones[index].valor;
-          this.vocAdminMailOld = this.mensajeRecordatorioEs;
+          this.vocAdminMailOld = this.vocAdminMail;
           break;
         default:
           break;
@@ -270,12 +255,6 @@ export class ConfiguracionesComponent {
         break;
       case 16:
         this.configuracion.valor = this.phoneInfo.toString();
-        break;
-      case 17:
-        this.configuracion.valor = this.mensajeRecordatorioUs.toString();
-        break;
-      case 18:
-        this.configuracion.valor = this.mensajeRecordatorioEs.toString();
         break;
        case 24:
         this.configuracion.valor = this.vocAdminMail.toString();
@@ -357,14 +336,6 @@ export class ConfiguracionesComponent {
               this.phoneInfoOld = this.phoneInfo;
               this.cambiandoPhoneInfo = false;
               break;
-              case 17:
-              this.mensajeRecordatorioUsOld = this.mensajeRecordatorioUs;
-              this.cambiandoMensajeRecordatorioUs = false;
-              break;
-              case 18:
-              this.mensajeRecordatorioEsOld = this.mensajeRecordatorioEs;
-              this.cambiandoMensajeRecordatorioEs = false;
-              break;
               case 24:
               this.vocAdminMailOld = this.vocAdminMail;
               this.cambiendoVOCAdminMail = false;
@@ -445,14 +416,6 @@ export class ConfiguracionesComponent {
         case 16:
         this.cambiandoPhoneInfo = false;
         this.phoneInfo = this.phoneInfoOld;
-        break;
-        case 17:
-        this.cambiandoMensajeRecordatorioUs = false;
-        this.mensajeRecordatorioUs = this.mensajeRecordatorioUsOld;
-        break;
-        case 18:
-        this.cambiandoMensajeRecordatorioEs = false;
-        this.mensajeRecordatorioEs = this.mensajeRecordatorioEsOld;
         break;
          case 24:
         this.cambiendoVOCAdminMail = false;

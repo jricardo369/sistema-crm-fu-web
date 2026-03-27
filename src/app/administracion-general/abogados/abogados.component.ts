@@ -75,6 +75,11 @@ export class AbogadosComponent implements OnInit {
         filterFecha: string = '';
         orderFecha: string = 'asc';
 
+        cambiarOrdenFecha() {
+          this.orderFecha = this.orderFecha === 'asc' ? 'desc' : 'asc';
+          this.paginacion.setArray(this.abogadosFiltrados, 15);
+        }
+
             get abogadosFiltrados() {
               let result = this.abogadosSinFiltrar;
 
@@ -107,9 +112,15 @@ export class AbogadosComponent implements OnInit {
               }
 
 
-              // Filtro por nombre
+              // Filtro por texto: firma, nombre, email, sinónimos
               if (this.filterNombre) {
-                result = result.filter(a => a.nombre && a.nombre.toLowerCase().includes(this.filterNombre.toLowerCase()));
+                const term = this.filterNombre.toLowerCase();
+                result = result.filter(a =>
+                  (a.firma && a.firma.toLowerCase().includes(term)) ||
+                  (a.nombre && a.nombre.toLowerCase().includes(term)) ||
+                  (a.email && a.email.toLowerCase().includes(term)) ||
+                  (a.sinonimos && a.sinonimos.toLowerCase().includes(term))
+                );
               }
 
               // Filtro por fecha

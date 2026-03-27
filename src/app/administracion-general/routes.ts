@@ -2,6 +2,7 @@
 import { Routes } from '@angular/router';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { ConfiguracionesComponent } from './configuraciones/configuraciones.component';
+import { MessageSettingsComponent } from './message-settings/message-settings';
 import { ConfigIntegrationsComponent } from './config-integrations/config-integrations';
 import { TareasProgramadasComponent } from './tareas-programadas/tareas-programadas.component';
 import { AbogadosComponent } from './abogados/abogados.component';
@@ -12,6 +13,7 @@ export const ADMINISTRACION_GENERAL_ROUTES: Routes = [
   { path: 'configuraciones', component: ConfiguracionesComponent },
   { path: 'config-integrations', component: ConfigIntegrationsComponent },
   { path: 'tareas-programadas', component: TareasProgramadasComponent },
+  { path: 'message-settings', component: MessageSettingsComponent },
   { path: 'abogados', component: AbogadosComponent },
   { path: 'home-admin', component: HomeAdminComponent },
   { 

@@ -5,7 +5,7 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SessionService } from 'src/app/services/session.service';
 import { UtilService } from 'src/app/services/util.service';
-import { BACKOFFICE, INTERVIEWER, INTERVIEWER_SCALES, THERAPIST, VENDOR,VOC,TEMPLATE_CREATOR,CLINICIAN } from 'src/app/app.config';
+import { BACKOFFICE, INTERVIEWER, INTERVIEWER_SCALES, THERAPIST, VENDOR,VOC,TEMPLATE_CREATOR,CLINICIAN,ADMINISTRATOR,MARKETING } from 'src/app/app.config';
 import { MASTER } from '../../app.config';
 import { WorkspaceNavComponent } from 'src/app/common/workspace-nav/workspace-nav.component';
 import { ExperimentalMenuComponent } from 'src/app/common/experimental-menu/experimental-menu.component';
@@ -101,6 +101,14 @@ export class InicioComponent implements OnInit {
             if ([VOC,TEMPLATE_CREATOR].some(rol => rol == usuario.rol)) {
                 console.log('inicio en /solicitudes');
                 this.router.navigateByUrl('/solicitudes');
+              }
+             if ([ADMINISTRATOR].some(rol => rol == usuario.rol)) {
+                console.log('inicio en /administracion-general/usuarios');
+                this.router.navigateByUrl('/administracion-general/usuarios');
+              }
+              if ([MARKETING].some(rol => rol == usuario.rol)) {
+                console.log('inicio en /administracion-general/usuarios');
+                this.router.navigateByUrl('/administracion-general/usuarios');
               }
               
         }).then(() => this.loading = false);

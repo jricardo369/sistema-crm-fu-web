@@ -91,7 +91,8 @@ export class AppComponent implements OnInit, SessionServiceListener {
             'seenD','attachD','message-sendD','excelD','bellD','reassignD','pletterD','completeD','sendD','assignD','reopenD','assignD2',
             'saveD','playD','lawyers','dashboard','refused','calendarD2','cancel-event','exportD','searchD','filesFolderD','filesFolderDarkD','filesD','couponD',
             'integrationsD','cash','cashAll','cashAll2','syncD','salesD','pinD','circleD','okD','finishD','cancelD','important','reminder','reminderD','calendarMenuD',
-            'reminderD2','reminderNaranja'
+            'reminderD2','reminderNaranja','unlockD','unlockD2','messagesD','phoneD','emailD','calendarD3','calendarD4','files-listD','files-listD2',
+            'account-balanceD','numberFlagD','law-book','courthouse'
         ].forEach(e => iconRegistry.addSvgIcon(e, this.sanitizer.bypassSecurityTrustResourceUrl('/assets/svg/' + e + '.svg')));
 
     }

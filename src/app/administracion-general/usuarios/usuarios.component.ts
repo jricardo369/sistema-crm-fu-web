@@ -37,6 +37,8 @@ export class UsuariosComponent implements OnInit {
     usuariosSinFiltrar: Usuario[] = [];
     seleccion: number[] = [];
 
+    searchTerm: string = '';
+
     paginacion: PaginationManager = new PaginationManager();
 
     constructor(
@@ -63,6 +65,25 @@ export class UsuariosComponent implements OnInit {
             })
             .catch(reason => this.utilService.manejarError(reason))
             .then(() => this.cargando = false)
+    }
+
+    buscarUsuarios() {
+        const term = (this.searchTerm || '').trim().toLowerCase();
+
+        if (!term) {
+            this.usuarios = this.usuariosSinFiltrar.slice();
+            this.paginacion.setArray(this.usuarios, 15);
+            return;
+        }
+
+        this.usuarios = this.usuariosSinFiltrar.filter(u => {
+            const usuario = (u.usuario || '').toLowerCase();
+            const nombre = (u.nombre || '').toLowerCase();
+            const telefono = (u.telefono != null ? '' + u.telefono : '').toLowerCase();
+            return usuario.includes(term) || nombre.includes(term) || telefono.includes(term);
+        });
+
+        this.paginacion.setArray(this.usuarios, 15);
     }
 
 	estanTodosSeleccionados() {
@@ -207,5 +228,17 @@ export class UsuariosComponent implements OnInit {
             if (valor == 'editando') this.refrescar();
         }).catch(reason => this.utilService.manejarError(reason));
 	}
+
+     desbloquear(idUsuario: number) {
+    this.cargando = true;
+    this.usuariosService
+      .desbloquearUsuario(idUsuario)
+      .then(usuario => {
+        this.utilService.mostrarDialogoSimple('User unlocked', 'The user has been unlocked successfully.', 'OK');
+        this.refrescar();
+      })
+      .catch(reason => this.utilService.manejarError(reason))
+      .then(() => this.cargando = false);
+  }
 
 }

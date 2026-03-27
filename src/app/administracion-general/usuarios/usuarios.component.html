@@ -6,23 +6,6 @@
 
         <app-experimental-menu titulo="Users">
 
-            <!--<button (click)='crearUsuario()'
-                style="color: #239B56;background: #EAFAF1;border-radius: 5px; height: 28px;">
-                <mat-icon svgIcon="add-box"></mat-icon>
-                <label>New User</label>
-            </button>
-
-            <button (click)='refrescar()' style="color: #D4AC0D;background: #FEF9E7;border-radius: 5px; height: 28px;">
-                <mat-icon svgIcon="refresh"></mat-icon>
-                <label>Refresh</label>
-            </button>
-
-            <button (click)='eliminar()' [disabled]='seleccion.length == 0'
-                style="color: #CB4335;background: #FDEDEC;border-radius: 5px; height: 28px;">
-                <mat-icon svgIcon="delete"></mat-icon>
-                <label>Delete</label>
-            </button>-->
-
             <button  (click)='crearUsuario()' class="btn"
         style="color: #FFFFFF;background: #239B56; border-radius: 5px; height: 20px; line-height: 20px;margin-left: 10px;">
         <mat-icon svgIcon="add" style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
@@ -45,7 +28,25 @@
 
         <div class='content'>
 
+            <!-- BUSCADOR SIMPLE -->
+             <div>
+            <div style="margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                <div class="iigwo-input inline" style="margin-top: 20px;width: 180px;">
+                        <input [(ngModel)]="searchTerm"
+                    (keyup.enter)="buscarUsuarios()"
+                    placeholder="Search by user, name or phone">
+                    </div>
+
+                 <button (click)="buscarUsuarios()" class=" iigwo btn-color btn-color-accent"
+                    style="color: #FFFFFF; border: 0.5px solid #b1b1b1;margin-top: 18px;"
+                    [ngStyle]="{'color':'#FFFFFF','background': 'var(--app-accent)','margin-top': '18px'}">
+                    <span style="color: #FFFFFF; font-size: 13px;">Apply filters</span>
+                </button>
+            </div>
+            </div>
+
             <!-- FILTRO -->
+             <!--
             <div style="margin-bottom: 20px;">
 
                 <h5 *ngIf="filters.length < 1" style="margin: 0 0 3px 0;">Search</h5>
@@ -59,6 +60,7 @@
                             <option value="nombre">Name</option>
                             <option value="direccion">Address</option>
                             <option value="telefono">Phone</option>
+                            <option value="telefono">Email</option>
                             <option value="tipo">Type</option>
                         </select>
                     </div>
@@ -116,25 +118,45 @@
 
             </div>
 
+            -->
+
             <!-- TABLA CON REGISTROS -->
             <div style="">
                 <table class='big' *ngIf="!(usuarios.length == 0)">
                     <tr>
                         <th class=''><input type="checkbox" [checked]="estanTodosSeleccionados()"
                                 (change)="checkAll($event)"></th>
+                                <th class=''>Status</th>
                         <th class=''>User</th>
                         <th class=''>Name</th>
                         <!--<th class=''>Address</th>-->
                         <th class=''>Phone</th>
+                        <th class=''>Email</th>
                         <th class=''>Type</th>
+                        
                     </tr>
                     <tr *ngFor='let e of usuarios | slice:paginacion.begin:paginacion.end'>
                         <td class=''><input type="checkbox" [checked]="estaSeleccionado(e.idUsuario)"
                                 (change)="check($event, e.idUsuario)"></td>
+                        <td class='accent'>
+                            <span *ngIf="e.estatus === '3'" class="circulo-badge color-circulo-badge-activo">B</span>
+                            <span *ngIf="e.estatus === '1'" class="circulo-badge color-circulo-badge-block">A</span>
+                            <mat-icon *ngIf="e.estatus === '3'"  svgIcon="unlockD2" (click)='desbloquear(e.idUsuario)'
+                             style="color:rgba(105, 84, 0, 0.7); width: 16px; height: 16px; margin-bottom: -3px;margin-left: 5px;cursor: pointer;* {cursor: pointer;}"></mat-icon>
+                        </td>
                         <td class=''><a (click)="editarUsuario(e.idUsuario)">{{e.usuario}}</a></td>
                         <td class=''><a (click)="editarUsuario(e.idUsuario)">{{e.nombre}}</a></td>
                         <!--<td class='accent'>{{e.direccion}}</td>-->
-                        <td class='accent'>{{e.telefono | phone}}</td>
+                        <td class='accent'>
+                            <mat-icon svgIcon="phoneD" *ngIf="e.telefono != null && e.telefono != ''"
+                  style="color:rgba(0, 0, 0, 0.7); width: 13px; height: 13px;margin-bottom: -2px;margin-right: 2px;"></mat-icon>
+                            {{e.telefono | phone}}
+                        
+                        </td>
+                        <td class='accent'>
+                             <mat-icon svgIcon="emailD" *ngIf="e.correoElectronico != null && e.correoElectronico != ''"
+                  style="color:rgba(0, 0, 0, 0.7); width: 13px; height: 13px;margin-bottom: -2px;"></mat-icon>
+                            {{e.correoElectronico}}</td>
                     
                         <td class='accent'>
                             @switch (e.rol) {
@@ -152,6 +174,8 @@
                             @default { <label>{{ e.rol }}</label> }
                             }
                         </td>
+
+                        
                     </tr>
 
                     <tr>

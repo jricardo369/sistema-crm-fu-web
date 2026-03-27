@@ -25,6 +25,22 @@
 
       <h4 style="margin: 0 0 12px 0;font-family: regular;">Lawyer information</h4>
 
+      <!--<div *ngIf="!creando" class="iigwo-input">
+        <label>Creation date</label>
+        <input type="text" min="0" [(ngModel)]="abogado.fechaCreacion" readonly>
+      </div>-->
+
+      <div class="iigwo-input" *ngIf="!creando">
+          <div class="div-img-label">
+            <mat-icon svgIcon="calendarD"
+              style="color:rgba(0, 0, 0, 0.7); width: 11px; margin-bottom: 4px;"></mat-icon>
+            <label>Creation Date</label>
+          </div>
+          <div class="horizontal-container">
+           <label style="color:#000000">{{abogado.fechaCreacion}}</label>
+          </div>
+        </div>
+
       <div class="iigwo-input">
         <label>Law Firm</label>
         <input type="text" [(ngModel)]="abogado.firma">
@@ -112,10 +128,7 @@
       </div>
       
 
-      <div *ngIf="!creando" class="iigwo-input">
-        <label>Creation date</label>
-        <input type="text" min="0" [(ngModel)]="abogado.fechaCreacion" readonly>
-      </div>
+      
 
     </div>
 

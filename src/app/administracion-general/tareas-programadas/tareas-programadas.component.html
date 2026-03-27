@@ -8,7 +8,7 @@
 
     <div class='content'>
 
-      <h4 style="margin: 0 0 12px 0; max-width: 396px">{{tituloRecordatorioPagoOld}}</h4>
+      <h4 class="title">{{tituloRecordatorioPagoOld}}</h4>
       
       <div class="iigwo-input">
         <label>Day of week</label>
@@ -61,7 +61,7 @@
 
       <!-- ================================================== -->
 
-      <h4 style="margin: 0 0 12px 0; max-width: 396px">{{tituloRecordatorioPagoOld}}</h4>
+      <h4 class="title">{{tituloRecordatorioSolicitudesOld}}</h4>
 
       <div class="iigwo-input">
         <label>Day of week</label>
@@ -72,7 +72,7 @@
         <label>Time</label>
         <input [(ngModel)]="horaEnvioRecordatorioSolicitudes" type="time"
           [attr.readOnly]="cambiandoDiaEnvioRecordatorioSolicitudes ? null : false">
-        <p style="margin-top: 5px;">{{subtituloRecordatorioPagoOld}}</p>
+        <p style="margin-top: 5px;">{{subtituloRecordatorioSolicitudesOld}}</p>
       </div>
 
       <div class="iigwo-input" style="margin: 0;" >
@@ -113,7 +113,7 @@
 
       <!-- ================================================== -->
 
-       <h4 style="margin: 0 0 12px 0; max-width: 396px">{{tituloCitasRecordatorioOld}}</h4>
+       <h4 class="title">{{tituloCitasRecordatorioOld}}</h4>
       
       <div class="iigwo-input">
         <input [(ngModel)]="horaCitasRecordatorioOld" type="time"
@@ -160,7 +160,7 @@
 
       <!-- ================================================== -->
 
-      <h4 style="margin: 0 0 12px 0; max-width: 396px">{{tituloVocEndSessionOld}}</h4>
+      <h4 class="title">{{tituloVocEndSessionOld}}</h4>
       
       <div class="iigwo-input">
         <input [(ngModel)]="horaVocEndSession" type="time"

@@ -93,7 +93,7 @@
 
     <div class='content' style="margin-top: 80px;padding-top: 0;">
 
-      <div style="display: flex;" *ngIf="mostrarTotales">
+      <!--<div style="display: flex;" *ngIf="mostrarTotales">
         <div class="mb-20">
           <h4 class="mb-0" style="color: blue;">{{(reporteMovimientos.cargos ? reporteMovimientos.cargos : 0) | currency
             : 'USD' : 'symbol' : undefined : 'en-US'}}</h4>
@@ -117,7 +117,47 @@
             : 'USD' : 'symbol' : undefined : 'en-US'}}</h4>
           <p class="text-body-secondary fs-9 mb-0">Paid</p>
         </div>
-      </div>
+      </div>-->
+
+
+<div style="display: flex;margin-bottom: 15px;">
+
+  <div style="margin-right: 20px;" *ngIf="mostrarEncabecadoNoPagos">
+    <div class="div-img-label" style="margin-bottom: 3px;">
+      <mat-icon svgIcon="moneyD" style="color: rgb(53, 53, 53); width: 14px; margin-bottom: 3px;margin-right: 5px;"></mat-icon>
+      <label style="margin-bottom: 0px;">Total Outstanding</label>
+    </div>
+    <div class="monto-total-outstanding">{{(reporteMovimientos.cargos ? reporteMovimientos.cargos : 0) | currency
+      : 'USD' : 'symbol' : undefined : 'en-US'}}</div>
+
+  </div>
+
+  <div style="margin-right: 20px;" *ngIf="mostrarEncabecadoPagos">
+    <div class="div-img-label" style="margin-bottom: 3px;">
+      <mat-icon svgIcon="moneyListD" style="color: rgb(53, 53, 53); width: 13px; margin-bottom: 3px;margin-right: 5px;"></mat-icon>
+      <label style="margin-bottom: 0px;">Payments</label>
+    </div>
+    <div class="monto-payments">{{(reporteMovimientos.abonos ? reporteMovimientos.abonos: 0) | currency
+      : 'USD' : 'symbol' : undefined : 'en-US'}}
+    </div>
+
+
+  </div>
+
+  
+
+  <div *ngIf="mostrarEncabecadoBalance">
+    <div class="div-img-label" style="margin-bottom: 3px;">
+      <mat-icon svgIcon="account-balanceD" style="color: rgb(53, 53, 53); width: 11px; margin-bottom: 3px;margin-right: 5px;"></mat-icon>
+      <label style="margin-bottom: 0px;">Account Balance</label>
+    </div>
+    <div class="monto-account-balance">{{(reporteMovimientos.balance ? reporteMovimientos.balance : 0) |
+      currency : 'USD' : 'symbol' : undefined : 'en-US'}}</div>
+
+  </div>
+</div>
+
+      
 
       <table class="informative" *ngIf="inputTipoReporte == '1' else elseTemplate">
         <tr>
@@ -132,18 +172,27 @@
           <th>Details</th>
         </tr>
         <tr *ngFor='let e of adeudos | slice:paginacion.begin:paginacion.end'>
-          <td class='accent'>{{e.idSolicitud}}</td>
+          <td class='accent'>
+             <mat-icon svgIcon="numberFlagD"
+                  style="color:rgba(0, 0, 0, 0.7); width: 11px; margin-bottom: -7px;"></mat-icon>
+            {{e.idSolicitud}}</td>
           <td class='accent'>{{e.fecha | dateMMDDYYYY}}</td>
           <td class='accent'>{{e.cliente}}</td>
-          <td class='accent'>{{e.telefono | phone}}</td>
-          <td class='accent'>{{e.email}}</td>
+          <td class='accent'>
+            <mat-icon svgIcon="phoneD" *ngIf="e.telefono != null && e.telefono != ''"
+                  style="color:rgba(0, 0, 0, 0.7); width: 13px; height: 13px;margin-bottom: -2px;margin-right: 2px;"></mat-icon>
+                  {{e.telefono | phone}}</td>
+          <td class='accent'>
+            <mat-icon svgIcon="emailD" *ngIf="e.email != null && e.email != ''"
+                  style="color:rgba(0, 0, 0, 0.7); width: 13px; height: 13px;margin-bottom: -2px;"></mat-icon>
+            {{e.email}}</td>
           <td class="number">{{e.amount | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</td>
           <td class="number">{{e.pagado | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</td>
           <td *ngIf="e.adeudo === 0" class="paid"><mat-icon svgIcon="done" style="color: #117a65; width: 15px; height: 15px;"></mat-icon> Paid</td>
           <td *ngIf="e.adeudo !== 0" class="number" style="color:red">{{e.adeudo | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</td>
           <td style="padding-top: 0; padding-bottom: 0;">
             <button (click)='abrirDetalle(e.idSolicitud)' class="btn-icon" style="color: gray;" matTooltip="Open">
-              <mat-icon svgIcon="eyeD" style="color: rgb(53, 53, 53); width: 22px; height: 22px;"></mat-icon>
+              <mat-icon svgIcon="eyeD" style="color: rgb(53, 53, 53); width: 18px; height: 18px;"></mat-icon>
             </button>
 
             

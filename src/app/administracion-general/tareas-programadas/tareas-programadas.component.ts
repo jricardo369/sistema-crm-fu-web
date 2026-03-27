@@ -84,6 +84,7 @@ export class TareasProgramadasComponent {
   }
 
   procesarTareas() {
+    console.log(this.arrTareas);
     for (let index = 0; index < this.arrTareas.length; index++) {
       switch (Number(this.arrTareas[index].idTareaProgramada)) {
         case 1:

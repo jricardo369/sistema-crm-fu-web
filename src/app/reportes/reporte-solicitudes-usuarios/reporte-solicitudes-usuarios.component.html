@@ -6,12 +6,6 @@
 
     <app-experimental-menu titulo="Users Files">
 
-      <!--<button (click)='obtenerSolicitudesUsuarios()'
-        style="color: #D4AC0D;background: #FEF9E7;border-radius: 5px; height: 28px; line-height: 28px;">
-        <mat-icon svgIcon="refresh"></mat-icon>
-        <label>Refresh</label>
-      </button>-->
-
       <button (click)='obtenerSolicitudesUsuarios()' class="btn"
         style="color: #FFFFFF;background: #f3c956; border-radius: 5px; height: 20px; line-height: 20px;">
         <mat-icon svgIcon="refresh"
@@ -25,17 +19,6 @@
       <div style="display: inline-flex;">
     
         <div style="display: inline-flex;">
-    
-          <!--
-          <div class="iigwo-input">
-            <label>Start Date</label>
-            <input type="date" [(ngModel)]="fechaI" (change)="obtenerSolicitudesUsuarios()">
-          </div>
-          <div class="iigwo-input">
-            <label>End Date</label>
-            <input type="date" [(ngModel)]="fechaF" (change)="obtenerSolicitudesUsuarios()">
-          </div>
-          -->
 
           <div class="iigwo-input">
               <label>Start Date</label>
@@ -69,21 +52,27 @@
         </tr>
         <tr *ngFor='let e of arrReporteSolicitudesUsuarios | slice:paginacion.begin:paginacion.end'>
           <td class='accent'>
-            <!--<img src="http://ec2-54-215-12-132.us-west-1.compute.amazonaws.com:8080/fileSystem/2025/3628/0833baa3-8f9a-4898-9d25-154d939eb69a.png" style="
-            height: 32px;
-            width: 32px;
-            margin: 0;
-            border-radius: 50%;
-        ">{{e.nombre}}-->
 
             <div class="user-info">
               <img *ngIf="e.image != null" src="{{e.image}}" class="avatarr">
               <div *ngIf="e.image == null" class="avatar-circle" [style.background-color]="e.color">{{e.iniciales}}
               </div>
               <span class="user-text">{{e.nombre}}</span>
+              <div class="badge-status" [ngClass]="{
+                                                'badge-color-case-manager': e.rol == 'Interviewer',
+                                                'badge-color-scales': e.rol == 'Interviewer scales',
+                                                'badge-color-clinician': e.rol == 'Clinician',
+                                                'badge-color-editor': e.rol == 'Template',
+                                                'badge-color-terapeuta': e.rol == 'Teraphist',
+                                                'badge-color-backoffice': e.rol == 'Backoffice',
+                                              }" >
+                <span>{{e.rol}}</span>
+
+              </div>
             </div>
 
           </td>
+          
           <td (click)="verSolicitudesUsuario(e.idUsuario,e.nombre)" style="text-align: center;"><span
               class="badge-status" style="margin: 0;cursor: pointer;
             * {

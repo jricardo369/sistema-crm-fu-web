@@ -1,6 +1,6 @@
-export const VERSION_PORTAL = 'Versión 2025.07.25-10:37';
+export const VERSION_PORTAL = 'Versión 2026.03.05-09:00';
 export const EMPRESA_PORTAL = '© / 2026';
-export const VERSION_WEB = 'V10.0-1';
+export const VERSION_WEB = 'V10.0-2';
 
 /*--------------------------------------
 
@@ -13,26 +13,12 @@ ng build --configuration=production --base-href=/ --deploy-url=/ --output-path=d
 
 --------------------------------------*/
 
-// =====================================================
-// ASI SE GENERA EL ARCHIVO DE TRADUCCION (HAY QUE EDITARLO Y CAMBIARLO DE NOMBRE Y PEGARLO EN OTRA RUTA)
-//     ng xi18n --output-path translate
-// Y ASI SE CORRE EN INGLÉS (O EN ESPAÑOL)
-//     ng serve --configuration=en
-//     ng serve --configuration=es
-// =====================================================
-
 var urlPro = 'https://crm-familiasunidasla.com/pe_crm_api/';
 var urlQas = 'http://ec2-54-215-12-132.us-west-1.compute.amazonaws.com:8080/pe_crm_api/';
 var urlLocal = 'http://localhost:18080/pe_crm_api/';
+
 var pro = false;
 var qas = false;
-
-/*console.log('es pro? '+pro);
-console.log('api pro '+urlPro);
-
-console.log('api qas '+urlQas);
-console.log('es qas '+qas);
-console.log('api local '+urlLocal);*/
 
 let documentBsaeUriWithoutLanguage = document.baseURI
     .replace("/es/", "")
@@ -59,6 +45,7 @@ export const INTERVIEWER_SCALES = '8';
 export const GHOSTWRITING = '9';
 export const THERAPIST = '10';
 export const CLINICIAN = '11';
+export const MARKETING = '12';
 
 export const US_STATES = [
   {

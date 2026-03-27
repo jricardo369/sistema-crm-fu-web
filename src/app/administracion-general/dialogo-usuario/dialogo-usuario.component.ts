@@ -78,7 +78,9 @@ export class DialogoUsuarioComponent implements OnInit {
       this.usuario.permisos = [];
     }
 
-     this.obtenerEstadosUsuario();
+     if(!this.creando) {
+          this.obtenerEstadosUsuario();
+     }  
 
    
   }
@@ -250,7 +252,7 @@ export class DialogoUsuarioComponent implements OnInit {
     this.estadoUsuarioService
       .insertarEstadoUsuario(this.stateSelected, this.usuario.idUsuario,0,this.licencia)
       .then(estadoUsuario => {
-        this.obtenerEstadosUsuario();
+       
       })
       .catch(reason => this.utilService.manejarError(reason))
       .then(() => this.cargando = false);
