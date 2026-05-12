@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NAV_MENU_IZQUIERDA_STYLES, NAV_MENU_IZQUIERDA_TEMPLATE, UtilServiceTest } from 'src/app/app-nav-item';
 import { Router,RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { SOLICITUDES_ITEMS } from '../solicitudes-nav-items'; 
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { UtilService } from 'src/app/services/util.service';
@@ -16,11 +16,10 @@ let ITEMS = SOLICITUDES_ITEMS;
   template: NAV_MENU_IZQUIERDA_TEMPLATE,
   styles: [NAV_MENU_IZQUIERDA_STYLES],
   imports: [
-    CommonModule,
     RouterModule,
     MatIconModule,
-    FormsModule,
-  ]
+    FormsModule
+]
 })
 export class SolicitudesNavComponent extends UtilServiceTest {
 	constructor(router: Router, utilService: UtilService, usuariosService: UsuariosService) {

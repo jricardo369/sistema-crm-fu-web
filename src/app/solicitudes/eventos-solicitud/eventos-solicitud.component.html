@@ -1,47 +1,49 @@
-<div *ngIf="mostrarEventos" style="
+@if (mostrarEventos) {
+<div style="
                 overflow-y: auto;">
-
     <div style="display: flex; align-items: center; justify-content: space-between;">
-       
-        <div class="div-img-label" >
-          <img style="margin-top: 2px;" width="15px" height="15px" src="assets/svg/listD.svg">
-          <h4>Events</h4>
-        </div>
-        <!--<button (click)='crearEvento()' class="btn m-l-40" *ngIf="idEstatusSolicitud != 11"
-            style="color: #239B56;background: #EAFAF1;border-radius: 5px; height: 28px; line-height: 28px;">
-            <mat-icon svgIcon="add"></mat-icon>
-            <label>Add Event</label>
-        </button>-->
-
-        <button *ngIf="idEstatusSolicitud != 11" (click)='crearEvento()' class="btn"
+      <div class="div-img-label" >
+        <img style="margin-top: 2px;" width="15px" height="15px" src="assets/svg/listD.svg">
+        <h4>Events</h4>
+      </div>
+      <!--<button (click)='crearEvento()' class="btn m-l-40" *ngIf="idEstatusSolicitud != 11"
+      style="color: #239B56;background: #EAFAF1;border-radius: 5px; height: 28px; line-height: 28px;">
+      <mat-icon svgIcon="add"></mat-icon>
+      <label>Add Event</label>
+    </button>-->
+    @if (idEstatusSolicitud != 11) {
+      <button (click)='crearEvento()' class="btn"
         style="color: #FFFFFF;background: #239B56; border-radius: 5px; height: 20px; line-height: 20px;margin-left: 10px;">
         <mat-icon svgIcon="add" style="color:rgba(255, 255, 255, 0.7); width: 15px;margin-bottom: 2px;margin-right: 5px;"></mat-icon>
         <label style="margin: auto;color: #FFFFFF;text-transform: none;">Add Event</label>
       </button>
-    </div>
-
-    <table class="informative" *ngIf="arrEventoSolicitud.length > 0" style="padding: 5px;">
+    }
+  </div>
+  @if (arrEventoSolicitud.length > 0) {
+    <table class="informative" style="padding: 5px;">
+      <tr>
+        <th>Date</th>
+        <th>User</th>
+        <th>Event</th>
+        <th>Description</th>
+        <th>Type</th>
+      </tr>
+      @for (e of arrEventoSolicitud | slice:paginacion.begin:paginacion.end; track e) {
         <tr>
-            <th>Date</th>
-            <th>User</th>
-            <th>Event</th>
-            <th>Description</th>
-            <th>Type</th>
-        </tr>
-        <tr *ngFor='let e of arrEventoSolicitud | slice:paginacion.begin:paginacion.end'>
           <td style="white-space: nowrap;padding: 5px;">{{e.fecha | date:'MM/dd/yyyy HH:mm':'':'en'}}</td>
           <td style="padding: 5px;">{{e.usuario}}</td>
           <td style="padding: 5px;">{{e.evento}}</td>
           <td style="font-style: italic;padding: 5px;">{{e.descripcion}}</td>
           <td style="text-align: center;padding: 5px;">
             <div style="position: relative; display: inline-block;">
-
-              <mat-icon *ngIf="e.tipo == 'Schedule' && !e.finSchedule && e.estatusSchedule == 0" svgIcon="cancelD"
+              @if (e.tipo == 'Schedule' && !e.finSchedule && e.estatusSchedule == 0) {
+                <mat-icon svgIcon="cancelD"
                 style="position: absolute; top: -3px; right: -3px; width: 13px; height: 13px; margin: 0;color:red"></mat-icon>
-
-              <mat-icon *ngIf="e.tipo == 'Schedule' && e.finSchedule" svgIcon="finishD"
+              }
+              @if (e.tipo == 'Schedule' && e.finSchedule) {
+                <mat-icon svgIcon="finishD"
                 style="position: absolute; top: -3px; right: -3px; width: 13px; height: 13px; margin: 0;color:green"></mat-icon>
-                
+              }
               <span class="badge-status" style="margin: 0;" [ngClass]="{
                             'badge-color-info': e.tipo == 'Info',
                             'badge-color-schedule': e.tipo == 'Schedule',
@@ -57,34 +59,39 @@
             </div>
           </td>
         </tr>
-        <tr>
-          <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
-            <label>
-              Records per page</label>
-            <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()" [ngModelOptions]="{standalone: true}"
-              style="margin: 0 8px; font-family: regular; height: 24px;">
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-            </select>
-            {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
-            <button class="iigwo small"
-              style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
-              (click)="paginacion.back();">
-              <mat-icon svgIcon="arrow-back"></mat-icon>
-            </button>
-            <button class="iigwo small"
-              style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
-              (click)="paginacion.forward();">
-              <mat-icon svgIcon="arrow-forward"></mat-icon>
-            </button>
-          </td>
-        </tr>
+      }
+      <tr>
+        <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
+          <label>
+          Records per page</label>
+          <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()" [ngModelOptions]="{standalone: true}"
+            style="margin: 0 8px; font-family: regular; height: 24px;">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+          {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
+          <button class="iigwo small"
+            style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+            (click)="paginacion.back();">
+            <mat-icon svgIcon="arrow-back"></mat-icon>
+          </button>
+          <button class="iigwo small"
+            style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+            (click)="paginacion.forward();">
+            <mat-icon svgIcon="arrow-forward"></mat-icon>
+          </button>
+        </td>
+      </tr>
     </table>
+  }
 </div>
+}
 
 <!--Cargando-->
-<div class='iigwo-loading' *ngIf="cargando">
+@if (cargando) {
+  <div class='iigwo-loading'>
     <mat-spinner></mat-spinner>
-</div>
+  </div>
+}

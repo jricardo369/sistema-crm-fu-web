@@ -1,64 +1,80 @@
 <h2 mat-dialog-title style="font-family: regular;color:#75518c">Notification</h2>
 
 <mat-dialog-content style="width: 320px;">
-    <div class="iigwo-input" *ngIf="!(isInterviewer || isTemplateCreator || isInterviewerScales || notificacion.firmasAbogados)">
-        <label>Layout</label>
-        <select [(ngModel)]="notificacion.layout" (change)="changeLayout()" [ngModelOptions]="{standalone: true}">
-            <option ngValue="" selected></option>
-            <option ngValue="Payment">Payment</option>
-            <option ngValue="Welcome Message">Welcome Message</option>
-            <option ngValue="Thanks referral client">Thanks referral client</option>
-        </select>
+  @if (!(isInterviewer || isTemplateCreator || isInterviewerScales || notificacion.firmasAbogados)) {
+    <div class="iigwo-input">
+      <label>Layout</label>
+      <select [(ngModel)]="notificacion.layout" (change)="changeLayout()" [ngModelOptions]="{standalone: true}">
+        <option ngValue="" selected></option>
+        <option ngValue="Payment">Payment</option>
+        <option ngValue="Welcome Message">Welcome Message</option>
+        <option ngValue="Thanks referral client">Thanks referral client</option>
+      </select>
     </div>
-    <div class="flex-start">
-        <div class="iigwo-input">
-            <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 0;"
-                id="mail" [(ngModel)]="notificacion.mail">
-            <label for="mail" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Email</label>
-        </div>
-        <div class="iigwo-input">
-            <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 0;"
-                id="mensaje" [(ngModel)]="notificacion.mensaje">
-            <label for="mensaje" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">MSG</label>
-        </div>
+  }
+  <div class="flex-start">
+    <div class="iigwo-input">
+      <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 0;"
+        id="mail" [(ngModel)]="notificacion.mail">
+      <label for="mail" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Email</label>
     </div>
-    <div class="iigwo-input" *ngIf="!(notificacion.layout.length > 0)">
-        <label>Title</label>
-        <input type="text" [(ngModel)]="notificacion.titulo">
+    <div class="iigwo-input">
+      <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 0;"
+        id="mensaje" [(ngModel)]="notificacion.mensaje">
+      <label for="mensaje" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">MSG</label>
     </div>
-    <div class="iigwo-input" *ngIf="!(notificacion.layout.length > 0)">
-        <label>Text</label>
-        <textarea [(ngModel)]="notificacion.cuerpo"></textarea>
+  </div>
+  @if (!(notificacion.layout.length > 0)) {
+    <div class="iigwo-input">
+      <label>Title</label>
+      <input type="text" [(ngModel)]="notificacion.titulo">
     </div>
-    <div *ngIf="notificacion.mail == true && !(notificacion.layout.length > 0)">
-        <label for='fileNotificacionId' [class]='fileNotificacion.length == 0 ?"fake-button accent":"fake-button"' tabindex="0">
-            <span *ngIf="fileNotificacion.length == 0">Select Files</span>
-            <span *ngIf="fileNotificacion.length > 0">Selected Files</span>
-        </label>
-
+  }
+  @if (!(notificacion.layout.length > 0)) {
+    <div class="iigwo-input">
+      <label>Text</label>
+      <textarea [(ngModel)]="notificacion.cuerpo"></textarea>
+    </div>
+  }
+  @if (notificacion.mail == true && !(notificacion.layout.length > 0)) {
+    <div>
+      <label for='fileNotificacionId' [class]='fileNotificacion.length == 0 ?"fake-button accent":"fake-button"' tabindex="0">
+        @if (fileNotificacion.length == 0) {
+          <span>Select Files</span>
+        }
+        @if (fileNotificacion.length > 0) {
+          <span>Selected Files</span>
+        }
+      </label>
+      @if (fileNotificacion==null) {
         <label style="display: inline-block; line-height: 32px; font-size: 13px; color:rgba(0,0,0,0.5);"
-            *ngIf="fileNotificacion==null">No files selected</label>
-        <div *ngFor="let f of fileNotificacion" style="display: inline-block;">
-            <span class="badge-file-icon"><mat-icon svgIcon="attach_file"></mat-icon></span>
-            <span class="badge-file badge-file-name" style="padding-right: 21px;">{{f.name}}</span>
-            <span style="margin-left: -18px;">
-                <button class="iigwo adjuntos-options" (click)="quitarAdjunto(f)">
-                    <mat-icon style="margin-top: 1px;" svgIcon="close"></mat-icon>
-                </button>
-            </span>
+        >No files selected</label>
+      }
+      @for (f of fileNotificacion; track f) {
+        <div style="display: inline-block;">
+          <span class="badge-file-icon"><mat-icon svgIcon="attach_file"></mat-icon></span>
+          <span class="badge-file badge-file-name" style="padding-right: 21px;">{{f.name}}</span>
+          <span style="margin-left: -18px;">
+            <button class="iigwo adjuntos-options" (click)="quitarAdjunto(f)">
+              <mat-icon style="margin-top: 1px;" svgIcon="close"></mat-icon>
+            </button>
+          </span>
         </div>
-
-        <input id='fileNotificacionId' type="file" #fileNotificacionInput (change)="onFileSelected(fileNotificacionInput.files)"
-            style='display:none;' multiple>
+      }
+      <input id='fileNotificacionId' type="file" #fileNotificacionInput (change)="onFileSelected(fileNotificacionInput.files)"
+        style='display:none;' multiple>
     </div>
+  }
 </mat-dialog-content>
 
 <mat-dialog-actions>
-    <button class="iigwo" style="margin-left:auto;" (click)='cerrar()'>Cancel</button>
-    <button class="iigwo accent" style="margin-right:0;" (click)='enviar()' [disabled]="!(notificacion.mail || notificacion.mensaje) || (notificacion.layout.length == 0 && (notificacion.titulo.length == 0 || notificacion.cuerpo.length == 0))">Send</button>
+  <button class="iigwo" style="margin-left:auto;" (click)='cerrar()'>Cancel</button>
+  <button class="iigwo accent" style="margin-right:0;" (click)='enviar()' [disabled]="!(notificacion.mail || notificacion.mensaje) || (notificacion.layout.length == 0 && (notificacion.titulo.length == 0 || notificacion.cuerpo.length == 0))">Send</button>
 </mat-dialog-actions>
 
 <!-- CARGANDO-->
-<div class='iigwo-loading' *ngIf="cargando">
+@if (cargando) {
+  <div class='iigwo-loading'>
     <mat-spinner></mat-spinner>
-</div>
+  </div>
+}

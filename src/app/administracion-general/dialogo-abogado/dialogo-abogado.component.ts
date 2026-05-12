@@ -13,7 +13,7 @@ import { DialogoSimpleComponent } from 'src/app/common/dialogo-simple/dialogo-si
 import { RouterModule } from '@angular/router';
 import { Usuario } from '../../../model/usuario';
 
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -32,10 +32,7 @@ import { EmailProspectoAbogado } from 'src/model/email-prospecto-abogado';
 import { waitForAsync } from '@angular/core/testing';
 
 @Component({
-  standalone: true, imports: [RouterModule, FormsModule, CommonModule, MatIconModule, MatProgressSpinnerModule, MatDialogModule, MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatAutocompleteModule,],
+  standalone: true, imports: [RouterModule, FormsModule, MatIconModule, MatProgressSpinnerModule, MatDialogModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatAutocompleteModule],
   selector: 'app-dialogo-abogado',
   templateUrl: './dialogo-abogado.component.html',
   styleUrls: ['./dialogo-abogado.component.css']

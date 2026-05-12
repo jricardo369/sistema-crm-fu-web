@@ -9,7 +9,7 @@
       <button (click)='obtenerSolicitudesUsuarios()' class="btn"
         style="color: #FFFFFF;background: #f3c956; border-radius: 5px; height: 20px; line-height: 20px;">
         <mat-icon svgIcon="refresh"
-          style="color:rgba(255, 255, 255, 0.7); width: 15px; height: 15px;margin-bottom: 0px;margin-right: 5px;"></mat-icon>
+        style="color:rgba(255, 255, 255, 0.7); width: 15px; height: 15px;margin-bottom: 0px;margin-right: 5px;"></mat-icon>
         <label style="margin: auto;color: #FFFFFF;text-transform: none;">Refresh</label>
       </button>
 
@@ -17,28 +17,28 @@
 
     <div class='content'>
       <div style="display: inline-flex;">
-    
+
         <div style="display: inline-flex;">
 
           <div class="iigwo-input">
-              <label>Start Date</label>
-              <mat-form-field appearance="outline" class="custom-datepicker">
-                <input matInput [matDatepicker]="startPicker" [(ngModel)]="filterStartDateMat" (dateChange)="onStartDateChange()">
-                <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-                <mat-datepicker #startPicker></mat-datepicker>
-              </mat-form-field>
-            </div> 
+            <label>Start Date</label>
+            <mat-form-field appearance="outline" class="custom-datepicker">
+              <input matInput [matDatepicker]="startPicker" [(ngModel)]="filterStartDateMat" (dateChange)="onStartDateChange()">
+              <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+              <mat-datepicker #startPicker></mat-datepicker>
+            </mat-form-field>
+          </div>
 
-            <div class="iigwo-input">
-              <label>End Date</label>
-              <mat-form-field appearance="outline" class="custom-datepicker">
-                <input matInput [matDatepicker]="endPicker" [(ngModel)]="filterEndDateMat" (dateChange)="onEndDateChange()">
-                <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-                <mat-datepicker #endPicker></mat-datepicker>
-              </mat-form-field>
-            </div> 
-    
-    
+          <div class="iigwo-input">
+            <label>End Date</label>
+            <mat-form-field appearance="outline" class="custom-datepicker">
+              <input matInput [matDatepicker]="endPicker" [(ngModel)]="filterEndDateMat" (dateChange)="onEndDateChange()">
+              <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+              <mat-datepicker #endPicker></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+
         </div>
       </div>
     </div>
@@ -50,14 +50,18 @@
           <th>User</th>
           <th>Number of Files</th>
         </tr>
-        <tr *ngFor='let e of arrReporteSolicitudesUsuarios | slice:paginacion.begin:paginacion.end'>
-          <td class='accent'>
-
-            <div class="user-info">
-              <img *ngIf="e.image != null" src="{{e.image}}" class="avatarr">
-              <div *ngIf="e.image == null" class="avatar-circle" [style.background-color]="e.color">{{e.iniciales}}
-              </div>
-              <span class="user-text">{{e.nombre}}</span>
+        @for (e of arrReporteSolicitudesUsuarios | slice:paginacion.begin:paginacion.end; track e) {
+          <tr>
+            <td class='accent'>
+              <div class="user-info">
+                @if (e.image != null) {
+                  <img src="{{e.image}}" class="avatarr">
+                }
+                @if (e.image == null) {
+                  <div class="avatar-circle" [style.background-color]="e.color">{{e.iniciales}}
+                  </div>
+                }
+                <span class="user-text">{{e.nombre}}</span>
               <div class="badge-status" [ngClass]="{
                                                 'badge-color-case-manager': e.rol == 'Interviewer',
                                                 'badge-color-scales': e.rol == 'Interviewer scales',
@@ -66,20 +70,18 @@
                                                 'badge-color-terapeuta': e.rol == 'Psychotherapist',
                                                 'badge-color-backoffice': e.rol == 'Backoffice',
                                               }" >
-                <span>{{e.rol}}</span>
-
+                  <span>{{e.rol}}</span>
+                </div>
               </div>
-            </div>
-
-          </td>
-          
-          <td (click)="verSolicitudesUsuario(e.idUsuario,e.nombre)" style="text-align: center;"><span
+            </td>
+            <td (click)="verSolicitudesUsuario(e.idUsuario,e.nombre)" style="text-align: center;"><span
               class="badge-status" style="margin: 0;cursor: pointer;
             * {
                 cursor: pointer;
             }" [ngClass]="{'badge-color-0': e.numero == 0,
             'badge-color-1': e.numero >= 1}">{{e.numero}}</span></td>
         </tr>
+}
         <tr>
           <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
             <label>
@@ -107,8 +109,10 @@
     </div>
 
     <!--Cargando-->
-    <div class='iigwo-loading' *ngIf="cargando">
-      <mat-spinner></mat-spinner>
-    </div>
+    @if (cargando) {
+      <div class='iigwo-loading'>
+        <mat-spinner></mat-spinner>
+      </div>
+    }
   </div>
 </div>

@@ -10,13 +10,13 @@ import { Usuario } from 'src/model/usuario';
 import { ADMINISTRATOR, BACKOFFICE, GHOSTWRITING, INTERVIEWER, INTERVIEWER_SCALES, MASTER, TEMPLATE_CREATOR, VENDOR, VOC } from 'src/app/app.config';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { CommonModule} from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   standalone: true,
-  imports: [RouterModule,FormsModule,CommonModule,MatIconModule,MatProgressSpinnerModule],
+  imports: [RouterModule, FormsModule, MatIconModule, MatProgressSpinnerModule],
   selector: 'app-adjuntos',
   templateUrl: './adjuntos.component.html',
   styleUrls: ['./adjuntos.component.css']

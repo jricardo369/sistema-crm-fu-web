@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 
 
-import { CommonModule} from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -15,7 +15,7 @@ import { Usuario } from '../../../model/usuario';
 
 @Component({
     standalone: true,
-    imports: [RouterModule,FormsModule,CommonModule,MatIconModule,MatProgressSpinnerModule,MatDialogModule],
+    imports: [RouterModule, FormsModule, MatIconModule, MatProgressSpinnerModule, MatDialogModule],
     selector: 'dialogo-login',
     templateUrl: 'dialogo-login.component.html',
     styleUrls: ['./dialogo-login.component.scss']

@@ -13,7 +13,7 @@ import { Usuario } from 'src/model/usuario';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -23,7 +23,7 @@ import { ProspectosAbogadoService } from 'src/app/services/prospectos-abogado.se
 
 @Component({
   standalone: true,
-  imports: [RouterModule, FormsModule, CommonModule, MatIconModule, MatProgressSpinnerModule, MatDialogModule],
+  imports: [RouterModule, FormsModule, MatIconModule, MatProgressSpinnerModule, MatDialogModule],
   selector: 'app-dialogo-not-interesed',
   templateUrl: './dialogo-not-interesed.component.html',
   styleUrls: ['./dialogo-not-interesed.component.css']

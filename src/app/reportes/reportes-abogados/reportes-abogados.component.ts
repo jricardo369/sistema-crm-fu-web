@@ -9,7 +9,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { WorkspaceNavComponent } from 'src/app/common/workspace-nav/workspace-nav.component';
 import { ExperimentalMenuComponent } from 'src/app/common/experimental-menu/experimental-menu.component';
 import { ReportesNavComponent } from 'src/app/reportes/reportes-nav/reportes-nav.component';
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -23,10 +23,7 @@ import type { EChartsCoreOption } from 'echarts/core';
 
 @Component({
     standalone: true,
-    imports: [RouterModule, FormsModule, WorkspaceNavComponent, ExperimentalMenuComponent,
-        CommonModule, MatIconModule, MatDialogModule, MatProgressSpinnerModule, ReportesNavComponent,
-        MatDatepickerModule, MatNativeDateModule, MatFormFieldModule, MatInputModule, MatTabsModule,
-        NgxEchartsDirective],
+    imports: [RouterModule, FormsModule, WorkspaceNavComponent, ExperimentalMenuComponent, MatIconModule, MatDialogModule, MatProgressSpinnerModule, ReportesNavComponent, MatDatepickerModule, MatNativeDateModule, MatFormFieldModule, MatInputModule, MatTabsModule, NgxEchartsDirective],
     selector: 'app-reportes-abogados',
     templateUrl: './reportes-abogados.component.html',
     styleUrls: ['./reportes-abogados.component.css'],

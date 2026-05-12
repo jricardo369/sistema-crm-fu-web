@@ -1,45 +1,46 @@
-<div *ngIf="mostrarComponente" style="
+@if (mostrarComponente) {
+<div style="
                 overflow-y: auto;">
-
     <div style="display: flex; align-items: center; justify-content: space-between;">
-       
-        <div class="div-img-label" >
-          <img style="margin-top: 2px;" width="15px" height="15px" src="assets/svg/listD.svg">
-          <h4>Notes</h4>
-        </div>
-
-        <button *ngIf="(idEstatusProspecto == 1 || idEstatusProspecto == 2) && !isDigitalMarketingManager" (click)='crearProspectoAbogadoNote()' class="btn"
-        style="color: #FFFFFF;background: #239B56; border-radius: 5px; height: 20px; line-height: 20px;margin-left: 10px;">
-        <mat-icon svgIcon="add" style="color:rgba(255, 255, 255, 0.7); width: 15px;margin-bottom: 2px;margin-right: 5px;"></mat-icon>
-        <label style="margin: auto;color: #FFFFFF;text-transform: none;">Add Note</label>
-      </button>
-
-      <button *ngIf="isDigitalMarketingManager" (click)='crearProspectoAbogadoNote()' class="btn"
-        style="color: #FFFFFF;background: #239B56; border-radius: 5px; height: 20px; line-height: 20px;margin-left: 10px;">
-        <mat-icon svgIcon="add" style="color:rgba(255, 255, 255, 0.7); width: 15px;margin-bottom: 2px;margin-right: 5px;"></mat-icon>
-        <label style="margin: auto;color: #FFFFFF;text-transform: none;">Add Note</label>
-      </button>
-
+      <div class="div-img-label" >
+        <img style="margin-top: 2px;" width="15px" height="15px" src="assets/svg/listD.svg">
+        <h4>Notes</h4>
+      </div>
+      @if ((idEstatusProspecto == 1 || idEstatusProspecto == 2) && !isDigitalMarketingManager) {
+        <button (click)='crearProspectoAbogadoNote()' class="btn"
+          style="color: #FFFFFF;background: #239B56; border-radius: 5px; height: 20px; line-height: 20px;margin-left: 10px;">
+          <mat-icon svgIcon="add" style="color:rgba(255, 255, 255, 0.7); width: 15px;margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+          <label style="margin: auto;color: #FFFFFF;text-transform: none;">Add Note</label>
+        </button>
+      }
+      @if (isDigitalMarketingManager) {
+        <button (click)='crearProspectoAbogadoNote()' class="btn"
+          style="color: #FFFFFF;background: #239B56; border-radius: 5px; height: 20px; line-height: 20px;margin-left: 10px;">
+          <mat-icon svgIcon="add" style="color:rgba(255, 255, 255, 0.7); width: 15px;margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+          <label style="margin: auto;color: #FFFFFF;text-transform: none;">Add Note</label>
+        </button>
+      }
     </div>
-
-    <table class="informative" *ngIf="arrProspectoAbogadoNotes.length > 0" style="padding: 5px;">
+    @if (arrProspectoAbogadoNotes.length > 0) {
+      <table class="informative" style="padding: 5px;">
         <tr>
-            <th>Note</th>
-            <th>Description</th>
-            <th>Date</th>
-            <th>User</th>
+          <th>Note</th>
+          <th>Description</th>
+          <th>Date</th>
+          <th>User</th>
         </tr>
-        <tr *ngFor='let e of arrProspectoAbogadoNotes | slice:paginacion.begin:paginacion.end'>
+        @for (e of arrProspectoAbogadoNotes | slice:paginacion.begin:paginacion.end; track e) {
+          <tr>
             <td style="padding: 5px;">{{e.idNota}}</td>
             <td style="padding: 5px;">{{e.descripcion}}</td>
-          <td style="white-space: nowrap;padding: 5px;">{{e.fechaCreacion | dateMMDDYYYY}} {{ e.hora }}</td>
-           <td style="padding: 5px;">{{e.nombreUsuario}}</td>
-          
-        </tr>
+            <td style="white-space: nowrap;padding: 5px;">{{e.fechaCreacion | dateMMDDYYYY}} {{ e.hora }}</td>
+            <td style="padding: 5px;">{{e.nombreUsuario}}</td>
+          </tr>
+        }
         <tr>
           <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
             <label>
-              Records per page</label>
+            Records per page</label>
             <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()" [ngModelOptions]="{standalone: true}"
               style="margin: 0 8px; font-family: regular; height: 24px;">
               <option value="10">10</option>
@@ -60,13 +61,17 @@
             </button>
           </td>
         </tr>
-    </table>
-
-    <label *ngIf="arrProspectoAbogadoNotes.length == 0" style="font-family: regular;color:#696969;margin-top: 20px;">No notes found.</label>
-
-</div>
+      </table>
+    }
+    @if (arrProspectoAbogadoNotes.length == 0) {
+      <label style="font-family: regular;color:#696969;margin-top: 20px;">No notes found.</label>
+    }
+  </div>
+}
 
 <!--Cargando-->
-<div class='iigwo-loading' *ngIf="cargando">
+@if (cargando) {
+  <div class='iigwo-loading'>
     <mat-spinner></mat-spinner>
-</div>
+  </div>
+}

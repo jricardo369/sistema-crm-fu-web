@@ -3,7 +3,7 @@ import { NAV_MENU_IZQUIERDA_STYLES, NAV_MENU_IZQUIERDA_TEMPLATE, UtilServiceTest
 import { PLANIFICACION_ITEMS } from '../planificacion-nav-items'; 
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { UtilService } from 'src/app/services/util.service';
-import { CommonModule } from '@angular/common';
+
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 let ITEMS = PLANIFICACION_ITEMS;
@@ -17,10 +17,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 	template: NAV_MENU_IZQUIERDA_TEMPLATE,
 	styles: [NAV_MENU_IZQUIERDA_STYLES],
 	imports: [
-    CommonModule,
     RouterModule,
-	FormsModule,MatIconModule,MatProgressSpinnerModule
-  ]
+    FormsModule,
+    MatIconModule,
+    MatProgressSpinnerModule
+]
 })
 export class PlanificacionNavComponent extends UtilServiceTest {
 	constructor(router: Router, utilService: UtilService, usuariosService: UsuariosService) {

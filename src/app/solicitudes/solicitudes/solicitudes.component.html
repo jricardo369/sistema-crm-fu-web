@@ -9,37 +9,41 @@
       <button (click)='botonRefrescar()' class="btn"
         style="color: #FFFFFF;background: #f3c956; border-radius: 5px; height: 20px; line-height: 20px;">
         <mat-icon svgIcon="refresh"
-          style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+        style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
         <label style="margin: auto;color: #FFFFFF;text-transform: none;">Refresh</label>
       </button>
 
-      <button (click)='crearSolicitud()' *ngIf="!(isInterviewer || isInterviewerScales)" class="btn"
-        style="color: #FFFFFF;background: #239B56; border-radius: 5px; height: 20px; line-height: 20px;">
-        <mat-icon svgIcon="add-box"
+      @if (!(isInterviewer || isInterviewerScales)) {
+        <button (click)='crearSolicitud()' class="btn"
+          style="color: #FFFFFF;background: #239B56; border-radius: 5px; height: 20px; line-height: 20px;">
+          <mat-icon svgIcon="add-box"
           style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
-        <label style="margin: auto;color: #FFFFFF;text-transform: none;">Create File</label>
-      </button>
+          <label style="margin: auto;color: #FFFFFF;text-transform: none;">Create File</label>
+        </button>
+      }
 
       <div class="iigwo-input" style="margin-bottom: 0px;">
         <select [(ngModel)]="filterClosedS" [ngModelOptions]="{standalone: true}" style="font-size: 12px;height: 20px;">
-          <option *ngFor="let e of arrFilterClosed" [ngValue]="e">
+          @for (e of arrFilterClosed; track e) {
+            <option [ngValue]="e">
             {{e}}</option>
+          }
         </select>
       </div>
 
- 
-      
+
+
 
     </app-experimental-menu>
 
     <div class='content'>
 
       <!-- FILTRO -->
-      <div class="container" style="margin-bottom: 15px;" *ngIf="false">
-        <div class="left">
-          <div style="display: inline-flex;">
-
-            <!--<div class="iigwo-input" style="margin-right: 0px;">
+      @if (false) {
+        <div class="container" style="margin-bottom: 15px;">
+          <div class="left">
+            <div style="display: inline-flex;">
+              <!--<div class="iigwo-input" style="margin-right: 0px;">
               <label>Start Date</label>
               <input style="width: 90%;" type="date" [(ngModel)]="filterStartDate">
             </div>
@@ -47,7 +51,6 @@
               <label>End Date </label>
               <input style="width: 90%;" type="date" [(ngModel)]="filterEndDate">
             </div>-->
-
             <div class="iigwo-input">
               <label>Start Date</label>
               <mat-form-field appearance="outline" class="custom-datepicker">
@@ -55,8 +58,7 @@
                 <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
                 <mat-datepicker #startPicker></mat-datepicker>
               </mat-form-field>
-            </div> 
-
+            </div>
             <div class="iigwo-input">
               <label>End Date</label>
               <mat-form-field appearance="outline" class="custom-datepicker">
@@ -64,20 +66,23 @@
                 <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
                 <mat-datepicker #endPicker></mat-datepicker>
               </mat-form-field>
-            </div> 
-
+            </div>
             <div class="iigwo-input">
               <label>Sort by</label>
               <select [(ngModel)]="filterSortBy" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
-                <option *ngFor="let e of arrFilterSortBy" [ngValue]="e">
+                @for (e of arrFilterSortBy; track e) {
+                  <option [ngValue]="e">
                   {{e}}</option>
+                }
               </select>
             </div>
             <div class="iigwo-input">
               <label>Order</label>
               <select [(ngModel)]="filterOrder" [ngModelOptions]="{standalone: true}">
-                <option *ngFor="let e of arrFilterOrder" [ngValue]="e">
+                @for (e of arrFilterOrder; track e) {
+                  <option [ngValue]="e">
                   {{e}}</option>
+                }
               </select>
             </div>
             <div style="margin-right: 5px;margin-left: -5px;
@@ -89,341 +94,392 @@
               <label>Type</label>
               <!--<select [(ngModel)]="filterSortBy" style="margin-right: 10px;" (change)="refrescar()">-->
               <select [(ngModel)]="filterType" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
-                <option *ngFor="let e of arrFilterTypes" [ngValue]="e">
+                @for (e of arrFilterTypes; track e) {
+                  <option [ngValue]="e">
                   {{e}}</option>
+                }
               </select>
             </div>
-            <div class="iigwo-input"
-              *ngIf="filterType == 'All' || filterType == 'File' || filterType == 'Customer' || filterType == 'Phone' || filterType == 'Email' || filterType == 'Responsible User' || filterType == 'Interviewer User' || filterType == 'Editor User'">
-              <!--<div class="iigwo-input" >-->
-              <label>Value</label>
-              <input type="text" placeholder="Enter a value" [(ngModel)]="filterInputText">
-            </div>
-            
-            <div *ngIf="filterType == 'Date'" class="flex">
-              <div class="iigwo-input">
-                <label>From</label>
-                <input type="date" [(ngModel)]="filterInputDate1">
+            @if (filterType == 'All' || filterType == 'File' || filterType == 'Customer' || filterType == 'Phone' || filterType == 'Email' || filterType == 'Responsible User' || filterType == 'Interviewer User' || filterType == 'Editor User') {
+              <div class="iigwo-input"
+                >
+                <!--<div class="iigwo-input" >-->
+                <label>Value</label>
+                <input type="text" placeholder="Enter a value" [(ngModel)]="filterInputText">
               </div>
-              <div class="iigwo-input">
-                <label>To</label>
-                <input type="date" [(ngModel)]="filterInputDate2">
+            }
+            @if (filterType == 'Date') {
+              <div class="flex">
+                <div class="iigwo-input">
+                  <label>From</label>
+                  <input type="date" [(ngModel)]="filterInputDate1">
+                </div>
+                <div class="iigwo-input">
+                  <label>To</label>
+                  <input type="date" [(ngModel)]="filterInputDate2">
+                </div>
               </div>
-            </div>
-            <div class="iigwo-input" *ngIf="filterType == 'File Status'">
-              <label>Value</label>
-              <select [(ngModel)]="filterInputText" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
-                <option *ngFor="let e of arrFilterFileStatus" [ngValue]="e.descripcion">
-                  {{e.descripcion}}</option>
-              </select>
-            </div>
-            <div class="iigwo-input" *ngIf="filterType == 'Payment Status'">
-              <label>Value</label>
-              <select [(ngModel)]="filterInputText" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
-                <option *ngFor="let e of arrFilterStatusPago" [ngValue]="e.descripcion">
-                  {{e.descripcion}}</option>
-              </select>
-            </div>
-
-            <div class="iigwo-input" *ngIf="filterType == 'File Type'">
-              <label>Value</label>
-              <select [(ngModel)]="filterInputText" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
-                <option *ngFor="let e of arrTipoSolicitud" [ngValue]="e.nombre">
-                  {{e.nombre}}</option>
-              </select>
-            </div>
-            <div class="iigwo-input" *ngIf="filterType == 'Waiver'">
-              <label>Waiver</label>
-              <select [(ngModel)]="filterInputText" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
-                <option *ngFor="let e of arrFilterWaiver" [ngValue]="e.value">
-                  {{e.display}}</option>
-              </select>
-            </div>
-            <div class="iigwo-input" *ngIf="filterType == 'Interview review'">
-              <label>Interview review</label>
-              <select [(ngModel)]="filterInputText" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
-                <option *ngFor="let e of arrFilterWaiver" [ngValue]="e.value">
-                  {{e.display}}</option>
-              </select>
-            </div>
-            <div class="iigwo-input" *ngIf="filterType == 'Assignment editor'">
-              <label>Assignment editor</label>
-              <select [(ngModel)]="filterInputText" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
-                <option *ngFor="let e of arrFilterWaiver" [ngValue]="e.value">
-                  {{e.display}}</option>
-              </select>
-            </div>
-            <div class="iigwo-input" *ngIf="filterType == 'State'">
-              <label>State</label>
-              <select [(ngModel)]="filterInputText" [ngModelOptions]="{standalone: true}">
-                <option *ngFor="let state of arrStates" [ngValue]="state.abbreviation">
-                  {{state.abbreviation}}</option>
-              </select>
-            </div>
-
+            }
+            @if (filterType == 'File Status') {
+              <div class="iigwo-input">
+                <label>Value</label>
+                <select [(ngModel)]="filterInputText" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
+                  @for (e of arrFilterFileStatus; track e) {
+                    <option [ngValue]="e.descripcion">
+                    {{e.descripcion}}</option>
+                  }
+                </select>
+              </div>
+            }
+            @if (filterType == 'Payment Status') {
+              <div class="iigwo-input">
+                <label>Value</label>
+                <select [(ngModel)]="filterInputText" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
+                  @for (e of arrFilterStatusPago; track e) {
+                    <option [ngValue]="e.descripcion">
+                    {{e.descripcion}}</option>
+                  }
+                </select>
+              </div>
+            }
+            @if (filterType == 'File Type') {
+              <div class="iigwo-input">
+                <label>Value</label>
+                <select [(ngModel)]="filterInputText" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
+                  @for (e of arrTipoSolicitud; track e) {
+                    <option [ngValue]="e.nombre">
+                    {{e.nombre}}</option>
+                  }
+                </select>
+              </div>
+            }
+            @if (filterType == 'Waiver') {
+              <div class="iigwo-input">
+                <label>Waiver</label>
+                <select [(ngModel)]="filterInputText" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
+                  @for (e of arrFilterWaiver; track e) {
+                    <option [ngValue]="e.value">
+                    {{e.display}}</option>
+                  }
+                </select>
+              </div>
+            }
+            @if (filterType == 'Interview review') {
+              <div class="iigwo-input">
+                <label>Interview review</label>
+                <select [(ngModel)]="filterInputText" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
+                  @for (e of arrFilterWaiver; track e) {
+                    <option [ngValue]="e.value">
+                    {{e.display}}</option>
+                  }
+                </select>
+              </div>
+            }
+            @if (filterType == 'Assignment editor') {
+              <div class="iigwo-input">
+                <label>Assignment editor</label>
+                <select [(ngModel)]="filterInputText" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
+                  @for (e of arrFilterWaiver; track e) {
+                    <option [ngValue]="e.value">
+                    {{e.display}}</option>
+                  }
+                </select>
+              </div>
+            }
+            @if (filterType == 'State') {
+              <div class="iigwo-input">
+                <label>State</label>
+                <select [(ngModel)]="filterInputText" [ngModelOptions]="{standalone: true}">
+                  @for (state of arrStates; track state) {
+                    <option [ngValue]="state.abbreviation">
+                    {{state.abbreviation}}</option>
+                  }
+                </select>
+              </div>
+            }
             <button (click)='explorar()' class="btn-color" style="color: #ffffff; background: #8837a2;margin-top: 18px;">
               <mat-icon svgIcon="searchD" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
               <span style="color: #ffffff; font-size: 13px;">Explore</span>
             </button>
-
             <button (click)='limpiarFiltros()' class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-top: 18px;">
               <span style="color: #000000; font-size: 13px;">Clear all filters</span>
             </button>
-
             <button (click)='limpiarFechas()' class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-top: 18px;">
               <span style="color: #000000; font-size: 13px;">Clear dates</span>
             </button>
-
           </div>
         </div>
-
       </div>
+    }
 
-      <div class="container" style="margin-top: -5px;">
-        <div class="left">
-          <div style="display: inline-flex;">
+    <div class="container" style="margin-top: -5px;">
+      <div class="left">
+        <div style="display: inline-flex;">
 
-            <div class="iigwo-input-compact">
-              <label>Start Date</label>
-              <mat-form-field appearance="outline" class="custom-datepicker">
-                <input matInput [matDatepicker]="startPicker" [(ngModel)]="filterStartDateMat" (dateChange)="onStartDateChange()">
-                <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-                <mat-datepicker #startPicker></mat-datepicker>
-              </mat-form-field>
-            </div> 
+          <div class="iigwo-input-compact">
+            <label>Start Date</label>
+            <mat-form-field appearance="outline" class="custom-datepicker">
+              <input matInput [matDatepicker]="startPicker" [(ngModel)]="filterStartDateMat" (dateChange)="onStartDateChange()">
+              <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+              <mat-datepicker #startPicker></mat-datepicker>
+            </mat-form-field>
+          </div>
 
-            <div class="iigwo-input-compact">
-              <label>End Date</label>
-              <mat-form-field appearance="outline" class="custom-datepicker">
-                <input matInput [matDatepicker]="endPicker" [(ngModel)]="filterEndDateMat" (dateChange)="onEndDateChange()">
-                <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-                <mat-datepicker #endPicker></mat-datepicker>
-              </mat-form-field>
-            </div> 
+          <div class="iigwo-input-compact">
+            <label>End Date</label>
+            <mat-form-field appearance="outline" class="custom-datepicker">
+              <input matInput [matDatepicker]="endPicker" [(ngModel)]="filterEndDateMat" (dateChange)="onEndDateChange()">
+              <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+              <mat-datepicker #endPicker></mat-datepicker>
+            </mat-form-field>
+          </div>
 
-             
 
-            <div class="iigwo-input-compact" style="max-width: 50px;">
-              <label>File</label>
-              <input type="text"  [(ngModel)]="inputFile">
-            </div>
 
-            <div class="iigwo-input-compact" style="max-width: 90px;">
-              <label>Customer</label>
-              <input type="text"  [(ngModel)]="inputCustomer">
-            </div>
-
-            <div class="iigwo-input-compact" style="max-width: 90px;">
-              <label>Phone</label>
-              <input type="text" [(ngModel)]="inputPhone">
-            </div>
-
-            <div class="iigwo-input-compact" style="max-width: 90px;">
-              <label>Email</label>
-              <input type="text" [(ngModel)]="inputEmail">
-            </div>
-
-            <div class="iigwo-input-compact" >
-              <label>State</label>
-              <select [(ngModel)]="inputState" [ngModelOptions]="{standalone: true}">
-                <option *ngFor="let state of arrStates" [ngValue]="state.abbreviation">
-                  {{state.abbreviation}}</option>
-              </select>
-            </div>
+          <div class="iigwo-input-compact" style="max-width: 50px;">
+            <label>File</label>
+            <input type="text"  [(ngModel)]="inputFile">
+          </div>
 
           <div class="iigwo-input-compact" style="max-width: 90px;">
-              <label>File Status</label>
-              <select [(ngModel)]="inputFileStatus" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
-                <option *ngFor="let e of arrFilterFileStatus" [ngValue]="e.idEstatusSolicitud">
-                  {{e.descripcion}}</option>
-              </select>
-            </div>
+            <label>Customer</label>
+            <input type="text"  [(ngModel)]="inputCustomer">
+          </div>
 
-            <div class="iigwo-input-compact" style="max-width: 90px;">
-              <label>Pay.Status</label>
-              <select [(ngModel)]="inputPaymentStatus" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
-                <option *ngFor="let e of arrFilterStatusPago" [ngValue]="e.idEstatusPago">
-                  {{e.descripcion}}</option>
-              </select>
-            </div>
-            
+          <div class="iigwo-input-compact" style="max-width: 90px;">
+            <label>Phone</label>
+            <input type="text" [(ngModel)]="inputPhone">
+          </div>
 
-              <button (click)='refrescarV2()' class="btn-color" style="color: #ffffff; background: #8837a2;margin-top: 18px;">
-              <mat-icon svgIcon="searchD" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
-              <span style="color: #ffffff; font-size: 13px;">Explore</span>
-            </button>
+          <div class="iigwo-input-compact" style="max-width: 90px;">
+            <label>Email</label>
+            <input type="text" [(ngModel)]="inputEmail">
+          </div>
 
-              <button (click)='advancedFiltersFn()' class="btn-color" style="color: #ffffff; background: #d19be3;margin-top: 18px;">
-              <mat-icon svgIcon="settings" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
-              <span style="color: #ffffff; font-size: 13px;">Advanced filters</span>
-            </button>
+          <div class="iigwo-input-compact" >
+            <label>State</label>
+            <select [(ngModel)]="inputState" [ngModelOptions]="{standalone: true}">
+              @for (state of arrStates; track state) {
+                <option [ngValue]="state.abbreviation">
+                {{state.abbreviation}}</option>
+              }
+            </select>
+          </div>
 
-            <button (click)='limpiarFiltrosFinal()' 
+          <div class="iigwo-input-compact" style="max-width: 90px;">
+            <label>File Status</label>
+            <select [(ngModel)]="inputFileStatus" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
+              @for (e of arrFilterFileStatus; track e) {
+                <option [ngValue]="e.idEstatusSolicitud">
+                {{e.descripcion}}</option>
+              }
+            </select>
+          </div>
+
+          <div class="iigwo-input-compact" style="max-width: 90px;">
+            <label>Pay.Status</label>
+            <select [(ngModel)]="inputPaymentStatus" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
+              @for (e of arrFilterStatusPago; track e) {
+                <option [ngValue]="e.idEstatusPago">
+                {{e.descripcion}}</option>
+              }
+            </select>
+          </div>
+
+
+          <button (click)='refrescarV2()' class="btn-color" style="color: #ffffff; background: #8837a2;margin-top: 18px;">
+            <mat-icon svgIcon="searchD" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+            <span style="color: #ffffff; font-size: 13px;">Explore</span>
+          </button>
+
+          <button (click)='advancedFiltersFn()' class="btn-color" style="color: #ffffff; background: #d19be3;margin-top: 18px;">
+            <mat-icon svgIcon="settings" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+            <span style="color: #ffffff; font-size: 13px;">Advanced filters</span>
+          </button>
+
+          <button (click)='limpiarFiltrosFinal()'
             class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-top: 18px;">
-              <span style="color: #000000; font-size: 13px;">Clear all filters</span>
-            </button>
+            <span style="color: #000000; font-size: 13px;">Clear all filters</span>
+          </button>
 
-            <button (click)='limpiarFechas()' class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-top: 18px;">
-              <span style="color: #000000; font-size: 13px;">Clear dates</span>
-            </button>
+          <button (click)='limpiarFechas()' class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-top: 18px;">
+            <span style="color: #000000; font-size: 13px;">Clear dates</span>
+          </button>
 
              <div style="margin-right: 5px;margin-left: -5px;
             margin-top: 20px;
             color: gray;">
-              &#9679;
-            </div>
-
-             <button (click)='descargarExcel()' class="btn-color" style="color: #000000; background: #dddddd;margin-top: 18px;">
-              <mat-icon svgIcon="exportD" style="color: black; width: 14px;  vertical-align: middle;"></mat-icon>
-              <span style="color: black; font-size: 13px;">Export</span>
-            </button>
-            
-            
+            &#9679;
           </div>
 
-        </div>
-      </div>
+          <button (click)='descargarExcel()' class="btn-color" style="color: #000000; background: #dddddd;margin-top: 18px;">
+            <mat-icon svgIcon="exportD" style="color: black; width: 14px;  vertical-align: middle;"></mat-icon>
+            <span style="color: black; font-size: 13px;">Export</span>
+          </button>
 
-      <div class="container" style="margin-top:-5px" *ngIf="advancedFilters">
+
+        </div>
+
+      </div>
+    </div>
+
+    @if (advancedFilters) {
+      <div class="container" style="margin-top:-5px">
         <div class="left">
           <div style="display: inline-flex;">
-
             <div class="iigwo-input-compact" style="max-width: 90px;">
               <label>File Type</label>
               <select [(ngModel)]="inputFileType" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
-                <option *ngFor="let e of arrTipoSolicitud" [ngValue]="e.idTipoSolicitud">
+                @for (e of arrTipoSolicitud; track e) {
+                  <option [ngValue]="e.idTipoSolicitud">
                   {{e.nombre}}</option>
+                }
               </select>
             </div>
-
-
              <div style="margin-right: 5px;margin-left: -5px;
             margin-top: 20px;
             color: gray;">
               &#9679;
             </div>
-
             <div class="iigwo-input-compact" >
               <label>Waiver</label>
               <select [(ngModel)]="inputWaiver" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
-                <option *ngFor="let e of arrFilterWaiver" [ngValue]="e.value">
+                @for (e of arrFilterWaiver; track e) {
+                  <option [ngValue]="e.value">
                   {{e.display}}</option>
+                }
               </select>
             </div>
-
             <!--<div class="iigwo-input-compact" >
-              <label>No show</label>
-              <select [(ngModel)]="inputNoshow" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
-                <option *ngFor="let e of arrFilterWaiver" [ngValue]="e.value">
-                  {{e.display}}</option>
-              </select>
-            </div>-->
-
-            <div class="iigwo-input-compact" >
-              <label>Important</label>
-              <select [(ngModel)]="inputImportante" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
-                <option *ngFor="let e of arrFilterWaiver" [ngValue]="e.value">
-                  {{e.display}}</option>
-              </select>
-            </div>
-
-             <div class="iigwo-input-compact" style="max-width: 90px;">
-              <label>Assigned to</label>
-              <input type="text" [(ngModel)]="inputAsignado">
-            </div>
-
-            <div class="iigwo-input-compact" style="max-width: 90px;">
-              <label>Zipcodes</label>
-              <input type="text" [(ngModel)]="inputZipcodes">
-            </div>
-
+            <label>No show</label>
+            <select [(ngModel)]="inputNoshow" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
+              <option *ngFor="let e of arrFilterWaiver" [ngValue]="e.value">
+              {{e.display}}</option>
+            </select>
+          </div>-->
+          <div class="iigwo-input-compact" >
+            <label>Important</label>
+            <select [(ngModel)]="inputImportante" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
+              @for (e of arrFilterWaiver; track e) {
+                <option [ngValue]="e.value">
+                {{e.display}}</option>
+              }
+            </select>
+          </div>
+          <div class="iigwo-input-compact" style="max-width: 90px;">
+            <label>Assigned to</label>
+            <input type="text" [(ngModel)]="inputAsignado">
+          </div>
+          <div class="iigwo-input-compact" style="max-width: 90px;">
+            <label>Zipcodes</label>
+            <input type="text" [(ngModel)]="inputZipcodes">
+          </div>
              <div style="margin-right: 5px;margin-left: -5px;
             margin-top: 20px;
             color: gray;">
-              &#9679;
-            </div>
-
-            <div class="iigwo-input-compact" style="max-width: 90px;">
-              <label>Sort by</label>
-              <select [(ngModel)]="filterSortBy" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
-                <option *ngFor="let e of arrFilterSortBy" [ngValue]="e">
-                  {{e}}</option>
-              </select>
-            </div>
-            <div class="iigwo-input-compact" style="max-width: 90px;">
-              <label>Order</label>
-              <select [(ngModel)]="filterOrder" [ngModelOptions]="{standalone: true}">
-                <option *ngFor="let e of arrFilterOrder" [ngValue]="e">
-                  {{e}}</option>
-              </select>
-            </div>
-
-           
-            
+            &#9679;
+          </div>
+          <div class="iigwo-input-compact" style="max-width: 90px;">
+            <label>Sort by</label>
+            <select [(ngModel)]="filterSortBy" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
+              @for (e of arrFilterSortBy; track e) {
+                <option [ngValue]="e">
+                {{e}}</option>
+              }
+            </select>
+          </div>
+          <div class="iigwo-input-compact" style="max-width: 90px;">
+            <label>Order</label>
+            <select [(ngModel)]="filterOrder" [ngModelOptions]="{standalone: true}">
+              @for (e of arrFilterOrder; track e) {
+                <option [ngValue]="e">
+                {{e}}</option>
+              }
+            </select>
           </div>
         </div>
-      </div>  
+      </div>
+    </div>
+  }
 
 
 
-      <!-- TABLA CON REGISTROS -->
-      <div style="display:flex; flex-flow: column; overflow: auto;">
-        <table class='big' *ngIf="!(solicitudes.length == 0)">
+  <!-- TABLA CON REGISTROS -->
+  <div style="display:flex; flex-flow: column; overflow: auto;">
+    @if (!(solicitudes.length == 0)) {
+      <table class='big'>
+        <tr>
+          <!-- <th class=''><input type="checkbox" [checked]="estanTodosSeleccionados()" (change)="checkAll($event)"></th> -->
+          <th class=''>File</th>
+          <!--<th class='' *ngIf="!(isInterviewer || isTemplateCreator || isInterviewerScales)">Creation Date</th>-->
+          <th class=''>Due Date</th>
+          @if (isMaster) {
+            <th class=''>Assigned</th>
+          }
+          <th class=''>Customer Name</th>
+          <th class=''>Phone</th>
+          <th class=''>Type</th>
+          <th class=''>Additional</th>
+          <th class=''>Responsible User</th>
+          <th class=''>Email</th>
+          <th class=''>State</th>
+          <!--<th class=''>Importance</th>-->
+          @if (!(isInterviewer || isTemplateCreator || isVOC || isInterviewerScales || isClinician)) {
+            <th class=''> Payment Status </th>
+          }
+          <th class=''>File Status</th>
+          <th class=''>Sig. by Clnc</th>
+          @if (isMaster || isVendor || isBackOffice || isInterviewer) {
+            <th class=''>Case Mgr Appt</th>
+          }
+          @if (!(isInterviewer || isGhostwriting || isClinician)) {
+            <th class=''>Scales Appt</th>
+          }
+          @if ((isMaster || isVendor || isBackOffice)) {
+            <th class=''>Clinician Appt</th>
+          }
+          @if (!(isInterviewer || isTemplateCreator || isInterviewerScales || isClinician)) {
+            <th class=''>Editor</th>
+          }
+        </tr>
+        @for (e of solicitudes | slice:paginacion.begin:paginacion.end; track e) {
           <tr>
-            <!-- <th class=''><input type="checkbox" [checked]="estanTodosSeleccionados()" (change)="checkAll($event)"></th> -->
-            <th class=''>File</th>
-            <!--<th class='' *ngIf="!(isInterviewer || isTemplateCreator || isInterviewerScales)">Creation Date</th>-->
-            <th class=''>Due Date</th>
-            <th class='' *ngIf="isMaster">Assigned</th>
-            <th class=''>Customer Name</th>
-            <th class=''>Phone</th>
-            <th class=''>Type</th>
-            <th class=''>Additional</th>
-            <th class=''>Responsible User</th>
-            <th class=''>Email</th>
-             <th class=''>State</th>
-            <!--<th class=''>Importance</th>-->
-            
-            <th class='' *ngIf="!(isInterviewer || isTemplateCreator || isVOC || isInterviewerScales || isClinician)"> Payment Status </th>
-            <th class=''>File Status</th>
-            <th class=''>Sig. by Clnc</th>
-            <th class='' *ngIf="isMaster || isVendor || isBackOffice || isInterviewer">Case Mgr Appt</th>
-            <th class='' *ngIf="!(isInterviewer || isGhostwriting || isClinician)">Scales Appt</th>
-            <th class='' *ngIf="(isMaster || isVendor || isBackOffice)">Clinician Appt</th>
-           
-            <th class='' *ngIf="!(isInterviewer || isTemplateCreator || isInterviewerScales || isClinician)">Editor</th>
-          </tr>
-          <tr *ngFor='let e of solicitudes | slice:paginacion.begin:paginacion.end'>
             <!-- <td class=''><input type="checkbox" [checked]="estaSeleccionado(e.idSolicitud)"
-                (change)="check($event, e.idSolicitud)"></td> -->
-            <td class=''><a routerLink="{{e.idSolicitud}}">{{e.idSolicitud}}</a></td>
-            <!--<td class='accent' *ngIf="!(isInterviewer || isTemplateCreator || isInterviewerScales)">{{e.fechaInicio |
-              dateMMDDYYYY}}</td>-->
-            <td class='accent'>{{e.dueDate | dateMMDDYYYY}}</td>
-            <td class='accent' *ngIf="isMaster">{{e.abogado}}</td>
-            <td class=''><a routerLink="{{e.idSolicitud}}">{{e.cliente}}</a></td>
-            <td class='accent'>{{e.telefono | phone}}</td>
-            <td class='accent'>{{e.tipoSolicitud}}</td>
-            <td class='accent' [attr.title]="e.adicional" style="cursor: pointer;">{{ (e.adicional || '').length > 50 ? ((e.adicional || '') | slice:0:50) + '...' : (e.adicional || '') }}</td>
-            <td class='accent'>{{e.usuarioRevisandoNombre}}</td>
-            <td class='accent'>{{e.email}}</td>
-             <td class='accent'>{{e.estado}}</td>
-            
-            <td style="text-align: left;"
-              *ngIf="!(isInterviewer || isTemplateCreator || isVOC || isInterviewerScales || isClinician)">
-            
+          (change)="check($event, e.idSolicitud)"></td> -->
+          <td class=''><a routerLink="{{e.idSolicitud}}">{{e.idSolicitud}}</a></td>
+          <!--<td class='accent' *ngIf="!(isInterviewer || isTemplateCreator || isInterviewerScales)">{{e.fechaInicio |
+        dateMMDDYYYY}}</td>-->
+        <td class='accent'>{{e.dueDate | dateMMDDYYYY}}</td>
+        @if (isMaster) {
+          <td class='accent'>{{e.abogado}}</td>
+        }
+        <td class=''><a routerLink="{{e.idSolicitud}}">{{e.cliente}}</a></td>
+        <td class='accent'>{{e.telefono | phone}}</td>
+        <td class='accent'>{{e.tipoSolicitud}}</td>
+        <td class='accent' [attr.title]="e.adicional" style="cursor: pointer;">{{ (e.adicional || '').length > 50 ? ((e.adicional || '') | slice:0:50) + '...' : (e.adicional || '') }}</td>
+        <td class='accent'>{{e.usuarioRevisandoNombre}}</td>
+        <td class='accent'>{{e.email}}</td>
+        <td class='accent'>{{e.estado}}</td>
+        @if (!(isInterviewer || isTemplateCreator || isVOC || isInterviewerScales || isClinician)) {
+          <td style="text-align: left;"
+            >
               <span class="badge-status" style="margin: 0;" [ngClass]="{'badge-color-partially': e.idEstatusPago == 1,
                                         'badge-color-complete': e.idEstatusPago == 2,
                                         'badge-color-hold': e.idEstatusPago == 3,
                                         'badge-color-na': e.idEstatusPago == 4}">{{e.estatusPago}}
-              </span>
-              <label *ngIf="e.idEstatusPago == 1" style="font-size: 10.5px;"> ${{e.pagos}}/${{e.amount || 0}}</label>
-            </td>
-            <td style="text-align: left;">
-              <div class="badge-wrapper" style="position: relative; display: inline-block;">
-                <svg  *ngIf="e.importantNotes != ''" width="10" height="10" style="position: absolute; top: -3px; right: -3px;">
-                  <circle cx="5" cy="5" r="5" fill="red"></circle>
-                </svg>
+            </span>
+            @if (e.idEstatusPago == 1) {
+              <label style="font-size: 10.5px;"> ${{e.pagos}}/${{e.amount || 0}}</label>
+            }
+          </td>
+        }
+        <td style="text-align: left;">
+          <div class="badge-wrapper" style="position: relative; display: inline-block;">
+            @if (e.importantNotes != '') {
+              <svg  width="10" height="10" style="position: absolute; top: -3px; right: -3px;">
+                <circle cx="5" cy="5" r="5" fill="red"></circle>
+              </svg>
+            }
                 <span class="badge-status" style="margin: 0;" [ngClass]="{
                                                 'badge-color-received': e.idEstatusSolicitud == 1,
                                                 'badge-color-reviewing': e.idEstatusSolicitud == 2,
@@ -437,113 +493,130 @@
                                                 'badge-color-ready_on_draft': e.idEstatusSolicitud == 10,
                                                 'badge-color-closed': e.idEstatusSolicitud == 11
                                               }">
-                  {{ e.estatusSolicitud }}
-                </span>
-            
-              </div>
-            </td>
-
-            <td style="font-size: 11.5px;" class='accent' >
-                <mat-icon svgIcon="okD" *ngIf="e.signedClnc"
-                  style="width: 15px; height: 15px;"></mat-icon>
-            </td>
-
-            <td style="font-size: 11.5px;" class='accent' *ngIf="isMaster || isVendor || isBackOffice || isInterviewer">
-              <div class="badge-wrapper" style="position: relative; display: inline-block;">
-                <mat-icon *ngIf="e.finIntIni && e.fecha_schedule != ''" svgIcon="okD"
-                  style="position: absolute; top: -3px; right: -3px;  width: 12px; height: 12px; margin: 0;"></mat-icon>
-                <span class="badge-date" style="margin: 0;">
-                  <span [attr.title]="e.usuarioInterviewNombre" style="cursor: pointer;" *ngIf="e.inicialesInterview" style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:var(--app-case-manager);color:#ffffff;font-size:8px;font-weight:bold;margin-right:0px;flex-shrink:0;">{{e.inicialesInterview}}</span>
-                  {{e.fecha_schedule | dateMMDDYYYY:'datetime'}}
-                </span>
-              </div>
-            </td>
-
-            <td style="font-size: 11.5px;" class='accent' *ngIf="!(isInterviewer || isGhostwriting || isClinician)">
-              <div class="badge-wrapper" style="position: relative; display: inline-block;">
-                <mat-icon *ngIf="e.finIntSc && e.fecha_schedule_scales != ''" svgIcon="okD"
-                  style="position: absolute; top: -3px; right: -3px;  width: 12px; height: 12px; margin: 0;"></mat-icon>
-                <span class="badge-date" style="margin: 0;">
-                   <span [attr.title]="e.usuarioIntScNombre" style="cursor: pointer;" *ngIf="e.inicialesIntSc" style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:var(--app-scale);color:#ffffff;font-size:8px;font-weight:bold;margin-right:0px;flex-shrink:0;">{{e.inicialesIntSc}}</span>
+              {{ e.estatusSolicitud }}
+            </span>
+          </div>
+        </td>
+        <td style="font-size: 11.5px;" class='accent' >
+          @if (e.signedClnc) {
+            <mat-icon svgIcon="okD"
+            style="width: 15px; height: 15px;"></mat-icon>
+          }
+        </td>
+        @if (isMaster || isVendor || isBackOffice || isInterviewer) {
+          <td style="font-size: 11.5px;" class='accent'>
+            <div class="badge-wrapper" style="position: relative; display: inline-block;">
+              @if (e.finIntIni && e.fecha_schedule != '') {
+                <mat-icon svgIcon="okD"
+                style="position: absolute; top: -3px; right: -3px;  width: 12px; height: 12px; margin: 0;"></mat-icon>
+              }
+              <span class="badge-date" style="margin: 0;">
+                @if (e.inicialesInterview) {
+                  <span [attr.title]="e.usuarioInterviewNombre" style="cursor: pointer;" style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:var(--app-case-manager);color:#ffffff;font-size:8px;font-weight:bold;margin-right:0px;flex-shrink:0;">{{e.inicialesInterview}}</span>
+                }
+                {{e.fecha_schedule | dateMMDDYYYY:'datetime'}}
+              </span>
+            </div>
+          </td>
+        }
+        @if (!(isInterviewer || isGhostwriting || isClinician)) {
+          <td style="font-size: 11.5px;" class='accent'>
+            <div class="badge-wrapper" style="position: relative; display: inline-block;">
+              @if (e.finIntSc && e.fecha_schedule_scales != '') {
+                <mat-icon svgIcon="okD"
+                style="position: absolute; top: -3px; right: -3px;  width: 12px; height: 12px; margin: 0;"></mat-icon>
+              }
+              <span class="badge-date" style="margin: 0;">
+                @if (e.inicialesIntSc) {
+                  <span [attr.title]="e.usuarioIntScNombre" style="cursor: pointer;" style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:var(--app-scale);color:#ffffff;font-size:8px;font-weight:bold;margin-right:0px;flex-shrink:0;">{{e.inicialesIntSc}}</span>
+                }
                 {{e.fecha_schedule_scales |
-              dateMMDDYYYY:'datetime'}}
-                </span>
-              </div>
-            </td>
-
-      
-            <td style="font-size: 11.5px;" class='accent' *ngIf="(isMaster || isVendor || isBackOffice)">
-              <div class="badge-wrapper" style="position: relative; display: inline-block;">
-                <mat-icon *ngIf="e.finAsgClnc && e.fechaClinicianAppo && e.idRolUsInt != 11" svgIcon="okD"
-                  style="position: absolute; top: -3px; right: -3px;  width: 12px; height: 12px; margin: 0;"></mat-icon>
-                <span class="badge-date" style="margin: 0;">
-                    <span [attr.title]="e.usuarioClinicianNombre" style="cursor: pointer;" *ngIf="e.inicialesClinician" style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:var(--app-clinician);color:#ffffff;font-size:8px;font-weight:bold;margin-right:0px;flex-shrink:0;">{{e.inicialesClinician}}</span>
+                dateMMDDYYYY:'datetime'}}
+              </span>
+            </div>
+          </td>
+        }
+        @if ((isMaster || isVendor || isBackOffice)) {
+          <td style="font-size: 11.5px;" class='accent'>
+            <div class="badge-wrapper" style="position: relative; display: inline-block;">
+              @if (e.finAsgClnc && e.fechaClinicianAppo && e.idRolUsInt != 11) {
+                <mat-icon svgIcon="okD"
+                style="position: absolute; top: -3px; right: -3px;  width: 12px; height: 12px; margin: 0;"></mat-icon>
+              }
+              <span class="badge-date" style="margin: 0;">
+                @if (e.inicialesClinician) {
+                  <span [attr.title]="e.usuarioClinicianNombre" style="cursor: pointer;" style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:var(--app-clinician);color:#ffffff;font-size:8px;font-weight:bold;margin-right:0px;flex-shrink:0;">{{e.inicialesClinician}}</span>
+                }
                 {{
-              e.idRolUsInt == 11
-              ? 'N/A'
-              : (e.fechaClinicianAppo | dateMMDDYYYY:'datetime')
-              }}
-                </span>
-              </div>
-            </td>
+                e.idRolUsInt == 11
+                ? 'N/A'
+                : (e.fechaClinicianAppo | dateMMDDYYYY:'datetime')
+                }}
+              </span>
+            </div>
+          </td>
+        }
+        @if (!(isInterviewer || isTemplateCreator || isInterviewerScales || isClinician)) {
+          <td class='accent'>
+            <!--<mat-icon svgIcon="done" *ngIf="e.asignacionTemplate" class="my-icon-pequenio"></mat-icon>
+            {{ !e.usuarioTemplate || e.usuarioTemplate === 'Unassigned' ? '' : (e.usuarioTemplate.split(' ')[0] | titlecase) }}-->
+            <div class="badge-wrapper" style="position: relative; display: inline-block;">
+              @if (e.finAsgTmp) {
+                <mat-icon svgIcon="okD"
+                style="position: absolute; top: -3px; right: -3px;  width: 12px; height: 12px; margin: 0;"></mat-icon>
+              }
+              <span class="badge-date" style="margin: 0;">
+                @if (e.inicialesTemplate) {
+                  <span [attr.title]="e.usuarioTemplate" style="cursor: pointer;" style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:var(--app-editor);color:#ffffff;font-size:8px;font-weight:bold;margin-right:0px;flex-shrink:0;">{{e.inicialesTemplate}}</span>
+                }
+              </span>
+            </div>
+          </td>
+        }
+      </tr>
+    }
+    <tr>
+      <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
+        <label>
+        Records per page</label>
+        <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()" [ngModelOptions]="{standalone: true}"
+          style="margin: 0 8px; font-family: regular; height: 24px;">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+        {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
+        <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+          (click)="paginacion.back();">
+          <mat-icon svgIcon="arrow-back"></mat-icon>
+        </button>
+        <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+          (click)="paginacion.forward();">
+          <mat-icon svgIcon="arrow-forward"></mat-icon>
+        </button>
+      </td>
+    </tr>
+  </table>
+}
+</div>
 
-             <td class='accent' *ngIf="!(isInterviewer || isTemplateCreator || isInterviewerScales || isClinician)">
-              <!--<mat-icon svgIcon="done" *ngIf="e.asignacionTemplate" class="my-icon-pequenio"></mat-icon>
-              {{ !e.usuarioTemplate || e.usuarioTemplate === 'Unassigned' ? '' : (e.usuarioTemplate.split(' ')[0] | titlecase) }}-->
-           
-              <div class="badge-wrapper" style="position: relative; display: inline-block;">
-                <mat-icon *ngIf="e.finAsgTmp" svgIcon="okD"
-                  style="position: absolute; top: -3px; right: -3px;  width: 12px; height: 12px; margin: 0;"></mat-icon>
-                <span class="badge-date" style="margin: 0;">
-                   <span [attr.title]="e.usuarioTemplate" style="cursor: pointer;" *ngIf="e.inicialesTemplate" style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:var(--app-editor);color:#ffffff;font-size:8px;font-weight:bold;margin-right:0px;flex-shrink:0;">{{e.inicialesTemplate}}</span>
-          
-                </span>
-              </div>
-           
-            </td>
-
-
-            
-          </tr>
-
-          <tr>
-            <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
-              <label>
-                Records per page</label>
-              <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()" [ngModelOptions]="{standalone: true}"
-                style="margin: 0 8px; font-family: regular; height: 24px;">
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-              </select>
-              {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
-              <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
-                (click)="paginacion.back();">
-                <mat-icon svgIcon="arrow-back"></mat-icon>
-              </button>
-              <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
-                (click)="paginacion.forward();">
-                <mat-icon svgIcon="arrow-forward"></mat-icon>
-              </button>
-            </td>
-          </tr>
-
-        </table>
-      </div>
-
-      <!-- MENSAJE DE NO HAY REGISTROS -->
-      <div *ngIf="solicitudes.length == 0">
-        <h3 style="margin:12px 0 6px 0">No results</h3>
-        <p style="max-width:396px;">There are no files within the search criteria. Make sure that the names are correct
-          and that they are searching in the appropriate field.</p>
-      </div>
-
-    </div>
-
-    <!--Cargando-->
-    <div class='iigwo-loading' *ngIf="cargando">
-      <mat-spinner></mat-spinner>
-    </div>
+<!-- MENSAJE DE NO HAY REGISTROS -->
+@if (solicitudes.length == 0) {
+  <div>
+    <h3 style="margin:12px 0 6px 0">No results</h3>
+    <p style="max-width:396px;">There are no files within the search criteria. Make sure that the names are correct
+    and that they are searching in the appropriate field.</p>
   </div>
+}
+
+</div>
+
+<!--Cargando-->
+@if (cargando) {
+  <div class='iigwo-loading'>
+    <mat-spinner></mat-spinner>
+  </div>
+}
+</div>
 </div>

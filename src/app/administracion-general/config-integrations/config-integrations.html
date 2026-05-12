@@ -1,216 +1,256 @@
 <app-workspace-nav>
-    <app-general-nav></app-general-nav>
+  <app-general-nav></app-general-nav>
 </app-workspace-nav>
 <div class='workspace'>
-    <div class='main'>
+  <div class='main'>
 
-        <app-experimental-menu titulo="Integrations Configuration"></app-experimental-menu>
+    <app-experimental-menu titulo="Integrations Configuration"></app-experimental-menu>
 
-        <div class='content'>
-            <div style="display:flex; flex-flow: row; max-height: 100%;">
-                <div style="min-width:320px;margin-right:24px;">
-                    <!-- ================================================== -->
-                    <!-- TEL-PRUEBA -->
-                    <h4 class="title">Test Phone</h4>
-                    <div class="iigwo-input">
-                        <label>Phone to test</label>
-                        <input [(ngModel)]="phoneTest" [attr.readOnly]="cambiandoPhoneTest ? null : false"
-                            (ngModelChange)="phoneTest" (input)="phoneTest = onPhoneNumberInput($event.target.value)"
-                            placeholder="(###) ###-####" maxlength="14">
-                        <p style="margin-top: 5px;">Telephone to send test messages</p>
-                    </div>
+    <div class='content'>
+      <div style="display:flex; flex-flow: row; max-height: 100%;">
+        <div style="min-width:320px;margin-right:24px;">
+          <!-- ================================================== -->
+          <!-- TEL-PRUEBA -->
+          <h4 class="title">Test Phone</h4>
+          <div class="iigwo-input">
+            <label>Phone to test</label>
+            <input [(ngModel)]="phoneTest" [attr.readOnly]="cambiandoPhoneTest ? null : false"
+              (ngModelChange)="phoneTest" (input)="phoneTest = onPhoneNumberInput($event.target.value)"
+              placeholder="(###) ###-####" maxlength="14">
+            <p style="margin-top: 5px;">Telephone to send test messages</p>
+          </div>
 
-                    <div style="display: flex; gap: 8px; align-items: center;">
-                    
-                        <button (click)='cambiandoPhoneTest=true'
-                            *ngIf="cambiandoPhoneTest==false" class="btn-color"
-                            style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
-                            <span style="color: #000000; font-size: 13px;">Change phone</span>
-                        </button>
-                    
-                        <button (click)='testMessage()' *ngIf="cambiandoPhoneTest==false" class="btn-color"
-                            style="color: #ffffff; background: #41949B;margin-bottom: 5px;">
-                            <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
-                            <span style="color: #ffffff; font-size: 13px;">Send test message</span>
-                        </button>
-                    
-                        <button (click)='cambiarDato(7)' *ngIf="cambiandoPhoneTest==true" class="btn-color"
-                            style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
-                            <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
-                            <span style="color: #ffffff; font-size: 13px;">Change phone</span>
-                        </button>
-                    
-                        <button (click)="cancelarCambio(7)" *ngIf="cambiandoPhoneTest==true" class="btn-color"
-                            style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
-                            <span style="color: #000000; font-size: 13px;">Cancel</span>
-                        </button>
-                    </div>
+          <div style="display: flex; gap: 8px; align-items: center;">
 
-                    <hr style="max-width:396px;margin-bottom:24px;">
-                    <!-- ================================================== -->
-                    <!-- TOKEN -->
-                    <h4 class="title">Token</h4>
-                    <div class="iigwo-input">
-                        <label>Token id Podium</label>
-                        <textarea [(ngModel)]="tokenId" [attr.readOnly]="cambiandoTokenId ? null : false"
-                            (ngModelChange)="tokenId" ></textarea>
-                        <p style="margin-top: 5px;">Generated token for Podium, this data is updated automatically</p>
-                    </div>
+            @if (cambiandoPhoneTest==false) {
+              <button (click)='cambiandoPhoneTest=true'
+                class="btn-color"
+                style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+                <span style="color: #000000; font-size: 13px;">Change phone</span>
+              </button>
+            }
 
-                    <div style="display: flex; gap: 8px; align-items: center;">
-                    
-                        <button (click)='cambiandoTokenId=true' *ngIf="cambiandoTokenId==false"
-                            class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
-                            <span style="color: #000000; font-size: 13px;">Change token id</span>
-                        </button>
-                    
-                        <button (click)='cambiarDato(5)' *ngIf="cambiandoTokenId==true" class="btn-color"
-                            style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
-                            <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
-                            <span style="color: #ffffff; font-size: 13px;">Change token id</span>
-                        </button>
-                    
-                        <button (click)="cancelarCambio(5)" *ngIf="cambiandoTokenId==true" class="btn-color"
-                            style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
-                            <span style="color: #000000; font-size: 13px;">Cancel</span>
-                        </button>
-                    
-                    </div>
+            @if (cambiandoPhoneTest==false) {
+              <button (click)='testMessage()' class="btn-color"
+                style="color: #ffffff; background: #41949B;margin-bottom: 5px;">
+                <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+                <span style="color: #ffffff; font-size: 13px;">Send test message</span>
+              </button>
+            }
 
-                    <hr style="max-width:396px;margin-bottom:24px;">
-                    <!-- ================================================== -->
-                    <!-- REFRESH-TOKEN -->
-                    <h4 class="title">Refresh token</h4>
-                    <div class="iigwo-input">
-                        <label>Refresh Token Podium</label>
-                        <textarea [(ngModel)]="tokenCode" [attr.readOnly]="cambiandoTokenCode ? null : false"
-                            (ngModelChange)="tokenCode"></textarea>
-                        <p style="margin-top: 5px;">Generated refresh token for Podium</p>
-                    </div>
-                    
-                    <div style="display: flex; gap: 8px; align-items: center;">
-                        <button (click)='cambiandoTokenCode=true' *ngIf="cambiandoTokenCode==false" class="btn-color"
-                            style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
-                            <span style="color: #000000; font-size: 13px;">Change refresh token</span>
-                        </button>
-                    
-                        <button (click)='cambiarDato(2)' *ngIf="cambiandoTokenCode==true" class="btn-color"
-                            style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
-                            <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
-                            <span style="color: #ffffff; font-size: 13px;">Change refresh token</span>
-                        </button>
-                    
-                        <button (click)="cancelarCambio(2)" *ngIf="cambiandoTokenCode==true" class="btn-color"
-                            style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
-                            <span style="color: #000000; font-size: 13px;">Cancel</span>
-                        </button>
-                    </div>
+            @if (cambiandoPhoneTest==true) {
+              <button (click)='cambiarDato(7)' class="btn-color"
+                style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
+                <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+                <span style="color: #ffffff; font-size: 13px;">Change phone</span>
+              </button>
+            }
 
-                    <hr style="max-width:396px;margin-bottom:24px;">
-                    <!-- ================================================== -->
-                    <!-- CLIENT-SECRET -->
-                    <h4 class="title">Client secret</h4>
-                    <div class="iigwo-input">
-                        <label>Client secret Podium</label>
-                         <textarea [(ngModel)]="clientSecret" [attr.readOnly]="cambiandoClientSecret ? null : false"
-                            (ngModelChange)="clientSecret"></textarea>
-                        <p style="margin-top: 5px;">Generated client secret for Podium</p>
-                    </div>
+            @if (cambiandoPhoneTest==true) {
+              <button (click)="cancelarCambio(7)" class="btn-color"
+                style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+                <span style="color: #000000; font-size: 13px;">Cancel</span>
+              </button>
+            }
+          </div>
 
-                    <div style="display: flex; gap: 8px; align-items: center;">
-                    
-                        <button (click)='cambiandoClientSecret=true' *ngIf="cambiandoClientSecret==false"
-                            class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
-                            <span style="color: #000000; font-size: 13px;">Change client secret</span>
-                        </button>
-                    
-                        <button (click)='cambiarDato(3)' *ngIf="cambiandoClientSecret==true" class="btn-color"
-                            style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
-                            <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
-                            <span style="color: #ffffff; font-size: 13px;">Change client secret</span>
-                        </button>
-                    
-                        <button (click)="cancelarCambio(3)" *ngIf="cambiandoClientSecret==true" class="btn-color"
-                            style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
-                            <span style="color: #000000; font-size: 13px;">Cancel</span>
-                        </button>
-                    
-                    </div>
+          <hr style="max-width:396px;margin-bottom:24px;">
+          <!-- ================================================== -->
+          <!-- TOKEN -->
+          <h4 class="title">Token</h4>
+          <div class="iigwo-input">
+            <label>Token id Podium</label>
+            <textarea [(ngModel)]="tokenId" [attr.readOnly]="cambiandoTokenId ? null : false"
+            (ngModelChange)="tokenId" ></textarea>
+            <p style="margin-top: 5px;">Generated token for Podium, this data is updated automatically</p>
+          </div>
 
-                    <hr style="max-width:396px;margin-bottom:24px;">
-                    <!-- ================================================== -->
-                    <!-- CLIENT-ID -->
-                    <h4 class="title">Client id</h4>
-                    <div class="iigwo-input">
-                        <label>Client id Podium</label>
-                         <textarea [(ngModel)]="clientId" [attr.readOnly]="cambiandoClientId ? null : false"
-                            (ngModelChange)="clientId"></textarea>
-                        <p style="margin-top: 5px;">Generated client id for Podium</p>
-                    </div>
+          <div style="display: flex; gap: 8px; align-items: center;">
 
-                     <div style="display: flex; gap: 8px; align-items: center;">
-                    
-                        <button (click)='cambiandoClientId=true' *ngIf="cambiandoClientId==false"
-                            class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
-                            <span style="color: #000000; font-size: 13px;">Change client id</span>
-                        </button>
-                    
-                        <button (click)='cambiarDato(4)' *ngIf="cambiandoClientId==true" class="btn-color"
-                            style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
-                            <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
-                            <span style="color: #ffffff; font-size: 13px;">Change client id</span>
-                        </button>
-                    
-                        <button (click)="cancelarCambio(4)" *ngIf="cambiandoClientId==true" class="btn-color"
-                            style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
-                            <span style="color: #000000; font-size: 13px;">Cancel</span>
-                        </button>
-                    
-                    </div>
+            @if (cambiandoTokenId==false) {
+              <button (click)='cambiandoTokenId=true'
+                class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+                <span style="color: #000000; font-size: 13px;">Change token id</span>
+              </button>
+            }
 
-                    <hr style="max-width:396px;margin-bottom:24px;">
+            @if (cambiandoTokenId==true) {
+              <button (click)='cambiarDato(5)' class="btn-color"
+                style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
+                <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+                <span style="color: #ffffff; font-size: 13px;">Change token id</span>
+              </button>
+            }
 
-                    <!-- ================================================== -->
-                    <!-- LOCATION UID -->
-                    <h4 class="title">Location UId</h4>
-                    <div class="iigwo-input">
-                        <label>Location Uid</label>
-                         <textarea [(ngModel)]="locationUid" [attr.readOnly]="cambiandoLocationUid ? null : false"
-                            (ngModelChange)="locationUid"></textarea>
-                        <p style="margin-top: 5px;">Location UId for Podium</p>
-                    </div>
+            @if (cambiandoTokenId==true) {
+              <button (click)="cancelarCambio(5)" class="btn-color"
+                style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+                <span style="color: #000000; font-size: 13px;">Cancel</span>
+              </button>
+            }
 
-                     <div style="display: flex; gap: 8px; align-items: center;">
-                    
-                        <button (click)='cambiandoLocationUid=true' *ngIf="cambiandoLocationUid==false"
-                            class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
-                            <span style="color: #000000; font-size: 13px;">Change location UId</span>
-                        </button>
-                    
-                        <button (click)='cambiarDato(23)' *ngIf="cambiandoLocationUid==true" class="btn-color"
-                            style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
-                            <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
-                            <span style="color: #ffffff; font-size: 13px;">Change location UId</span>
-                        </button>
-                    
-                        <button (click)="cancelarCambio(23)" *ngIf="cambiandoLocationUid==true" class="btn-color"
-                            style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
-                            <span style="color: #000000; font-size: 13px;">Cancel</span>
-                        </button>
-                    
-                    </div>
+          </div>
 
-            
+          <hr style="max-width:396px;margin-bottom:24px;">
+          <!-- ================================================== -->
+          <!-- REFRESH-TOKEN -->
+          <h4 class="title">Refresh token</h4>
+          <div class="iigwo-input">
+            <label>Refresh Token Podium</label>
+            <textarea [(ngModel)]="tokenCode" [attr.readOnly]="cambiandoTokenCode ? null : false"
+            (ngModelChange)="tokenCode"></textarea>
+            <p style="margin-top: 5px;">Generated refresh token for Podium</p>
+          </div>
 
-                    <hr style="max-width:396px;margin-bottom:24px;">
+          <div style="display: flex; gap: 8px; align-items: center;">
+            @if (cambiandoTokenCode==false) {
+              <button (click)='cambiandoTokenCode=true' class="btn-color"
+                style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+                <span style="color: #000000; font-size: 13px;">Change refresh token</span>
+              </button>
+            }
 
-                </div>
-            </div>
+            @if (cambiandoTokenCode==true) {
+              <button (click)='cambiarDato(2)' class="btn-color"
+                style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
+                <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+                <span style="color: #ffffff; font-size: 13px;">Change refresh token</span>
+              </button>
+            }
+
+            @if (cambiandoTokenCode==true) {
+              <button (click)="cancelarCambio(2)" class="btn-color"
+                style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+                <span style="color: #000000; font-size: 13px;">Cancel</span>
+              </button>
+            }
+          </div>
+
+          <hr style="max-width:396px;margin-bottom:24px;">
+          <!-- ================================================== -->
+          <!-- CLIENT-SECRET -->
+          <h4 class="title">Client secret</h4>
+          <div class="iigwo-input">
+            <label>Client secret Podium</label>
+            <textarea [(ngModel)]="clientSecret" [attr.readOnly]="cambiandoClientSecret ? null : false"
+            (ngModelChange)="clientSecret"></textarea>
+            <p style="margin-top: 5px;">Generated client secret for Podium</p>
+          </div>
+
+          <div style="display: flex; gap: 8px; align-items: center;">
+
+            @if (cambiandoClientSecret==false) {
+              <button (click)='cambiandoClientSecret=true'
+                class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+                <span style="color: #000000; font-size: 13px;">Change client secret</span>
+              </button>
+            }
+
+            @if (cambiandoClientSecret==true) {
+              <button (click)='cambiarDato(3)' class="btn-color"
+                style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
+                <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+                <span style="color: #ffffff; font-size: 13px;">Change client secret</span>
+              </button>
+            }
+
+            @if (cambiandoClientSecret==true) {
+              <button (click)="cancelarCambio(3)" class="btn-color"
+                style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+                <span style="color: #000000; font-size: 13px;">Cancel</span>
+              </button>
+            }
+
+          </div>
+
+          <hr style="max-width:396px;margin-bottom:24px;">
+          <!-- ================================================== -->
+          <!-- CLIENT-ID -->
+          <h4 class="title">Client id</h4>
+          <div class="iigwo-input">
+            <label>Client id Podium</label>
+            <textarea [(ngModel)]="clientId" [attr.readOnly]="cambiandoClientId ? null : false"
+            (ngModelChange)="clientId"></textarea>
+            <p style="margin-top: 5px;">Generated client id for Podium</p>
+          </div>
+
+          <div style="display: flex; gap: 8px; align-items: center;">
+
+            @if (cambiandoClientId==false) {
+              <button (click)='cambiandoClientId=true'
+                class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+                <span style="color: #000000; font-size: 13px;">Change client id</span>
+              </button>
+            }
+
+            @if (cambiandoClientId==true) {
+              <button (click)='cambiarDato(4)' class="btn-color"
+                style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
+                <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+                <span style="color: #ffffff; font-size: 13px;">Change client id</span>
+              </button>
+            }
+
+            @if (cambiandoClientId==true) {
+              <button (click)="cancelarCambio(4)" class="btn-color"
+                style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+                <span style="color: #000000; font-size: 13px;">Cancel</span>
+              </button>
+            }
+
+          </div>
+
+          <hr style="max-width:396px;margin-bottom:24px;">
+
+          <!-- ================================================== -->
+          <!-- LOCATION UID -->
+          <h4 class="title">Location UId</h4>
+          <div class="iigwo-input">
+            <label>Location Uid</label>
+            <textarea [(ngModel)]="locationUid" [attr.readOnly]="cambiandoLocationUid ? null : false"
+            (ngModelChange)="locationUid"></textarea>
+            <p style="margin-top: 5px;">Location UId for Podium</p>
+          </div>
+
+          <div style="display: flex; gap: 8px; align-items: center;">
+
+            @if (cambiandoLocationUid==false) {
+              <button (click)='cambiandoLocationUid=true'
+                class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+                <span style="color: #000000; font-size: 13px;">Change location UId</span>
+              </button>
+            }
+
+            @if (cambiandoLocationUid==true) {
+              <button (click)='cambiarDato(23)' class="btn-color"
+                style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
+                <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+                <span style="color: #ffffff; font-size: 13px;">Change location UId</span>
+              </button>
+            }
+
+            @if (cambiandoLocationUid==true) {
+              <button (click)="cancelarCambio(23)" class="btn-color"
+                style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+                <span style="color: #000000; font-size: 13px;">Cancel</span>
+              </button>
+            }
+
+          </div>
+
+
+
+          <hr style="max-width:396px;margin-bottom:24px;">
+
         </div>
-
-        <!--Cargando-->
-        <div class='iigwo-loading' *ngIf="cargando">
-            <mat-spinner></mat-spinner>
-        </div>
+      </div>
     </div>
+
+    <!--Cargando-->
+    @if (cargando) {
+      <div class='iigwo-loading'>
+        <mat-spinner></mat-spinner>
+      </div>
+    }
+  </div>
 </div>

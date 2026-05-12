@@ -2,35 +2,45 @@
 
 <mat-dialog-content>
 
-  <div class="iigwo-input" style="min-width: 120px;" *ngIf="arrCitasActivas.length > 0">
-    <label required>Reason for cancellation</label>
-    <select [(ngModel)]="filterMotivoCancel" [ngModelOptions]="{standalone: true}">
-      <option *ngFor="let e of arrFilterMotivoCancel" [ngValue]="e.descripcion">
-        {{e.descripcion}}</option>
-    </select>
-  </div>
+  @if (arrCitasActivas.length > 0) {
+    <div class="iigwo-input" style="min-width: 120px;">
+      <label required>Reason for cancellation</label>
+      <select [(ngModel)]="filterMotivoCancel" [ngModelOptions]="{standalone: true}">
+        @for (e of arrFilterMotivoCancel; track e) {
+          <option [ngValue]="e.descripcion">
+          {{e.descripcion}}</option>
+        }
+      </select>
+    </div>
+  }
 
-  <div class="iigwo-input" style="margin-bottom: 15px;" *ngIf="filterMotivoCancel == 'other'">
-    <label required>Cancel reason</label>
-    <textarea [(ngModel)]="cancelReason"
+  @if (filterMotivoCancel == 'other') {
+    <div class="iigwo-input" style="margin-bottom: 15px;">
+      <label required>Cancel reason</label>
+      <textarea [(ngModel)]="cancelReason"
       style="width: 100% !important;min-width: 100%;max-width: 100%;min-height: 40px;"></textarea>
-  </div>
+    </div>
+  }
 
-  <table required class="informative" *ngIf="arrCitasActivas.length > 0">
-    <tr>
-      <th class=''></th>
-      <th>User</th>
-      <th>Schedule Type</th>
-      <th>Date</th>
-    </tr>
-    <tr *ngFor='let e of arrCitasActivas'>
-      <td class=''><input type="checkbox" [checked]="estaSeleccionado(e.idEvento)" (change)="check($event, e.idEvento)">
-      </td>
-      <td>{{e.nombreUsuario}}</td>
-      <td>{{e.rol}}</td>
-      <td>{{e.fecha}}</td>
-    </tr>
-  </table>
+  @if (arrCitasActivas.length > 0) {
+    <table required class="informative">
+      <tr>
+        <th class=''></th>
+        <th>User</th>
+        <th>Schedule Type</th>
+        <th>Date</th>
+      </tr>
+      @for (e of arrCitasActivas; track e) {
+        <tr>
+          <td class=''><input type="checkbox" [checked]="estaSeleccionado(e.idEvento)" (change)="check($event, e.idEvento)">
+          </td>
+          <td>{{e.nombreUsuario}}</td>
+          <td>{{e.rol}}</td>
+          <td>{{e.fecha}}</td>
+        </tr>
+      }
+    </table>
+  }
 
 </mat-dialog-content>
 
@@ -40,6 +50,8 @@
 </mat-dialog-actions>
 
 <!-- CARGANDO-->
-<div class='iigwo-loading' *ngIf="cargando">
-  <mat-spinner></mat-spinner>
-</div>
+@if (cargando) {
+  <div class='iigwo-loading'>
+    <mat-spinner></mat-spinner>
+  </div>
+}

@@ -1,39 +1,43 @@
 <h2 mat-dialog-title style="font-family: regular;color:#75518c">New payment</h2>
 
 <mat-dialog-content>
-	<div class="iigwo-input">
-		<label>Amount</label>
-		<input type="number" [(ngModel)]="movimientoSolicitud.monto">
-	</div>
-	<div class="iigwo-input">
-		<label>Payment Type</label>
-		<select [(ngModel)]="movimientoSolicitud.idTipoPago" (ngModelChange)="typeSelected()" [ngModelOptions]="{standalone: true}">
-			<option *ngFor="let tipoPago of arrTipoPago" [value]="tipoPago.idTipoPago">{{tipoPago.nombre}}
-			</option>
-		</select>
-	</div>
-	<div class="iigwo-input">
-		<label>Type</label>
-		<select [(ngModel)]="movimientoSolicitud.tipoMovimiento" [ngModelOptions]="{standalone: true}">
-			<option value="Payment">Payment</option>
-		</select>
-	</div>
-	<div class="iigwo-input">
-		<label>Discount</label>
-		<input type="number" [(ngModel)]="movimientoSolicitud.descuento">
-	</div>
-	<div class="iigwo-input">
-		<label>Comments</label>
-		<textarea [(ngModel)]="movimientoSolicitud.descripcion"></textarea>
-	</div>
+  <div class="iigwo-input">
+    <label>Amount</label>
+    <input type="number" [(ngModel)]="movimientoSolicitud.monto">
+  </div>
+  <div class="iigwo-input">
+    <label>Payment Type</label>
+    <select [(ngModel)]="movimientoSolicitud.idTipoPago" (ngModelChange)="typeSelected()" [ngModelOptions]="{standalone: true}">
+      @for (tipoPago of arrTipoPago; track tipoPago) {
+        <option [value]="tipoPago.idTipoPago">{{tipoPago.nombre}}
+        </option>
+      }
+    </select>
+  </div>
+  <div class="iigwo-input">
+    <label>Type</label>
+    <select [(ngModel)]="movimientoSolicitud.tipoMovimiento" [ngModelOptions]="{standalone: true}">
+      <option value="Payment">Payment</option>
+    </select>
+  </div>
+  <div class="iigwo-input">
+    <label>Discount</label>
+    <input type="number" [(ngModel)]="movimientoSolicitud.descuento">
+  </div>
+  <div class="iigwo-input">
+    <label>Comments</label>
+    <textarea [(ngModel)]="movimientoSolicitud.descripcion"></textarea>
+  </div>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-	<button class="iigwo" style="margin-left:auto;" (click)='cerrar()'>Cancel</button>
-	<button class="iigwo accent" style="margin-right:0;" (click)='crear()'>Send</button>
+  <button class="iigwo" style="margin-left:auto;" (click)='cerrar()'>Cancel</button>
+  <button class="iigwo accent" style="margin-right:0;" (click)='crear()'>Send</button>
 </mat-dialog-actions>
 
 <!-- CARGANDO-->
-<div class='iigwo-loading' *ngIf="cargando">
-	<mat-spinner></mat-spinner>
-</div>
+@if (cargando) {
+  <div class='iigwo-loading'>
+    <mat-spinner></mat-spinner>
+  </div>
+}

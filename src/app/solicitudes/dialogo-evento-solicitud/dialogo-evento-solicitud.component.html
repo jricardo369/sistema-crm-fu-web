@@ -2,78 +2,94 @@
 
 <mat-dialog-content style="padding-right: 12px;">
 
-    <div style="width: 450px;">
-        
+  <div style="width: 450px;">
 
-        <div style="display: flex;">
 
-            <div class="iigwo-input">
-                <label style="font-family:regular">Type</label>
-                <select [(ngModel)]="eventoSolicitud.tipo" (ngModelChange)="typeSelected()" [ngModelOptions]="{standalone: true}">
-                    <option value="Info">Info</option>
-                    <option value="Schedule">Schedule</option>
-                    <option value="Important">Important</option>
-                    <option value="Suicide">Suicide</option>
-                    <option *ngIf="rol == '11' || rol == '5' || rol == '2'" value="Interview review">Interview review</option>
-                </select>
-            </div>
-           
-        </div>
+    <div style="display: flex;">
 
-        <div class="iigwo-input" *ngIf="eventoSolicitud.tipo != 'Interview review'">
-          <label>Comments</label>
-          <textarea [(ngModel)]="eventoSolicitud.descripcion"></textarea>
+      <div class="iigwo-input">
+        <label style="font-family:regular">Type</label>
+        <select [(ngModel)]="eventoSolicitud.tipo" (ngModelChange)="typeSelected()" [ngModelOptions]="{standalone: true}">
+          <option value="Info">Info</option>
+          <option value="Schedule">Schedule</option>
+          <option value="Important">Important</option>
+          <option value="Suicide">Suicide</option>
+          @if (rol == '11' || rol == '5' || rol == '2') {
+            <option value="Interview review">Interview review</option>
+          }
+        </select>
       </div>
-
-        <div style="display: flex;">
-
-          <!-- <div class="iigwo-input" *ngIf="eventoSolicitud.tipo == 'Schedule'">
-              <label>Date and Time</label>
-              <input type="datetime-local" [(ngModel)]="eventoSolicitud.fecha">
-          </div> -->
-
-          <div class="iigwo-input" *ngIf="eventoSolicitud.tipo == 'Schedule' || eventoSolicitud.tipo == 'Interview review'">
-            <label>Date</label>
-            <input type="date" [(ngModel)]="eventoSolicitud.fecha">
-          </div>
-          <div class="iigwo-input" *ngIf="eventoSolicitud.tipo == 'Schedule' || eventoSolicitud.tipo == 'Interview review'">
-            <label>Time</label>
-            <select [(ngModel)]="eventoSolicitud.hora" style="min-width: 74px;" [ngModelOptions]="{standalone: true}">
-              <option *ngFor="let time of arrTime" [ngValue]="time">
-                {{time}}</option>
-            </select>
-          </div>
-          <div class="iigwo-input" *ngIf="eventoSolicitud.tipo == 'Schedule' || eventoSolicitud.tipo == 'Interview review'">
-            <label>Type</label>
-            <select [(ngModel)]="eventoSolicitud.tipoSchedule" style="min-width: 60px;" [ngModelOptions]="{standalone: true}">
-              <option value="AM">AM</option>
-              <option value="PM">PM</option>
-            </select>
-          </div>
-
-          <div class="iigwo-input" *ngIf="eventoSolicitud.tipo == 'Schedule' || eventoSolicitud.tipo == 'Interview review'">
-            <label>Time zone</label>
-            <select [(ngModel)]="eventoSolicitud.timeZone" style="min-width: 60px;" [ngModelOptions]="{standalone: true}">
-              <option value="PST">PST</option>
-              <option value="EST">EST</option>
-              <option value="CST">CST</option>
-              <option value="MST">MST</option>
-              <option value="AKST">AKST</option>
-              <option value="HAST">HAST</option>
-            </select>
-          </div>
-      </div>
-
 
     </div>
+
+    @if (eventoSolicitud.tipo != 'Interview review') {
+      <div class="iigwo-input">
+        <label>Comments</label>
+        <textarea [(ngModel)]="eventoSolicitud.descripcion"></textarea>
+      </div>
+    }
+
+    <div style="display: flex;">
+
+      <!-- <div class="iigwo-input" *ngIf="eventoSolicitud.tipo == 'Schedule'">
+      <label>Date and Time</label>
+      <input type="datetime-local" [(ngModel)]="eventoSolicitud.fecha">
+    </div> -->
+
+    @if (eventoSolicitud.tipo == 'Schedule' || eventoSolicitud.tipo == 'Interview review') {
+      <div class="iigwo-input">
+        <label>Date</label>
+        <input type="date" [(ngModel)]="eventoSolicitud.fecha">
+      </div>
+    }
+    @if (eventoSolicitud.tipo == 'Schedule' || eventoSolicitud.tipo == 'Interview review') {
+      <div class="iigwo-input">
+        <label>Time</label>
+        <select [(ngModel)]="eventoSolicitud.hora" style="min-width: 74px;" [ngModelOptions]="{standalone: true}">
+          @for (time of arrTime; track time) {
+            <option [ngValue]="time">
+            {{time}}</option>
+          }
+        </select>
+      </div>
+    }
+    @if (eventoSolicitud.tipo == 'Schedule' || eventoSolicitud.tipo == 'Interview review') {
+      <div class="iigwo-input">
+        <label>Type</label>
+        <select [(ngModel)]="eventoSolicitud.tipoSchedule" style="min-width: 60px;" [ngModelOptions]="{standalone: true}">
+          <option value="AM">AM</option>
+          <option value="PM">PM</option>
+        </select>
+      </div>
+    }
+
+    @if (eventoSolicitud.tipo == 'Schedule' || eventoSolicitud.tipo == 'Interview review') {
+      <div class="iigwo-input">
+        <label>Time zone</label>
+        <select [(ngModel)]="eventoSolicitud.timeZone" style="min-width: 60px;" [ngModelOptions]="{standalone: true}">
+          <option value="PST">PST</option>
+          <option value="EST">EST</option>
+          <option value="CST">CST</option>
+          <option value="MST">MST</option>
+          <option value="AKST">AKST</option>
+          <option value="HAST">HAST</option>
+        </select>
+      </div>
+    }
+  </div>
+
+
+</div>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-    <button class="iigwo" style="margin-left:auto;" (click)='cerrar()'>Close</button>
-    <button class="iigwo accent" style="margin-right:0;" (click)='crear()'>Save</button>
+  <button class="iigwo" style="margin-left:auto;" (click)='cerrar()'>Close</button>
+  <button class="iigwo accent" style="margin-right:0;" (click)='crear()'>Save</button>
 </mat-dialog-actions>
 
 <!-- CARGANDO-->
-<div class='iigwo-loading' *ngIf="cargando">
+@if (cargando) {
+  <div class='iigwo-loading'>
     <mat-spinner></mat-spinner>
-</div>
+  </div>
+}

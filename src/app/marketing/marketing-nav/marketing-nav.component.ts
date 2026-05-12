@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -18,12 +18,11 @@ let ITEMS = MARKETING_ITEMS;
   template: NAV_MENU_IZQUIERDA_TEMPLATE,
   styles: [NAV_MENU_IZQUIERDA_STYLES],
   imports: [
-    CommonModule,
     RouterModule,
     FormsModule,
     MatIconModule,
     MatProgressSpinnerModule
-  ]
+]
 })
 export class MarketingNavComponent extends UtilServiceTest {
   constructor(router: Router, utilService: UtilService, usuariosService: UsuariosService) {

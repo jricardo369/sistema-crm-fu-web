@@ -7,12 +7,12 @@ import { AdjuntosVocService } from 'src/app/services/adjuntos-voc.service';
 import { SolicitudVocComponent } from '../solicitud-voc/solicitud-voc.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { CommonModule} from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
-  standalone: true,imports: [RouterModule,FormsModule,CommonModule,MatIconModule,MatProgressSpinnerModule],
+  standalone: true,imports: [RouterModule, FormsModule, MatIconModule, MatProgressSpinnerModule],
   selector: 'app-adjuntos-voc',
   templateUrl: './adjuntos-voc.component.html',
   styleUrls: ['./adjuntos-voc.component.css']

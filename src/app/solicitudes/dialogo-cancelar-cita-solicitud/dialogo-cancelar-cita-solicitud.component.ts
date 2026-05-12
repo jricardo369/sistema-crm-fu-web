@@ -8,14 +8,14 @@ import { Usuario } from "src/model/usuario";
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
-import { CommonModule} from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MotivoCancel } from 'src/model/motivo-cancel';
 
 @Component({
-  standalone: true,imports: [RouterModule,FormsModule,CommonModule,MatIconModule,MatProgressSpinnerModule,MatDialogModule],
+  standalone: true,imports: [RouterModule, FormsModule, MatIconModule, MatProgressSpinnerModule, MatDialogModule],
   selector: 'app-dialogo-cancelar-cita-solicitud',
   templateUrl: './dialogo-cancelar-cita-solicitud.component.html',
   styleUrls: ['./dialogo-cancelar-cita-solicitud.component.css']

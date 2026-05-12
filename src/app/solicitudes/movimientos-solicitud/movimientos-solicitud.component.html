@@ -1,55 +1,66 @@
-<div *ngIf="mostrarMovimientos" style="
+@if (mostrarMovimientos) {
+<div style="
                 overflow-y: auto;">
-
-  <div style="display: flex; align-items: center; justify-content: space-between;">
-    <div class="div-img-label" >
-      <img  width="15px" height="15px" src="assets/svg/moneyListD.svg">
-      <h4>Payments</h4>
-    </div>
-    <!--<button (click)='agregarMovimiento()' class="btn m-l-40"
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+      <div class="div-img-label" >
+        <img  width="15px" height="15px" src="assets/svg/moneyListD.svg">
+        <h4>Payments</h4>
+      </div>
+      <!--<button (click)='agregarMovimiento()' class="btn m-l-40"
       style="color: #239B56;background: #EAFAF1;border-radius: 5px; height: 28px; line-height: 28px;">
       <mat-icon svgIcon="add"></mat-icon>
       <label>Add Payment</label>
     </button>-->
-
     <button (click)='agregarMovimiento()' class="btn"
-    style="color: #FFFFFF;background: #239B56; border-radius: 5px; height: 20px; line-height: 20px;margin-left: 10px;">
-    <mat-icon svgIcon="add" style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
-    <label style="margin: auto;color: #FFFFFF;text-transform: none;">Add Payment</label>
-  </button>
+      style="color: #FFFFFF;background: #239B56; border-radius: 5px; height: 20px; line-height: 20px;margin-left: 10px;">
+      <mat-icon svgIcon="add" style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+      <label style="margin: auto;color: #FFFFFF;text-transform: none;">Add Payment</label>
+    </button>
   </div>
-
-  <table class="informative" *ngIf="arrMovimientoSolicitud.length > 0">
-    <tr>
-      <th>Folio</th>
-      <th>Date</th>
-      <th>Amount</th>
-      <th>Method</th>
-      <th>Discount</th>
-      <th>Description</th>
-      <th *ngIf="(isMaster || isVendor || isBackOffice)">Actions</th>
-    </tr>
-    <tr *ngFor='let e of arrMovimientoSolicitud'>
-      <td>{{e.folio}}</td>
-      <td>{{e.fecha | date:'MM/dd/yyyy HH:mm':'':'en'}}</td>
-      <td class="number">{{e.monto | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</td>
-      <td>{{e.descripcionTipoPago}}</td>
-      <td class="number">{{e.descuento | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</td>
-      <td>{{e.descripcion}}</td>
-      <td style="display: flex;" *ngIf="(isMaster || isVendor || isBackOffice)">
-        <button (click)='eliminarMovimiento(e)' class="btn-icon" style="color: red;" matTooltip="Delete"
-         >
-          <mat-icon svgIcon="trashD" style="color: red; width: 18px; height: 18px;"></mat-icon>
-        </button>
-      </td>
-    </tr>
-  </table>
-  <p style="margin-bottom: 20px; font-size: 13px;" *ngIf="!arrMovimientoSolicitud.length > 0">
-    <span>The file has no payments.</span>
-  </p>
+  @if (arrMovimientoSolicitud.length > 0) {
+    <table class="informative">
+      <tr>
+        <th>Folio</th>
+        <th>Date</th>
+        <th>Amount</th>
+        <th>Method</th>
+        <th>Discount</th>
+        <th>Description</th>
+        @if ((isMaster || isVendor || isBackOffice)) {
+          <th>Actions</th>
+        }
+      </tr>
+      @for (e of arrMovimientoSolicitud; track e) {
+        <tr>
+          <td>{{e.folio}}</td>
+          <td>{{e.fecha | date:'MM/dd/yyyy HH:mm':'':'en'}}</td>
+          <td class="number">{{e.monto | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</td>
+          <td>{{e.descripcionTipoPago}}</td>
+          <td class="number">{{e.descuento | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</td>
+          <td>{{e.descripcion}}</td>
+          @if ((isMaster || isVendor || isBackOffice)) {
+            <td style="display: flex;">
+              <button (click)='eliminarMovimiento(e)' class="btn-icon" style="color: red;" matTooltip="Delete"
+                >
+                <mat-icon svgIcon="trashD" style="color: red; width: 18px; height: 18px;"></mat-icon>
+              </button>
+            </td>
+          }
+        </tr>
+      }
+    </table>
+  }
+  @if (!arrMovimientoSolicitud.length > 0) {
+    <p style="margin-bottom: 20px; font-size: 13px;">
+      <span>The file has no payments.</span>
+    </p>
+  }
 </div>
+}
 
 <!--Cargando-->
-<div class='iigwo-loading' *ngIf="cargando">
-  <mat-spinner></mat-spinner>
-</div>
+@if (cargando) {
+  <div class='iigwo-loading'>
+    <mat-spinner></mat-spinner>
+  </div>
+}

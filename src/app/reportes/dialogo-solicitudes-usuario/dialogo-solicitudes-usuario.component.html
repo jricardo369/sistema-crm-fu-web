@@ -1,41 +1,45 @@
 <h2 mat-dialog-title style="font-family: regular;color:#75518c">({{size}}) Requests user {{usuario.nombre}}</h2>
 
 <mat-dialog-content>
-  <table class="informative" *ngIf="arrReporteSolicitudesUsuario.length > 0">
-    <tr>
-      <th>File</th>
-      <th>Date</th>
-    </tr>
-    <tr *ngFor='let e of arrReporteSolicitudesUsuario | slice:paginacion.begin:paginacion.end'>
-      <td>{{e.idSolicitud}}</td>
-      <td style="white-space: nowrap;">{{e.fecha.split(" ")[0] | dateMMDDYYYY}}</td>
-    </tr>
-    <tr>
-      <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
-        <label>
+  @if (arrReporteSolicitudesUsuario.length > 0) {
+    <table class="informative">
+      <tr>
+        <th>File</th>
+        <th>Date</th>
+      </tr>
+      @for (e of arrReporteSolicitudesUsuario | slice:paginacion.begin:paginacion.end; track e) {
+        <tr>
+          <td>{{e.idSolicitud}}</td>
+          <td style="white-space: nowrap;">{{e.fecha.split(" ")[0] | dateMMDDYYYY}}</td>
+        </tr>
+      }
+      <tr>
+        <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
+          <label>
           Records per page</label>
-        <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()" [ngModelOptions]="{standalone: true}"
-          style="margin: 0 8px; font-family: regular; height: 24px;">
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="20">20</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
-        </select>
-        {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
-        <button class="iigwo small"
-          style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
-          (click)="paginacion.back();">
-          <mat-icon svgIcon="arrow-back"></mat-icon>
-        </button>
-        <button class="iigwo small"
-          style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
-          (click)="paginacion.forward();">
-          <mat-icon svgIcon="arrow-forward"></mat-icon>
-        </button>
-      </td>
-    </tr>
-  </table>
+          <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()" [ngModelOptions]="{standalone: true}"
+            style="margin: 0 8px; font-family: regular; height: 24px;">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+          {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
+          <button class="iigwo small"
+            style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+            (click)="paginacion.back();">
+            <mat-icon svgIcon="arrow-back"></mat-icon>
+          </button>
+          <button class="iigwo small"
+            style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+            (click)="paginacion.forward();">
+            <mat-icon svgIcon="arrow-forward"></mat-icon>
+          </button>
+        </td>
+      </tr>
+    </table>
+  }
 
 </mat-dialog-content>
 
@@ -44,6 +48,8 @@
 </mat-dialog-actions>
 
 <!-- CARGANDO-->
-<div class='iigwo-loading' *ngIf="cargando">
-  <mat-spinner></mat-spinner>
-</div>
+@if (cargando) {
+  <div class='iigwo-loading'>
+    <mat-spinner></mat-spinner>
+  </div>
+}

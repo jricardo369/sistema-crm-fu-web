@@ -6,49 +6,71 @@
     {{texto}}
   </p>
 
-  <div class="iigwo-input" *ngIf='comboboxItems'>
-    <label style="font-family: regular;line-height: 1.2;">{{comboboxLabel}}</label>
-    <select [(ngModel)]="selectedItem" [ngModelOptions]="{standalone: true}">
-      <option *ngFor="let e of comboboxItems" [ngValue]="e">{{e[comboboxDisplayField]}}</option>
-    </select>
-    <p *ngIf='comboboxSublabel' style="margin-top: 2px; margin-bottom: 18px; font-size: 11px;">{{comboboxSublabel}}
-    </p>
-  </div>
-
-  <div class="iigwo-input" *ngIf='textarea'>
-    <label>{{textarea.label}}</label>
-    <textarea [(ngModel)]="textarea.text" [placeholder]='textarea.placeholder' type="text"
-      style="min-width:396px; min-height: 54px;"></textarea>
-    <p *ngIf='textarea.sublabel' style="margin-top: 2px; margin-bottom: 18px; font-size: 11px;">
-      {{textarea.sublabel}}</p>
-  </div>
-
-  <form *ngIf="fields">
-    <div class="iigwo-input" *ngFor='let f of fields'>
-
-      <label>{{f.label}}</label>
-
-      <input (change)="onFieldChange($event, f)" [placeholder]="f.placeholder" [type]="f.type"
-        *ngIf='f.type != "select" && f.type != "textarea"'>
-
-      <textarea (change)="onFieldChange($event, f)" [placeholder]="f.placeholder" *ngIf='f.type == "textarea"'
-        style="max-width:396px; height:64px; min-width:396px;" [maxLength]="f.maxLength"></textarea>
-
-      <select [(ngModel)]="f.value" [ngModelOptions]="{standalone: true}" *ngIf='f.type == "select"' [ngModelOptions]="{standalone: true}">
-        <option *ngFor='let o of f.options' [ngValue]="o.value">{{o.display}}</option>
+  @if (comboboxItems) {
+    <div class="iigwo-input">
+      <label style="font-family: regular;line-height: 1.2;">{{comboboxLabel}}</label>
+      <select [(ngModel)]="selectedItem" [ngModelOptions]="{standalone: true}">
+        @for (e of comboboxItems; track e) {
+          <option [ngValue]="e">{{e[comboboxDisplayField]}}</option>
+        }
       </select>
+      @if (comboboxSublabel) {
+        <p style="margin-top: 2px; margin-bottom: 18px; font-size: 11px;">{{comboboxSublabel}}
+        </p>
+      }
     </div>
-  </form>
+  }
 
-  <div *ngIf="warning">
-    <p class="texto color-red">
-      {{warning}}
-    </p>
-  </div>
+  @if (textarea) {
+    <div class="iigwo-input">
+      <label>{{textarea.label}}</label>
+      <textarea [(ngModel)]="textarea.text" [placeholder]='textarea.placeholder' type="text"
+      style="min-width:396px; min-height: 54px;"></textarea>
+      @if (textarea.sublabel) {
+        <p style="margin-top: 2px; margin-bottom: 18px; font-size: 11px;">
+        {{textarea.sublabel}}</p>
+      }
+    </div>
+  }
+
+  @if (fields) {
+    <form>
+      @for (f of fields; track f) {
+        <div class="iigwo-input">
+          <label>{{f.label}}</label>
+          @if (f.type != "select" && f.type != "textarea") {
+            <input (change)="onFieldChange($event, f)" [placeholder]="f.placeholder" [type]="f.type"
+              >
+          }
+          @if (f.type == "textarea") {
+            <textarea (change)="onFieldChange($event, f)" [placeholder]="f.placeholder"
+            style="max-width:396px; height:64px; min-width:396px;" [maxLength]="f.maxLength"></textarea>
+          }
+          @if (f.type == "select") {
+            <select [(ngModel)]="f.value" [ngModelOptions]="{standalone: true}" [ngModelOptions]="{standalone: true}">
+              @for (o of f.options; track o) {
+                <option [ngValue]="o.value">{{o.display}}</option>
+              }
+            </select>
+          }
+        </div>
+      }
+    </form>
+  }
+
+  @if (warning) {
+    <div>
+      <p class="texto color-red">
+        {{warning}}
+      </p>
+    </div>
+  }
 </mat-dialog-content>
 
 <mat-dialog-actions class='dialog-actions'>
-  <button *ngFor='let e of botones'
-    [mat-dialog-close]="selectedItem && e.valor == 'ok' ? selectedItem : (!comboboxItems ? e.valor : null)"
+  @for (e of botones; track e) {
+    <button
+      [mat-dialog-close]="selectedItem && e.valor == 'ok' ? selectedItem : (!comboboxItems ? e.valor : null)"
     [ngClass]="{'accent':e.color == 'accent', 'primary':e.color == 'primary', 'iigwo':true}">{{e.texto}}</button>
+  }
 </mat-dialog-actions>

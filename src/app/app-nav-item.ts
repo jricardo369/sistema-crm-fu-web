@@ -4,7 +4,7 @@ import { UtilService } from './services/util.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 
 export const NAV_MENU_IZQUIERDA_TEMPLATE =
@@ -86,7 +86,7 @@ export class UtilServiceTest {
 @Component({
   selector: 'app-nav-item',
   standalone: true,
-  imports: [FormsModule,CommonModule,RouterModule], 
+  imports: [FormsModule, RouterModule], 
   template: `
     <div></div>
   `,

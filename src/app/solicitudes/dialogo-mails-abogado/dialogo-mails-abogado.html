@@ -1,42 +1,45 @@
 <h2 mat-dialog-title [style.font-family]="'regular'" [style.color]="'#75518c'">Emails from lawyer {{lawyerName}}</h2>
 
 <mat-dialog-content>
-  <table class="informative" *ngIf="arrEmailAbogados.length > 0">
-    <tr>
-      <th class=''><input type="checkbox" [checked]="estanTodosSeleccionados()" (change)="checkAll($event)"></th>
-      <th>Email</th>
-    </tr>
-    <tr *ngFor='let e of arrEmailAbogados | slice:paginacion.begin:paginacion.end'>
-    
-      <td class=''><input type="checkbox" [checked]="isEmailSelected(e.email)" (change)="check($event, e.email)"></td>
-      <td>{{e.email}}</td>
-    </tr>
-    <tr>
-      <td colspan="99" [style.text-align]="'right'" [style.line-height]="'24px'" class="mini">
-        <label>
+  @if (arrEmailAbogados.length > 0) {
+    <table class="informative">
+      <tr>
+        <th class=''><input type="checkbox" [checked]="estanTodosSeleccionados()" (change)="checkAll($event)"></th>
+        <th>Email</th>
+      </tr>
+      @for (e of arrEmailAbogados | slice:paginacion.begin:paginacion.end; track e) {
+        <tr>
+          <td class=''><input type="checkbox" [checked]="isEmailSelected(e.email)" (change)="check($event, e.email)"></td>
+          <td>{{e.email}}</td>
+        </tr>
+      }
+      <tr>
+        <td colspan="99" [style.text-align]="'right'" [style.line-height]="'24px'" class="mini">
+          <label>
           Records per page</label>
-        <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()" [ngModelOptions]="{standalone: true}"
-          [style.margin]="'0 8px'" [style.font-family]="'regular'" [style.height]="'24px'">
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="20">20</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
-        </select>
-        {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
-        <button class="iigwo small"
-          [style.margin]="'0 0 0 8px'" [style.padding]="'0'" [style.height]="'24px'" [style.min-height]="'24px'"
-          (click)="paginacion.back();">
-          <mat-icon svgIcon="arrow-back"></mat-icon>
-        </button>
-        <button class="iigwo small"
-          [style.margin]="'0 0 0 8px'" [style.padding]="'0'" [style.height]="'24px'" [style.min-height]="'24px'"
-          (click)="paginacion.forward();">
-          <mat-icon svgIcon="arrow-forward"></mat-icon>
-        </button>
-      </td>
-    </tr>
-  </table>
+          <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()" [ngModelOptions]="{standalone: true}"
+            [style.margin]="'0 8px'" [style.font-family]="'regular'" [style.height]="'24px'">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+          {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
+          <button class="iigwo small"
+            [style.margin]="'0 0 0 8px'" [style.padding]="'0'" [style.height]="'24px'" [style.min-height]="'24px'"
+            (click)="paginacion.back();">
+            <mat-icon svgIcon="arrow-back"></mat-icon>
+          </button>
+          <button class="iigwo small"
+            [style.margin]="'0 0 0 8px'" [style.padding]="'0'" [style.height]="'24px'" [style.min-height]="'24px'"
+            (click)="paginacion.forward();">
+            <mat-icon svgIcon="arrow-forward"></mat-icon>
+          </button>
+        </td>
+      </tr>
+    </table>
+  }
 
   <!-- Debug info (temporal) -->
   <!--<p>Emails seleccionados: {{emailsSeleccionados}}</p>-->
@@ -49,6 +52,8 @@
 </mat-dialog-actions>
 
 <!-- CARGANDO-->
-<div class='iigwo-loading' *ngIf="cargando">
-  <mat-spinner></mat-spinner>
-</div>
+@if (cargando) {
+  <div class='iigwo-loading'>
+    <mat-spinner></mat-spinner>
+  </div>
+}

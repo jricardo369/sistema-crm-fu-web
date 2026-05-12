@@ -1,114 +1,132 @@
 <div class="workspace" style="left: 0;">
-    <div class='menu'>
-        <label class='home'><span>Credentials for User</span>
-            {{usuario.nombre}}</label>
+  <div class='menu'>
+    <label class='home'><span>Credentials for User</span>
+  {{usuario.nombre}}</label>
+</div>
+<div class='content'>
+
+  <h4 style="margin: 0 0 6px 0">Password</h4>
+  <p style="margin: 0 0 12px 0">A good password should be hard to guess and easy to remember; but you must also be young, get used to changing your password periodically</p>
+
+  @if (!cambiandoContrasena) {
+    <button class="iigwo" (click)="cambiandoContrasena=true">
+      <label>Change Password</label>
+    </button>
+  }
+  @if (cambiandoContrasena) {
+    <div>
+      <div class="iigwo-input">
+        <label>New nassword</label>
+        <input [(ngModel)]="password" type="password" autocomplete="new-password" name="banana1"
+          title="">
+      </div>
+      <div class="iigwo-input">
+        <label>Confirm new password</label>
+        <input [(ngModel)]="confirmPassword" type="password" autocomplete="new-password" name="banana2"
+          title="">
+      </div>
+      <p style="margin-top: -6px; margin-bottom: 18px; font-size: 11px;">Both passwords must be the same</p>
+      <button class="iigwo accent" (click)="cambiarPassword()" [disabled]="!(password.length > 0 && confirmPassword.length > 0)">
+        <label>Change Password</label>
+      </button>
+      <button class="iigwo" (click)="cambiandoContrasena=false">
+        <label>Cancel</label>
+      </button>
     </div>
-    <div class='content'>
+  }
 
-        <h4 style="margin: 0 0 6px 0">Password</h4>
-        <p style="margin: 0 0 12px 0">A good password should be hard to guess and easy to remember; but you must also be young, get used to changing your password periodically</p>
-        
-        <button class="iigwo" (click)="cambiandoContrasena=true" *ngIf="!cambiandoContrasena">
-            <label>Change Password</label>
-        </button>
-        <div *ngIf="cambiandoContrasena">
-            <div class="iigwo-input">
-                <label>New nassword</label>
-                <input [(ngModel)]="password" type="password" autocomplete="new-password" name="banana1"
-                    title="">
-            </div>
-            <div class="iigwo-input">
-                <label>Confirm new password</label>
-                <input [(ngModel)]="confirmPassword" type="password" autocomplete="new-password" name="banana2"
-                    title="">
-            </div>
-            <p style="margin-top: -6px; margin-bottom: 18px; font-size: 11px;">Both passwords must be the same</p>
-            <button class="iigwo accent" (click)="cambiarPassword()" [disabled]="!(password.length > 0 && confirmPassword.length > 0)">
-                <label>Change Password</label>
-            </button>
-            <button class="iigwo" (click)="cambiandoContrasena=false">
-                <label>Cancel</label>
-            </button>
-        </div>
+  <hr style="max-width:396px;margin-top:12px;">
 
-        <hr style="max-width:396px;margin-top:12px;">
-
-        <h4 style="margin: 0 0 6px 0">Email</h4>
-        <p style="margin: 0 0 12px 0">If you prefer to receive your notifications to a different address, change your email address</p>
-        <button class="iigwo" (click)="cambiandoCorreo=true" *ngIf="!cambiandoCorreo">
-            <label>Change Email Address</label>
-        </button>
-        <div *ngIf="cambiandoCorreo">
-            <div class="iigwo-input">
-                <label>New email adress</label>
-                <input [(ngModel)]="email1" type="email" autocomplete="new-password">
-            </div>
-            <div class="iigwo-input">
-                <label>Confirm new email address</label>
-                <input [(ngModel)]="email2" type="email" autocomplete="new-password">
-            </div>
-            <p style="margin-top: -6px; margin-bottom: 18px; font-size: 11px;">Both email addresses must be the same</p>
-            <button class="iigwo accent" (click)="cambiarCorreo()" [disabled]="!(email1.length > 0 && email2.length > 0)">
-                <label>Change Email Address</label>
-            </button>
-            <button class="iigwo" (click)="cambiandoCorreo=false">
-                <label>Cancel</label>
-            </button>
-        </div>
-
-        <hr style="max-width:396px;margin-top:12px;">
-
-        <h4 style="margin: 0 0 6px 0">Profile image</h4>
-        <p style="margin: 0 0 12px 0">If you prefer change your image to a different</p>
-        <button class="iigwo" (click)="cambiandoImage=true" *ngIf="!cambiandoImage">
-            <label>Change profile image</label>
-        </button>
-
-        <div *ngIf="cambiandoImage">
-
-            <div style="display: flex; align-items: center;">
-                <h4>Attachments</h4>
-                <button (click)='cargarAdjunto()' class="btn m-l-40" *ngIf="file.length > 0"
-                    style="color: #239B56;background: #EAFAF1;border-radius: 5px; height: 28px; line-height: 28px;">
-                    <mat-icon svgIcon="file-upload"></mat-icon>
-                    <label>Upload File(s)</label>
-                </button>
-            </div>
-            <div>
-                <label for='fileId' [class]='file.length == 0 ?"fake-button accent":"fake-button"' tabindex="0" >
-                    <span *ngIf="file.length == 0">Select Files</span>
-                    <span *ngIf="file.length > 0">Selected Files</span>
-                </label>
-        
-                <label style="display: inline-block; line-height: 32px; font-size: 13px; color:rgba(0,0,0,0.5);"
-                    *ngIf="file.length == 0">No files selected</label>
-                <div *ngFor="let f of file" style="display: inline-block;">
-                    <span class="badge-file-icon"><mat-icon svgIcon="attach_file"></mat-icon></span>
-                    <span class="badge-file" style="padding-right: 21px;">{{f.name}}</span>
-                    <span style="margin-left: -18px;">
-                        <button class="iigwo adjuntos-options" (click)="quitarAdjunto(f)">
-                            <mat-icon style="margin-top: 1px;" svgIcon="close"></mat-icon>
-                        </button>
-                    </span>
-                </div>
-        
-                <input id='fileId' type="file" #fileInput (change)="onFileSelected(fileInput.files)" 
-                    style='display:none;' multiple>
-            </div>
-            <button class="iigwo" (click)="cambiandoImage=false">
-                <label>Cancel</label>
-            </button>
-
-            
-
-        </div>
-
-
+  <h4 style="margin: 0 0 6px 0">Email</h4>
+  <p style="margin: 0 0 12px 0">If you prefer to receive your notifications to a different address, change your email address</p>
+  @if (!cambiandoCorreo) {
+    <button class="iigwo" (click)="cambiandoCorreo=true">
+      <label>Change Email Address</label>
+    </button>
+  }
+  @if (cambiandoCorreo) {
+    <div>
+      <div class="iigwo-input">
+        <label>New email adress</label>
+        <input [(ngModel)]="email1" type="email" autocomplete="new-password">
+      </div>
+      <div class="iigwo-input">
+        <label>Confirm new email address</label>
+        <input [(ngModel)]="email2" type="email" autocomplete="new-password">
+      </div>
+      <p style="margin-top: -6px; margin-bottom: 18px; font-size: 11px;">Both email addresses must be the same</p>
+      <button class="iigwo accent" (click)="cambiarCorreo()" [disabled]="!(email1.length > 0 && email2.length > 0)">
+        <label>Change Email Address</label>
+      </button>
+      <button class="iigwo" (click)="cambiandoCorreo=false">
+        <label>Cancel</label>
+      </button>
     </div>
+  }
 
-    <!-- CARGANDO -->
-    <div class='iigwo-loading' *ngIf="cargando">
-        <mat-spinner></mat-spinner>
+  <hr style="max-width:396px;margin-top:12px;">
+
+  <h4 style="margin: 0 0 6px 0">Profile image</h4>
+  <p style="margin: 0 0 12px 0">If you prefer change your image to a different</p>
+  @if (!cambiandoImage) {
+    <button class="iigwo" (click)="cambiandoImage=true">
+      <label>Change profile image</label>
+    </button>
+  }
+
+  @if (cambiandoImage) {
+    <div>
+      <div style="display: flex; align-items: center;">
+        <h4>Attachments</h4>
+        @if (file.length > 0) {
+          <button (click)='cargarAdjunto()' class="btn m-l-40"
+            style="color: #239B56;background: #EAFAF1;border-radius: 5px; height: 28px; line-height: 28px;">
+            <mat-icon svgIcon="file-upload"></mat-icon>
+            <label>Upload File(s)</label>
+          </button>
+        }
+      </div>
+      <div>
+        <label for='fileId' [class]='file.length == 0 ?"fake-button accent":"fake-button"' tabindex="0" >
+          @if (file.length == 0) {
+            <span>Select Files</span>
+          }
+          @if (file.length > 0) {
+            <span>Selected Files</span>
+          }
+        </label>
+        @if (file.length == 0) {
+          <label style="display: inline-block; line-height: 32px; font-size: 13px; color:rgba(0,0,0,0.5);"
+          >No files selected</label>
+        }
+        @for (f of file; track f) {
+          <div style="display: inline-block;">
+            <span class="badge-file-icon"><mat-icon svgIcon="attach_file"></mat-icon></span>
+            <span class="badge-file" style="padding-right: 21px;">{{f.name}}</span>
+            <span style="margin-left: -18px;">
+              <button class="iigwo adjuntos-options" (click)="quitarAdjunto(f)">
+                <mat-icon style="margin-top: 1px;" svgIcon="close"></mat-icon>
+              </button>
+            </span>
+          </div>
+        }
+        <input id='fileId' type="file" #fileInput (change)="onFileSelected(fileInput.files)"
+          style='display:none;' multiple>
+      </div>
+      <button class="iigwo" (click)="cambiandoImage=false">
+        <label>Cancel</label>
+      </button>
     </div>
+  }
+
+
+</div>
+
+<!-- CARGANDO -->
+@if (cargando) {
+  <div class='iigwo-loading'>
+    <mat-spinner></mat-spinner>
+  </div>
+}
 
 </div>

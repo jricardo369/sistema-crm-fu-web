@@ -6,17 +6,13 @@ import { Usuario } from 'src/model/usuario';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CustomI18nService } from 'src/app/custom-i18n.service';
 import { SeguridadService } from 'src/app/services/seguridad.service';
-import { CommonModule } from '@angular/common';
+
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormsModule } from '@angular/forms';
 import { VERSION_WEB } from 'src/app/app.config';
 
 @Component({
-  standalone: true,imports: [RouterModule,
-    CommonModule,
-    FormsModule,
-    MatProgressSpinnerModule
-  ],
+  standalone: true,imports: [RouterModule, FormsModule, MatProgressSpinnerModule],
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']

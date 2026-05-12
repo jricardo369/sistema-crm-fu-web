@@ -2,7 +2,7 @@ import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
@@ -13,7 +13,7 @@ import { NotaProspectoAbogado } from 'src/model/nota-prospecto-abogado';
 
 @Component({
   standalone: true,
-  imports: [RouterModule, FormsModule, CommonModule, MatIconModule, MatProgressSpinnerModule, MatDialogModule],
+  imports: [RouterModule, FormsModule, MatIconModule, MatProgressSpinnerModule, MatDialogModule],
   selector: 'app-dialogo-prospecto-abogado',
   templateUrl: './dialogo-prospecto-abogado.component.html',
   styleUrls: ['./dialogo-prospecto-abogado.component.css'],

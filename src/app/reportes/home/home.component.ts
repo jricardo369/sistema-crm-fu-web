@@ -7,7 +7,7 @@ import { WorkspaceNavComponent } from 'src/app/common/workspace-nav/workspace-na
 import { ExperimentalMenuComponent } from 'src/app/common/experimental-menu/experimental-menu.component';
 import { ReportesNavComponent } from 'src/app/reportes/reportes-nav/reportes-nav.component';
 
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
@@ -21,7 +21,7 @@ const ROLES = {
 
 @Component({
   standalone: true,
-  imports: [RouterModule,FormsModule,WorkspaceNavComponent,ExperimentalMenuComponent,ReportesNavComponent,CommonModule,MatIconModule,MatProgressSpinnerModule],
+  imports: [RouterModule, FormsModule, WorkspaceNavComponent, ExperimentalMenuComponent, ReportesNavComponent, MatIconModule, MatProgressSpinnerModule],
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']

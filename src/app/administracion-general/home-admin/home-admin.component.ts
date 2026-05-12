@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { SessionService } from 'src/app/services/session.service'; 
-import { CommonModule } from '@angular/common';
+
 import { BACKOFFICE, MASTER, VOC,INTERVIEWER_SCALES,VENDOR } from '../../app.config';
 import { Usuario } from 'src/model/usuario';
 import { FormsModule } from '@angular/forms';
@@ -17,7 +17,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   standalone: true,
   selector: 'app-redirect-inicio',
   template: `<p>Redirecting...</p>`,
-  imports: [CommonModule, FormsModule,RouterModule,WorkspaceNavComponent,ExperimentalMenuComponent,ReportesNavComponent,CommonModule,MatIconModule,MatProgressSpinnerModule] 
+  imports: [FormsModule, RouterModule, WorkspaceNavComponent, ExperimentalMenuComponent, ReportesNavComponent, MatIconModule, MatProgressSpinnerModule] 
 })
 export class HomeAdminComponent implements OnInit {
 

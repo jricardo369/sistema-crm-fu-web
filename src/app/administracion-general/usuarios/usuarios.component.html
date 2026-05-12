@@ -1,12 +1,12 @@
 <app-workspace-nav>
-    <app-general-nav></app-general-nav>
+  <app-general-nav></app-general-nav>
 </app-workspace-nav>
 <div class='workspace'>
-    <div class='main'>
+  <div class='main'>
 
-        <app-experimental-menu titulo="Users">
+    <app-experimental-menu titulo="Users">
 
-            <button  (click)='crearUsuario()' class="btn"
+      <button  (click)='crearUsuario()' class="btn"
         style="color: #FFFFFF;background: #239B56; border-radius: 5px; height: 20px; line-height: 20px;margin-left: 10px;">
         <mat-icon svgIcon="add" style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
         <label style="margin: auto;color: #FFFFFF;text-transform: none;">New User</label>
@@ -24,49 +24,49 @@
         <label style="margin: auto;color: #FFFFFF;text-transform: none;">Delete</label>
       </button>
 
-        </app-experimental-menu>
+    </app-experimental-menu>
 
-        <div class='content'>
+    <div class='content'>
 
-            <!-- BUSCADOR SIMPLE -->
-             <div>
-            <div style="margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
-                <div class="iigwo-input inline" style="margin-top: 20px;width: 180px;">
-                        <input [(ngModel)]="searchTerm"
-                    (keyup.enter)="buscarUsuarios()"
-                    placeholder="Search by user, name or phone">
-                    </div>
+      <!-- BUSCADOR SIMPLE -->
+      <div>
+        <div style="margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+          <div class="iigwo-input inline" style="margin-top: 20px;width: 180px;">
+            <input [(ngModel)]="searchTerm"
+              (keyup.enter)="buscarUsuarios()"
+              placeholder="Search by user, name or phone">
+          </div>
 
-                 <button (click)="buscarUsuarios()" class=" iigwo btn-color btn-color-accent"
-                    style="color: #FFFFFF; border: 0.5px solid #b1b1b1;margin-top: 18px;"
-                    [ngStyle]="{'color':'#FFFFFF','background': 'var(--app-accent)','margin-top': '18px'}">
-                    <span style="color: #FFFFFF; font-size: 13px;">Apply filters</span>
-                </button>
-            </div>
-            </div>
+          <button (click)="buscarUsuarios()" class=" iigwo btn-color btn-color-accent"
+            style="color: #FFFFFF; border: 0.5px solid #b1b1b1;margin-top: 18px;"
+            [ngStyle]="{'color':'#FFFFFF','background': 'var(--app-accent)','margin-top': '18px'}">
+            <span style="color: #FFFFFF; font-size: 13px;">Apply filters</span>
+          </button>
+        </div>
+      </div>
 
-            <!-- FILTRO -->
-             <!--
-            <div style="margin-bottom: 20px;">
+      <!-- FILTRO -->
+      <!--
+      <div style="margin-bottom: 20px;">
 
-                <h5 *ngIf="filters.length < 1" style="margin: 0 0 3px 0;">Search</h5>
-                <h5 *ngIf="filters.length > 0" style="margin: 0 0 12px 0;">Search</h5>
+        <h5 *ngIf="filters.length < 1" style="margin: 0 0 3px 0;">Search</h5>
+        <h5 *ngIf="filters.length > 0" style="margin: 0 0 12px 0;">Search</h5>
 
-                <div *ngFor="let f of filters">
+        <div *ngFor="let f of filters">
 
-                    <div class="iigwo-input inline">
-                        <select [(ngModel)]="f.campo" [ngModelOptions]="{standalone: true}">
-                            <option value="usuario">User</option>
-                            <option value="nombre">Name</option>
-                            <option value="direccion">Address</option>
-                            <option value="telefono">Phone</option>
-                            <option value="telefono">Email</option>
-                            <option value="tipo">Type</option>
-                        </select>
-                    </div>
+          <div class="iigwo-input inline">
+            <select [(ngModel)]="f.campo" [ngModelOptions]="{standalone: true}">
+              <option value="usuario">User</option>
+              <option value="nombre">Name</option>
+              <option value="direccion">Address</option>
+              <option value="telefono">Phone</option>
+              <option value="telefono">Email</option>
+              <option value="tipo">Type</option>
+            </select>
+          </div>
 
-                    <div class="iigwo-input inline">
-                        <select [(ngModel)]="f.operador" [ngModelOptions]="{standalone: true}">
+          <div class="iigwo-input inline">
+            <select [(ngModel)]="f.operador" [ngModelOptions]="{standalone: true}">
                             <option value="==">Same</option>
                             <option value=">">Higher</option>
                             <option value=">=">Greater or Equal</option>
@@ -97,128 +97,139 @@
                 
                 <button *ngIf='filters.length > 0' (click)='aplicarFiltros()' class=" iigwo btn-color btn-color-accent"
                     style="color: #FFFFFF; border: 0.5px solid #b1b1b1;margin-top: 18px;"
-                    [ngStyle]="{'color':'#FFFFFF','background': 'var(--app-accent)','margin-top': '18px'}">
-                    <span style="color: #FFFFFF; font-size: 13px;">Apply filters</span>
-                </button>
+            [ngStyle]="{'color':'#FFFFFF','background': 'var(--app-accent)','margin-top': '18px'}">
+            <span style="color: #FFFFFF; font-size: 13px;">Apply filters</span>
+          </button>
 
-                <button *ngIf='filters.length > 0' (click)='limpiarFiltros()' class=" iigwo btn-color"
-                    style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-top: 18px;">
-                    <span style="color: #000000; font-size: 13px;">Clean filters</span>
-                </button>
-                
-                <p *ngIf='filters.length == 0' style="font-size:11px;">
-                  Add one or more filters to facilitate the search for users
-                </p>
+          <button *ngIf='filters.length > 0' (click)='limpiarFiltros()' class=" iigwo btn-color"
+            style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-top: 18px;">
+            <span style="color: #000000; font-size: 13px;">Clean filters</span>
+          </button>
 
-                <button *ngIf='filters.length == 0' (click)='agregarFiltro()' class="btn-color iigwo"
-                    style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-top: 18px;">
-                    <span style="color: #000000; font-size: 13px;">Add filter</span>
-                </button>
+          <p *ngIf='filters.length == 0' style="font-size:11px;">
+            Add one or more filters to facilitate the search for users
+          </p>
 
+          <button *ngIf='filters.length == 0' (click)='agregarFiltro()' class="btn-color iigwo"
+            style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-top: 18px;">
+            <span style="color: #000000; font-size: 13px;">Add filter</span>
+          </button>
 
-            </div>
-
-            -->
-
-            <!-- TABLA CON REGISTROS -->
-            <div style="">
-                <table class='big' *ngIf="!(usuarios.length == 0)">
-                    <tr>
-                        <th class=''><input type="checkbox" [checked]="estanTodosSeleccionados()"
-                                (change)="checkAll($event)"></th>
-                                <th class=''>Status</th>
-                        <th class=''>User</th>
-                        <th class=''>Name</th>
-                        <!--<th class=''>Address</th>-->
-                        <th class=''>Phone</th>
-                        <th class=''>Email</th>
-                        <th class=''>Type</th>
-                        
-                    </tr>
-                    <tr *ngFor='let e of usuarios | slice:paginacion.begin:paginacion.end'>
-                        <td class=''><input type="checkbox" [checked]="estaSeleccionado(e.idUsuario)"
-                                (change)="check($event, e.idUsuario)"></td>
-                        <td class='accent'>
-                            <span *ngIf="e.estatus === '3'" class="circulo-badge color-circulo-badge-activo">B</span>
-                            <span *ngIf="e.estatus === '1'" class="circulo-badge color-circulo-badge-block">A</span>
-                            <mat-icon *ngIf="e.estatus === '3'"  svgIcon="unlockD2" (click)='desbloquear(e.idUsuario)'
-                             style="color:rgba(105, 84, 0, 0.7); width: 16px; height: 16px; margin-bottom: -3px;margin-left: 5px;cursor: pointer;* {cursor: pointer;}"></mat-icon>
-                        </td>
-                        <td class=''><a (click)="editarUsuario(e.idUsuario)">{{e.usuario}}</a></td>
-                        <td class=''><a (click)="editarUsuario(e.idUsuario)">{{e.nombre}}</a></td>
-                        <!--<td class='accent'>{{e.direccion}}</td>-->
-                        <td class='accent'>
-                            <mat-icon svgIcon="phoneD" *ngIf="e.telefono != null && e.telefono != ''"
-                  style="color:rgba(0, 0, 0, 0.7); width: 13px; height: 13px;margin-bottom: -2px;margin-right: 2px;"></mat-icon>
-                            {{e.telefono | phone}}
-                        
-                        </td>
-                        <td class='accent'>
-                             <mat-icon svgIcon="emailD" *ngIf="e.correoElectronico != null && e.correoElectronico != ''"
-                  style="color:rgba(0, 0, 0, 0.7); width: 13px; height: 13px;margin-bottom: -2px;"></mat-icon>
-                            {{e.correoElectronico}}</td>
-                    
-                        <td class='accent'>
-                            @switch (e.rol) {
-                            @case ("1") { <label>Administrator</label> }
-                            @case ("2") { <label>Master</label> }
-                            @case ("3") { <label>Vendor</label> }
-                            @case ("4") { <label>BackOffice</label> }
-                            @case ("5") { <label>Interviewer</label> }
-                            @case ("6") { <label>VOC</label> }
-                            @case ("7") { <label>Template Creator</label> }
-                            @case ("8") { <label>Interviewer Scales</label> }
-                            @case ("9") { <label>Ghostwriting</label> }
-                            @case ("10") { <label>Psychotherapist</label> }
-                            @case ("11") { <label>Clinician</label> }
-                            @case ("12") { <label>Marketing</label> }
-                            @case ("13") { <label>Liaison</label> }
-                            @case ("14") { <label>Digital Marketing Manager</label> }
-                            @default { <label>{{ e.rol }}</label> }
-                            }
-                        </td>
-
-                        
-                    </tr>
-
-                    <tr>
-                        <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
-                            <label>Records per page</label>
-                            <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()" [ngModelOptions]="{standalone: true}"
-                                style="margin: 0 8px; font-family: regular; height: 24px;">
-                                <option value="15">15</option>
-                                <option value="30">30</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select>
-                            {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
-                            <button class="iigwo small"
-                                style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
-                                (click)="paginacion.back();">
-                                <mat-icon svgIcon="arrow-back"></mat-icon>
-                            </button>
-                            <button class="iigwo small"
-                                style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
-                                (click)="paginacion.forward();">
-                                <mat-icon svgIcon="arrow-forward"></mat-icon>
-                            </button>
-                        </td>
-                    </tr>
-
-                </table>
-            </div>
-
-            <!-- MENSAJE DE NO HAY REGISTROS -->
-            <div *ngIf="usuarios.length == 0">
-                <h3 style="margin:12px 0 6px 0">No results</h3>
-                <p style="max-width:396px;">There are no users within the search criteria. Make sure that the names are correct and that they are searching in the appropriate field.</p>
-            </div>
 
         </div>
 
-        <!--Cargando-->
-        <div class='iigwo-loading' *ngIf="cargando">
-            <mat-spinner></mat-spinner>
+        -->
+
+        <!-- TABLA CON REGISTROS -->
+        <div style="">
+          @if (!(usuarios.length == 0)) {
+            <table class='big'>
+              <tr>
+                <th class=''><input type="checkbox" [checked]="estanTodosSeleccionados()"
+                (change)="checkAll($event)"></th>
+                <th class=''>Status</th>
+                <th class=''>User</th>
+                <th class=''>Name</th>
+                <!--<th class=''>Address</th>-->
+                <th class=''>Phone</th>
+                <th class=''>Email</th>
+                <th class=''>Type</th>
+              </tr>
+              @for (e of usuarios | slice:paginacion.begin:paginacion.end; track e) {
+                <tr>
+                  <td class=''><input type="checkbox" [checked]="estaSeleccionado(e.idUsuario)"
+                  (change)="check($event, e.idUsuario)"></td>
+                  <td class='accent'>
+                    @if (e.estatus === '3') {
+                      <span class="circulo-badge color-circulo-badge-activo">B</span>
+                    }
+                    @if (e.estatus === '1') {
+                      <span class="circulo-badge color-circulo-badge-block">A</span>
+                    }
+                    @if (e.estatus === '3') {
+                      <mat-icon  svgIcon="unlockD2" (click)='desbloquear(e.idUsuario)'
+                      style="color:rgba(105, 84, 0, 0.7); width: 16px; height: 16px; margin-bottom: -3px;margin-left: 5px;cursor: pointer;* {cursor: pointer;}"></mat-icon>
+                    }
+                  </td>
+                  <td class=''><a (click)="editarUsuario(e.idUsuario)">{{e.usuario}}</a></td>
+                  <td class=''><a (click)="editarUsuario(e.idUsuario)">{{e.nombre}}</a></td>
+                  <!--<td class='accent'>{{e.direccion}}</td>-->
+                  <td class='accent'>
+                    @if (e.telefono != null && e.telefono != '') {
+                      <mat-icon svgIcon="phoneD"
+                      style="color:rgba(0, 0, 0, 0.7); width: 13px; height: 13px;margin-bottom: -2px;margin-right: 2px;"></mat-icon>
+                    }
+                    {{e.telefono | phone}}
+                  </td>
+                  <td class='accent'>
+                    @if (e.correoElectronico != null && e.correoElectronico != '') {
+                      <mat-icon svgIcon="emailD"
+                      style="color:rgba(0, 0, 0, 0.7); width: 13px; height: 13px;margin-bottom: -2px;"></mat-icon>
+                    }
+                  {{e.correoElectronico}}</td>
+                  <td class='accent'>
+                    @switch (e.rol) {
+                      @case ("1") { <label>Administrator</label> }
+                      @case ("2") { <label>Master</label> }
+                      @case ("3") { <label>Vendor</label> }
+                      @case ("4") { <label>BackOffice</label> }
+                      @case ("5") { <label>Interviewer</label> }
+                      @case ("6") { <label>VOC</label> }
+                      @case ("7") { <label>Template Creator</label> }
+                      @case ("8") { <label>Interviewer Scales</label> }
+                      @case ("9") { <label>Ghostwriting</label> }
+                      @case ("10") { <label>Psychotherapist</label> }
+                      @case ("11") { <label>Clinician</label> }
+                      @case ("12") { <label>Marketing</label> }
+                      @case ("13") { <label>Liaison</label> }
+                      @case ("14") { <label>Digital Marketing Manager</label> }
+                      @default { <label>{{ e.rol }}</label> }
+                    }
+                  </td>
+                </tr>
+              }
+              <tr>
+                <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
+                  <label>Records per page</label>
+                  <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()" [ngModelOptions]="{standalone: true}"
+                    style="margin: 0 8px; font-family: regular; height: 24px;">
+                    <option value="15">15</option>
+                    <option value="30">30</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                  {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
+                  <button class="iigwo small"
+                    style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+                    (click)="paginacion.back();">
+                    <mat-icon svgIcon="arrow-back"></mat-icon>
+                  </button>
+                  <button class="iigwo small"
+                    style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+                    (click)="paginacion.forward();">
+                    <mat-icon svgIcon="arrow-forward"></mat-icon>
+                  </button>
+                </td>
+              </tr>
+            </table>
+          }
         </div>
+
+        <!-- MENSAJE DE NO HAY REGISTROS -->
+        @if (usuarios.length == 0) {
+          <div>
+            <h3 style="margin:12px 0 6px 0">No results</h3>
+            <p style="max-width:396px;">There are no users within the search criteria. Make sure that the names are correct and that they are searching in the appropriate field.</p>
+          </div>
+        }
+
+      </div>
+
+      <!--Cargando-->
+      @if (cargando) {
+        <div class='iigwo-loading'>
+          <mat-spinner></mat-spinner>
+        </div>
+      }
     </div>
-</div>
+  </div>

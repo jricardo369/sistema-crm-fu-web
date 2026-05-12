@@ -10,14 +10,14 @@
       <button (click)='obtenerCorreosEnviados()' class="btn"
         style="color: #FFFFFF;background: #f3c956; border-radius: 5px; height: 20px; line-height: 20px;">
         <mat-icon svgIcon="refresh"
-          style="color:rgba(255, 255, 255, 0.7); width: 15px; height: 15px;margin-bottom: 0px;margin-right: 5px;"></mat-icon>
+        style="color:rgba(255, 255, 255, 0.7); width: 15px; height: 15px;margin-bottom: 0px;margin-right: 5px;"></mat-icon>
         <label style="margin: auto;color: #FFFFFF;text-transform: none;">Refresh</label>
       </button>
 
       <button (click)='descargarExcel()' class="btn"
         style="color: #000000;background: #e5e5e5; border-radius: 5px; height: 20px; line-height: 20px;">
         <mat-icon svgIcon="exportD"
-          style="color:rgba(0, 0, 0, 0.7); width: 15px; height: 15px;margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+        style="color:rgba(0, 0, 0, 0.7); width: 15px; height: 15px;margin-bottom: 2px;margin-right: 5px;"></mat-icon>
         <label style="margin: auto;color: #000000;text-transform: none;">Export Data</label>
       </button>
 
@@ -69,70 +69,72 @@
           <th>Number of files</th>
           <!--<th>Detalis</th>-->
         </tr>
-        <ng-container *ngFor="let e of arrReporteCorreosEnviados | slice:paginacion.begin:paginacion.end; let i = index">
+        @for (e of arrReporteCorreosEnviados | slice:paginacion.begin:paginacion.end; track e; let i = $index) {
           <tr (click)="expandedRow === i ? expandedRow = null : expandedRow = i" style="cursor:pointer;">
             <td class='accent'>{{e.firma}}</td>
             <td class='accent' [ngStyle]="{'color': e.nombre === 'Without asociated lawyer' ? 'dodgerblue' : 'inherit'}">
-              {{e.nombre}}</td>
+            {{e.nombre}}</td>
             <td class='accent'>{{e.emails}}</td>
             <td (click)="$event.stopPropagation(); verSolicitudesLawyer(e.nombre,e.idAbogado,e.firma)" style="text-align: center;">
               <span class="badge-status" style="margin: 0;cursor: pointer;"
-                [ngClass]="{'badge-color-0': e.numero == 0, 'badge-color-1': e.numero >= 1}">{{e.numero}}</span>
+              [ngClass]="{'badge-color-0': e.numero == 0, 'badge-color-1': e.numero >= 1}">{{e.numero}}</span>
             </td>
             <!--<td>
-              <button (click)="$event.stopPropagation(); expandedRow === i ? expandedRow = null : expandedRow = i">{{expandedRow === i ? 'Ocultar' : 'Ver más'}}</button>
-            </td>-->
-          </tr>
-          <!--<tr *ngIf="expandedRow === i">
-            <td colspan="5" style="background: #f9f9f9; border-top: 1px solid #eee;">
-              <div style="padding: 10px;">
-              <strong>Detalle del registro:</strong>
-              <table *ngIf="e.detalle && e.detalle.length" style="width:100%; margin-top:10px;" border="1">
-                <tr>
-                  <th>Campo 1</th>
-                  <th>Campo 2</th>
-                </tr>
-                <tr *ngFor="let d of e.detalle">
-                  <td>{{d.campo1}}</td>
-                  <td>{{d.campo2}}</td>
-                </tr>
-              </table>
-              <div *ngIf="!e.detalle || !e.detalle.length">Sin detalles</div>
-            </div>
-            </td>
-          </tr>-->
-        </ng-container>
-        <tr>
-          <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
-            <label>
-              Records per page</label>
-            <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()"
-              [ngModelOptions]="{standalone: true}" style="margin: 0 8px; font-family: regular; height: 24px;">
-              <option value="15">15</option>
-              <option value="30">30</option>
-              <option value="45">45</option>
-              <option value="100">100</option>
-            </select>
-            {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
-            <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
-              (click)="paginacion.back();">
-              <mat-icon svgIcon="arrow-back"></mat-icon>
-            </button>
-            <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
-              (click)="paginacion.forward();">
-              <mat-icon svgIcon="arrow-forward"></mat-icon>
-            </button>
-          </td>
+            <button (click)="$event.stopPropagation(); expandedRow === i ? expandedRow = null : expandedRow = i">{{expandedRow === i ? 'Ocultar' : 'Ver más'}}</button>
+          </td>-->
         </tr>
+        <!--<tr *ngIf="expandedRow === i">
+        <td colspan="5" style="background: #f9f9f9; border-top: 1px solid #eee;">
+          <div style="padding: 10px;">
+            <strong>Detalle del registro:</strong>
+            <table *ngIf="e.detalle && e.detalle.length" style="width:100%; margin-top:10px;" border="1">
+              <tr>
+                <th>Campo 1</th>
+                <th>Campo 2</th>
+              </tr>
+              <tr *ngFor="let d of e.detalle">
+                <td>{{d.campo1}}</td>
+                <td>{{d.campo2}}</td>
+              </tr>
+            </table>
+            <div *ngIf="!e.detalle || !e.detalle.length">Sin detalles</div>
+          </div>
+        </td>
+      </tr>-->
+    }
+    <tr>
+      <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
+        <label>
+        Records per page</label>
+        <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()"
+          [ngModelOptions]="{standalone: true}" style="margin: 0 8px; font-family: regular; height: 24px;">
+          <option value="15">15</option>
+          <option value="30">30</option>
+          <option value="45">45</option>
+          <option value="100">100</option>
+        </select>
+        {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
+        <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+          (click)="paginacion.back();">
+          <mat-icon svgIcon="arrow-back"></mat-icon>
+        </button>
+        <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+          (click)="paginacion.forward();">
+          <mat-icon svgIcon="arrow-forward"></mat-icon>
+        </button>
+      </td>
+    </tr>
 
 
-      </table>
+  </table>
 
-    </div>
+</div>
 
-    <!--Cargando-->
-    <div class='iigwo-loading' *ngIf="cargando">
-      <mat-spinner></mat-spinner>
-    </div>
+<!--Cargando-->
+@if (cargando) {
+  <div class='iigwo-loading'>
+    <mat-spinner></mat-spinner>
   </div>
+}
+</div>
 </div>

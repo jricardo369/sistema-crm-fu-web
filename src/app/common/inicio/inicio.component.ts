@@ -9,7 +9,7 @@ import { BACKOFFICE, INTERVIEWER, INTERVIEWER_SCALES, THERAPIST, VENDOR,VOC,TEMP
 import { MASTER } from '../../app.config';
 import { WorkspaceNavComponent } from 'src/app/common/workspace-nav/workspace-nav.component';
 import { ExperimentalMenuComponent } from 'src/app/common/experimental-menu/experimental-menu.component';
-import { CommonModule, NgClass, AsyncPipe } from '@angular/common';
+import { NgClass, AsyncPipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
@@ -23,8 +23,7 @@ interface CustomSearchItem {
 };
 
 @Component({
-    standalone: true,imports: [FormsModule,RouterModule,WorkspaceNavComponent,ExperimentalMenuComponent,
-          CommonModule,NgClass,AsyncPipe,MatIconModule,MatDialogModule],
+    standalone: true,imports: [FormsModule, RouterModule, WorkspaceNavComponent, ExperimentalMenuComponent, NgClass, AsyncPipe, MatIconModule, MatDialogModule],
     selector: 'app-inicio',
     templateUrl: './inicio.component.html',
     styleUrls: ['./inicio.component.css']

@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { WorkspaceNavComponent } from 'src/app/common/workspace-nav/workspace-nav.component';
 import { ExperimentalMenuComponent } from 'src/app/common/experimental-menu/experimental-menu.component';
 
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
@@ -17,7 +17,7 @@ import { GeneralNavComponent } from 'src/app/administracion-general/general-nav/
 import { PhonePipe } from 'src/app/common/pipes/phone-pipe.pipe';
 
 @Component({
-  standalone: true,imports: [RouterModule,FormsModule,GeneralNavComponent,WorkspaceNavComponent,ExperimentalMenuComponent,CommonModule,MatIconModule,MatProgressSpinnerModule,PhonePipe],
+  standalone: true,imports: [RouterModule, FormsModule, GeneralNavComponent, WorkspaceNavComponent, ExperimentalMenuComponent, MatIconModule, MatProgressSpinnerModule, PhonePipe],
   selector: 'app-tareas-programadas',
   templateUrl: './tareas-programadas.component.html',
   styleUrls: ['./tareas-programadas.component.css']

@@ -9,12 +9,12 @@
   <div class="iigwo-input" style="width: 150px;">
     <label>{{textoSesiones}}</label>
     <input type="number" [(ngModel)]="numSesiones" min="0" minlength="1">
-    </div>
+  </div>
 
   <div class="iigwo-input" style="margin-bottom: 15px;" >
     <label required>{{textoRazon}}</label>
     <textarea [(ngModel)]="cancelReason"
-      style="width: 100% !important;min-width: 100%;max-width: 100%;min-height: 55px;"></textarea>
+    style="width: 100% !important;min-width: 100%;max-width: 100%;min-height: 55px;"></textarea>
   </div>
 
 </mat-dialog-content>
@@ -25,6 +25,8 @@
 </mat-dialog-actions>
 
 <!-- CARGANDO-->
-<div class='iigwo-loading' *ngIf="cargando">
-  <mat-spinner></mat-spinner>
-</div>
+@if (cargando) {
+  <div class='iigwo-loading'>
+    <mat-spinner></mat-spinner>
+  </div>
+}

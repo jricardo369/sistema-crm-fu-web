@@ -5,7 +5,7 @@ import { Router,RouterModule } from '@angular/router';
 import { REPORTES_ITEMS } from 'src/app/reportes/reportes-nav-items'; 
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { UtilService } from 'src/app/services/util.service';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { V } from '@angular/cdk/scrolling-module.d-C_w4tIrZ';
 
@@ -20,10 +20,11 @@ let ITEMS = REPORTES_ITEMS;
   template: NAV_MENU_IZQUIERDA_TEMPLATE,
   styles: [NAV_MENU_IZQUIERDA_STYLES],
   imports: [
-    CommonModule,
     RouterModule,
-    FormsModule,MatIconModule,MatProgressSpinnerModule
-  ]
+    FormsModule,
+    MatIconModule,
+    MatProgressSpinnerModule
+]
 })
 export class ReportesNavComponent extends UtilServiceTest {
   constructor(router: Router, utilService: UtilService, usuariosService: UsuariosService) {

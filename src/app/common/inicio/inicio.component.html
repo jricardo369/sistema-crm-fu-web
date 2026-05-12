@@ -1,9 +1,10 @@
 <div style="height: 48px;"></div>
 
-<div *ngFor='let g of grupos' style="overflow: hidden; padding: 16px;">
-
+@for (g of grupos; track g) {
+  <div style="overflow: hidden; padding: 16px;">
     <h4 style="margin: 0;">{{g}}</h4>
-    <div *ngFor='let e of pantallas[g]' (click)="this.router.navigate([e.uri]);" style="
+    @for (e of pantallas[g]; track e) {
+<div (click)="this.router.navigate([e.uri]);" style="
         width: 156px;
         height: 156px;
         border-radius: 4px;
@@ -22,8 +23,10 @@
             color: white;
         "
         >{{e.title}}</p>
-    </div>
-</div>
+      </div>
+    }
+  </div>
+}
 
 <div style="
     width: 90%;
@@ -37,6 +40,6 @@
         min-width: 250px;
         max-width: 600px;
         ">
-    <h2><strong>Welcome!</strong></h2>
-    <h3>You can select an option from the menu &#x2630;</h3>
+  <h2><strong>Welcome!</strong></h2>
+  <h3>You can select an option from the menu &#x2630;</h3>
 </div>

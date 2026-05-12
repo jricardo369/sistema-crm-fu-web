@@ -7,230 +7,264 @@
     <app-experimental-menu titulo="VOC Charges">
 
       <!--<button (click)='refrescar()'
-        style="color: #D4AC0D;background: #FEF9E7;border-radius: 5px; height: 28px; line-height: 28px;">
-        <mat-icon svgIcon="refresh"></mat-icon>
-        <label>Refresh</label>
-      </button>-->
+      style="color: #D4AC0D;background: #FEF9E7;border-radius: 5px; height: 28px; line-height: 28px;">
+      <mat-icon svgIcon="refresh"></mat-icon>
+      <label>Refresh</label>
+    </button>-->
 
-    </app-experimental-menu>
+  </app-experimental-menu>
 
-    <div class='content'>
+  <div class='content'>
 
-      <!-- FILTRO -->
-      <div class="container" style="margin-bottom: 20px;">
-        <div class="right">
-          <div style="display: flex; align-items: center;">
-            <div class="iigwo-input">
-              <label>Start Date</label>
-              <input type="date" [(ngModel)]="filterInputDate1">
-            </div>
-            <div class="iigwo-input">
-              <label>End Date</label>
-              <input type="date" [(ngModel)]="filterInputDate2">
-            </div>
-            <!--<div class="iigwo-input">
-              <label>File</label>
-              <input type="text" placeholder="Enter a value" [(ngModel)]="filterInputText"
-                (ngModelChange)="refrescar()">
-            </div>-->
-            <div class="iigwo-input">
-              <label>Type</label>
-              <select [(ngModel)]="filterType" [ngModelOptions]="{standalone: true}">
-                <option *ngFor="let e of arrFilterType" [ngValue]="e">
-                  {{e}}</option>
-              </select>
-            </div>
-            <div class="iigwo-input">
-              <label>Filter Type</label>
-              <select [(ngModel)]="filterTypeF" style="margin-right: 10px;" [ngModelOptions]="{standalone: true}">
-                <option *ngFor="let e of arrFilterTypeF" [ngValue]="e">
-                  {{e}}</option>
-              </select>
-            </div>
-            <div class="iigwo-input">
-              <label>Value</label>
-              <input type="text" placeholder="Enter a value" [(ngModel)]="filterInputText">
-            </div>
+    <!-- FILTRO -->
+    <div class="container" style="margin-bottom: 20px;">
+      <div class="right">
+        <div style="display: flex; align-items: center;">
+          <div class="iigwo-input">
+            <label>Start Date</label>
+            <input type="date" [(ngModel)]="filterInputDate1">
+          </div>
+          <div class="iigwo-input">
+            <label>End Date</label>
+            <input type="date" [(ngModel)]="filterInputDate2">
+          </div>
+          <!--<div class="iigwo-input">
+          <label>File</label>
+          <input type="text" placeholder="Enter a value" [(ngModel)]="filterInputText"
+            (ngModelChange)="refrescar()">
+        </div>-->
+        <div class="iigwo-input">
+          <label>Type</label>
+          <select [(ngModel)]="filterType" [ngModelOptions]="{standalone: true}">
+            @for (e of arrFilterType; track e) {
+              <option [ngValue]="e">
+              {{e}}</option>
+            }
+          </select>
+        </div>
+        <div class="iigwo-input">
+          <label>Filter Type</label>
+          <select [(ngModel)]="filterTypeF" style="margin-right: 10px;" [ngModelOptions]="{standalone: true}">
+            @for (e of arrFilterTypeF; track e) {
+              <option [ngValue]="e">
+              {{e}}</option>
+            }
+          </select>
+        </div>
+        <div class="iigwo-input">
+          <label>Value</label>
+          <input type="text" placeholder="Enter a value" [(ngModel)]="filterInputText">
+        </div>
 
-            <button (click)='refrescar()' class="btn-color"
-              style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
-              <mat-icon svgIcon="searchD" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
-              <span style="color: #ffffff; font-size: 13px;">Explore</span>
-            </button>
+        <button (click)='refrescar()' class="btn-color"
+          style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
+          <mat-icon svgIcon="searchD" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+          <span style="color: #ffffff; font-size: 13px;">Explore</span>
+        </button>
 
-            <button (click)='limpiarFechas()' class="btn-color"
-              style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
-              <!--<mat-icon svgIcon="exportD" style="color: rgba(0, 0, 0, 0.7); width: 14px;  vertical-align: middle;"></mat-icon>-->
-              <span style="color: #000000; font-size: 13px;">Clear dates</span>
-            </button>
+        <button (click)='limpiarFechas()' class="btn-color"
+          style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+          <!--<mat-icon svgIcon="exportD" style="color: rgba(0, 0, 0, 0.7); width: 14px;  vertical-align: middle;"></mat-icon>-->
+          <span style="color: #000000; font-size: 13px;">Clear dates</span>
+        </button>
 
-            <button (click)='descargarExcel()' class="btn-color"
-              style="color: #000000; background: #e5e5e5;margin-bottom: 5px;">
-              <mat-icon svgIcon="exportD"
-                style="color: rgba(0, 0, 0, 0.7); width: 14px;  vertical-align: middle;"></mat-icon>
-              <span style="color: #000000; font-size: 13px;">Export</span>
-            </button>
+        <button (click)='descargarExcel()' class="btn-color"
+          style="color: #000000; background: #e5e5e5;margin-bottom: 5px;">
+          <mat-icon svgIcon="exportD"
+          style="color: rgba(0, 0, 0, 0.7); width: 14px;  vertical-align: middle;"></mat-icon>
+          <span style="color: #000000; font-size: 13px;">Export</span>
+        </button>
 
-            <div *ngIf='seleccion.length != 0' style="width: 1px;
+        @if (seleccion.length != 0) {
+<div style="width: 1px;
                   height: 20px;
                   background-color: #ccc;margin-right: 20px; margin-left: 10px;"></div>
+        }
 
-            <button *ngIf='seleccion.length != 0' (click)='pagarSeleccionados()'
-              class="btn btn-color color-fondo-verde-fu" style="color: #ffffff;margin-bottom: 5px;">
-              <mat-icon svgIcon="cashAll2" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
-              <span style="color: #ffffff; font-size: 13px;">Pay selected ({{seleccion.length}})</span>
-            </button>
+        @if (seleccion.length != 0) {
+          <button (click)='pagarSeleccionados()'
+            class="btn btn-color color-fondo-verde-fu" style="color: #ffffff;margin-bottom: 5px;">
+            <mat-icon svgIcon="cashAll2" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+            <span style="color: #ffffff; font-size: 13px;">Pay selected ({{seleccion.length}})</span>
+          </button>
+        }
 
 
-
-          </div>
-        </div>
 
       </div>
+    </div>
 
-      <!-- TABLA CON REGISTROS -->
-      <div>
+  </div>
 
-        <div style="display: flex;margin-top: -15px;margin-bottom: 15px;">
+  <!-- TABLA CON REGISTROS -->
+  <div>
 
-           <div style="margin-right: 20px;" *ngIf="mostrarEncabecadoNoPagos">
-            <div class="div-img-label" style="margin-bottom: 3px;">
-              <mat-icon svgIcon="moneyD" style="color: rgb(53, 53, 53); width: 14px; margin-bottom: 3px;margin-right: 5px;"></mat-icon>
-              <label style="margin-bottom: 0px;">Total Outstanding</label>
-            </div>
-            <div class="monto-total-outstanding">{{cargoVocCabecera.totalNoPagado | currency : 'USD' : 'symbol' : undefined :
-              'en-US'}}</div>
-        
+    <div style="display: flex;margin-top: -15px;margin-bottom: 15px;">
+
+      @if (mostrarEncabecadoNoPagos) {
+        <div style="margin-right: 20px;">
+          <div class="div-img-label" style="margin-bottom: 3px;">
+            <mat-icon svgIcon="moneyD" style="color: rgb(53, 53, 53); width: 14px; margin-bottom: 3px;margin-right: 5px;"></mat-icon>
+            <label style="margin-bottom: 0px;">Total Outstanding</label>
           </div>
-          
+          <div class="monto-total-outstanding">{{cargoVocCabecera.totalNoPagado | currency : 'USD' : 'symbol' : undefined :
+          'en-US'}}</div>
+        </div>
+      }
 
-           <div style="margin-right: 20px;" *ngIf="mostrarEncabecadoPagos">
-            <div class="div-img-label" style="margin-bottom: 3px;">
-              <mat-icon svgIcon="moneyListD"
-                style="color: rgb(53, 53, 53); width: 13px; margin-bottom: 3px;margin-right: 5px;"></mat-icon>
-              <label style="margin-bottom: 0px;">Payments</label>
-            </div>
-            <div class="monto-payments">{{cargoVocCabecera.totalPagado | currency : 'USD' : 'symbol' : undefined : 'en-US'}}
-            </div>
+
+      @if (mostrarEncabecadoPagos) {
+        <div style="margin-right: 20px;">
+          <div class="div-img-label" style="margin-bottom: 3px;">
+            <mat-icon svgIcon="moneyListD"
+            style="color: rgb(53, 53, 53); width: 13px; margin-bottom: 3px;margin-right: 5px;"></mat-icon>
+            <label style="margin-bottom: 0px;">Payments</label>
           </div>
-        
-         
-         
-          <div *ngIf="mostrarEncabecadoBalance">
-            <div class="div-img-label" style="margin-bottom: 3px;">
-              <mat-icon svgIcon="account-balanceD"
-                style="color: rgb(53, 53, 53); width: 11px; margin-bottom: 4px;"></mat-icon>
-              <label style="margin-bottom: 0px;">Account Balance</label>
-            </div>
-            <div class="monto-account-balance">{{cargoVocCabecera.balance | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</div>
-        
+          <div class="monto-payments">{{cargoVocCabecera.totalPagado | currency : 'USD' : 'symbol' : undefined : 'en-US'}}
           </div>
         </div>
+      }
 
-        <table class="informative" *ngIf="!(arrCargos.length == 0)">
+
+
+      @if (mostrarEncabecadoBalance) {
+        <div>
+          <div class="div-img-label" style="margin-bottom: 3px;">
+            <mat-icon svgIcon="account-balanceD"
+            style="color: rgb(53, 53, 53); width: 11px; margin-bottom: 4px;"></mat-icon>
+            <label style="margin-bottom: 0px;">Account Balance</label>
+          </div>
+          <div class="monto-account-balance">{{cargoVocCabecera.balance | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</div>
+        </div>
+      }
+    </div>
+
+    @if (!(arrCargos.length == 0)) {
+      <table class="informative">
+        <tr>
+          <!--<th *ngIf="mostrarCheckAll" class=''><input type="checkbox" [checked]="estanTodosSeleccionados()" (change)="checkAll($event)"></th>-->
+          <th class=''>File</th>
+          <th class=''>Id Schedule</th>
+          <th class=''>Date</th>
+          <th class=''>Case Number</th>
+          <th class=''>Customer</th>
+          <th class=''>Phone</th>
+          <th class=''>Email</th>
+          <th class=''>Amount</th>
+          <th class=''>Therapist</th>
+          <th class=''>Comment</th>
+          <th class=''>Date paid</th>
+          <th class=''>Pay Status</th>
+          @if (filterTypeSearch && usuario.unpaidVocFlag) {
+            <th class=''>Unpaid</th>
+          }
+        </tr>
+        @for (e of arrCargos | slice:paginacion.begin:paginacion.end; track e) {
           <tr>
-            <!--<th *ngIf="mostrarCheckAll" class=''><input type="checkbox" [checked]="estanTodosSeleccionados()" (change)="checkAll($event)"></th>-->
-            <th class=''>File</th>
-            <th class=''>Id Schedule</th>
-            <th class=''>Date</th>
-            <th class=''>Case Number</th>
-            <th class=''>Customer</th>
-            <th class=''>Phone</th>
-            <th class=''>Email</th>
-            <th class=''>Amount</th>
-            <th class=''>Therapist</th>
-            <th class=''>Comment</th>
-            <th class=''>Date paid</th>
-            <th class=''>Pay Status</th>
-             <th class='' *ngIf="filterTypeSearch && usuario.unpaidVocFlag">Unpaid</th>
-          </tr>
-          <tr *ngFor='let e of arrCargos | slice:paginacion.begin:paginacion.end'>
             <!--<td *ngIf="!e.pagado" class=''><input type="checkbox" [checked]="estaSeleccionado(e.idCita)"
-                (change)="check($event, e.idCita)"></td>-->
-            <td class='accent'>
-              
-              <input *ngIf="!e.pagado" type="checkbox" [checked]="estaSeleccionado(e.idCita)"
-                (change)="check($event, e.idCita)"> 
-                
-                {{e.idFile}}
-              
-              </td>
-            <td>{{e.idCita}}</td>
-            <td>{{e.fecha | dateMMDDYYYY}}</td>
-            <td>{{e.caseNumber}}</td>
-            <td class='accent'>{{e.cliente}}</td>
-            <td>
-              <mat-icon svgIcon="phoneD" *ngIf="e.telefono != null && e.telefono != ''"
-                  style="color:rgba(0, 0, 0, 0.7); width: 13px; height: 13px;margin-bottom: -2px;margin-right: 2px;"></mat-icon>
-              {{e.telefono | phone}}</td>
-            <td>
-              <mat-icon svgIcon="emailD" *ngIf="e.email != ''"
-                  style="color:rgba(0, 0, 0, 0.7); width: 13px; height: 13px;margin-bottom: -2px;"></mat-icon>
-              {{e.email}}</td>
-            <td *ngIf="e.pagado === false" class="number" style="color:red">{{e.amount | currency : 'USD' : 'symbol' :
-              undefined : 'en-US'}}</td>
-            <td *ngIf="e.pagado === true" class="number">{{e.amount | currency : 'USD' : 'symbol' : undefined :
-              'en-US'}}</td>
-            <td>{{e.terapeuta}}</td>
-            <td style="font-style: italic;">{{e.comentario}}</td>
-            <td>{{e.fechaPagado | dateMMDDYYYY}}</td>
-            <td style="text-align: center;">
-              <label class="pagado" style="margin: 0;" *ngIf="e.pagado"> <mat-icon svgIcon="done"
-                  style="color: #117a65; width: 15px; height: 15px;"></mat-icon> Paid</label>
-              <button (click)='pagado(e)' class="btn-color color-fondo-verde-fu" *ngIf="!e.pagado"
+          (change)="check($event, e.idCita)"></td>-->
+          <td class='accent'>
+            @if (!e.pagado) {
+              <input type="checkbox" [checked]="estaSeleccionado(e.idCita)"
+                (change)="check($event, e.idCita)">
+            }
+            {{e.idFile}}
+          </td>
+          <td>{{e.idCita}}</td>
+          <td>{{e.fecha | dateMMDDYYYY}}</td>
+          <td>{{e.caseNumber}}</td>
+          <td class='accent'>{{e.cliente}}</td>
+          <td>
+            @if (e.telefono != null && e.telefono != '') {
+              <mat-icon svgIcon="phoneD"
+              style="color:rgba(0, 0, 0, 0.7); width: 13px; height: 13px;margin-bottom: -2px;margin-right: 2px;"></mat-icon>
+            }
+          {{e.telefono | phone}}</td>
+          <td>
+            @if (e.email != '') {
+              <mat-icon svgIcon="emailD"
+              style="color:rgba(0, 0, 0, 0.7); width: 13px; height: 13px;margin-bottom: -2px;"></mat-icon>
+            }
+          {{e.email}}</td>
+          @if (e.pagado === false) {
+            <td class="number" style="color:red">{{e.amount | currency : 'USD' : 'symbol' :
+            undefined : 'en-US'}}</td>
+          }
+          @if (e.pagado === true) {
+            <td class="number">{{e.amount | currency : 'USD' : 'symbol' : undefined :
+            'en-US'}}</td>
+          }
+          <td>{{e.terapeuta}}</td>
+          <td style="font-style: italic;">{{e.comentario}}</td>
+          <td>{{e.fechaPagado | dateMMDDYYYY}}</td>
+          <td style="text-align: center;">
+            @if (e.pagado) {
+              <label class="pagado" style="margin: 0;"> <mat-icon svgIcon="done"
+              style="color: #117a65; width: 15px; height: 15px;"></mat-icon> Paid</label>
+            }
+            @if (!e.pagado) {
+              <button (click)='pagado(e)' class="btn-color color-fondo-verde-fu"
                 style="color: #ffffff;margin-top: -2px;">
                 <mat-icon svgIcon="cash" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
                 <label style="font-size: 11px;">Pay</label>
               </button>
+            }
+          </td>
+          @if (filterTypeSearch && usuario.unpaidVocFlag) {
+            <td style="text-align: center;">
+              @if (true) {
+                <button (click)='unpaid(e)' class="btn-color color-fondo-naranja-fu"
+                  style="color: #ffffff;margin-bottom: 5px;">
+                  <label style="font-size: 11px;">Unpaid</label>
+                </button>
+              }
             </td>
-            <td style="text-align: center;" *ngIf="filterTypeSearch && usuario.unpaidVocFlag">
-              
-              <button (click)='unpaid(e)' class="btn-color color-fondo-naranja-fu" *ngIf="true"
-                style="color: #ffffff;margin-bottom: 5px;">
-                <label style="font-size: 11px;">Unpaid</label>
-              </button>
-            </td>
-          </tr>
+          }
+        </tr>
+      }
+      <tr>
+        <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
+          <label>
+          Records per page</label>
+          <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()"
+            [ngModelOptions]="{standalone: true}" style="margin: 0 8px; font-family: regular; height: 24px;">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+          {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
+          <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+            (click)="paginacion.back();">
+            <mat-icon svgIcon="arrow-back"></mat-icon>
+          </button>
+          <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+            (click)="paginacion.forward();">
+            <mat-icon svgIcon="arrow-forward"></mat-icon>
+          </button>
+        </td>
+      </tr>
+    </table>
+  }
+</div>
 
-          <tr>
-            <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
-              <label>
-                Records per page</label>
-              <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()"
-                [ngModelOptions]="{standalone: true}" style="margin: 0 8px; font-family: regular; height: 24px;">
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-              </select>
-              {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
-              <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
-                (click)="paginacion.back();">
-                <mat-icon svgIcon="arrow-back"></mat-icon>
-              </button>
-              <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
-                (click)="paginacion.forward();">
-                <mat-icon svgIcon="arrow-forward"></mat-icon>
-              </button>
-            </td>
-          </tr>
-
-        </table>
-      </div>
-
-      <!-- MENSAJE DE NO HAY REGISTROS -->
-      <div *ngIf="arrCargos.length == 0">
-        <h3 style="margin:12px 0 6px 0">No results</h3>
-        <p style="max-width:396px;">There are no charges within the search criteria. Make sure that the names are
-          correct
-          and that they are searching in the appropriate field.</p>
-      </div>
-
-    </div>
-
-    <!--Cargando-->
-    <div class='iigwo-loading' *ngIf="cargando">
-      <mat-spinner></mat-spinner>
-    </div>
+<!-- MENSAJE DE NO HAY REGISTROS -->
+@if (arrCargos.length == 0) {
+  <div>
+    <h3 style="margin:12px 0 6px 0">No results</h3>
+    <p style="max-width:396px;">There are no charges within the search criteria. Make sure that the names are
+      correct
+    and that they are searching in the appropriate field.</p>
   </div>
+}
+
+</div>
+
+<!--Cargando-->
+@if (cargando) {
+  <div class='iigwo-loading'>
+    <mat-spinner></mat-spinner>
+  </div>
+}
+</div>
 </div>

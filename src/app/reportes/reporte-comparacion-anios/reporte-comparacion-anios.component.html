@@ -7,101 +7,109 @@
     <app-experimental-menu titulo="Comparison by Years">
 
       <!--<button (click)='obtenerReporteComparacionAnios()'
-        style="color: #D4AC0D;background: #FEF9E7;border-radius: 5px; height: 28px; line-height: 28px;">
-        <mat-icon svgIcon="refresh"></mat-icon>
-        <label>Refresh</label>
-      </button>-->
+      style="color: #D4AC0D;background: #FEF9E7;border-radius: 5px; height: 28px; line-height: 28px;">
+      <mat-icon svgIcon="refresh"></mat-icon>
+      <label>Refresh</label>
+    </button>-->
 
-      <button (click)='obtenerReporteComparacionAnios()' class="btn"
-        style="color: #FFFFFF;background: #f3c956; border-radius: 5px; height: 20px; line-height: 20px;">
-        <mat-icon svgIcon="refresh"
-          style="color:rgba(255, 255, 255, 0.7); width: 15px; height: 15px;margin-bottom: 0px;margin-right: 5px;"></mat-icon>
-        <label style="margin: auto;color: #FFFFFF;text-transform: none;">Refresh</label>
-      </button>
+    <button (click)='obtenerReporteComparacionAnios()' class="btn"
+      style="color: #FFFFFF;background: #f3c956; border-radius: 5px; height: 20px; line-height: 20px;">
+      <mat-icon svgIcon="refresh"
+      style="color:rgba(255, 255, 255, 0.7); width: 15px; height: 15px;margin-bottom: 0px;margin-right: 5px;"></mat-icon>
+      <label style="margin: auto;color: #FFFFFF;text-transform: none;">Refresh</label>
+    </button>
 
-    </app-experimental-menu>
+  </app-experimental-menu>
 
-    <div class='content'>
+  <div class='content'>
+    <div style="display: inline-flex;">
       <div style="display: inline-flex;">
-        <div style="display: inline-flex;">
-          <div class="iigwo-input">
-            <label>Year</label>
-            <input type="number" min="2024" step="1" [(ngModel)]="inputYear"
-              (change)="obtenerReporteComparacionAnios()">
-          </div>
-          <div class="iigwo-input">
-            <label>File Status</label>
-            <select [(ngModel)]="inputFileStatus" (change)="obtenerReporteComparacionAnios()"
-              [ngModelOptions]="{standalone: true}">
-              <option *ngFor="let e of arrFilterFileStatus" [ngValue]="e.descripcion">
-                {{e.descripcion}}</option>
-            </select>
-          </div>
+        <div class="iigwo-input">
+          <label>Year</label>
+          <input type="number" min="2024" step="1" [(ngModel)]="inputYear"
+            (change)="obtenerReporteComparacionAnios()">
+        </div>
+        <div class="iigwo-input">
+          <label>File Status</label>
+          <select [(ngModel)]="inputFileStatus" (change)="obtenerReporteComparacionAnios()"
+            [ngModelOptions]="{standalone: true}">
+            @for (e of arrFilterFileStatus; track e) {
+              <option [ngValue]="e.descripcion">
+              {{e.descripcion}}</option>
+            }
+          </select>
         </div>
       </div>
+    </div>
 
-      <div class='content' style="padding-top: 0; display:flex; flex-flow: row; flex-wrap: wrap;">
+    <div class='content' style="padding-top: 0; display:flex; flex-flow: row; flex-wrap: wrap;">
 
-        <div class="column">
-          <div class="contenedor-encabezado">
-            <h4 class="color-primary">
-              <mat-icon svgIcon="calendarD"
-                style="color:rgba(0, 0, 0, 0.7); width: 15px; height: 15px; margin-bottom: -2px; margin-right: 3px;"></mat-icon>
-              Year {{reporteComparacionAnios.anioAnterior}}
-            </h4>
-            <label class="totalMonto">{{reporteComparacionAnios.montoTotalAnioAnterior | currency : 'USD' : 'symbol' :
-              undefined : 'en-US'}}</label>
-          </div>
-          <table>
+      <div class="column">
+        <div class="contenedor-encabezado">
+          <h4 class="color-primary">
+            <mat-icon svgIcon="calendarD"
+            style="color:rgba(0, 0, 0, 0.7); width: 15px; height: 15px; margin-bottom: -2px; margin-right: 3px;"></mat-icon>
+            Year {{reporteComparacionAnios.anioAnterior}}
+          </h4>
+          <label class="totalMonto">{{reporteComparacionAnios.montoTotalAnioAnterior | currency : 'USD' : 'symbol' :
+          undefined : 'en-US'}}</label>
+        </div>
+        <table>
+          <tr>
+            <th>Month</th>
+            <th>Number of Files</th>
+            <th>Amount</th>
+          </tr>
+          @for (e of reporteComparacionAnios.mesesAnioAnterior; track e) {
             <tr>
-              <th>Month</th>
-              <th>Number of Files</th>
-              <th>Amount</th>
-            </tr>
-            <tr *ngFor='let e of reporteComparacionAnios.mesesAnioAnterior'>
               <td class='accent'>{{e.mes}}</td>
               <td class='accent'>{{e.numSolicitudes}}</td>
               <td class="number">{{e.monto | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</td>
             </tr>
-          </table>
+          }
+        </table>
+      </div>
+      <div class="column">
+
+        <div class="contenedor-encabezado">
+          <h4 class="color-primary">
+            <mat-icon svgIcon="calendarD"
+            style="color:rgba(0, 0, 0, 0.7); width: 15px; height: 15px; margin-bottom: -2px; margin-right: 3px;"></mat-icon>
+            Year {{reporteComparacionAnios.anioActual}}
+          </h4>
+          <label class="totalMonto">{{reporteComparacionAnios.montoTotalAnioActual | currency : 'USD' : 'symbol' :
+          undefined : 'en-US'}}</label>
         </div>
-        <div class="column">
 
-          <div class="contenedor-encabezado">
-            <h4 class="color-primary">
-              <mat-icon svgIcon="calendarD"
-                style="color:rgba(0, 0, 0, 0.7); width: 15px; height: 15px; margin-bottom: -2px; margin-right: 3px;"></mat-icon>
-              Year {{reporteComparacionAnios.anioActual}}
-            </h4>
-            <label class="totalMonto">{{reporteComparacionAnios.montoTotalAnioActual | currency : 'USD' : 'symbol' :
-              undefined : 'en-US'}}</label>
-          </div>
-
-          <table>
+        <table>
+          <tr>
+            <th>Month</th>
+            <th>Number of Files</th>
+            <th>Amount</th>
+          </tr>
+          @for (e of reporteComparacionAnios.mesesAnioActual; track e) {
             <tr>
-              <th>Month</th>
-              <th>Number of Files</th>
-              <th>Amount</th>
-            </tr>
-            <tr *ngFor='let e of reporteComparacionAnios.mesesAnioActual'>
               <td class='accent'>{{e.mes}}</td>
               <td class='accent'>{{e.numSolicitudes}}</td>
               <td class="number">{{e.monto | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</td>
             </tr>
-          </table>
-        </div>
-
+          }
+        </table>
       </div>
-
-      <!--Cargando-->
-      <div class='iigwo-loading' *ngIf="cargando">
-        <mat-spinner></mat-spinner>
-      </div>
-
 
     </div>
 
-
+    <!--Cargando-->
+    @if (cargando) {
+      <div class='iigwo-loading'>
+        <mat-spinner></mat-spinner>
+      </div>
+    }
 
 
   </div>
+
+
+
+
+</div>

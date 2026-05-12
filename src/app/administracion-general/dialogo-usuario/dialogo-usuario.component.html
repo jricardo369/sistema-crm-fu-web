@@ -9,19 +9,22 @@
 
       <h4 style="margin: 0 0 12px 0;font-family: regular;">Personal information</h4>
 
-      <div style="display: flex; align-items: center; gap: 10px;" *ngIf="!creando">
+      @if (!creando) {
+        <div style="display: flex; align-items: center; gap: 10px;">
         <span style='margin-left: 0px;
         margin-bottom: 10px;' class="badge-status" [ngClass]="{'badge-color-active': usuario.estatus == '1',
                                 'badge-color-inaactive': usuario.estatus == '2',
-                                'badge-color-bloqueo': usuario.estatus == '3'}"> {{ getEstatusTexto(usuario.estatus)
+            'badge-color-bloqueo': usuario.estatus == '3'}"> {{ getEstatusTexto(usuario.estatus)
           }}</span>
-
-        <button (click)='desbloquear()' class="btn m-l-40" *ngIf="usuario.estatus == '3'" style="color: #d59c51;border-radius: 2px; height: 23px; line-height: 23px;
+          @if (usuario.estatus == '3') {
+<button (click)='desbloquear()' class="btn m-l-40" style="color: #d59c51;border-radius: 2px; height: 23px; line-height: 23px;
              text-decoration: underline;padding: 0px;margin: 0px; margin-right: 20px;margin-bottom: 10px;"
-          matTooltip="Unlock">
-          <label>Unlock</label>
-        </button>
-      </div>
+              matTooltip="Unlock">
+              <label>Unlock</label>
+            </button>
+          }
+        </div>
+      }
 
       <div class="iigwo-input">
         <label>Name</label>
@@ -66,50 +69,50 @@
         <input type="email" [(ngModel)]="usuario.correoElectronico">
       </div>
 
-      <div class="iigwo-input" *ngIf="!creando && (usuario.rol == '5'|| usuario.rol == '11')">
-
-        <div class="input-row" style="margin-bottom: 4px;">
-          <div class="iigwo-input">
-            <label>State</label>
-            <select [(ngModel)]="stateSelected" [ngModelOptions]="{standalone: true}">
-              <option *ngFor="let state of arrStates" [ngValue]="state.abbreviation">
-                {{state.abbreviation}}</option>
-            </select>
+      @if (!creando && (usuario.rol == '5'|| usuario.rol == '11')) {
+        <div class="iigwo-input">
+          <div class="input-row" style="margin-bottom: 4px;">
+            <div class="iigwo-input">
+              <label>State</label>
+              <select [(ngModel)]="stateSelected" [ngModelOptions]="{standalone: true}">
+                @for (state of arrStates; track state) {
+                  <option [ngValue]="state.abbreviation">
+                  {{state.abbreviation}}</option>
+                }
+              </select>
+            </div>
+            <div class="iigwo-input">
+              <label>License</label>
+              <input type="email" [(ngModel)]="licencia">
+            </div>
+            <button (click)='agregarEstadoUsuario()' class="btn-icon" matTooltip="Add">
+              <mat-icon svgIcon="add"></mat-icon>
+            </button>
           </div>
-          <div class="iigwo-input">
-            <label>License</label>
-            <input type="email" [(ngModel)]="licencia">
-          </div>
-          <button (click)='agregarEstadoUsuario()' class="btn-icon" matTooltip="Add">
-            <mat-icon svgIcon="add"></mat-icon>
-          </button>
-        </div>
-
-
-
-
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; align-items: start;">
-          <div *ngFor="let esUs of estadosUsuario" style="display: block; 
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; align-items: start;">
+            @for (esUs of estadosUsuario; track esUs) {
+<div style="display: block; 
               background-color: #f0f0f0; 
               border-radius: 16px; 
               padding: 0.5px 2px; 
               margin-top: 3px;
               width: fit-content;
               align-items: center;">
-            <span class="badge-file-icon" style="color: rgb(221, 131, 53); vertical-align: middle;"><mat-icon
+                <span class="badge-file-icon" style="color: rgb(221, 131, 53); vertical-align: middle;"><mat-icon
                 svgIcon="pinD" style="width: 17px; height: 17px;"></mat-icon></span>
-            <span style="margin-right: 7px; font-family: regular; vertical-align: middle;font-size:12px">{{esUs.estado}}
-              - Lic #{{esUs.noLicencia}}</span>
-            <span style="margin-left: 8px; vertical-align: middle;">
-              <button style="background: none; border: none; cursor: pointer;vertical-align: middle;"
-                (click)="eliminarEstadoUsuario(esUs.idEstadoUsuario)">
-                <mat-icon style="margin-top: 1px;width: 15px;vertical-align: middle;" svgIcon="close"></mat-icon>
-              </button>
-            </span>
+                <span style="margin-right: 7px; font-family: regular; vertical-align: middle;font-size:12px">{{esUs.estado}}
+                - Lic #{{esUs.noLicencia}}</span>
+                <span style="margin-left: 8px; vertical-align: middle;">
+                  <button style="background: none; border: none; cursor: pointer;vertical-align: middle;"
+                    (click)="eliminarEstadoUsuario(esUs.idEstadoUsuario)">
+                    <mat-icon style="margin-top: 1px;width: 15px;vertical-align: middle;" svgIcon="close"></mat-icon>
+                  </button>
+                </span>
+              </div>
+            }
           </div>
         </div>
-
-      </div>
+      }
     </div>
 
     <div style="min-width: 332px;">
@@ -131,102 +134,124 @@
       <div class="iigwo-input">
         <label>Type</label>
         <select [(ngModel)]="usuario.rol" [ngModelOptions]="{standalone: true}">
-          <option *ngFor="let r of roles" [ngValue]="r.idRol">
+          @for (r of roles; track r) {
+            <option [ngValue]="r.idRol">
             {{r.nombre}}</option>
+          }
         </select>
       </div>
 
 
 
-      <div
-        *ngIf="usuario.rol == '5' || usuario.rol == '7' || usuario.rol == '8' || usuario.rol == '10' || usuario.rol == '11' "
-        class="iigwo-input">
-        <label>Color</label>
-        <input style="width:60px" type="color" id="colorPicker" [(ngModel)]="usuario.color">
-        <p style="margin-top: 4px;font-size: 12px;">Código color: {{ usuario.color }}</p>
-      </div>
+      @if (usuario.rol == '5' || usuario.rol == '7' || usuario.rol == '8' || usuario.rol == '10' || usuario.rol == '11' ) {
+        <div
+          class="iigwo-input">
+          <label>Color</label>
+          <input style="width:60px" type="color" id="colorPicker" [(ngModel)]="usuario.color">
+          <p style="margin-top: 4px;font-size: 12px;">Código color: {{ usuario.color }}</p>
+        </div>
+      }
 
-      <div class="iigwo-input" *ngIf="usuario.rol == '5' || usuario.rol == '8'">
-        <label>Summary</label>
-        <textarea [(ngModel)]="usuario.resumen"></textarea>
-      </div>
+      @if (usuario.rol == '5' || usuario.rol == '8') {
+        <div class="iigwo-input">
+          <label>Summary</label>
+          <textarea [(ngModel)]="usuario.resumen"></textarea>
+        </div>
+      }
 
-      <div class="iigwo-input" *ngIf="usuario.rol == '10'">
-        <label>License</label>
-        <input type="text" [(ngModel)]="usuario.licencia">
-      </div>
+      @if (usuario.rol == '10') {
+        <div class="iigwo-input">
+          <label>License</label>
+          <input type="text" [(ngModel)]="usuario.licencia">
+        </div>
+      }
 
       <!--<div class="iigwo-input" *ngIf="usuario.rol == '10'">
-        <label>License Validity</label>
-        <input type="date" [(ngModel)]="usuario.licenciaValida">
-      </div>-->
+      <label>License Validity</label>
+      <input type="date" [(ngModel)]="usuario.licenciaValida">
+    </div>-->
 
-      <div class="iigwo-input" *ngIf="usuario.rol == '10'">
+    @if (usuario.rol == '10') {
+      <div class="iigwo-input">
         <label>License Validity
         </label>
         <mat-form-field appearance="outline" class="custom-datepicker">
-
           <input matInput [matDatepicker]="pickerFN" [(ngModel)]="fechaValidityMat"
             (dateChange)="changeFechaValidityMat()" placeholder="MM/DD/YYYY" />
           <mat-datepicker-toggle matSuffix [for]="pickerFN"></mat-datepicker-toggle>
           <mat-datepicker #pickerFN></mat-datepicker>
         </mat-form-field>
       </div>
+    }
 
-      <div class="iigwo-input" *ngIf="usuario.rol == '10'">
+    @if (usuario.rol == '10') {
+      <div class="iigwo-input">
         <label>Availability</label>
         <input type="text" [(ngModel)]="usuario.disponibilidad">
       </div>
+    }
 
-      <div class="iigwo-input" *ngIf="usuario.rol == '10'">
+    @if (usuario.rol == '10') {
+      <div class="iigwo-input">
         <label>Rate</label>
         <input type="number" min="0" [(ngModel)]="usuario.rate">
       </div>
+    }
 
-      <div style="display:flex; margin-bottom: 12px;">
-        <div style="min-width: 332px; margin-right: 12px;">
-          <div class="iigwo-input" style="margin: 0;" *ngIf="usuario.rol == '4' || usuario.rol == '9'">
+    <div style="display:flex; margin-bottom: 12px;">
+      <div style="min-width: 332px; margin-right: 12px;">
+        @if (usuario.rol == '4' || usuario.rol == '9') {
+          <div class="iigwo-input" style="margin: 0;">
             <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 0;"
               id="revisor" [checked]="usuario.revisor" (change)="usuario.revisor = !usuario.revisor">
             <label for="revisor"
-              style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Reviewer</label>
+            style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Reviewer</label>
           </div>
-          <div class="iigwo-input" style="margin: 0;" *ngIf="usuario.rol == '10'">
+        }
+        @if (usuario.rol == '10') {
+          <div class="iigwo-input" style="margin: 0;">
             <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 0;"
               id="withSupervision" [checked]="usuario.withSupervision"
               (change)="usuario.withSupervision = !usuario.withSupervision">
             <label for="withSupervision" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">With
-              supervision</label>
+            supervision</label>
           </div>
+        }
 
-          <div class="iigwo-input" style="margin: 0;" *ngIf="usuario.rol == '6'">
+        @if (usuario.rol == '6') {
+          <div class="iigwo-input" style="margin: 0;">
             <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 0;"
               id="unpaidVocFlag" [checked]="usuario.unpaidVocFlag"
               (change)="usuario.unpaidVocFlag = !usuario.unpaidVocFlag">
             <label for="unpaidVocFlag" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Unpaid
-              option</label>
+            option</label>
           </div>
-        </div>
+        }
       </div>
+    </div>
 
-      <div class="iigwo-input" *ngIf="usuario.withSupervision && usuario.rol == '10'">
+    @if (usuario.withSupervision && usuario.rol == '10') {
+      <div class="iigwo-input">
         <label>Supervisor</label>
         <input type="text" [(ngModel)]="usuario.supervisor">
       </div>
+    }
 
-      <div style="display:flex; margin-bottom: 12px;">
-        <div style="min-width: 332px; margin-right: 12px;">
-          <div class="iigwo-input" style="margin: 0;" *ngIf="!creando">
+    <div style="display:flex; margin-bottom: 12px;">
+      <div style="min-width: 332px; margin-right: 12px;">
+        @if (!creando) {
+          <div class="iigwo-input" style="margin: 0;">
             <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 0;"
               id="ausencia" [checked]="usuario.ausencia" (change)="usuario.ausencia = !usuario.ausencia">
             <label for="ausencia"
-              style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Absence</label>
+            style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Absence</label>
           </div>
-        </div>
+        }
       </div>
-
     </div>
+
   </div>
+</div>
 </mat-dialog-content>
 
 <mat-dialog-actions style="justify-content: flex-end;">
@@ -238,32 +263,40 @@
   <button *ngIf="!creando" class="iigwo accent" style="margin-right:0;" (click)='editar()'>Save changes</button>
   -->
 
-  <button *ngIf="!creando" (click)='eliminar()' class="btn-color"
-    style="color: #ffffff; background: #c72727;margin-bottom: 5px; margin-right: auto;">
-    <mat-icon svgIcon="trashD" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
-    <span style="color: #ffffff; font-size: 13px;">Delete</span>
-  </button>
+  @if (!creando) {
+    <button (click)='eliminar()' class="btn-color"
+      style="color: #ffffff; background: #c72727;margin-bottom: 5px; margin-right: auto;">
+      <mat-icon svgIcon="trashD" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+      <span style="color: #ffffff; font-size: 13px;">Delete</span>
+    </button>
+  }
 
   <button (click)='cerrar()' class="btn-color"
     style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
     <span style="color: #000000; font-size: 13px;">Cancel</span>
   </button>
 
-  <button *ngIf="creando" (click)='crear()' class="btn-color"
-    style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
-    <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
-    <span style="color: #ffffff; font-size: 13px;">Create</span>
-  </button>
+  @if (creando) {
+    <button (click)='crear()' class="btn-color"
+      style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
+      <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+      <span style="color: #ffffff; font-size: 13px;">Create</span>
+    </button>
+  }
 
-  <button *ngIf="!creando" (click)='editar()' class="btn-color"
-    style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
-    <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
-    <span style="color: #ffffff; font-size: 13px;">Save changes</span>
-  </button>
+  @if (!creando) {
+    <button (click)='editar()' class="btn-color"
+      style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
+      <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+      <span style="color: #ffffff; font-size: 13px;">Save changes</span>
+    </button>
+  }
 
 </mat-dialog-actions>
 
 <!-- CARGANDO-->
-<div class='iigwo-loading' *ngIf="cargando">
-  <mat-spinner></mat-spinner>
-</div>
+@if (cargando) {
+  <div class='iigwo-loading'>
+    <mat-spinner></mat-spinner>
+  </div>
+}

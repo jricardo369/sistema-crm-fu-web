@@ -8,13 +8,13 @@ import { TipoPago } from 'src/model/tipo-pago';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
-	standalone: true, imports: [RouterModule, FormsModule, CommonModule, MatIconModule, MatProgressSpinnerModule, MatDialogModule],
+	standalone: true, imports: [RouterModule, FormsModule, MatIconModule, MatProgressSpinnerModule, MatDialogModule],
 	selector: 'app-dialogo-movimiento-solicitud',
 	templateUrl: './dialogo-movimiento-solicitud.component.html',
 	styleUrls: ['./dialogo-movimiento-solicitud.component.css']

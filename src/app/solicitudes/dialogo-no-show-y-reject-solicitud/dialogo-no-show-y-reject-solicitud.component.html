@@ -2,55 +2,75 @@
 
 <mat-dialog-content style="width:300px;min-width: 150px;">
 
-  <div class="iigwo-input" style="min-width: 120px;" *ngIf="tipo === 'reject'">
-    <label required>User to Notify</label>
-    <select [(ngModel)]="filterUsuario" (change)="refrescar()" [ngModelOptions]="{standalone: true}">
-      <option *ngFor="let e of arrFilterUsuarios" [ngValue]="e.idUsuario">
-        {{e.nombre}}</option>
-    </select>
-  </div>
+  @if (tipo === 'reject') {
+    <div class="iigwo-input" style="min-width: 120px;">
+      <label required>User to Notify</label>
+      <select [(ngModel)]="filterUsuario" (change)="refrescar()" [ngModelOptions]="{standalone: true}">
+        @for (e of arrFilterUsuarios; track e) {
+          <option [ngValue]="e.idUsuario">
+          {{e.nombre}}</option>
+        }
+      </select>
+    </div>
+  }
 
   <div style="margin-bottom: 10px;">
-    <label *ngIf="tipo === 'lost'" style="font-size:12px;font-family: regular;">Do you really want to mark this file as lost?</label>
+    @if (tipo === 'lost') {
+      <label style="font-size:12px;font-family: regular;">Do you really want to mark this file as lost?</label>
+    }
   </div>
 
   <div class="iigwo-input" style="min-width: 120px;" >
     <label required>{{tituloLabel}}</label>
     <select [(ngModel)]="filterMotivoCancel" [ngModelOptions]="{standalone: true}">
-      <option *ngFor="let e of arrFilterMotivoCancel" [ngValue]="e.descripcion">
+      @for (e of arrFilterMotivoCancel; track e) {
+        <option [ngValue]="e.descripcion">
         {{e.descripcion}}</option>
+      }
     </select>
   </div>
 
-  <div class="iigwo-input" style="margin-bottom: 15px;" *ngIf="filterMotivoCancel == 'other'">
-    <label required>Cancel reason</label>
-    <textarea [(ngModel)]="cancelReason"
+  @if (filterMotivoCancel == 'other') {
+    <div class="iigwo-input" style="margin-bottom: 15px;">
+      <label required>Cancel reason</label>
+      <textarea [(ngModel)]="cancelReason"
       style="width: 100% !important;min-width: 100%;max-width: 100%;min-height: 55px;"></textarea>
-  </div>
+    </div>
+  }
 
 </mat-dialog-content>
 
-<mat-dialog-actions *ngIf="tipo === 'noshow'" >
-  <button class="iigwo" style="margin-left:auto;" (click)='cerrar()'>Cancel</button>
-  <button class="iigwo accent" style="margin-right:0;"  (click)='envioNoShow()'>Send</button>
-</mat-dialog-actions>
+@if (tipo === 'noshow') {
+  <mat-dialog-actions >
+    <button class="iigwo" style="margin-left:auto;" (click)='cerrar()'>Cancel</button>
+    <button class="iigwo accent" style="margin-right:0;"  (click)='envioNoShow()'>Send</button>
+  </mat-dialog-actions>
+}
 
-<mat-dialog-actions *ngIf="tipo === 'reject'">
-  <button class="iigwo" style="margin-left:auto;"  (click)='cerrar()'>Cancel</button>
-  <button class="iigwo accent" style="margin-right:0;"  (click)='envioReject()'>Send</button>
-</mat-dialog-actions>
+@if (tipo === 'reject') {
+  <mat-dialog-actions>
+    <button class="iigwo" style="margin-left:auto;"  (click)='cerrar()'>Cancel</button>
+    <button class="iigwo accent" style="margin-right:0;"  (click)='envioReject()'>Send</button>
+  </mat-dialog-actions>
+}
 
-<mat-dialog-actions *ngIf="tipo === 'lost'">
-  <button class="iigwo" style="margin-left:auto;"  (click)='cerrar()'>Cancel</button>
-  <button class="iigwo accent" style="margin-right:0;"  (click)='envioLost()'>Send</button>
-</mat-dialog-actions>
+@if (tipo === 'lost') {
+  <mat-dialog-actions>
+    <button class="iigwo" style="margin-left:auto;"  (click)='cerrar()'>Cancel</button>
+    <button class="iigwo accent" style="margin-right:0;"  (click)='envioLost()'>Send</button>
+  </mat-dialog-actions>
+}
 
-<mat-dialog-actions *ngIf="tipo === 'noshowvoc'" >
-  <button class="iigwo" style="margin-left:auto;" (click)='cerrar()'>Cancel</button>
-  <button class="iigwo accent" style="margin-right:0;"  (click)='envioNoShowVoc()'>Send</button>
-</mat-dialog-actions>
+@if (tipo === 'noshowvoc') {
+  <mat-dialog-actions >
+    <button class="iigwo" style="margin-left:auto;" (click)='cerrar()'>Cancel</button>
+    <button class="iigwo accent" style="margin-right:0;"  (click)='envioNoShowVoc()'>Send</button>
+  </mat-dialog-actions>
+}
 
 <!-- CARGANDO-->
-<div class='iigwo-loading' *ngIf="cargando">
-  <mat-spinner></mat-spinner>
-</div>
+@if (cargando) {
+  <div class='iigwo-loading'>
+    <mat-spinner></mat-spinner>
+  </div>
+}

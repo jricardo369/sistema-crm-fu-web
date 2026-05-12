@@ -3,14 +3,22 @@
 <mat-dialog-content>
   <div>
     <label for='fileId' [class]='file.length == 0 ?"fake-button accent":"fake-button"' tabindex="0">
-      <span *ngIf="file.length == 0">Select File</span>
-      <span *ngIf="file.length > 0">File Selected</span>
+      @if (file.length == 0) {
+        <span>Select File</span>
+      }
+      @if (file.length > 0) {
+        <span>File Selected</span>
+      }
     </label>
 
-    <label style="display: inline-block; line-height: 32px; font-size: 13px; color:rgba(0,0,0,0.5);font-family: regular;"
-      *ngIf="file.length == 0">No file selected</label>
-    <label style="display: inline-block; line-height: 32px; font-size: 13px; color:rgba(0,0,0,0.5);font-family: regular;"
-      *ngFor="let f of file">{{f.name}}</label>
+    @if (file.length == 0) {
+      <label style="display: inline-block; line-height: 32px; font-size: 13px; color:rgba(0,0,0,0.5);font-family: regular;"
+      >No file selected</label>
+    }
+    @for (f of file; track f) {
+      <label style="display: inline-block; line-height: 32px; font-size: 13px; color:rgba(0,0,0,0.5);font-family: regular;"
+      >{{f.name}}</label>
+    }
 
     <input id='fileId' type="file" #fileInput (change)="onFileSelected(fileInput.files)" accept=".xls, .xlsx"
       style='display:none;'>
@@ -23,6 +31,8 @@
 </mat-dialog-actions>
 
 <!-- CARGANDO-->
-<div class='iigwo-loading' *ngIf="cargando">
-  <mat-spinner></mat-spinner>
-</div>
+@if (cargando) {
+  <div class='iigwo-loading'>
+    <mat-spinner></mat-spinner>
+  </div>
+}

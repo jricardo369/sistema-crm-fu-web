@@ -7,12 +7,12 @@ import { CustomI18nService } from 'src/app/custom-i18n.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { SeguridadService } from 'src/app/services/seguridad.service';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
-  standalone: true,imports: [RouterModule,FormsModule,CommonModule,MatIconModule,MatProgressSpinnerModule],
+  standalone: true,imports: [RouterModule, FormsModule, MatIconModule, MatProgressSpinnerModule],
   selector: 'app-tus-credenciales',
   templateUrl: './tus-credenciales.component.html',
   styleUrls: ['./tus-credenciales.component.css']

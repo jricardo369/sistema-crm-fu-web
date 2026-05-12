@@ -30,9 +30,9 @@
 
       <div>
         <button (click)='enviarNotificaciones()' class='accent iigwo' [disabled]="seleccion.length == 0">
-            <!-- <mat-icon svgIcon="add-box"></mat-icon> -->
-            <label style="margin: auto;">Send Notification</label>
-          </button>
+          <!-- <mat-icon svgIcon="add-box"></mat-icon> -->
+          <label style="margin: auto;">Send Notification</label>
+        </button>
       </div>
 
       <table class="informative">
@@ -41,13 +41,15 @@
           <th>Law Firm</th>
           <th>Number of mails</th>
         </tr>
-        <tr *ngFor='let e of arrReporteCorreosEnviados | slice:paginacion.begin:paginacion.end'>
-          <td class=''><input type="checkbox" [checked]="estaSeleccionado(e.nombre)"
-              (change)="check($event, e.nombre)"></td>
-          <td class='accent'>{{e.nombre}}</td>
+        @for (e of arrReporteCorreosEnviados | slice:paginacion.begin:paginacion.end; track e) {
+          <tr>
+            <td class=''><input type="checkbox" [checked]="estaSeleccionado(e.nombre)"
+            (change)="check($event, e.nombre)"></td>
+            <td class='accent'>{{e.nombre}}</td>
           <td style="text-align: center;"><span class="badge-status" style="margin: 0;" [ngClass]="{'badge-color-0': e.numero == 0,
             'badge-color-1': e.numero >= 1}">{{e.numero}}</span></td>
         </tr>
+}
         <tr>
           <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
             <label>
@@ -75,8 +77,10 @@
     </div>
 
     <!--Cargando-->
-    <div class='iigwo-loading' *ngIf="cargando">
-      <mat-spinner></mat-spinner>
-    </div>
+    @if (cargando) {
+      <div class='iigwo-loading'>
+        <mat-spinner></mat-spinner>
+      </div>
+    }
   </div>
 </div>

@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { WorkspaceNavComponent } from 'src/app/common/workspace-nav/workspace-nav.component';
 import { ExperimentalMenuComponent } from 'src/app/common/experimental-menu/experimental-menu.component';
 
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
@@ -16,7 +16,7 @@ import { GeneralNavComponent } from 'src/app/administracion-general/general-nav/
 
 @Component({
   selector: 'app-message-settings',
-  imports: [RouterModule,FormsModule,GeneralNavComponent,WorkspaceNavComponent,ExperimentalMenuComponent,CommonModule,MatIconModule,MatProgressSpinnerModule],
+  imports: [RouterModule, FormsModule, GeneralNavComponent, WorkspaceNavComponent, ExperimentalMenuComponent, MatIconModule, MatProgressSpinnerModule],
   templateUrl: './message-settings.html',
   styleUrl: './message-settings.css'
 })

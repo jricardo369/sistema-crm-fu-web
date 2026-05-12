@@ -7,30 +7,30 @@
     <app-experimental-menu titulo="User Availability">
 
       <!--<button (click)='agregarDisponibilidad()'
-        style="color: #239B56;background: #EAFAF1;border-radius: 5px; height: 28px; line-height: 28px;">
-        <mat-icon svgIcon="add-box"></mat-icon>
-        <label>Add Schedule Time</label>
-      </button>
+      style="color: #239B56;background: #EAFAF1;border-radius: 5px; height: 28px; line-height: 28px;">
+      <mat-icon svgIcon="add-box"></mat-icon>
+      <label>Add Schedule Time</label>
+    </button>
 
-      <button (click)='obtenerDisponibilidadUsuario()'
-        style="color: #D4AC0D;background: #FEF9E7;border-radius: 5px; height: 28px; line-height: 28px;">
-        <mat-icon svgIcon="refresh"></mat-icon>
-        <label>Refresh</label>
-      </button>
+    <button (click)='obtenerDisponibilidadUsuario()'
+      style="color: #D4AC0D;background: #FEF9E7;border-radius: 5px; height: 28px; line-height: 28px;">
+      <mat-icon svgIcon="refresh"></mat-icon>
+      <label>Refresh</label>
+    </button>
 
-      <button (click)='agregarDisponibilidadMasiva()'
-        style="color: #681C69;background: #E9E9E9;border-radius: 5px; height: 28px; line-height: 28px;">
-        <mat-icon svgIcon="file-upload"></mat-icon>
-        <label>Upload Schedule Time File</label>
-      </button>
+    <button (click)='agregarDisponibilidadMasiva()'
+      style="color: #681C69;background: #E9E9E9;border-radius: 5px; height: 28px; line-height: 28px;">
+      <mat-icon svgIcon="file-upload"></mat-icon>
+      <label>Upload Schedule Time File</label>
+    </button>
 
-      <button (click)='descargarLayout()'
-        style="color: #3A2EAE;background: #ECEAFF;border-radius: 5px; height: 28px; line-height: 28px;">
-        <mat-icon svgIcon="file-download"></mat-icon>
-        <label>Download Layout</label>
-      </button>-->
+    <button (click)='descargarLayout()'
+      style="color: #3A2EAE;background: #ECEAFF;border-radius: 5px; height: 28px; line-height: 28px;">
+      <mat-icon svgIcon="file-download"></mat-icon>
+      <label>Download Layout</label>
+    </button>-->
 
-      <button (click)='obtenerDisponibilidadUsuario()' class="btn"
+    <button (click)='obtenerDisponibilidadUsuario()' class="btn"
       style="color: #FFFFFF;background: #f3c956; border-radius: 5px; height: 20px; line-height: 20px;">
       <mat-icon svgIcon="refresh" style="color:rgba(255, 255, 255, 0.7); width: 15px; height: 15px;margin-bottom: 2px;margin-right: 5px;"></mat-icon>
       <label style="margin: auto;color: #FFFFFF;text-transform: none;">Refresh</label>
@@ -40,82 +40,85 @@
     height: 20px;
     background-color: #ccc;margin-right: 8px;" > </div>
 
-      <button (click)='agregarDisponibilidad()' class="btn"
+    <button (click)='agregarDisponibilidad()' class="btn"
       style="color: #FFFFFF;background: #239B56; border-radius: 5px; height: 20px; line-height: 20px;">
       <mat-icon svgIcon="add-box" style="color:rgba(255, 255, 255, 0.7); width: 15px; height: 15px;margin-bottom: 2px;margin-right: 5px;"></mat-icon>
       <label style="margin: auto;color: #FFFFFF;text-transform: none;">Add Schedule Time</label>
     </button>
 
-   
 
-  <button (click)='agregarDisponibilidadMasiva()' class="btn"
-  style="color: #FFFFFF;background: #681C69; border-radius: 5px; height: 20px; line-height: 20px;">
-  <mat-icon svgIcon="file-upload" style="color:rgba(255, 255, 255, 0.7); width: 15px; height: 15px;margin-bottom: 2px;margin-right: 5px;"></mat-icon>
-  <label style="margin: auto;color: #FFFFFF;text-transform: none;">Upload Schedule Time File</label>
-</button>
 
-<button (click)='descargarLayout()' class="btn"
-style="color: #FFFFFF;background: #3A2EAE; border-radius: 5px; height: 20px; line-height: 20px;">
-<mat-icon svgIcon="file-download" style="color:rgba(255, 255, 255, 0.7); width: 15px; height: 15px;margin-bottom: 2px;margin-right: 5px;"></mat-icon>
-<label style="margin: auto;color: #FFFFFF;text-transform: none;">Download Layout</label>
-</button>
+    <button (click)='agregarDisponibilidadMasiva()' class="btn"
+      style="color: #FFFFFF;background: #681C69; border-radius: 5px; height: 20px; line-height: 20px;">
+      <mat-icon svgIcon="file-upload" style="color:rgba(255, 255, 255, 0.7); width: 15px; height: 15px;margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+      <label style="margin: auto;color: #FFFFFF;text-transform: none;">Upload Schedule Time File</label>
+    </button>
 
-    </app-experimental-menu>
+    <button (click)='descargarLayout()' class="btn"
+      style="color: #FFFFFF;background: #3A2EAE; border-radius: 5px; height: 20px; line-height: 20px;">
+      <mat-icon svgIcon="file-download" style="color:rgba(255, 255, 255, 0.7); width: 15px; height: 15px;margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+      <label style="margin: auto;color: #FFFFFF;text-transform: none;">Download Layout</label>
+    </button>
 
-    <div class='content'>
+  </app-experimental-menu>
 
-      <table class="informative">
+  <div class='content'>
+
+    <table class="informative">
+      <tr>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Time Zone</th>
+        <th></th>
+      </tr>
+      @for (e of arrDisponibilidadUsuario | slice:paginacion.begin:paginacion.end; track e) {
         <tr>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Time Zone</th>
-          <th></th>
-        </tr>
-        <tr *ngFor='let e of arrDisponibilidadUsuario | slice:paginacion.begin:paginacion.end'>
           <td class='accent'>{{e.fecha.replace(' ', 'T') | dateMMDDYYYY}}</td>
           <td class='accent'>{{e.hora.toString().padStart(2,'0')}} {{e.tipo}}</td>
           <td class='accent'> {{e.zonaHoraria}}</td>
           <td style="display: flex;">
             <!--<button (click)='eliminarDisponibilidad(e)' class="btn-icon" style="color: red;" matTooltip="Delete">
-              <mat-icon svgIcon="delete"></mat-icon>
-            </button>-->
-
-            <button (click)='eliminarDisponibilidad(e)' class="btn-icon" >
-              <mat-icon svgIcon="trashD" style="color: red; width: 18px; height: 18px;"></mat-icon>
+            <mat-icon svgIcon="delete"></mat-icon>
+          </button>-->
+          <button (click)='eliminarDisponibilidad(e)' class="btn-icon" >
+            <mat-icon svgIcon="trashD" style="color: red; width: 18px; height: 18px;"></mat-icon>
           </button>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
-            <label>
-              Records per page</label>
-            <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()" [ngModelOptions]="{standalone: true}"[ngModelOptions]="{standalone: true}"
-              style="margin: 0 8px; font-family: regular; height: 24px;">
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-            </select>
-            {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
-            <button class="iigwo small"
-              style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
-              (click)="paginacion.back();">
-              <mat-icon svgIcon="arrow-back"></mat-icon>
-            </button>
-            <button class="iigwo small"
-              style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
-              (click)="paginacion.forward();">
-              <mat-icon svgIcon="arrow-forward"></mat-icon>
-            </button>
-          </td>
-        </tr>
-      </table>
+        </td>
+      </tr>
+    }
+    <tr>
+      <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
+        <label>
+        Records per page</label>
+        <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()" [ngModelOptions]="{standalone: true}"[ngModelOptions]="{standalone: true}"
+          style="margin: 0 8px; font-family: regular; height: 24px;">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+        {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
+        <button class="iigwo small"
+          style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+          (click)="paginacion.back();">
+          <mat-icon svgIcon="arrow-back"></mat-icon>
+        </button>
+        <button class="iigwo small"
+          style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+          (click)="paginacion.forward();">
+          <mat-icon svgIcon="arrow-forward"></mat-icon>
+        </button>
+      </td>
+    </tr>
+  </table>
 
-    </div>
+</div>
 
-    <!--Cargando-->
-    <div class='iigwo-loading' *ngIf="cargando">
-      <mat-spinner></mat-spinner>
-    </div>
+<!--Cargando-->
+@if (cargando) {
+  <div class='iigwo-loading'>
+    <mat-spinner></mat-spinner>
   </div>
+}
+</div>
 </div>

@@ -10,16 +10,20 @@
   <div class="iigwo-input" style="min-width: 120px;" >
     <label required>{{textolabel}}</label>
     <select [(ngModel)]="filterMotivoCancel" [ngModelOptions]="{standalone: true}">
-      <option *ngFor="let e of arrFilterMotivoCancel" [ngValue]="e.descripcion">
+      @for (e of arrFilterMotivoCancel; track e) {
+        <option [ngValue]="e.descripcion">
         {{e.descripcion}}</option>
+      }
     </select>
   </div>
 
-  <div class="iigwo-input" style="margin-bottom: 15px;" *ngIf="filterMotivoCancel == 'other'">
-    <label required>Not interested reason</label>
-    <textarea [(ngModel)]="cancelReason"
+  @if (filterMotivoCancel == 'other') {
+    <div class="iigwo-input" style="margin-bottom: 15px;">
+      <label required>Not interested reason</label>
+      <textarea [(ngModel)]="cancelReason"
       style="width: 100% !important;min-width: 100%;max-width: 100%;min-height: 55px;"></textarea>
-  </div>
+    </div>
+  }
 
 </mat-dialog-content>
 
@@ -29,6 +33,8 @@
 </mat-dialog-actions>
 
 <!-- CARGANDO-->
-<div class='iigwo-loading' *ngIf="cargando">
-  <mat-spinner></mat-spinner>
-</div>
+@if (cargando) {
+  <div class='iigwo-loading'>
+    <mat-spinner></mat-spinner>
+  </div>
+}
