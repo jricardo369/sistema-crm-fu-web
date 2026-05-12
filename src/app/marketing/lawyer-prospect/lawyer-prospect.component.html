@@ -1,0 +1,262 @@
+<app-workspace-nav>
+    <app-marketing-nav></app-marketing-nav>
+</app-workspace-nav>
+
+<div class="workspace">
+    <div class="main">
+
+        <app-experimental-menu [titulo]="titulo" backButtonEnabled="true">
+
+            <div style="margin-left: auto; display: flex; flex-direction: row; align-items: center; gap: 4px;">
+
+                <!--MARKETING-->
+                <button *ngIf="!creando && idEstatusProspecto == 1" (click)='terminarProspecto()' class="btn"
+                    style="color: #FFFFFF;background: #288867; border-radius: 5px; height: 20px; line-height: 20px;">
+                    <mat-icon svgIcon="sendD"
+                        style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+                    <label style="margin: auto;color: #FFFFFF;text-transform: none;">Next Process</label>
+                </button>
+                <button *ngIf="!creando && idEstatusProspecto == 1" (click)='cancelarProspecto()' class="btn"
+                    style="color: #FFFFFF;background: #ff745f; border-radius: 5px; height: 20px; line-height: 20px;">
+                    <mat-icon svgIcon="cancel"
+                        style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+                    <label style="margin: auto;color: #FFFFFF;text-transform: none;">Not interesed</label>
+                </button>
+
+                <!--MARKETING REV-->
+                <button *ngIf="!creando && idEstatusProspecto == 2" (click)='sucessfulClient()' class="btn"
+                    style="color: #FFFFFF;background: #288867; border-radius: 5px; height: 20px; line-height: 20px;">
+                    <mat-icon svgIcon="sendD"
+                        style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+                    <label style="margin: auto;color: #FFFFFF;text-transform: none;">Successful client</label>
+                </button>
+                <button *ngIf="!creando && idEstatusProspecto == 2" (click)='closedProspecto()' class="btn"
+                    style="color: #FFFFFF;background: #ff745f; border-radius: 5px; height: 20px; line-height: 20px;">
+                    <mat-icon svgIcon="cancel"
+                        style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+                    <label style="margin: auto;color: #FFFFFF;text-transform: none;">Closed</label>
+                </button>
+            </div>
+
+        </app-experimental-menu>
+
+        <div style="display:flex; flex-flow: row" *ngIf="prospecto as p">
+            <div class='content-big' [ngStyle]="{'right': (creando ? '0' : '0px')}"
+                style="display:flex; flex-flow: column;">
+                <div style="display:flex; flex-flow: row; flex-wrap: wrap;">
+
+                    <div class="column">
+
+                        <div class="iigwo-input" *ngIf="!creando">
+                            <div class="div-img-label">
+
+                                <label>Lawyer Status</label>
+                                <span class="badge-status" [ngClass]="{
+                                    'badge-color-lawyer-prospect-prospect': p.idEstatusProspecto == 1,
+                                    'badge-color-lawyer-prospect-interested': p.idEstatusProspecto == 2,
+                                    'badge-color-lawyer-prospect-not-interested': p.idEstatusProspecto == 3,
+                                    'badge-color-lawyer-prospect-successful': p.idEstatusProspecto == 4,
+                                    'badge-color-lawyer-prospect-closed': p.idEstatusProspecto == 5}">
+                                    {{p.estatusProspecto}}
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <div class="iigwo-input" *ngIf="p.solicitudRelacionada != 0 && !creando">
+                            <div class="div-img-label">
+
+                                <label style="color:#288867">Prospect send client into CRM at date {{p.fechaEnvioCliente}} in file {{p.solicitudRelacionada}}</label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="iigwo-input" *ngIf="!creando">
+                            <div class="div-img-label">
+                                <mat-icon svgIcon="calendarD"
+                                    style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11.5px;margin-bottom: 7px;"></mat-icon>
+                                <label>Creation Date</label>
+                            </div>
+                            <div class="horizontal-container">
+                                <input [ngModel]="p.fechaAlta | dateMMDDYYYY" readonly>
+                            </div>
+                        </div>
+
+                        <div class="iigwo-input">
+                            <label *ngIf="creando" required>Law firm</label>
+                            <label *ngIf="!creando">Law firm</label>
+                            <input type="text" [(ngModel)]="p.firma" [required]="true">
+                        </div>
+
+                        <div class="iigwo-input">
+                            <label *ngIf="creando" required>Name</label>
+                            <label *ngIf="!creando">Name</label>
+                            <input type="text" [(ngModel)]="p.nombre">
+                        </div>
+
+                        <div class="iigwo-input">
+                            <label>Addres</label>
+                            <input type="text" [(ngModel)]="p.direccion">
+                        </div>
+
+                        <div class="iigwo-input">
+                            <label *ngIf="creando" required>Phone</label>
+                            <label *ngIf="!creando">Phone</label>
+                            <input type="text" [(ngModel)]="p.telefono">
+                        </div>
+
+                        <div class="iigwo-input">
+                        <label>State</label>
+                        <select [(ngModel)]="p.estado" [ngModelOptions]="{standalone: true}">
+                            <option *ngFor="let state of arrStates" [ngValue]="state.abbreviation">
+                            {{state.abbreviation}}</option>
+                        </select>
+                        </div>
+            
+
+                         <div class="iigwo-input" *ngIf="!creando">
+                        <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;"
+                            id="waiver" [checked]="p.mailPackageReceived" (change)="p.mailPackageReceived = !p.mailPackageReceived" [disabled]="!isMarketing">
+                        <label for="mailPackageReceived" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Mail package received {{p.fechaMailPackageReceived}}</label>
+                        </div>
+
+                        <div class="iigwo-input" *ngIf="!creando">
+                        <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;"
+                            id="waiver" [checked]="p.envioCorreo" (change)="p.envioCorreo = !p.envioCorreo" [disabled]="!isMarketing">
+                        <label for="envioCorreo" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Email sent {{p.fechaEnvioCorreo}}</label>
+                        </div>
+
+                        <div class="iigwo-input" *ngIf="!creando && isMarketingRev">
+                        <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;"
+                            id="waiver" [checked]="p.porcentaje1" (change)="p.porcentaje1 = !p.porcentaje1" [disabled]="!isMarketingRev">
+                        <label for="envioCorreo" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">20%    {{p.fechaPorcentaje1}}</label>
+                        </div>
+
+                        <div class="iigwo-input"  *ngIf="!creando && p.fechaRecordatorioLiaison != '' && p.fechaRecordatorioLiaison != null">
+                            <div class="iigwo-input">
+                                <label>Reminder Date
+                                </label>
+                                <mat-form-field appearance="outline" class="custom-datepicker">
+                                    
+                                    <input 
+                                    matInput 
+                                    [matDatepicker]="pickerFN" 
+                                    [(ngModel)]="fechaRecordatorioLiaisonMat " 
+                                    (dateChange)="changeFechaRecordatorioLiaisonMat()"
+                                    placeholder="MM/DD/YYYY" 
+                                    
+                                    />
+                                    <mat-datepicker-toggle matSuffix [for]="pickerFN"></mat-datepicker-toggle>
+                                    <mat-datepicker #pickerFN ></mat-datepicker>
+                                </mat-form-field>
+                                </div> 
+                        </div>
+
+                        <div class="iigwo-input" *ngIf="!creando && isMarketingRev">
+                        <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;"
+                            id="waiver" [checked]="p.porcentaje2" (change)="p.porcentaje2 = !p.porcentaje2" [disabled]="!isMarketingRev">
+                        <label for="envioCorreo" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Follow up 20%    {{p.fechaPorcentaje2}}</label>
+                        </div>
+
+                        
+
+                        <div class="separador">
+                        </div>
+
+                        <div class="iigwo-input" *ngIf="creando" style="margin-bottom: 15px;">
+
+                            <label class="titulo-emails-section">Write te info to add new email to prospect</label>
+                            <label>New email prospect</label>
+                            <div class="input-row-fixed" style="margin-bottom: 18px;">
+                            <input type="text" [(ngModel)]="inputAbogadoN">
+                            <button (click)='addMailAbogadoN()' class="btn-icon" matTooltip="Add">
+                                <mat-icon svgIcon="add"></mat-icon>
+                            </button>
+                            </div>
+
+                            <div *ngFor="let emAbo of arrEmailAbogadosN" style="display: block; 
+                                background-color: #f0f0f0; 
+                                border-radius: 16px; 
+                                padding: 0.5px 2px; 
+                                margin-top: 3px;
+                                width: fit-content;
+                                align-items: center;">
+                            <span class="badge-file-icon" style="color: darkviolet; vertical-align: middle;"><mat-icon
+                                svgIcon="scales"></mat-icon></span>
+                            <span style="margin-right: 5px; font-family: regular; vertical-align: middle;font-size:10px">{{emAbo}}</span>
+                            <span style="margin-left: 8px; vertical-align: middle;">
+                                <button style="background: none; border: none; cursor: pointer;vertical-align: middle;"
+                                (click)="removeMailAbogadoN(emAbo)">
+                                <mat-icon style="margin-top: 1px;width: 15px;vertical-align: middle;" svgIcon="close"></mat-icon>
+                                </button>
+                            </span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="iigwo-input" *ngIf="!creando" style="margin-bottom: 15px;">
+
+                            <label class="titulo-emails-section">Write te info to add new email to prospect</label>
+                            <label>New email prospect</label>
+                            <div class="input-row-fixed" style="margin-bottom: 18px;">
+                            <input type="text" [(ngModel)]="inputAbogado.email">
+                            <button (click)='addEmailAbo()' class="btn-icon" matTooltip="Add">
+                                <mat-icon svgIcon="add"></mat-icon>
+                            </button>
+                            </div>
+
+                            <div *ngFor="let emAbo of arrEmailAbogados" style="display: block; 
+                                background-color: #f0f0f0; 
+                                border-radius: 16px; 
+                                padding: 0.5px 2px; 
+                                margin-top: 3px;
+                                width: fit-content;
+                                align-items: center;">
+                            <span class="badge-file-icon" style="color: darkviolet; vertical-align: middle;"><mat-icon
+                                svgIcon="scales"></mat-icon></span>
+                            <span style="margin-right: 5px; font-family: regular; vertical-align: middle;font-size:10px">{{emAbo.email}}</span>
+                            <span style="margin-left: 8px; vertical-align: middle;">
+                                <button style="background: none; border: none; cursor: pointer;vertical-align: middle;"
+                                (click)="removeEmailAbo(emAbo.idEmailProsAbo)">
+                                <mat-icon style="margin-top: 1px;width: 15px;vertical-align: middle;" svgIcon="close"></mat-icon>
+                                </button>
+                            </span>
+                            </div>
+                            
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                <button (click)='crearCrearProspectoAbogado()' *ngIf="creando" class="btn-color"
+                    style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
+                    <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+                    <span style="color: #ffffff; font-size: 13px;">Create Prospect</span>
+                </button>
+
+                <button (click)='guardarCambios()' *ngIf="!creando && (prospecto.idEstatusProspecto == 1 || prospecto.idEstatusProspecto == 2)" class="btn-color btn-color btn-color-accent"
+                    style="color: #ffffff; ;margin-bottom: 5px;">
+                    <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+                    <span style="color: #ffffff; font-size: 13px;">Save Changes</span>
+                </button>
+
+                <div style="display:flex; flex-flow: row;" *ngIf="p.idProspectoAbogado">
+                        <app-lawyers-notes [idProspectoAbogado]="p.idProspectoAbogado" [idEstatusProspecto]="p.idEstatusProspecto">
+                        </app-lawyers-notes>
+                        </div>
+
+            </div>
+
+
+
+
+            <div class='iigwo-loading' *ngIf="cargando">
+                <mat-spinner></mat-spinner>
+            </div>
+
+        </div>
+    </div>

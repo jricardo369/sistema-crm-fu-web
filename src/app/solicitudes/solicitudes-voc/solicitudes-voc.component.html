@@ -4,7 +4,7 @@
 <div class='workspace'>
   <div class='main'>
 
-    <app-experimental-menu titulo="Files">
+    <app-experimental-menu titulo="Files VOC">
 
       <button (click)='crearSolicitud()' class="btn"
         style="color: #FFFFFF;background: #239B56; border-radius: 5px; height: 20px; line-height: 20px;">
@@ -169,18 +169,29 @@
             <td style="text-align: center;"><span class="badge-status badge-color-0"
                 style="margin: 0;">{{e.numSesionesSinNota}}</span></td>
 
-            <td *ngIf="isVOC" class='accent'>{{e.nombreTerapeuta}}</td>
+            <td *ngIf="isVOC" class='accent'>
+              <span [style.color]="e.nombreTerapeuta?.trim() ? null : '#FF9B29'">{{ e.nombreTerapeuta?.trim() ? e.nombreTerapeuta : 'Unassigned' }}</span>
+            </td>
             <td class='accent'>{{e.email}}</td>
             <td style="padding-top: 4px; padding-bottom: 3px; text-align: center; color: #75518c;" *ngIf="(isVOC)">
-              <mat-icon svgIcon="okD"*ngIf="e.documento2"
+              <mat-icon svgIcon="okD" *ngIf="e.documento2"
                   style="width: 15px; height: 15px;"></mat-icon>
+                  <span *ngIf="!e.documento2"
+                style="margin: 0;color:#FF9B29;">No</span>
             </td>
             <td style="text-align: center;" *ngIf="!(isTherapist)"><span class="badge-status" style="margin: 0;"
                 [ngClass]="{'badge-color-partially': e.idEstatusPago == 1,
                             'badge-color-complete': e.idEstatusPago == 2,
                             'badge-color-hold': e.idEstatusPago == 3,
                             'badge-color-na': e.idEstatusPago == 4}">{{e.estatusPago}}</span></td>
-            <td style="text-align: center;"><span class="badge-status" style="margin: 0;" [ngClass]="{'badge-color-received': e.idEstatusSolicitud == 1,
+            
+
+                <td style="text-align: center;">
+              <div class="badge-wrapper" style="position: relative; display: inline-block;">
+                <svg  *ngIf="e.importantNotes != ''" width="10" height="10" style="position: absolute; top: -3px; right: -3px;">
+                  <circle cx="5" cy="5" r="5" fill="red"></circle>
+                </svg>
+               <span class="badge-status" style="margin: 0;" [ngClass]="{'badge-color-received': e.idEstatusSolicitud == 1,
                 'badge-color-reviewing': e.idEstatusSolicitud == 2,
                 'badge-color-interview': e.idEstatusSolicitud == 3,
                 'badge-color-refused': e.idEstatusSolicitud == 4,
@@ -192,7 +203,10 @@
 								'badge-color-ready_on_draft': e.idEstatusSolicitud == 10,
 								'badge-color-closed': e.idEstatusSolicitud == 11,
                 'badge-color-in_approbal': e.idEstatusSolicitud == 13,
-                'badge-color-process': e.idEstatusSolicitud == 14}">{{e.estatusSolicitud}}</span></td>
+                'badge-color-process': e.idEstatusSolicitud == 14}">{{e.estatusSolicitud}}</span>
+            
+              </div>
+            </td>
 
           </tr>
 

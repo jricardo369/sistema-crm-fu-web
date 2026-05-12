@@ -75,6 +75,8 @@ export class SolicitudesComponent implements OnInit {
   isGhostwriting: boolean = false;
   isClinician: boolean = false;
 
+  advancedFilters: boolean = false;
+
     public arrTipoSolicitud: TipoSolicitud[] = [];
     public inputTipoSolicitud: TipoSolicitud = new TipoSolicitud;
 
@@ -89,23 +91,40 @@ export class SolicitudesComponent implements OnInit {
     "descripcion": "All"
   }];
   arrFilterWaiver: any[] = [{
-    "display": "All",
-    "value": "All"
+    "display": "",
+    "value": ""
   }, {
     "display": "Yes",
-    "value": "true"
+    "value": "Yes"
   }, {
     "display": "No",
-    "value": "false"
+    "value": "No"
   }];
+
+
+  inputFile: number = 0;
+  inputCustomer: string = "";
+  inputPhone: string = "";
+  inputEmail: string = "";
+  inputState: string = "";
+  inputFileStatus: number = 0;
+  inputPaymentStatus: number = 0;
+  inputFileType: number = 0;
+  inputWaiver: string = "";
+  inputNoshow: string = "";
+  inputImportante: string = "";
+  inputAsignado: string = "";
+  inputZipcodes: string = "";
+
+
   filterType: string = "All";
   filterMyFiles: boolean = true;
   filterInputText: string = "";
   filterInputDate1: string = "";
   filterInputDate2: string = "";
 
-  filterStartDate: string;
-  filterEndDate: string;
+  filterStartDate: string = '';
+  filterEndDate: string= '';
   filterSortBy: string = '';
   filterOrder: string = '';
   filterClosedS: string = '';
@@ -254,6 +273,15 @@ export class SolicitudesComponent implements OnInit {
     
   }
 
+  advancedFiltersFn(){  
+
+    if(this.advancedFilters){
+      this.advancedFilters = false;
+    } else {
+      this.advancedFilters = true;
+    }
+
+  }
   
 
   obtenerEstatusSolicitudes() {
@@ -347,6 +375,27 @@ export class SolicitudesComponent implements OnInit {
 });
   }
 
+  refrescarV2() {
+    this.cargando = true;
+    this.solicitudesService
+      .obtenerSolicitudesUsuarioConFiltros(this.usuario.idUsuario, this.filterClosedS, true, this.filterSortBy, this.filterOrder,
+        this.filterStartDate, this.filterEndDate, this.inputFile, this.inputCustomer, this.inputPhone, this.inputEmail, this.inputState, 
+        this.inputFileStatus, this.inputPaymentStatus, this.inputFileType, this.inputWaiver, this.inputNoshow, this.inputImportante,this.inputAsignado, this.inputZipcodes)
+      .subscribe({
+  next: (solicitudes) => {
+    this.solicitudesSinFiltrar = solicitudes;
+    this.solicitudes = this.solicitudesSinFiltrar.filter(e => true);
+    this.paginacion.setArray(this.solicitudes, 10);
+    this.setearFiltros();
+    this.cargando = false;
+  },
+  error: (reason) => {
+    this.utilService.manejarError(reason);
+    this.cargando = false;
+  }
+});
+  }
+
   showClosedRequests() {
     this.cargando = true;
     this.solicitudesService
@@ -409,6 +458,28 @@ export class SolicitudesComponent implements OnInit {
 });
   }
 
+
+  descargarExcel(){
+    this.cargando = true;
+    this.solicitudesService
+     .obtenerReporteSolicitudesFiltersExcel(this.usuario.idUsuario, this.filterClosedS, true, this.filterSortBy, this.filterOrder,
+        this.filterStartDate, this.filterEndDate, this.inputFile, this.inputCustomer, this.inputPhone, this.inputEmail, this.inputState, 
+        this.inputFileStatus, this.inputPaymentStatus, this.inputFileType, this.inputWaiver, this.inputNoshow, this.inputImportante,this.inputAsignado, this.inputZipcodes).
+      subscribe(
+        data =>{
+          const file = new Blob([data], {type: 'application/vnd.ms-excel'});
+          var fileUrl = URL.createObjectURL(file);
+          let link: any = window.document.createElement('a');
+          link.href = fileUrl;
+          let aux = fileUrl.split('/');
+          link.download = aux[aux.length -1]+".xlsx";
+          link.click();
+          this.cargando = false;
+        }
+      )
+  }
+
+
   setearFiltros(){
     //this.filtros = this.filterStartDate +","+ this.filterEndDate +","+  this.filterSortBy+","+  this.filterOrder+","+  this.usuario.idUsuario+","+ this.filterType+","+  this.filterInputText+","+  this.filterMyFiles;
     //console.log('filtros closed:'+this.filterClosedS);
@@ -439,6 +510,27 @@ export class SolicitudesComponent implements OnInit {
       this.filterSortBy = "";
       this.filterOrder = "";
       this.filterClosedS = 'OPEN';
+  }
+
+  limpiarFiltrosFinal() {
+      this.filterInputDate1 = "";
+      this.filterInputDate2 = "";
+      this.filterSortBy = "";
+      this.filterOrder = "";
+      this.filterClosedS = 'OPEN';
+      this.inputFile = 0;
+      this.inputCustomer = "";
+      this.inputPhone = "";
+      this.inputEmail = "";
+      this.inputState = "";
+      this.inputFileStatus = 0;
+      this.inputPaymentStatus = 0;
+      this.inputFileType = 0;
+      this.inputWaiver = "";
+      this.inputNoshow = "";
+      this.inputImportante = "";
+      this.inputAsignado = "";
+      this.inputZipcodes = "";
   }
   limpiarFiltrosSinFecha() {
     this.filterInputText = "";

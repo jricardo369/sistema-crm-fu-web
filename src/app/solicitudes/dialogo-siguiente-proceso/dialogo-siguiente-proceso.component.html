@@ -25,6 +25,15 @@
         [checked]="fechaAnterior" (change)="fechaAnterior = !fechaAnterior; obtenerDisponibilidadUsuarios()">
     </div>
 
+  
+     <div class="iigwo-input" style="min-width: 120px;" *ngIf="(isClinician)">
+            <label>Translator user</label>
+            <select [(ngModel)]="filterUsuario" (change)="obtenerDisponibilidadUsuarios()" [ngModelOptions]="{standalone: true}"  >
+              <option *ngFor="let e of arrFilterUsuarios" [ngValue]="e.idUsuario">
+                {{e.nombre}}</option>
+            </select>
+          </div>
+          
     
 
   </div>

@@ -12,6 +12,7 @@ import { Usuario } from "src/model/usuario";
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
+import { UsuariosService } from '../../services/usuarios.service';
 
 import { CLINICIAN, INTERVIEWER, INTERVIEWER_SCALES, } from 'src/app/app.config';
 
@@ -50,6 +51,9 @@ export class DialogoSiguienteProcesoComponent implements OnInit {
   interviewerClinician: boolean = false;
   arrStates: any[] = [];
   rol: string = '';
+  filterUsuario: number = 0;
+  arrFilterUsuarios: Usuario[] = [];
+    usuarioAll: Usuario = new Usuario();
 
   /*isInterviewer: boolean = false;
   isInterviewerScales: boolean = false;
@@ -60,6 +64,7 @@ export class DialogoSiguienteProcesoComponent implements OnInit {
     private disponibilidadUsuariosService: DisponibilidadUsuariosService,
     private solicitudesService: SolicitudesService,
     public utilService: UtilService,
+    private usuariosService: UsuariosService,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<DialogoSiguienteProcesoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -89,6 +94,15 @@ export class DialogoSiguienteProcesoComponent implements OnInit {
     this.isInterviewerScales = this.usuario.rol == INTERVIEWER_SCALES ? true : false;
     this.isClinician = this.usuario.rol == CLINICIAN ? true : false;*/
 
+    if (this.isClinician) {
+
+      this.usuarioAll.idUsuario = 0;
+      this.usuarioAll.nombre = "None";
+      this.arrFilterUsuarios.push(this.usuarioAll);
+      this.obtenerUsuariosCaseManagerTraductores();
+      
+    }
+
   }
 
   ngOnInit(): void {
@@ -111,7 +125,11 @@ export class DialogoSiguienteProcesoComponent implements OnInit {
   obtenerDisponibilidadUsuarios() {
     if (this.fecha == "") return;
     this.cargando = true;
-    this.disponibilidadUsuariosService.obtenerDisponibilidadUsuariosPorDia(this.fecha, this.fechaAnterior, this.rol, this.idSolicitud, this.estado)
+    var idUsT = 0;
+    if (this.isClinician && this.filterUsuario != 0) {
+      idUsT = this.filterUsuario;
+    }
+    this.disponibilidadUsuariosService.obtenerDisponibilidadUsuariosPorDia(this.fecha, this.fechaAnterior, this.rol, this.idSolicitud, this.estado,idUsT)
       .then((disponibilidadUsuarios) => {
         this.arrDisponibilidadUsuario = disponibilidadUsuarios;
         this.paginacion.setArray(this.arrDisponibilidadUsuario, 10);
@@ -129,7 +147,7 @@ export class DialogoSiguienteProcesoComponent implements OnInit {
     if (this.interviewerScales) {
       choosePromise = this.solicitudesService.envioInterviewerScales(this.idSolicitud, this.fechaAnterior, this.idUsuario, disponibilidadSelected.idDisponibilidad);
     } else if (this.interviewerClinician) {
-      choosePromise = this.solicitudesService.envioClinicianProcess(this.idSolicitud, this.fechaAnterior, this.idUsuario, disponibilidadSelected.idDisponibilidad);
+      choosePromise = this.solicitudesService.envioClinicianProcess(this.idSolicitud, this.fechaAnterior, this.idUsuario, disponibilidadSelected.idDisponibilidad,disponibilidadSelected.idDisponibilidadTraductor);
     } else if (this.interviewerCaseManager) {
       choosePromise = this.solicitudesService.envioCaseManager(this.idSolicitud, this.fechaAnterior, this.idUsuario, disponibilidadSelected.idDisponibilidad);
     } else {
@@ -143,6 +161,19 @@ export class DialogoSiguienteProcesoComponent implements OnInit {
       })
       .catch((reason) => this.utilService.manejarError(reason))
       .then(() => (this.cargando = false));
+  }
+
+  obtenerUsuariosCaseManagerTraductores() {
+    this.cargando = true;
+    this.usuariosService
+      .obtenerUsuariosPorRol(5,0)
+      .then(usuarios => {
+        this.arrFilterUsuarios = usuarios;
+        this.arrFilterUsuarios = [this.usuarioAll].concat(this.arrFilterUsuarios);
+        //console.log(this.arrFilterUsuarios)
+      })
+      .catch(reason => this.utilService.manejarError(reason))
+      .then(() => this.cargando = false)
   }
 
   cerrar(accion: string = "") { this.dialogRef.close(accion); }

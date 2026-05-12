@@ -15,10 +15,16 @@ import { CommonModule} from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import {  US_STATES } from 'src/app/app.config';
+import { formatearFecha } from '../../util/date-utils';
+import { convertirAFechaMat } from '../../util/date-utils';
 
 @Component({
-  standalone: true,imports: [RouterModule,FormsModule,CommonModule,MatIconModule,MatProgressSpinnerModule,MatDialogModule],
+  standalone: true,imports: [RouterModule,FormsModule,CommonModule,MatIconModule,MatProgressSpinnerModule,MatDialogModule,MatFormFieldModule,MatInputModule,MatDatepickerModule,MatNativeDateModule],
   selector: 'app-dialogo-usuario',
   templateUrl: './dialogo-usuario.component.html',
   styleUrls: ['./dialogo-usuario.component.css']
@@ -34,8 +40,10 @@ export class DialogoUsuarioComponent implements OnInit {
   titulo: string = 'Usuario';
   usuario: Usuario = new Usuario();
   permisos: Permiso[] = [];
+  permisosSeleccionados: { [key: number]: boolean } = {};
   roles: Rol[] = [];
   estadosUsuario: EstadoUsuario[] = [];
+  fechaValidityMat: Date;
 
   public file: File[] = [];
 
@@ -65,6 +73,9 @@ export class DialogoUsuarioComponent implements OnInit {
     this.permisos.push({ id: 2, nombre: "Add Events" });
     this.permisos.push({ id: 3, nombre: "Add Payments" });
     this.permisos.push({ id: 4, nombre: "Edit requests" });
+    this.permisos.push({ id: 5, nombre: "Permission 5" });
+
+    this.permisos.forEach(permiso => this.permisosSeleccionados[permiso.id] = false);
    
 
     if (data.idUsuario) {
@@ -76,10 +87,20 @@ export class DialogoUsuarioComponent implements OnInit {
       this.titulo = "New User";
       this.creando = true;
       this.usuario.permisos = [];
+      this.checkAllPermisos([]);
     }
 
      if(!this.creando) {
           this.obtenerEstadosUsuario();
+          // Esperar 2 segundos antes de asignar fechaNacimientoMat
+                  setTimeout(() => {
+          
+                    if (this.usuario.licenciaValida) {
+                       this.fechaValidityMat = convertirAFechaMat(this.usuario.licenciaValida as string);  
+                    }
+          
+          
+                  }, 2000);
      }  
 
    
@@ -89,12 +110,33 @@ export class DialogoUsuarioComponent implements OnInit {
     this.obtenerRoles();
   }
 
+  changeFechaValidityMat() {
+      console.log('fechaNacimientoMat changed:', this.fechaValidityMat);
+  
+      if (this.fechaValidityMat) {
+        this.usuario.licenciaValida = formatearFecha(this.fechaValidityMat);
+        console.log('Fecha formateada (string):', this.usuario.licenciaValida);
+      }
+  
+      
+    }
+
   estaSeleccionado(permiso: Permiso) {
     return this.usuario.permisos.find(p => p.id == permiso.id) != null;
   }
 
   checkAllPermisos(permisosUsuario: Permiso[]) {
-    permisosUsuario.forEach(permiso => (<HTMLInputElement>document.getElementById(permiso.id.toString())).checked = true);
+    const permisosIds = new Set((permisosUsuario || []).map(permiso => permiso.id));
+    this.permisos.forEach(permiso => {
+      this.permisosSeleccionados[permiso.id] = permisosIds.has(permiso.id);
+    });
+    this.usuario.permisos = this.obtenerPermisosSeleccionados();
+  }
+
+  obtenerPermisosSeleccionados(): Permiso[] {
+    return this.permisos
+      .filter(permiso => this.permisosSeleccionados[permiso.id])
+      .map(permiso => ({ id: permiso.id, nombre: permiso.nombre }));
   }
 
   check(event: Event, permiso: Permiso) {
@@ -148,6 +190,7 @@ export class DialogoUsuarioComponent implements OnInit {
   }
 
   crear() {
+    this.usuario.permisos = this.obtenerPermisosSeleccionados();
     this.usuario.estatus = "1";
     this.usuario.ausencia = false;
     console.log(this.usuario)
@@ -162,6 +205,7 @@ export class DialogoUsuarioComponent implements OnInit {
   }
 
   editar() {
+    this.usuario.permisos = this.obtenerPermisosSeleccionados();
     
     if(this.usuario.withSupervision){
       if(this.usuario.supervisor == null || this.usuario.supervisor == ''){

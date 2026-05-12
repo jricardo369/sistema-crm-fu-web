@@ -55,6 +55,65 @@ export class SolicitudesService {
 
   }
 
+
+  obtenerSolicitudesUsuarioConFiltros(idUsuario: number, closed: string, primeraVez: boolean,ordenarPor: string, orden: string,
+  fechai: string, fechaf: string, idSolicitud?: number, cliente?: string, telefono?: string, email?: string, estado?: string, idEstatusSolicitud?: number, idEstatusPago?: number,
+  idTipoSolicitud?: number, waiver?: string, noshow?: string, importante?: string, asignado?: string,zipcodes?: string
+  ): Observable<SolicitudList[]> {
+
+    let queryParams: string = "";
+    queryParams = "idUsuario=" + idUsuario + "&cerradas=" + closed + "&primeraVez=" + primeraVez + "&ordenarPor=" + ordenarPor + "&orden=" + orden + "&fechai=" + fechai + "&fechaf=" + fechaf+
+      (idSolicitud ? ("&idSolicitud=" + idSolicitud) : "") + (cliente ? ("&cliente=" + cliente) : "") + (telefono ? ("&telefono=" + telefono) : "") + (email ? ("&email=" + email) : "") + 
+      (estado ? ("&estado=" + estado) : "") + (idEstatusSolicitud ? ("&idEstatusSolicitud=" + idEstatusSolicitud) : "") + (idEstatusPago ? ("&idEstatusPago=" + idEstatusPago) : "") + 
+      (idTipoSolicitud ? ("&idTipoSolicitud=" + idTipoSolicitud) : "") + (waiver ? ("&waiver=" + waiver) : "") + (noshow ? ("&noShow=" + noshow) : "") + (importante ? ("&importante=" + importante) : "") + 
+      (asignado ? ("&asignado=" + asignado) : "") + (zipcodes ? ("&zipcodes=" + zipcodes) : "");
+
+
+    const url = API_URL + "solicitudes/solicitudes-de-usuario-filtros/" + idUsuario + "?" + queryParams;
+
+    return this.http.get<SolicitudList[]>(url, {
+      withCredentials: true,
+      headers: new HttpHeaders({
+        'Authorization': localStorage.getItem('auth_token') || ''
+      })
+    }).pipe(
+      catchError(error => {
+        console.error('Error:', error);
+        return of([]); // Devuelve array vacío en errores
+      })
+    );
+
+  }
+
+  obtenerReporteSolicitudesFiltersExcel(idUsuario: number, closed: string, primeraVez: boolean,ordenarPor: string, orden: string,
+  fechai: string, fechaf: string, idSolicitud?: number, cliente?: string, telefono?: string, email?: string, estado?: string, idEstatusSolicitud?: number, idEstatusPago?: number,
+  idTipoSolicitud?: number, waiver?: string, noshow?: string, importante?: string, asignado?: string,zipcodes?: string
+): Observable<Blob> {
+  
+       let queryParams: string = "";
+    queryParams = "idUsuario=" + idUsuario + "&cerradas=" + closed + "&primeraVez=" + primeraVez + "&ordenarPor=" + ordenarPor + "&orden=" + orden + "&fechai=" + fechai + "&fechaf=" + fechaf+
+      (idSolicitud ? ("&idSolicitud=" + idSolicitud) : "") + (cliente ? ("&cliente=" + cliente) : "") + (telefono ? ("&telefono=" + telefono) : "") + (email ? ("&email=" + email) : "") + 
+      (estado ? ("&estado=" + estado) : "") + (idEstatusSolicitud ? ("&idEstatusSolicitud=" + idEstatusSolicitud) : "") + (idEstatusPago ? ("&idEstatusPago=" + idEstatusPago) : "") + 
+      (idTipoSolicitud ? ("&idTipoSolicitud=" + idTipoSolicitud) : "") + (waiver ? ("&waiver=" + waiver) : "") + (noshow ? ("&noShow=" + noshow) : "") + (importante ? ("&importante=" + importante) : "") + 
+      (asignado ? ("&asignado=" + asignado) : "") + (zipcodes ? ("&zipcodes=" + zipcodes) : "");
+
+      
+      const httpHeaders = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem('auth_token'),
+      });
+      const options = {
+      params: new HttpParams({ fromString: queryParams }),
+      headers: httpHeaders,
+      responseType: 'blob' as 'json'
+    };
+      return this.http.get<any>(
+          
+          API_URL + "solicitudes/solicitudes-de-usuario-filtros-excel/" + idUsuario,
+          options
+      );
+    }
+
   obtenerSolicitudesUsuarioCerradas(idUsuario: number): Promise<SolicitudList[]> {
     return new Promise<SolicitudList[]>((resolve, reject) =>
       this.http
@@ -254,11 +313,12 @@ export class SolicitudesService {
     );
   }
 
-  envioClinicianProcess(idSolicitud: number, fechaAnterior: boolean, idUsuarioCambio: number, idDisponibilidad: number): Promise<any> {
+  envioClinicianProcess(idSolicitud: number, fechaAnterior: boolean, idUsuarioCambio: number, idDisponibilidad: number,idDisponibilidadTraductor: number): Promise<any> {
     console.log(idDisponibilidad)
     return new Promise<any>((resolve, reject) =>
       this.http
-        .put(API_URL + "solicitudes/envio-interviewer-clinician/" + idSolicitud + "?idUsuarioCambio=" + idUsuarioCambio + "&idDisponibilidad=" + idDisponibilidad + "&fechaAnterior=" + fechaAnterior, {
+        .put(API_URL + "solicitudes/envio-interviewer-clinician/" + idSolicitud + "?idUsuarioCambio=" + idUsuarioCambio + "&idDisponibilidad=" + idDisponibilidad + "&fechaAnterior=" + fechaAnterior
+          + "&idDisponibilidadTraductor=" + idDisponibilidadTraductor, {
           withCredentials: true,
           observe: "response",
           headers: new HttpHeaders()
@@ -384,6 +444,24 @@ export class SolicitudesService {
           resolve(response);
         })
         .catch((reason) => reject(reason))
+    );
+  }
+
+  reopenSolicitud(idSolicitud: number, idUsuarioEnvio: number, motivo: string): Promise<any> {
+    return new Promise<any>((resolve, reopen) =>
+      this.http
+        .put(API_URL + "solicitudes/reopen/" + idSolicitud + "/" + idUsuarioEnvio + "?motivo=" + motivo, {
+          withCredentials: true,
+          observe: "response",
+          headers: new HttpHeaders()
+            .append("Content-Type", "application/json")
+            .append("Authorization", localStorage.getItem("auth_token")),
+        })
+        .toPromise()
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((reason) => reopen(reason))
     );
   }
 

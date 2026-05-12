@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { API_URL } from '../app.config';
 import { EmailAbogado } from 'src/model/email-abogado';
+import { TittleAbogado } from 'src/model/tittle-abogado';
 import { catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
@@ -31,11 +32,13 @@ export class EmailAbogadoService {
 
     }
 
-    insertarEmailAbogado(idAbogado: number, emailAbo: string, idUsuario: number) {
+    insertarEmailAbogado(idAbogado: number, emailAbo: string, nombre: string, tipo: string, idUsuario: number) {
 
         let nuevoEmailAbo = {
             email: emailAbo,
-            idAbogado: idAbogado
+            idAbogado: idAbogado,
+            nombre: nombre,
+            tipo: tipo
         }
 
         let params = new HttpParams();
@@ -90,6 +93,24 @@ export class EmailAbogadoService {
                 resolve(response.body);
             })
             .catch(reason => reject(reason))
+        );
+
+    }
+
+    obtenerTittlesAbogado(): Observable<TittleAbogado[]> {
+
+        const url = API_URL + "email-abogado/tittles";
+
+        return this.http.get<TittleAbogado[]>(url, {
+            withCredentials: true,
+            headers: new HttpHeaders({
+                'Authorization': localStorage.getItem('auth_token') || ''
+            })
+        }).pipe(
+            catchError(error => {
+                console.error('Error:', error);
+                return of([]); // Devuelve array vacío en errores
+            })
         );
 
     }

@@ -139,6 +139,8 @@
                                 </button>
                             </div>
                         </th>
+                         <th class=''>State</th>
+                         <th class=''>Reference</th>
                          <th class=''>Coupon</th>
                     </tr>
                     <tr *ngFor='let e of abogadosFiltrados | slice:paginacion.begin:paginacion.end'>
@@ -155,6 +157,8 @@
 
                         <td class='accent'>{{e.sinonimos}}</td>
                         <td class='accent'>{{e.fechaCreacion}}</td>
+                        <td class='accent'>{{e.estado}}</td>
+                        <td class='accent'>{{e.referencia}}</td>
                         <td style="font-size: 11.5px;" class='accent' *ngIf="e.cupon">
                             <mat-icon  svgIcon="done" style="color:#00949B; width: 14px; height: 14px"></mat-icon>
                             <label>{{e.fechaCupon}}</label>

@@ -1,0 +1,34 @@
+<h2 mat-dialog-title style="font-family: regular;color:#75518c">{{titulo}}</h2>
+
+<mat-dialog-content style="width:300px;min-width: 150px;">
+
+  <div style="margin-bottom: 10px;">
+    <label  style="font-size:12px;font-family: regular;">{{subtitulo}}</label>
+  </div>
+
+
+  <div class="iigwo-input" style="min-width: 120px;" >
+    <label required>{{textolabel}}</label>
+    <select [(ngModel)]="filterMotivoCancel" [ngModelOptions]="{standalone: true}">
+      <option *ngFor="let e of arrFilterMotivoCancel" [ngValue]="e.descripcion">
+        {{e.descripcion}}</option>
+    </select>
+  </div>
+
+  <div class="iigwo-input" style="margin-bottom: 15px;" *ngIf="filterMotivoCancel == 'other'">
+    <label required>Not interested reason</label>
+    <textarea [(ngModel)]="cancelReason"
+      style="width: 100% !important;min-width: 100%;max-width: 100%;min-height: 55px;"></textarea>
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button class="iigwo" style="margin-left:auto;"  (click)='cerrar()'>Cancel</button>
+  <button class="iigwo accent" style="margin-right:0;"  (click)='envioNotInteresed()'>Send</button>
+</mat-dialog-actions>
+
+<!-- CARGANDO-->
+<div class='iigwo-loading' *ngIf="cargando">
+  <mat-spinner></mat-spinner>
+</div>

@@ -1,3 +1,5 @@
+import { EmailAbogado } from "./email-abogado";
+
 export class Abogado {
     idAbogado: number;
     firma: string;
@@ -8,4 +10,7 @@ export class Abogado {
     fechaCreacion: string;
     cupon: boolean;
     fechaCupon: string;
+    estado: string;
+    referencia: string; 
+    emailsAbogado: EmailAbogado[] = []; 
 }

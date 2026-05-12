@@ -107,17 +107,8 @@
               <input type="email" [(ngModel)]="solicitud.email">
             </div>
 
-            <!--<div class="iigwo-input">
-              <label>Birth Date</label>
-              <input [ngModel]="solicitud.fechaNacimiento" (ngModelChange)='solicitud.fechaNacimiento = $event'
-                type="date">
-            </div>-->
-
-            <!--en caso que deseas validacion fecha al escribir (input)="validarFechaNacimientoTexto($event.target.value)"-->
-
             <div class="iigwo-input">
               <label>Birth Date
-                <!--<a *ngIf="fechaNacimientoError" class="error-fecha">Invalid format, Use MM/DD/YYYY </a>-->
               </label>
               <mat-form-field appearance="outline" class="custom-datepicker">
                 
@@ -196,7 +187,7 @@
               <textarea [(ngModel)]="comentarios"></textarea>
             </div>
 
-            <div class="iigwo-input" *ngIf="editando && !(isInterviewer || isInterviewerScales)">
+            <!--<div class="iigwo-input" *ngIf="editando && !(isInterviewer || isInterviewerScales)">
               <label>Docusign</label>
               <div class="input-row">
                 <input type="url" [(ngModel)]="solicitud.docusign">
@@ -205,7 +196,25 @@
                   <mat-icon svgIcon="external-link"></mat-icon>
                 </button>
               </div>
-            </div>
+            </div>-->
+
+            <div class="iigwo-input">
+              <label>Day of crime
+              </label>
+              <mat-form-field appearance="outline" class="custom-datepicker">
+                
+                <input 
+                matInput 
+                [matDatepicker]="pickerDC" 
+                [(ngModel)]="fechaDeCrimenMat" 
+                (dateChange)="changeFechaDeCrimenMat()"
+                 placeholder="MM/DD/YYYY" 
+                
+                  />
+                <mat-datepicker-toggle matSuffix [for]="pickerDC"></mat-datepicker-toggle>
+                <mat-datepicker #pickerDC ></mat-datepicker>
+              </mat-form-field>
+            </div> 
 
             <div class="iigwo-input" *ngIf="editando && !(isInterviewer)">
               <label>Scales</label>
@@ -537,11 +546,16 @@
               <span [class]="solicitud.finAsgClnc ? 'attended' : 'notattended'">
                 {{solicitud.finAsgClnc ? 'Attended' : 'Not attended yet'}}
               </span>
+           
               </label>
+              
           </div>
           <div>
             <label *ngIf="solicitud.usuarioClinicianNombre != 'Unassigned'">{{solicitud.usuarioClinicianNombre}}</label>
             <label class="unassigned-color" *ngIf="solicitud.usuarioClinicianNombre == 'Unassigned'">Unassigned</label>  
+          </div>
+          <div>
+            <label *ngIf="solicitud.idUsuarioTraductor != 0">{{solicitud.usuarioTraductorNombre}} as a traslator</label>
           </div>
         </div>
 
@@ -672,11 +686,6 @@
             <h4 style="margin: 0; ">Actions</h4>
           </div>
 
-          <!--  MASTER, VENDOR, BACKOFFICE, GHOSTRITING -->
-
-          <!-- ng anterior quitar si ya funciona bien el nuevo
-          *ngIf="solicitud.idEstatusSolicitud != 11 && (isBackOffice || isMaster || isVendor || isGhostwriting) && solicitud.usuarioInterview != 0 " 
- -->
           <button (click)='siguienteProceso()' class="btn-color"
             *ngIf="solicitud.idEstatusSolicitud != 11 && (isBackOffice || isMaster || isVendor || isGhostwriting) && solicitud.finIntIni && solicitud.finIntSc && ( solicitud.finAsgClnc || solicitud.idRolUsInt == 11 ) && solicitud.finAsgTmp  "
             style="color: #FFFFFF; background: #9340D3;">
@@ -749,6 +758,13 @@
             style="color: #FFFFFF;background: #D34272; ">
             <span style="color: #FFFFFF; font-size: 13px;">Closed</span>
             <mat-icon svgIcon="completeD"
+              style="color: rgba(255, 255, 255, 0.7); width: 14px;  vertical-align: middle;"></mat-icon>
+          </button>
+
+           <button (click)='cambiarEstatusSolicitud(10)' *ngIf="(solicitud.idEstatusSolicitud == 2 ||solicitud.idEstatusSolicitud == 3) && (isMaster || isBackOffice) && (!solicitud.finIntIni || !solicitud.finIntSc || !solicitud.finAsgClnc) " class="btn-color"
+            style="color: #FFFFFF;background: #ad3d86; ">
+            <span style="color: #FFFFFF; font-size: 13px;">Finish to Ready on Draft</span>
+            <mat-icon svgIcon="reopenD"
               style="color: rgba(255, 255, 255, 0.7); width: 14px;  vertical-align: middle;"></mat-icon>
           </button>
 
@@ -899,6 +915,7 @@
 
         <div style="margin: 0; display:flex; flex-flow: column;"
           *ngIf="solicitud.idEstatusSolicitud == 11 && (isMaster || isBackOffice)">
+
           <div class="div-img-label" style="margin-top: 15px;">
             <mat-icon svgIcon="playD"
               style="color: rgba(0, 0, 0, 0.7); width: 14px;  vertical-align: middle;"></mat-icon>
@@ -911,9 +928,9 @@
               style="color: rgba(255, 255, 255, 0.7); width: 14px;  vertical-align: middle;"></mat-icon>
           </button>
 
-          <button (click)='cambiarEstatusSolicitud(9)' class="btn-color" *ngIf="false"
+          <button (click)='cambiarEstatusSolicitud(9)' *ngIf="solicitud.lostFile && (isMaster || isBackOffice)" class="btn-color"
             style="color: #FFFFFF;background: #319757; ">
-            <span style="color: #FFFFFF; font-size: 13px;">Open</span>
+            <span style="color: #FFFFFF; font-size: 13px;">Reopen</span>
             <mat-icon svgIcon="reopenD"
               style="color: rgba(255, 255, 255, 0.7); width: 14px;  vertical-align: middle;"></mat-icon>
           </button>

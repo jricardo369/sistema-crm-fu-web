@@ -34,4 +34,5 @@ export class SolicitudList {
     asignacionIntSc: boolean;
     tieneScale: boolean;
     usuarioCreacion: string;
+    tiposPagosRealizados: string;
 }

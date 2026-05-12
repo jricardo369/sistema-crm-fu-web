@@ -98,6 +98,10 @@ export class ConfiguracionesComponent {
   vocAdminMail: string = "";
   vocAdminMailOld: string = "";
 
+  cambiandoDiasParaRecordatorioProsAbo: boolean = false;
+  diasParaRecordatorioProsAbo: number = 0;
+  diasParaRecordatorioProsAboOld: number = 0;
+
   constructor(
     private router: Router,
     private configuracionService: ConfiguracionService,
@@ -196,6 +200,12 @@ export class ConfiguracionesComponent {
           this.vocAdminMail = this.arrConfiguraciones[index].valor;
           this.vocAdminMailOld = this.vocAdminMail;
           break;
+
+           case 28:
+          this.diasParaRecordatorioProsAbo = Number(this.arrConfiguraciones[index].valor);
+          this.diasParaRecordatorioProsAboOld = this.diasParaRecordatorioProsAbo;
+          break;
+
         default:
           break;
       }
@@ -258,6 +268,9 @@ export class ConfiguracionesComponent {
         break;
        case 24:
         this.configuracion.valor = this.vocAdminMail.toString();
+        break;
+        case 28:
+        this.configuracion.valor = this.diasParaRecordatorioProsAbo.toString();
         break;
 
       default:
@@ -340,6 +353,10 @@ export class ConfiguracionesComponent {
               this.vocAdminMailOld = this.vocAdminMail;
               this.cambiendoVOCAdminMail = false;
               break;
+              case 28:
+              this.diasParaRecordatorioProsAboOld = this.diasParaRecordatorioProsAbo;
+              this.cambiandoDiasParaRecordatorioProsAbo = false;
+              break;
             default:
               break;
           }
@@ -420,6 +437,11 @@ export class ConfiguracionesComponent {
          case 24:
         this.cambiendoVOCAdminMail = false;
         this.vocAdminMail = this.vocAdminMailOld;
+        break;
+
+        case 28:
+        this.cambiandoDiasParaRecordatorioProsAbo = false;
+        this.diasParaRecordatorioProsAbo = this.diasParaRecordatorioProsAboOld;
         break;
 
       default:

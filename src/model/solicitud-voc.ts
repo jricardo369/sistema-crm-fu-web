@@ -17,7 +17,7 @@ export class SolicitudVoc {
   estatusSolicitud: string;
   estatusPago: string;
   age: string;
-  importante: string;
+  importantNotes: string;
   comentario: string;
   fechaNacimiento: Date | string;
   adicional: string;

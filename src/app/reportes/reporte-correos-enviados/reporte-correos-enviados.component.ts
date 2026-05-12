@@ -36,6 +36,8 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class ReporteCorreosEnviadosComponent implements OnInit {
 
+  expandedRow: number | null = null;
+
   cargando: boolean = false;
 
   arrReporteCorreosEnviados: ReporteCorreosEnviados[] = [];

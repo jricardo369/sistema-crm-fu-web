@@ -9,6 +9,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute } from "@angular/router";
 import { TiposPagoService } from "src/app/services/tipos-pago.service";
 import { TiposSolicitudService } from "src/app/services/tipos-solicitud.service";
+import { EventoSolicitudVocService } from "src/app/services/evento-solicitud-voc.service";
 import { UtilService } from "src/app/services/util.service";
 import { TipoPago } from "src/model/tipo-pago";
 import { TipoSolicitud } from "src/model/tipo-solicitud";
@@ -36,7 +37,9 @@ import { CommonModule, NgClass, AsyncPipe } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 
 import { MatIconModule } from '@angular/material/icon';
+
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { DialogoCambioSesionesComponent } from 'src/app/voc/dialogo-cambio-sesiones/dialogo-cambio-sesiones.component';
 
 import { DateMMDDYYYYPipe } from 'src/app/common/pipes/date-pipe.pipe';
 import { DatePipe } from '@angular/common';
@@ -48,13 +51,15 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { EventoSolicitud } from 'src/model/evento-solicitud';
 
 @Component({
   standalone: true,
   imports: [RouterModule,FormsModule,AdjuntosVocComponent,EventosSolicitudVocComponent,CitasSolicitudComponent
       ,WorkspaceNavComponent,ExperimentalMenuComponent,
         CommonModule,NgClass,MatIconModule,MatDialogModule,MatProgressSpinnerModule,SolicitudesNavComponent,DateMMDDYYYYPipe,
-       MatDatepickerModule,MatNativeDateModule,MatFormFieldModule,MatInputModule],
+       MatDatepickerModule,MatNativeDateModule,MatFormFieldModule,MatInputModule,
+       DialogoCambioSesionesComponent],
   selector: "app-solicitud-voc",
   templateUrl: "./solicitud-voc.component.html",
   styleUrls: ["./solicitud-voc.component.css"],
@@ -72,6 +77,7 @@ export class SolicitudVocComponent implements OnInit {
 
   public arrTipoSolicitud: TipoSolicitud[] = [];
   public inputTipoSolicitud: TipoSolicitud = new TipoSolicitud;
+  public arrEventosSolicitudVoc: EventoSolicitud[] = [];
 
   arrTipoPago: TipoPago[] = [];
   inputTipoPago: TipoPago = new TipoPago;
@@ -119,6 +125,7 @@ export class SolicitudVocComponent implements OnInit {
     route: ActivatedRoute,
     public utilService: UtilService,
     private solicitudesVocService: SolicitudesVocService,
+    private eventoSolicitudVOC: EventoSolicitudVocService,
     private tiposSolicitudService: TiposSolicitudService,
     private tiposPagoService: TiposPagoService,
     private scalesService: ScalesService,
@@ -196,13 +203,12 @@ export class SolicitudVocComponent implements OnInit {
       this.tiposSolicitudService.obtenerTiposSolicitud(),
       //this.tiposPagoService.obtenerTiposPago(),
       this.solicitudesVocService.obtenerSolicitud(idSolicitud, this.usuario.idUsuario),
-      //this.scalesService.obtenerScalesSolicitud(idSolicitud)
+      this.eventoSolicitudVOC.obtenerHistorialSesionesSolicitud(idSolicitud)
     ])
       .then((results) => {
         this.arrTipoSolicitud = results[0];
-        //this.arrTipoPago = results[1];
         this.solicitud = results[1];
-        //this.arrScales = results[3];
+        this.arrEventosSolicitudVoc = results[2];
         this.arrScales.sort((a, b) => b.idScale - a.idScale);
         this.inputTipoSolicitud = this.arrTipoSolicitud[this.arrTipoSolicitud.findIndex(tipo => tipo.idTipoSolicitud == this.solicitud.idTipoSolicitud)];
         //this.inputTipoPago = this.arrTipoPago[this.arrTipoPago.findIndex(tipo => tipo.idTipoPago == this.solicitud.id)];
@@ -546,6 +552,44 @@ export class SolicitudVocComponent implements OnInit {
       this.solicitud.fechaDoc2 = formatearFecha(this.fechaDoc2Mat);
       console.log('Fecha formateada (string):', this.solicitud.fechaDoc2);
     }
+  }
+
+  changeApprovedSessions() {
+
+     this.dialog.open(DialogoCambioSesionesComponent, {
+                  data: {
+                    idSolicitud: this.solicitud.idSolicitud,
+                    titulo: 'Approved Sessions Adjustment',
+                    subtitulo: 'Change number of approved sessions for file '+this.solicitud.idSolicitud,
+                    textoRazon: 'Reason for adjusting approved sessions',
+                    numSesiones: this.solicitud.numSesiones,
+                    textoSesiones: 'Number of Sessions',
+                    tipo: 'ASA'
+                  },
+                  disableClose: true,
+                }).afterClosed().toPromise().then(valor => {
+                  //this.refesh();
+                }).catch(reason => this.utilService.manejarError(reason));
+
+  }
+
+  addTratmentPlan(){
+
+     this.dialog.open(DialogoCambioSesionesComponent, {
+                  data: {
+                    idSolicitud: this.solicitud.idSolicitud,
+                    titulo: 'Additional Treatment Plan',
+                    subtitulo: 'Add sessions per new treatment plan to the file '+this.solicitud.idSolicitud,
+                    textoRazon: 'Reason for the new treatment',
+                    numSesiones: 0,
+                    textoSesiones: 'Number of New Sessions',
+                    tipo: 'ATP'
+                  },
+                  disableClose: true,
+                }).afterClosed().toPromise().then(valor => {
+                  //this.refesh();
+                }).catch(reason => this.utilService.manejarError(reason));
+
   }
 
 }

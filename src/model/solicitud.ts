@@ -71,5 +71,6 @@ export class Solicitud {
   importantNotes: string;
   caseNumber: string;
   signedClnc: boolean;
+  fechaDeCrimen: string;
 
 }

@@ -42,7 +42,8 @@
           </div>
 
           <hr style="max-width:396px;margin-bottom:24px;">
-        <div *ngIf="false">
+        
+          <div *ngIf="false">
           <!-- ================================================== -->
           <!-- REFRESH-TOKEN -->
           <h4 class="title">Refresh token</h4>
@@ -338,6 +339,38 @@
             <label>Cancel</label>
           </button>
           <hr style="max-width:396px;margin-bottom:24px;">
+
+          <!-- DAYS REMINEDER LAWYER PROSPECTS -->
+          <h4 class="title">Days to reminder lawyers prospect</h4>
+          <div class="iigwo-input">
+            <label>Total number of days</label>
+            <input [(ngModel)]="diasParaRecordatorioProsAbo"
+              [attr.readOnly]="cambiandoDiasParaRecordatorioProsAbo ? null : false"
+              (ngModelChange)="diasParaRecordatorioProsAbo" onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+              max="45" maxlength="2">
+            <p style="margin-top: 5px;">Days to reminder lawyers prospect.</p>
+          </div>
+
+          <div style="display: flex; gap: 8px; align-items: center;">
+
+            <button (click)='cambiandoDiasParaRecordatorioProsAbo=true' *ngIf="cambiandoDiasParaRecordatorioProsAbo==false"
+              class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+              <span style="color: #000000; font-size: 13px;">Change number</span>
+            </button>
+          
+            <button (click)='cambiarDato(28)' *ngIf="cambiandoDiasParaRecordatorioProsAbo==true" class="btn-color"
+              style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
+              <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+              <span style="color: #ffffff; font-size: 13px;">Change number</span>
+            </button>
+          
+            <button (click)="cancelarCambio(28)" *ngIf="cambiandoDiasParaRecordatorioProsAbo==true" class="btn-color"
+              style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+              <span style="color: #000000; font-size: 13px;">Cancel</span>
+            </button>
+            
+          </div>
+           <hr style="max-width:396px;margin-bottom:24px;">
            
 
         </div>

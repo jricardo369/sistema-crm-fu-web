@@ -2,7 +2,9 @@ import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/comm
 import { Injectable } from '@angular/core';
 import { Abogado } from 'src/model/abogado';
 import { API_URL } from '../app.config';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
+import { ReferralSource } from 'src/model/referral-source';
+import { TittleAbogado } from 'src/model/tittle-abogado';
 
 
 @Injectable({
@@ -98,10 +100,10 @@ export class  AbogadosService {
         );
       }
 
-    insertarAbogado(abogado: Abogado,arrEmailAbogadosN: string[],idUsuario: number): Promise<Abogado> {
+    insertarAbogado(abogado: Abogado,idUsuario: number,idProspectoAbogado: number,idSolicitud: number): Promise<Abogado> {
         this.abogadoPromise = new Promise((resolve, reject) =>
           this.http
-            .post(API_URL + "abogados?emailsAbogado="+arrEmailAbogadosN+"&idUsuario="+idUsuario, abogado, {
+            .post(API_URL + "abogados?idUsuario="+idUsuario+"&idProspectoAbogado="+idProspectoAbogado+"&idSolicitud="+idSolicitud, abogado, {
               withCredentials: true,
               observe: "response",
               headers: new HttpHeaders()
@@ -172,5 +174,23 @@ export class  AbogadosService {
         );
       
         }
+
+      obtenerReferralSource(): Observable<ReferralSource[]> {
+      
+              const url = API_URL + "abogados/fuentes-de-referencia";
+      
+              return this.http.get<ReferralSource[]>(url, {
+                  withCredentials: true,
+                  headers: new HttpHeaders({
+                      'Authorization': localStorage.getItem('auth_token') || ''
+                  })
+              }).pipe(
+                  catchError(error => {
+                      console.error('Error:', error);
+                      return of([]); // Devuelve array vacío en errores
+                  })
+              );
+      
+          }
 
 }

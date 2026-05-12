@@ -1,0 +1,18 @@
+<h2 style="font-family: regular;color:#75518c" mat-dialog-title>New Note</h2>
+
+<mat-dialog-content style="padding-right: 12px;">
+
+  <div style="width: 450px;">
+
+    <div class="iigwo-input">
+      <label>Write the note</label>
+      <textarea [(ngModel)]="notaProspectoAbogado.descripcion" style="min-width: 100%;"></textarea>
+    </div>
+
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button class="iigwo" style="margin-left:auto;" (click)="cerrar()">Close</button>
+  <button class="iigwo accent" style="margin-right:0;" (click)="crear()">Save</button>
+</mat-dialog-actions>

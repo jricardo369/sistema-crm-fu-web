@@ -168,6 +168,7 @@
                   <div *ngIf="!c.finSchedule" class="div-img-label">
                     <p style="color:#d04d21">Not attended</p>
                   </div>
+                  <span class="cita-estatus estatus-badge badge-right translator" *ngIf="c.citaTraductor">As a translator</span>
                 </div>
                 <div *ngIf="isTherapist">
                   <div *ngIf="c.tieneNota" class="div-img-label">
@@ -220,22 +221,6 @@
           <div class="cita" *ngFor="let c of citas.lunes" style="border-color:gray; position: relative;"
             [style.border-top-color]="c.color ? c.color : '#00000033'">
 
-            <!--<img
-              *ngIf="!c.finSchedule && c?.importante?.length == 0 && (isInterviewer || isInterviewerScales || isClinician) && !filterViewAvalability"
-              src="assets/svg/reminder.svg" width="11" height="11" style="position: absolute; top: 4px; right: 4px;" (click)="enviarRecordatorio(c)" />
-
-            <div *ngIf="c?.importante?.length > 0">
-              <img src="assets/svg/reminder.svg"
-                *ngIf="!c.finSchedule && (isInterviewer || isInterviewerScales || isClinician) && !filterViewAvalability" width="11" height="11"
-                style="position: absolute; top: 4px; right: 16px;" (click)="enviarRecordatorio(c)" />
-
-              <svg *ngIf="c?.importante?.length > 0" width="9" height="9"
-                style="position: absolute; top: 4px; right: 4px;">
-                <circle cx="4" cy="4" r="4" [attr.fill]="'red'"></circle>
-              </svg>
-
-            </div>-->
-
             <svg *ngIf="c?.importante?.length > 0" width="9" height="9"
               style="position: absolute; top: 4px; right: 4px;">
               <circle cx="4" cy="4" r="4" [attr.fill]="'red'"></circle>
@@ -279,6 +264,7 @@
                   <div *ngIf="!c.finSchedule" class="div-img-label">
                     <p style="color:#d04d21">Not attended</p>
                   </div>
+                  <span class="cita-estatus estatus-badge badge-right translator" *ngIf="c.citaTraductor">As a translator</span>
                 </div>
                 <div *ngIf="isTherapist">
                   <div *ngIf="c.tieneNota" class="div-img-label">
@@ -363,6 +349,7 @@
                   <div *ngIf="!c.finSchedule" class="div-img-label">
                     <p style="color:#d04d21">Not attended</p>
                   </div>
+                  <span class="cita-estatus estatus-badge badge-right translator" *ngIf="c.citaTraductor">As a translator</span>
                 </div>
                 <div *ngIf="isTherapist">
                   <div *ngIf="c.tieneNota" class="div-img-label">
@@ -445,6 +432,7 @@
                   <div *ngIf="!c.finSchedule" class="div-img-label">
                     <p style="color:#d04d21">Not attended</p>
                   </div>
+                  <span class="cita-estatus estatus-badge badge-right translator" *ngIf="c.citaTraductor">As a translator</span>
                 </div>
                 <div *ngIf="isTherapist">
                   <div *ngIf="c.tieneNota" class="div-img-label">
@@ -526,6 +514,7 @@
                   <div *ngIf="!c.finSchedule" class="div-img-label">
                     <p style="color:#d04d21">Not attended</p>
                   </div>
+                  <span class="cita-estatus estatus-badge badge-right translator" *ngIf="c.citaTraductor">As a translator</span>
                 </div>
                 <div *ngIf="isTherapist">
                   <div *ngIf="c.tieneNota" class="div-img-label">
@@ -607,6 +596,7 @@
                   <div *ngIf="!c.finSchedule" class="div-img-label">
                     <p style="color:#d04d21">Not attended</p>
                   </div>
+                  <span class="cita-estatus estatus-badge badge-right translator" *ngIf="c.citaTraductor">As a translator</span>
                 </div>
                 <div *ngIf="isTherapist">
                   <div *ngIf="c.tieneNota" class="div-img-label">
@@ -688,6 +678,7 @@
                   <div *ngIf="!c.finSchedule" class="div-img-label">
                     <p style="color:#d04d21">Not attended</p>
                   </div>
+                  <span class="cita-estatus estatus-badge badge-right translator" *ngIf="c.citaTraductor">As a translator</span>
                 </div>
                 <div *ngIf="isTherapist">
                   <div *ngIf="c.tieneNota" class="div-img-label">
@@ -770,6 +761,7 @@
                   <div *ngIf="!c.finSchedule" class="div-img-label">
                     <p style="color:#d04d21">Not attended</p>
                   </div>
+                  <span class="cita-estatus estatus-badge badge-right translator" *ngIf="c.citaTraductor">As a translator</span>
                 </div>
                 <div *ngIf="isTherapist">
                   <div *ngIf="c.tieneNota" class="div-img-label">
@@ -872,6 +864,8 @@
                           <span class="cita-estatus estatus-badge badge-right not-attended" *ngIf="!cita.finSchedule">Not
                             Attd.</span>
                           <span class="cita-estatus estatus-badge badge-right attended" *ngIf="cita.finSchedule">Attd.</span>
+
+                           <span class="cita-estatus estatus-badge badge-right translator" *ngIf="cita.citaTraductor">As a translator</span>
                         </div>
             
                         <div class="badges-left" *ngIf="isTherapist">

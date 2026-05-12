@@ -5,7 +5,7 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SessionService } from 'src/app/services/session.service';
 import { UtilService } from 'src/app/services/util.service';
-import { BACKOFFICE, INTERVIEWER, INTERVIEWER_SCALES, THERAPIST, VENDOR,VOC,TEMPLATE_CREATOR,CLINICIAN,ADMINISTRATOR,MARKETING } from 'src/app/app.config';
+import { BACKOFFICE, INTERVIEWER, INTERVIEWER_SCALES, THERAPIST, VENDOR,VOC,TEMPLATE_CREATOR,CLINICIAN,ADMINISTRATOR,MARKETING, MARKETING_REV,DIG_MAR_MAN } from 'src/app/app.config';
 import { MASTER } from '../../app.config';
 import { WorkspaceNavComponent } from 'src/app/common/workspace-nav/workspace-nav.component';
 import { ExperimentalMenuComponent } from 'src/app/common/experimental-menu/experimental-menu.component';
@@ -95,20 +95,22 @@ export class InicioComponent implements OnInit {
 
             console.log('entro a inicio y vera a donde inicia');
             if ([MASTER, VENDOR, BACKOFFICE, INTERVIEWER, INTERVIEWER_SCALES, THERAPIST, CLINICIAN].some(rol => rol == usuario.rol)) {
-                console.log('inicio en /solicitudes/citas');
               this.router.navigateByUrl('/solicitudes/citas');
             }
             if ([VOC,TEMPLATE_CREATOR].some(rol => rol == usuario.rol)) {
-                console.log('inicio en /solicitudes');
                 this.router.navigateByUrl('/solicitudes');
               }
              if ([ADMINISTRATOR].some(rol => rol == usuario.rol)) {
-                console.log('inicio en /administracion-general/usuarios');
                 this.router.navigateByUrl('/administracion-general/usuarios');
               }
               if ([MARKETING].some(rol => rol == usuario.rol)) {
-                console.log('inicio en /administracion-general/usuarios');
-                this.router.navigateByUrl('/administracion-general/usuarios');
+                this.router.navigateByUrl('/marketing/lawyers-prospects');
+              }
+              if ([MARKETING_REV].some(rol => rol == usuario.rol)) {
+                this.router.navigateByUrl('/marketing/lawyers-prospects');
+              }
+              if ([DIG_MAR_MAN].some(rol => rol == usuario.rol)) {
+                this.router.navigateByUrl('/marketing/lawyers-prospects');
               }
               
         }).then(() => this.loading = false);

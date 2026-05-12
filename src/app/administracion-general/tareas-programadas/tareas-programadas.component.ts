@@ -66,6 +66,14 @@ export class TareasProgramadasComponent {
   activoVocEndSession: boolean = false;
   activoVocEndSessionOld: boolean = false;
 
+  cambiandoRemLawPros: boolean = false;
+  remLawPros: string = '00:00';
+  remLawProsOld: string = '00:00';
+  tituloRemLawProsOld: string = '00:00';
+  subtituloRemLawProsOld: string = '00:00';
+  activoRemLawPros: boolean = false;
+  activoRemLawProsOld: boolean = false;
+
   constructor(public tareasService: TareasProgramadasService,
     public utilService: UtilService) {
     this.obtenerTareas();
@@ -123,6 +131,14 @@ export class TareasProgramadasComponent {
           this.activoVocEndSession = this.arrTareas[index].activo;
           this.activoVocEndSessionOld = this.activoVocEndSession;
           break;
+        case 5:
+          this.remLawPros = this.arrTareas[index].hora;
+          this.remLawProsOld = this.remLawPros;
+          this.tituloRemLawProsOld = this.arrTareas[index].titulo;
+          this.subtituloRemLawProsOld = this.arrTareas[index].subtitulo;
+          this.activoRemLawPros = this.arrTareas[index].activo;
+          this.activoRemLawProsOld = this.activoRemLawPros;
+          break;
         default:
           break;
       }
@@ -135,6 +151,7 @@ export class TareasProgramadasComponent {
     this.tarea.idTareaProgramada = caso;
     this.tarea.codigo = this.arrTareas[caso - 1].codigo;
     this.tarea.titulo = this.arrTareas[caso - 1].titulo;
+    this.tarea.subtitulo = this.arrTareas[caso - 1].subtitulo;
     this.tarea.fechaModificacion = fecha.toString();
     switch (caso) {
       case 1:
@@ -154,6 +171,10 @@ export class TareasProgramadasComponent {
       case 4:
         this.tarea.hora = this.horaVocEndSession;
         this.tarea.activo = this.activoVocEndSession;
+        break;
+      case 5:
+        this.tarea.hora = this.remLawPros;
+        this.tarea.activo = this.activoRemLawPros;
         break;
       default:
         break;
@@ -183,6 +204,10 @@ export class TareasProgramadasComponent {
             case 4:
               this.horaVocEndSessionOld = this.horaVocEndSession;
               this.cambiandoVocEndSession = false;
+              break;
+            case 5:
+              this.remLawProsOld = this.remLawPros;
+              this.cambiandoRemLawPros = false;
               break;
             default:
               break;
@@ -216,7 +241,11 @@ export class TareasProgramadasComponent {
       case 4:
         this.cambiandoVocEndSession = false;
         this.horaVocEndSession = this.horaVocEndSessionOld;
-        break
+        break;
+      case 5:
+        this.cambiandoRemLawPros = false;
+        this.remLawPros = this.remLawProsOld;
+        break;
       default:
         break;
     }

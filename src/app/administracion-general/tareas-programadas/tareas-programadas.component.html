@@ -199,6 +199,56 @@
           <span style="color: #000000; font-size: 13px;">Cancel</span>
         </button>
       </div>
+
+       <!-- ================================================== -->
+
+      <hr style="max-width:396px;margin-bottom:24px;">
+
+      <!-- ================================================== -->
+
+      <h4 class="title">{{tituloRemLawProsOld}}</h4>
+      
+      <div class="iigwo-input">
+        <input [(ngModel)]="remLawPros" type="time"
+          [attr.readOnly]="cambiandoRemLawPros ? null : false">
+        <p style="margin-top: 5px;">{{subtituloRemLawProsOld}}</p>
+      </div>
+
+      <div class="iigwo-input" style="margin: 0;" >
+            <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 0;"
+              [checked]="activoRemLawPros" [(ngModel)]="activoRemLawPros">
+            <label 
+              style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Active</label>
+          </div>
+
+      <div style="display: flex; gap: 8px; align-items: center;">
+
+        <button (click)='cambiandoRemLawPros=true' *ngIf="cambiandoRemLawPros==false"
+          class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+          <span style="color: #000000; font-size: 13px;">Change time</span>
+        </button>
+
+        <button (click)='ejecutarTarea(5)' *ngIf="cambiandoRemLawPros==false" class="btn-color"
+          style="color: #ffffff; background: #41949B;margin-bottom: 5px;">
+          <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+          <span style="color: #ffffff; font-size: 13px;">Execute task</span>
+        </button>
+      
+        <button (click)='cambiarDato(5)' *ngIf="cambiandoRemLawPros==true" class="btn-color"
+          style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
+          <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+          <span style="color: #ffffff; font-size: 13px;">Change time</span>
+        </button>
+      
+        <button (click)="cancelarCambio(5)" *ngIf="cambiandoRemLawPros==true" class="btn-color"
+          style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+          <span style="color: #000000; font-size: 13px;">Cancel</span>
+        </button>
+      </div>
+
+       <!-- ================================================== -->
+
+      <hr style="max-width:396px;margin-bottom:24px;">
      
     </div>
   </div>

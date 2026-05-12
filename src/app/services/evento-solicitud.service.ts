@@ -65,6 +65,8 @@ export class EventoSolicitudService {
     );
   }
 
+  
+
   cancelarCita(idEventoSeleccionado: string, idUsuario: number, motivo: string): Promise<any> {
     return new Promise<any>((resolve, reject) =>
       this.http

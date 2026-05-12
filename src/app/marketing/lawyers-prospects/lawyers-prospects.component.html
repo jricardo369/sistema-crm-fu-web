@@ -1,0 +1,270 @@
+<app-workspace-nav>
+  <app-marketing-nav></app-marketing-nav>
+</app-workspace-nav>
+<div class="workspace">
+  <div class="main">
+
+    <app-experimental-menu titulo="Lawyers Prospects" (eventoMenu)="eventoMenu($event)">
+
+      <!--<button (click)='botonRefrescar()' class="btn"
+        style="color: #FFFFFF;background: #f3c956; border-radius: 5px; height: 20px; line-height: 20px;">
+        <mat-icon svgIcon="refresh"
+          style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+        <label style="margin: auto;color: #FFFFFF;text-transform: none;">Refresh</label>
+      </button>-->
+
+      <button (click)='crearProspectoAbogado()' *ngIf="isMarketing" class="btn"
+        style="color: #FFFFFF;background: #239B56; border-radius: 5px; height: 20px; line-height: 20px;">
+        <mat-icon svgIcon="add-box"
+          style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+        <label style="margin: auto;color: #FFFFFF;text-transform: none;">Create Lawyer Prospect</label>
+      </button>
+
+      <div class="iigwo-input" style="margin-bottom: 0px;">
+        <select [(ngModel)]="filterClosedS" [ngModelOptions]="{standalone: true}" style="font-size: 12px;height: 20px;">
+          <option *ngFor="let e of arrFilterClosed" [ngValue]="e">
+            {{e}}</option>
+        </select>
+      </div>
+
+    </app-experimental-menu>
+
+    <div class='content'>
+
+       <!-- FILTRO -->
+      <div class="container" style="margin-top: -5px;">
+        <div class="left">
+          <div style="display: inline-flex;">
+      
+
+            <div class="iigwo-input">
+              <label>Start Date</label>
+              <mat-form-field appearance="outline" class="custom-datepicker">
+                <input matInput [matDatepicker]="startPicker" [(ngModel)]="filterStartDateMat" (dateChange)="onStartDateChange()">
+                <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                <mat-datepicker #startPicker></mat-datepicker>
+              </mat-form-field>
+            </div> 
+
+            <div class="iigwo-input">
+              <label>End Date</label>
+              <mat-form-field appearance="outline" class="custom-datepicker">
+                <input matInput [matDatepicker]="endPicker" [(ngModel)]="filterEndDateMat" (dateChange)="onEndDateChange()">
+                <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                <mat-datepicker #endPicker></mat-datepicker>
+              </mat-form-field>
+            </div> 
+
+            <div class="iigwo-input">
+              <label>State</label>
+              <select [(ngModel)]="inputState" [ngModelOptions]="{standalone: true}">
+                <option *ngFor="let state of arrStates" [ngValue]="state.abbreviation">
+                  {{state.abbreviation}}</option>
+              </select>
+            </div>
+
+             <div class="iigwo-input">
+                  <label>Phone</label>
+                 <input type="tel" inputmode="numeric" autocomplete="tel" [(ngModel)]="inputPhone">
+              </div>
+
+              <div class="iigwo-input">
+                  <label>Law Firm or Contact Name</label>
+                 <input type="text" [(ngModel)]="inputLawFirmOrContactName">
+              </div>
+
+              <div class="iigwo-input">
+                  <label>Email</label>
+                 <input type="text" [(ngModel)]="inputEmail">
+              </div>
+
+               <button (click)='botonRefrescar()' class="btn-color" style="color: #ffffff; background: #8837a2;margin-top: 18px;">
+              <mat-icon svgIcon="searchD" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+              <span style="color: #ffffff; font-size: 13px;">Explore</span>
+            </button>
+
+            <button (click)='advancedFiltersFn()' class="btn-color" style="color: #ffffff; background: #d19be3;margin-top: 18px;">
+              <mat-icon svgIcon="settings" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+              <span style="color: #ffffff; font-size: 13px;">Advanced filters</span>
+            </button>
+
+               <button (click)='limpiarFiltros()' class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-top: 18px;">
+              <span style="color: #000000; font-size: 13px;">Clear all filters</span>
+            </button>
+
+            <button (click)='limpiarFechas()' class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-top: 18px;">
+              <span style="color: #000000; font-size: 13px;">Clear dates</span>
+            </button>
+
+          </div>
+
+          <div class="container" style="margin-top:-5px" *ngIf="advancedFilters">
+            <div class="left">
+              <div style="display: inline-flex;">
+          
+                <div class="iigwo-input-compact">
+                  <label>Mail package received</label>
+                  <select [(ngModel)]="inputMailPackageReceived" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
+                    <option *ngFor="let e of arrFilterYesNo" [ngValue]="e.value">
+                      {{e.display}}</option>
+                  </select>
+                </div>
+          
+                <div class="iigwo-input-compact">
+                  <label>Email sent</label>
+                  <select [(ngModel)]="inputEmailSent" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
+                    <option *ngFor="let e of arrFilterYesNo" [ngValue]="e.value">
+                      {{e.display}}</option>
+                  </select>
+                </div>
+
+                <div class="iigwo-input-compact" *ngIf="isMarketingRev || isDigitalMarketingManager">
+                  <label>20%</label>
+                  <select [(ngModel)]="input20Porcent" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
+                    <option *ngFor="let e of arrFilterYesNo" [ngValue]="e.value">
+                      {{e.display}}</option>
+                  </select>
+                </div>
+
+                <div class="iigwo-input-compact" *ngIf="isMarketingRev || isDigitalMarketingManager">
+                  <label>Follow up 20%</label>
+                  <select [(ngModel)]="inputFollowUp20Porcent" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
+                    <option *ngFor="let e of arrFilterYesNo" [ngValue]="e.value">
+                      {{e.display}}</option>
+                  </select>
+                </div>
+
+                <div class="iigwo-input-compact" *ngIf="isMarketingRev || isDigitalMarketingManager">
+                  <label>Prospect sent client</label>
+                  <select [(ngModel)]="inputProspectSentClient" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
+                    <option *ngFor="let e of arrFilterYesNo" [ngValue]="e.value">
+                      {{e.display}}</option>
+                  </select>
+                </div>
+          
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div style="display:flex; flex-flow: column; overflow: auto;">
+        <table class='big' *ngIf="prospectosAbogadoList.length > 0">
+          <tr>
+            <th class=''>Id</th>
+            <th class=''>Date</th>
+            <th class=''>Law Firm</th>
+            <th class=''>Contact name</th>
+            <th class=''>Phone</th>
+            <th class=''>Email(s)</th>
+            <th class=''>State</th>
+            <th class='' *ngIf="isMarketing || isDigitalMarketingManager">Mail package received</th>
+            <th class='' *ngIf="isMarketing || isDigitalMarketingManager">Email sent</th>
+            <th class='' *ngIf="isMarketingRev || isDigitalMarketingManager">20%</th>
+            <th class='' *ngIf="isMarketingRev || isDigitalMarketingManager">Follow up 20%</th>
+            <th class='' *ngIf="isMarketingRev || isDigitalMarketingManager">Prospect sent client</th>
+            <th class=''>Status</th>
+          </tr>
+
+          <tr *ngFor="let p of prospectosAbogadoList | slice:paginacion.begin:paginacion.end">
+            <td class='accent'><a [routerLink]="['/marketing/lawyer-prospect', p.idProspectoAbogado]"><mat-icon svgIcon="numberFlagD"
+                  style="color:rgba(0, 0, 0, 0.7); width: 11px; margin-bottom: -7px;"></mat-icon>{{ p.idProspectoAbogado }}</a></td>
+            <td class='accent'>{{ p.fechaAlta | dateMMDDYYYY}}</td>
+            <td class='accent'>{{ p.firma }}</td>
+            <td class='accent'>{{ p.nombre }}</td>
+            <td class='accent'><mat-icon svgIcon="phoneD" *ngIf="p.telefono != null && p.telefono != ''"
+                  style="color:rgba(0, 0, 0, 0.7); width: 13px; height: 13px;margin-bottom: -2px;margin-right: 2px;"></mat-icon>
+                  {{ p.telefono | phone }}</td>
+            <td class='accent'>
+              <mat-icon svgIcon="emailD" *ngIf="p.email != null && p.email != ''"
+                  style="color:rgba(0, 0, 0, 0.7); width: 13px; height: 13px;margin-bottom: -2px;"></mat-icon>
+                  {{ p.emails }}</td>
+            <td class='accent'>{{ p.estado }}</td>
+            <td style="font-size: 11.5px;" class='accent' *ngIf="isMarketing || isDigitalMarketingManager">
+                <mat-icon svgIcon="okD" *ngIf="p.mailPackageReceived"
+                  style="width: 15px; height: 15px;"></mat-icon>
+                 <mat-icon svgIcon="cancel" *ngIf="!p.mailPackageReceived"
+                  style="width: 15px; height: 15px; color: rgb(211, 146, 26);"></mat-icon>
+            </td>
+            <td style="font-size: 11.5px;" class='accent' *ngIf="isMarketing || isDigitalMarketingManager">
+                <mat-icon svgIcon="okD" *ngIf="p.envioCorreo"
+                  style="width: 15px; height: 15px;"></mat-icon>
+                 <mat-icon svgIcon="cancel" *ngIf="!p.envioCorreo"
+                  style="width: 15px; height: 15px; color: rgb(211, 146, 26);"></mat-icon>
+            </td>
+            <td style="font-size: 11.5px;" class='accent' *ngIf="isMarketingRev || isDigitalMarketingManager">
+                <mat-icon svgIcon="okD" *ngIf="p.porcentaje1"
+                  style="width: 15px; height: 15px;"></mat-icon>
+                 <mat-icon svgIcon="cancel" *ngIf="!p.porcentaje1"
+                  style="width: 15px; height: 15px; color: rgb(211, 146, 26);"></mat-icon>
+            </td>
+            <td style="font-size: 11.5px;" class='accent' *ngIf="isMarketingRev || isDigitalMarketingManager">
+                <mat-icon svgIcon="okD" *ngIf="p.porcentaje2"
+                  style="width: 15px; height: 15px;"></mat-icon>
+                 <mat-icon svgIcon="cancel" *ngIf="!p.porcentaje2"
+                  style="width: 15px; height: 15px; color: rgb(211, 146, 26);"></mat-icon>
+            </td>
+            <td style="font-size: 11.5px;" class='accent' *ngIf="isMarketingRev || isDigitalMarketingManager">
+                <mat-icon svgIcon="okD" *ngIf="p.idAbogadoRelacionado != 0"
+                  style="width: 15px; height: 15px;"></mat-icon>
+                 <mat-icon svgIcon="cancel" *ngIf="p.idAbogadoRelacionado == 0"
+                  style="width: 15px; height: 15px; color: rgb(211, 205, 26);"></mat-icon>
+                  <span style="margin-left: 5px; margin-bottom: 3px;">{{p.fechaEnvioCliente}}</span>
+            </td>
+            <td style="text-align: left;"
+              *ngIf="!(isInterviewer || isTemplateCreator || isVOC || isInterviewerScales || isClinician)">
+            
+              <span class="badge-status" style="margin: 0;" [ngClass]="{
+                                    'badge-color-lawyer-prospect-prospect': p.idEstatusProspecto == 1,
+                                    'badge-color-lawyer-prospect-interested': p.idEstatusProspecto == 2,
+                                    'badge-color-lawyer-prospect-not-interested': p.idEstatusProspecto == 3,
+                                    'badge-color-lawyer-prospect-successful': p.idEstatusProspecto == 4,
+                                    'badge-color-lawyer-prospect-closed': p.idEstatusProspecto == 5
+                                  }">{{p.estatusProspecto}}
+              </span>
+            </td>
+          </tr>
+
+          <tr>
+            <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
+              <label>Records per page</label>
+              <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()"
+                [ngModelOptions]="{standalone: true}" style="margin: 0 8px; font-family: regular; height: 24px;">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+              {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
+              <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+                (click)="paginacion.back();">
+                <mat-icon svgIcon="arrow-back"></mat-icon>
+              </button>
+              <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+                (click)="paginacion.forward();">
+                <mat-icon svgIcon="arrow-forward"></mat-icon>
+              </button>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- MENSAJE DE NO HAY REGISTROS -->
+      <div *ngIf="prospectosAbogadoList.length == 0">
+        <h3 style="margin:12px 0 6px 0">No results</h3>
+        <p style="max-width:396px;">There are no files within the search criteria. Make sure that the names are correct
+          and that they are searching in the appropriate field.</p>
+      </div>
+
+    </div>
+
+    <!--Cargando-->
+    <div class='iigwo-loading' *ngIf="cargando">
+      <mat-spinner></mat-spinner>
+    </div>
+
+  </div>
+
+
+</div>

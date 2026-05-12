@@ -25,7 +25,9 @@
     "buffer": "^6.0.3",
     "core-js": "^3.6.5",
     "cors": "^2.8.5",
+    "echarts": "^6.0.0",
     "ng-multiselect-dropdown": "^0.2.14",
+    "ngx-echarts": "^20.0.2",
     "rxjs": "^7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "0.15.1"

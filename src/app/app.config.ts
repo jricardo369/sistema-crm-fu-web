@@ -2,6 +2,31 @@ export const VERSION_PORTAL = 'Versión 2026.03.05-09:00';
 export const EMPRESA_PORTAL = '© / 2026';
 export const VERSION_WEB = 'V10.0-2';
 
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import { provideEchartsCore } from 'ngx-echarts';
+import * as echarts from 'echarts/core';
+import { BarChart, PieChart } from 'echarts/charts';
+import { GridComponent, TooltipComponent, LegendComponent, TitleComponent } from 'echarts/components';
+import { CanvasRenderer } from 'echarts/renderers';
+
+echarts.use([
+  BarChart,
+  PieChart,
+  GridComponent,
+  TooltipComponent,
+  LegendComponent,
+  TitleComponent,
+  CanvasRenderer
+]);
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideEchartsCore({ echarts }),
+  ]
+};
+
 /*--------------------------------------
 
 PORTAL-DENTAL-QAS
@@ -46,6 +71,8 @@ export const GHOSTWRITING = '9';
 export const THERAPIST = '10';
 export const CLINICIAN = '11';
 export const MARKETING = '12';
+export const MARKETING_REV = '13';
+export const DIG_MAR_MAN = '14';
 
 export const US_STATES = [
   {

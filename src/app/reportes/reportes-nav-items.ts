@@ -38,6 +38,14 @@ export const REPORTES_ITEMS: AppBarNavItem[] = [
   },
   {
     module: REPORTES_MODULE,
+    svgName: 'users-report',
+    title: 'Law Firms Lawyers',
+    subtitle: 'Report of Law Firms Lawyers',
+    uri: 'reportes-abogados',
+    isVisibleFor: u => [MASTER, BACKOFFICE, VOC, VENDOR].some(rol => rol === u.rol)
+  },
+  {
+    module: REPORTES_MODULE,
     svgName: 'comparison',
     title: 'Comparison by Years',
     subtitle: 'Report of files comparison by years',

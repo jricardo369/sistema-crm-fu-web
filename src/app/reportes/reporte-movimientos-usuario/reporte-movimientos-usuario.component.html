@@ -168,6 +168,7 @@
           <th>Email</th>
           <th>Amount</th>
           <th>Paid</th>
+          <th>Payment Type</th>
           <th>Pending Payment</th>
           <th>Details</th>
         </tr>
@@ -188,6 +189,7 @@
             {{e.email}}</td>
           <td class="number">{{e.amount | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</td>
           <td class="number">{{e.pagado | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</td>
+          <td class='accent'>{{e.tipoPago}}</td>
           <td *ngIf="e.adeudo === 0" class="paid"><mat-icon svgIcon="done" style="color: #117a65; width: 15px; height: 15px;"></mat-icon> Paid</td>
           <td *ngIf="e.adeudo !== 0" class="number" style="color:red">{{e.adeudo | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</td>
           <td style="padding-top: 0; padding-bottom: 0;">

@@ -41,6 +41,11 @@ export const routes: Routes = [
       .then(m => m.REPORTES_ROUTES)
   },
   {
+    path: 'marketing',
+    loadChildren: () => import('src/app/marketing/marketing.routes')
+      .then(m => m.MARKETING_ROUTES)
+  },
+  {
     path: 'solicitudes',
     loadChildren: () => import('src/app/solicitudes/solicitudes.routes')
       .then(m => m.getSolicitudesRoutes())

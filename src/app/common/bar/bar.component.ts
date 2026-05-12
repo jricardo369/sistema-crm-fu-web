@@ -90,9 +90,11 @@ export class BarComponent {
         this.usuariosService
             .obtenerUsuarioPorUsuario(localStorage.getItem('usuario'))
             .then(u => {
-                this.usuariosService
-                    .obtenerUsuarioPorIdObj(u.idUsuario)
-                    .then(u => {
+
+                //this.usuariosService
+                    //.obtenerUsuarioPorIdObj(u.idUsuario)
+                    //.then(u => {
+
                         this.usuario = u;
                         /*this.usuario.rol.forEach(rol => {
                             rol.descripcion = rol.descripcion.toUpperCase();
@@ -140,11 +142,12 @@ export class BarComponent {
                         // i18n.translate(null, this.pantallaItems);
 
                         this.filteredModuloItems = this.moduloItems.filter(e => true);
-                    })
-                    .catch(reason => {
-                        this.utilService.manejarError(reason);
-                        this.logout()
-                    });
+
+                    //})
+                    //.catch(reason => {
+                    //    this.utilService.manejarError(reason);
+                    //    this.logout()
+                    //});
             })
             .catch(reason => {
                 this.utilService.manejarError(reason);

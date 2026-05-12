@@ -6,6 +6,7 @@ import { ReporteMovimientosUsuarioComponent } from 'src/app/reportes/reporte-mov
 import { HomeComponent } from 'src/app/reportes/home/home.component';
 import { ReporteComparacionAniosComponent } from 'src/app/reportes/reporte-comparacion-anios/reporte-comparacion-anios.component';
 import { ReporteDashboardComponent } from 'src/app/reportes/reporte-dashboard/reporte-dashboard.component';
+import { ReportesAbogadosComponent } from 'src/app/reportes/reportes-abogados/reportes-abogados.component';
 
 export const REPORTES_ROUTES: Routes = [
   { 
@@ -36,5 +37,13 @@ export const REPORTES_ROUTES: Routes = [
     path: '', 
     pathMatch: 'full', 
     redirectTo: '/reportes/home' 
+  },
+  { 
+    path: 'reportes-abogados', 
+    component: ReportesAbogadosComponent 
+  },
+  { 
+    path: 'reportes-abogados/:id', 
+    component: ReportesAbogadosComponent 
   }
 ];

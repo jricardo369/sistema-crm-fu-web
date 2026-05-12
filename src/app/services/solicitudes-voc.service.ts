@@ -30,7 +30,7 @@ export class SolicitudesVocService {
     );
   }
 
-  SolicitudesVocService
+  
 
   obtenerSolicitudesUsuario(idUsuario: number): Promise<SolicitudVoc[]> {
     return new Promise<SolicitudVoc[]>((resolve, reject) =>

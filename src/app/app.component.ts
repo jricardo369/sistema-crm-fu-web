@@ -128,12 +128,15 @@ export class AppComponent implements OnInit, SessionServiceListener {
             else {
                 this.isAppBarVisible = true;
                 //this.isRouterOutletVisible = true;
-                let usuario: Usuario = JSON.parse(localStorage.getItem('objUsuario'));
-                if ([MASTER, VENDOR, BACKOFFICE, INTERVIEWER, INTERVIEWER_SCALES, THERAPIST].some(rol => rol == usuario.rol)) {
-                  this.router.navigateByUrl('/solicitudes/citas');
-                }
-                else {
-                  this.router.navigateByUrl('/inicio');
+                const objUsuarioStr = localStorage.getItem('objUsuario');
+                if (objUsuarioStr) {
+                  let usuario: Usuario = JSON.parse(objUsuarioStr);
+                  if ([MASTER, VENDOR, BACKOFFICE, INTERVIEWER, INTERVIEWER_SCALES, THERAPIST].some(rol => rol == usuario.rol)) {
+                    this.router.navigateByUrl('/solicitudes/citas');
+                  }
+                  else {
+                    this.router.navigateByUrl('/inicio');
+                  }
                 }
             }
     }

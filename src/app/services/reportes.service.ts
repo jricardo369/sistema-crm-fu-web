@@ -9,6 +9,7 @@ import { ReporteDash } from "src/model/reporte-dash";
 import { SolicitudList } from 'src/model/solicitud-list';
 import { EventoSolicitud } from 'src/model/evento-solicitud';
 import { ReporteDetSols } from "src/model/reporte-det-sols";
+import { ReporteClientePorEstado } from 'src/model/reporte-cliente-por-estado';
 import { Observable } from 'rxjs';
 
 
@@ -242,6 +243,24 @@ export class ReportesService {
           .catch((reason) => reject(reason))
       );
     }
+
+    obtenerClientesPorEstado(fechaInicio: string, fechaFin: string): Promise<ReporteClientePorEstado[]> {
+    return new Promise<ReporteClientePorEstado[]>((resolve, reject) =>
+      this.http
+        .get(API_URL + "reportes-abogado/por-estado?fechaInicio=" + fechaInicio + "&fechaFin=" + fechaFin, {
+          withCredentials: true,
+          observe: "response",
+          headers: new HttpHeaders()
+            .append("Content-Type", "application/json")
+            .append("Authorization", localStorage.getItem("auth_token")),
+        })
+        .toPromise()
+        .then((response) => {
+          resolve(response.body as ReporteClientePorEstado[]);
+        })
+        .catch((reason) => reject(reason))
+    );
+  }
 
     
 

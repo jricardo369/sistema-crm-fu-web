@@ -30,6 +30,7 @@ import { ReportesService } from '../../services/reportes.service';
 import { AbogadosService } from '../../services/abogados.service';
 import { DialogoCancelarCitaSolicitudComponent } from '../dialogo-cancelar-cita-solicitud/dialogo-cancelar-cita-solicitud.component';
 import { DialogoNoShowYRejectSolicitudComponent } from '../dialogo-no-show-y-reject-solicitud/dialogo-no-show-y-reject-solicitud.component';
+import { DialogoReopenComponent } from '../dialogo-reopen/dialogo-reopen.component';
 import { FormControl } from '@angular/forms';
 import { Observable, of,EMPTY } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, startWith,filter, catchError  } from 'rxjs/operators';
@@ -61,7 +62,7 @@ import { convertirAFechaMat } from '../../util/date-utils';
 
 import { AutoDateMaskDirective } from '../../common/directives/auto-date-mask.directive';
 
-
+ 
 
 @Component({
   standalone: true,
@@ -137,6 +138,7 @@ export class SolicitudComponent implements OnInit {
   abogadosFiltrados!: Observable<Abogado[]>;
 
   fechaNacimientoMat: Date;
+  fechaDeCrimenMat: Date;
   dueDateMat: Date;
 
   fechaNacimientoError: boolean;
@@ -184,6 +186,7 @@ export class SolicitudComponent implements OnInit {
     this.isClinician = this.usuario.rol == CLINICIAN ? true : false;
 
     route.params.subscribe((params) => {
+      
       let codigo = params["id"];
       if (codigo.toString() == "nueva-solicitud") {
         this.titulo = "New File";
@@ -379,6 +382,10 @@ private ejecutarLimpiezaClinico(): Observable<any> {
           if (this.solicitud.dueDate) {
           this.dueDateMat = convertirAFechaMat(this.solicitud.dueDate as string);
           }
+          if (this.solicitud.fechaDeCrimen) {
+          this.fechaDeCrimenMat = convertirAFechaMat(this.solicitud.fechaDeCrimen as string);
+          }
+
 
         }, 2000);
 
@@ -463,16 +470,6 @@ private ejecutarLimpiezaClinico(): Observable<any> {
   }
 
   guardarCambios() {
-
-    /*console.log('fechaNacimiento:'+this.fechaNacimientoMat);
-    console.log('dueDate:'+this.dueDateMat);
-
-    if(this.solicitud.fechaNacimiento != null && this.solicitud.fechaNacimiento != undefined && this.solicitud.fechaNacimiento != ''){
-        this.validarFechaNacimientoTexto(this.solicitud.fechaNacimiento as string);
-    }
-    if(this.solicitud.dueDate != null && this.solicitud.dueDate != undefined && this.solicitud.dueDate != ''){
-        this.validarFechaDueDateTexto(this.solicitud.dueDate as string);
-    }*/
    
 
     this.datosAbogado();
@@ -896,6 +893,50 @@ private ejecutarLimpiezaClinico(): Observable<any> {
         }).catch(reason => this.utilService.manejarError(reason));
 
         break;
+      
+      case 9: //Reopen
+
+        this.dialog.open(DialogoReopenComponent, {
+          data: {
+            idSolicitud: this.solicitud.idSolicitud,
+            tituloLabel: "Reason for reopening"
+          },
+          disableClose: true,
+        }).afterClosed().toPromise().then(valor => {
+          if (valor == 'enviado') { this.obtenerSolicitud(this.solicitud.idSolicitud); this.refreshSolicitudCompleta(); }
+          else if (valor == 'vacio') { this.utilService.mostrarDialogoSimple("Warning", "Has no appointments yet."); }
+        }).catch(reason => this.utilService.manejarError(reason));
+
+
+        break;
+
+      case 10: //Ready on draft
+          
+          this.dialog.open(DialogoSimpleComponent, {
+            data: {
+              titulo: 'Finish to Ready on Draft ',
+              texto: 'Do you really want to "Finish to Ready on Draft"?',
+              botones: [
+                { texto: 'Cancel', color: '', valor: '' },
+                { texto: 'Yes', color: 'primary', valor: 'ok' },
+              ]
+            },
+            disableClose: true,
+          }).afterClosed().toPromise().then(valor => {
+            if (valor == 'ok') {
+              this.cargando = true;
+              this.solicitudesService.actualizarEstatusSolicitud(this.solicitud.idSolicitud, idEstatusSolicitud, this.usuario.idUsuario)
+                .then(() => {
+                  this.cargando = false;
+                  //this.goBack();
+                  this.router.navigate(['/solicitudes/solicitudes']);
+                })
+                .catch((reason) => this.utilService.manejarError(reason))
+                .then(() => (this.cargando = false));
+            }
+          }).catch(reason => this.utilService.manejarError(reason));
+        
+      break;
 
       case 11: //Finish-Case
 
@@ -1150,6 +1191,17 @@ private ejecutarLimpiezaClinico(): Observable<any> {
     if (this.fechaNacimientoMat) {
       this.solicitud.fechaNacimiento = formatearFecha(this.fechaNacimientoMat);
       console.log('Fecha formateada (string):', this.solicitud.fechaNacimiento);
+    }
+
+    
+  }
+
+  changeFechaDeCrimenMat() {
+    console.log('fechaDeCrimenMat changed:', this.fechaDeCrimenMat);
+
+    if (this.fechaDeCrimenMat) {
+      this.solicitud.fechaDeCrimen = formatearFecha(this.fechaDeCrimenMat);
+      console.log('Fecha formateada (string):', this.solicitud.fechaDeCrimen);
     }
 
     
