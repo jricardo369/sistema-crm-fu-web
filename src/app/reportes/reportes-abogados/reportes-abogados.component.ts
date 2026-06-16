@@ -259,7 +259,7 @@ export class ReportesAbogadosComponent implements OnInit {
     series: [],
     chart: {
       type: 'bar',
-      height: 350,
+      height: 500,
       toolbar: { show: false },
       animations: { enabled: true },
       width: '100%',
@@ -275,17 +275,17 @@ export class ReportesAbogadosComponent implements OnInit {
       }
     },
     colors: ['#9c27b0'],
-    xaxis: {
-      categories: [],
-      labels: {
-        rotate: -45,
-        style: {
-          fontSize: '9px',
-          fontFamily: 'Roboto, Arial, Helvetica, sans-serif',
-          colors: ['#333']
+      xaxis: {
+        categories: [],
+        labels: {
+          rotate: -45,
+          style: {
+            fontSize: '11px',
+            fontFamily: 'Roboto, Arial, Helvetica, sans-serif',
+            colors: ['#333']
+          }
         }
-      }
-    },
+      },
     yaxis: {
       title: {
         text: 'Lawyers offices',
@@ -374,16 +374,15 @@ export class ReportesAbogadosComponent implements OnInit {
           ? correos.map(email => {
               const emailStr = (email ?? '').toString();
               if (emailStr.includes('@')) {
-                const parts = emailStr.split('@');
-                return parts[0].substring(0, 12) + '...';
+                return emailStr.split('@')[0];
               }
-              return emailStr.substring(0, 12) + '...';
+              return emailStr;
             })
           : [],
         labels: {
           rotate: -45,
           style: {
-            fontSize: '9px',
+            fontSize: '11px',
             fontFamily: 'Roboto, Arial, Helvetica, sans-serif',
             colors: ['#333']
           }
@@ -437,7 +436,7 @@ export class ReportesAbogadosComponent implements OnInit {
     this.chartOptionsFirmasPorMes = {
       ...this.chartOptionsFirmasPorMes,
       series: [{
-        name: 'Oficinas Nuevas',
+        name: 'New lawyer offices with files',
         data: Array.isArray(values) ? values : []
       }],
       xaxis: {
