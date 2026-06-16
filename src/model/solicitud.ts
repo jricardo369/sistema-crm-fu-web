@@ -73,4 +73,7 @@ export class Solicitud {
   signedClnc: boolean;
   fechaDeCrimen: string;
 
+  consent: boolean;
+  verificacionCliente: boolean;
+
 }

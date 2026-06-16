@@ -101,7 +101,7 @@ export class SolicitudesVocComponent implements OnInit {
   filterSortBy: string = "";
   filterOrder: string = "";
 
-  filterType: string = "All";
+  filterType: string = "Case number";
   arrFilterClosed: string[] = ['OPEN','CLOSED'];
   filterMyFiles: boolean = true;
   filterInputText: string = "";
@@ -203,7 +203,7 @@ export class SolicitudesVocComponent implements OnInit {
         this.filterEndDateMat = hoy;
 
          this.filterClosed = "OPEN";
-         this.filterType = 'All';
+         this.filterType = 'Case number';
          this.refrescar();
        }
      } else {
@@ -213,7 +213,7 @@ export class SolicitudesVocComponent implements OnInit {
        this.filterStartDateMat = primerDiadelMes;
       this.filterEndDateMat = hoy;
        this.filterClosed = "OPEN";
-       this.filterType = 'All';
+       this.filterType = 'Case number';
  
        this.refrescar();
      }

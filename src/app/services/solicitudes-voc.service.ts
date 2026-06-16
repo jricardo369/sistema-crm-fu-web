@@ -30,8 +30,6 @@ export class SolicitudesVocService {
     );
   }
 
-  
-
   obtenerSolicitudesUsuario(idUsuario: number): Promise<SolicitudVoc[]> {
     return new Promise<SolicitudVoc[]>((resolve, reject) =>
       this.http

@@ -37,14 +37,26 @@
               <td>{{e.usuario}}</td>
               <td>{{e.evento}}</td>
               <td style="font-style: italic;">{{e.descripcion}}</td>
-              <td style="text-align: center;"><span class="badge-status" style="margin: 0;"
-              [ngClass]="{'badge-color-info': e.tipo == 'Info',
-              'badge-color-schedule': e.tipo == 'Schedule',
-              'badge-color-important': e.tipo == 'Important',
-              'badge-color-notification': e.tipo == 'Notification',
-              'badge-color-suicide': e.tipo == 'Suicide',
-              'badge-color-asa': e.tipo == 'Approved Sessions Adjustment',
-              'badge-color-atp': e.tipo == 'Additional Treatment Plan'}">{{e.tipo}}</span></td>
+            
+              <td style="text-align: center;padding: 5px;">
+            
+                <div style="position: relative; display: inline-block;">
+                  @if (e.tipo == 'Important' && isVOC) {
+                  <mat-icon svgIcon="cancelD" (click)="actualizarTipoEvento(e.idEvento, 'Info')"
+                  style="position: absolute; top: -3px; right: -3px; width: 13px; height: 13px; margin: 0;color:black"></mat-icon>
+                  }
+                <span class="badge-status" style="margin: 0;" [ngClass]="{'badge-color-info': e.tipo == 'Info',
+                          'badge-color-schedule': e.tipo == 'Schedule',
+                          'badge-color-important': e.tipo == 'Important',
+                          'badge-color-notification': e.tipo == 'Notification',
+                          'badge-color-suicide': e.tipo == 'Suicide',
+                          'badge-color-asa': e.tipo == 'Approved Sessions Adjustment',
+                          'badge-color-atp': e.tipo == 'Additional Treatment Plan'}">{{e.tipo}}</span>
+              </div>
+
+              </td>
+            
+            
             </tr>
           }
           <tr>

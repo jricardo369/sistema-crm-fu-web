@@ -10,24 +10,46 @@
       <div style="margin-left: auto; display: flex; flex-direction: row; align-items: center; gap: 4px;">
 
         <!--MARKETING-->
+        @if (isMarketing) {
         @if (!creando && idEstatusProspecto == 1) {
-          <button (click)='terminarProspecto()' class="btn"
-            style="color: #FFFFFF;background: #288867; border-radius: 5px; height: 20px; line-height: 20px;">
-            <mat-icon svgIcon="sendD"
+        <button (click)='terminarProspecto()' class="btn"
+          style="color: #FFFFFF;background: #288867; border-radius: 5px; height: 20px; line-height: 20px;">
+          <mat-icon svgIcon="sendD"
             style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
-            <label style="margin: auto;color: #FFFFFF;text-transform: none;">Next Process</label>
-          </button>
+          <label style="margin: auto;color: #FFFFFF;text-transform: none;">Next Process</label>
+        </button>
         }
         @if (!creando && idEstatusProspecto == 1) {
-          <button (click)='cancelarProspecto()' class="btn"
-            style="color: #FFFFFF;background: #ff745f; border-radius: 5px; height: 20px; line-height: 20px;">
-            <mat-icon svgIcon="cancel"
+        <button (click)='coldProspecto()' class="btn"
+          style="color: #FFFFFF;background: #5facff; border-radius: 5px; height: 20px; line-height: 20px;">
+          <mat-icon svgIcon="cold"
             style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
-            <label style="margin: auto;color: #FFFFFF;text-transform: none;">Not interesed</label>
-          </button>
+          <label style="margin: auto;color: #FFFFFF;text-transform: none;">Cold</label>
+        </button>
         }
+        @if (!creando && idEstatusProspecto == 1) {
+        <button (click)='cancelarProspecto()' class="btn"
+          style="color: #FFFFFF;background: #d8914a; border-radius: 5px; height: 20px; line-height: 20px;">
+          <mat-icon svgIcon="cancel"
+            style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+          <label style="margin: auto;color: #FFFFFF;text-transform: none;">Not interesed</label>
+        </button>
+        }
+        
+        
+        @if (!creando && (idEstatusProspecto == 1 || idEstatusProspecto == 6)) {
+        <button (click)='closedProspecto()' class="btn"
+          style="color: #FFFFFF;background: #ff745f; border-radius: 5px; height: 20px; line-height: 20px;">
+          <mat-icon svgIcon="cancel"
+            style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+          <label style="margin: auto;color: #FFFFFF;text-transform: none;">Closed</label>
+        </button>
+        }
+        }
+        
 
         <!--MARKETING REV-->
+         @if (isMarketingRev) {
         @if (!creando && idEstatusProspecto == 2) {
           <button (click)='sucessfulClient()' class="btn"
             style="color: #FFFFFF;background: #288867; border-radius: 5px; height: 20px; line-height: 20px;">
@@ -35,8 +57,8 @@
             style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
             <label style="margin: auto;color: #FFFFFF;text-transform: none;">Successful client</label>
           </button>
-        }
-        @if (!creando && idEstatusProspecto == 2) {
+        
+        @if (!creando  && (idEstatusProspecto == 1 || idEstatusProspecto == 2 || idEstatusProspecto == 6)) {
           <button (click)='closedProspecto()' class="btn"
             style="color: #FFFFFF;background: #ff745f; border-radius: 5px; height: 20px; line-height: 20px;">
             <mat-icon svgIcon="cancel"
@@ -44,6 +66,8 @@
             <label style="margin: auto;color: #FFFFFF;text-transform: none;">Closed</label>
           </button>
         }
+      }
+    }
       </div>
 
     </app-experimental-menu>
@@ -63,7 +87,8 @@
                                     'badge-color-lawyer-prospect-interested': p.idEstatusProspecto == 2,
                                     'badge-color-lawyer-prospect-not-interested': p.idEstatusProspecto == 3,
                                     'badge-color-lawyer-prospect-successful': p.idEstatusProspecto == 4,
-                                    'badge-color-lawyer-prospect-closed': p.idEstatusProspecto == 5}">
+                                    'badge-color-lawyer-prospect-closed': p.idEstatusProspecto == 5,
+                                    'badge-color-lawyer-prospect-cold': p.idEstatusProspecto == 6}">
                       {{p.estatusProspecto}}
                     </span>
                   </div>
@@ -75,6 +100,14 @@
                     <label style="color:#288867">Prospect send client into CRM at date {{p.fechaEnvioCliente}} in file {{p.solicitudRelacionada}}</label>
                   </div>
                 </div>
+              }
+              @if (idEstatusProspecto == 2 && p.solicitudRelacionada == 0) {
+                <button (click)='addCrmFileManual()' class="btn btn-addcrmfile"
+                  style="color: #FFFFFF;background: #239077; border-radius: 5px; height: 20px; line-height: 20px;">
+                  <mat-icon svgIcon="add"
+                  style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+                  <label style="margin: auto;color: #FFFFFF;text-transform: none;">Add CRM file manually</label>
+                </button>
               }
               @if (!creando) {
                 <div class="iigwo-input">
@@ -88,6 +121,16 @@
                   </div>
                 </div>
               }
+              <div class="iigwo-input">
+                  <label>Source</label>
+               
+                <select [(ngModel)]='p.fuente' [ngModelOptions]="{standalone: true}"
+                  style="margin: 0 0 6px 0;">
+                  @for (fuente of arrFuentes; track fuente) {
+                    <option>{{fuente}}</option>
+                  }
+                </select>
+              </div>
               <div class="iigwo-input">
                 @if (creando) {
                   <label required>Law firm</label>
@@ -179,7 +222,7 @@
               </div>
               @if (creando) {
                 <div class="iigwo-input" style="margin-bottom: 15px;">
-                  <label class="titulo-emails-section">Write te info to add new email to prospect</label>
+                  <label class="titulo-emails-section">Write the info to add new email to prospect</label>
                   <label>New email prospect</label>
                   <div class="input-row-fixed" style="margin-bottom: 18px;">
                     <input type="text" [(ngModel)]="inputAbogadoN">

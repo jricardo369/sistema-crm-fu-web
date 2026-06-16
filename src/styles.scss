@@ -2423,6 +2423,16 @@ p.accent {
 	background-color: #ECFFBE;
 	color: #6B9112;
 }
+// 15 - Process - color fondo ECFFBE y letra 6B9112
+.badge-color-paused-patp {
+	background-color: #d4ce9b;
+	color: #756e2c;
+}
+// 16 - Process - color fondo ECFFBE y letra 6B9112
+.badge-color-paused-unpaid {
+	background-color: #e9aecd;
+	color: #a6356f;
+}
 
 //ESTATUS DE SOLICITUD SOLO LETRA
 // 1 - Received - color fondo: B8E8B6 y letra 144C11
@@ -2731,6 +2741,11 @@ p.accent {
 .badge-color-lawyer-prospect-closed {
 	background-color: #febfbf;
 	color: rgb(176, 49, 49);
+}
+
+.badge-color-lawyer-prospect-cold {
+	background-color: #cae0f8;
+	color: #5facff;
 }
 
 
@@ -3281,7 +3296,9 @@ background-color: #dd8b33;
   font-family: regular !important;
   font-weight: normal !important;
   font-size: 13px !important;
+  letter-spacing: normal !important;
 }
+
 
 
 

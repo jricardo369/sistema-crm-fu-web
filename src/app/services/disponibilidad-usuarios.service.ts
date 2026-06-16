@@ -32,6 +32,24 @@ export class DisponibilidadUsuariosService {
     );
   }
 
+  obtenerDisponibilidadUsuariosVocPorDia(fecha: string, idUsuario: number): Promise<DisponibilidadUsuario[]> {
+    return new Promise<DisponibilidadUsuario[]>((resolve, reject) =>
+      this.http
+        .get(API_URL + "disponibilidad-usuarios/de-dia-voc/" + fecha + "?idUsuario=" + idUsuario, {
+          withCredentials: true,
+          observe: "response",
+          headers: new HttpHeaders()
+            .append("Content-Type", "application/json")
+            .append("Authorization", localStorage.getItem("auth_token")),
+        })
+        .toPromise()
+        .then((response) => {
+          resolve(response.body as DisponibilidadUsuario[]);
+        })
+        .catch((reason) => reject(reason))
+    );
+  }
+
   obtenerDisponibilidadUsuario(idUsuario: number): Promise<DisponibilidadUsuario[]> {
     return new Promise<DisponibilidadUsuario[]>((resolve, reject) =>
       this.http

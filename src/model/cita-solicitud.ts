@@ -17,5 +17,7 @@ export class CitaSolicitud {
 
     color: string;
     idEvento: number;
+    recurrente: boolean;
+    codigoRecurrencia: string;
 
   }

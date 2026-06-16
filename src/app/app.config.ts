@@ -1,29 +1,13 @@
 export const VERSION_PORTAL = 'Versión 2026.03.05-09:00';
 export const EMPRESA_PORTAL = '© / 2026';
-export const VERSION_WEB = 'V10.0-2';
+export const VERSION_WEB = 'V10.0-5';
 
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
-import { provideEchartsCore } from 'ngx-echarts';
-import * as echarts from 'echarts/core';
-import { BarChart, PieChart } from 'echarts/charts';
-import { GridComponent, TooltipComponent, LegendComponent, TitleComponent } from 'echarts/components';
-import { CanvasRenderer } from 'echarts/renderers';
-
-echarts.use([
-  BarChart,
-  PieChart,
-  GridComponent,
-  TooltipComponent,
-  LegendComponent,
-  TitleComponent,
-  CanvasRenderer
-]);
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideEchartsCore({ echarts }),
   ]
 };
 
@@ -348,3 +332,25 @@ export const ARR_REFERRALSORUCE = [
     name: "Lawyer"
   }
 ];
+
+
+
+
+//EstatusSolicitud
+/*
+# id_estatus_solicitud, descripcion
+'1', 'Received'
+'2', 'Reviewing'
+'3', 'Interview'
+'4', 'Refused'
+'5', 'No show'
+'6', 'In case'
+'7', 'Lost'
+'8', 'Won'
+'9', 'Open'
+'10', 'Ready on draft'
+'11', 'Closed'
+'12', 'VOC'
+'13', 'In approval'
+'14', 'Open'   <-- Estatus Open para VOC
+*/

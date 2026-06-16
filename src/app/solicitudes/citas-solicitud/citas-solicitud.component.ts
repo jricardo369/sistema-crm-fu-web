@@ -8,6 +8,8 @@ import { PaginationManager } from 'src/util/pagination';
 import { CitaSolicitud } from 'src/model/cita-solicitud';
 import { CitaSolicitudService } from 'src/app/services/cita-solicitud.service';
 import { DialogoCitaSolicitudComponent } from '../dialogo-cita-solicitud/dialogo-cita-solicitud.component';
+import { DialogoCitaSolicitudVocDispoComponent } from 'src/app/voc/dialogo-cita-solicitud-voc-dispo/dialogo-cita-solicitud-voc-dispo.component';
+import { DialogoActualizarCitaComponent } from 'src/app/voc/dialogo-actualizar-cita/dialogo-actualizar-cita.component';
 import { DialogoSimpleComponent } from 'src/app/common/dialogo-simple/dialogo-simple.component';
 import { DialogoNoShowYRejectSolicitudComponent } from '../dialogo-no-show-y-reject-solicitud/dialogo-no-show-y-reject-solicitud.component';
 import { RouterModule } from '@angular/router';
@@ -20,13 +22,15 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { DatePipe } from '@angular/common';
 
 @Component({
   standalone: true,imports: [RouterModule,FormsModule
     ,WorkspaceNavComponent,ExperimentalMenuComponent,
-        CommonModule,NgClass,AsyncPipe,MatIconModule,MatDialogModule,MatProgressSpinnerModule,
+        CommonModule,NgClass,AsyncPipe,MatIconModule,MatDialogModule,MatProgressSpinnerModule,MatTooltipModule,
+        DialogoActualizarCitaComponent,
   ],
   selector: 'app-citas-solicitud',
   templateUrl: './citas-solicitud.component.html',
@@ -39,8 +43,37 @@ export class CitasSolicitudComponent implements OnInit {
 
   @Output() citaActualizada = new EventEmitter<void>();
 
-  @Input() idSolicitud: string;
-  @Input() idUsuario: number;
+  @Input() idSolicitud!: string;
+  @Input() idUsuario!: number;
+  @Input() idUsuarioTerapeuta!: number;
+  @Input() idEstatusSolicitud!: number;
+
+  arrTime: string[] = [
+    '12:00',
+    '12:30',
+    '1:00',
+    '1:30',
+    '2:00',
+    '2:30',
+    '3:00',
+    '3:30',
+    '4:00',
+    '4:30',
+    '5:00',
+    '5:30',
+    '6:00',
+    '6:30',
+    '7:00',
+    '7:30',
+    '8:00',
+    '8:30',
+    '9:00',
+    '9:30',
+    '10:00',
+    '10:30',
+    '11:00',
+    '11:30'
+  ];
 
   mostrarCitas: boolean = true;
   arrCitaSolicitud: CitaSolicitud[] = [];
@@ -55,7 +88,8 @@ export class CitasSolicitudComponent implements OnInit {
     private dialog: MatDialog,
     @Optional() @Inject('ParentComponent') public parent: any) {
     this.mostrarCitas = true;
-    this.usuario = JSON.parse(localStorage.getItem("objUsuario"));
+    const storedUser = localStorage.getItem("objUsuario");
+    this.usuario = storedUser ? JSON.parse(storedUser) : new Usuario();
   }
 
   ngOnInit(): void {
@@ -82,6 +116,17 @@ export class CitasSolicitudComponent implements OnInit {
   }
 
   crearCita() {
+    this.dialog.open(DialogoCitaSolicitudVocDispoComponent, {
+      data: {
+        idSolicitud: this.idSolicitud,
+        idUsuario: this.usuario.idUsuario,
+        idUsuarioTerapeuta: this.idUsuarioTerapeuta,
+      },
+      disableClose: true,
+    }).afterClosed().toPromise().then(valor => {
+      if (valor == 'guardar') { this.refresh();  this.citaActualizada.emit();};
+    }).catch(reason => this.utilService.manejarError(reason));
+    /*
     this.dialog.open(DialogoCitaSolicitudComponent, {
       data: {
         idSolicitud: this.idSolicitud,
@@ -91,7 +136,7 @@ export class CitasSolicitudComponent implements OnInit {
       disableClose: true,
     }).afterClosed().toPromise().then(valor => {
       if (valor == 'guardar') { this.refresh();  this.citaActualizada.emit();};
-    }).catch(reason => this.utilService.manejarError(reason));
+    }).catch(reason => this.utilService.manejarError(reason));*/
   }
 
   verCita(cita: CitaSolicitud) {
@@ -105,6 +150,21 @@ export class CitasSolicitudComponent implements OnInit {
       disableClose: true,
     }).afterClosed().toPromise().then(valor => {
        this.refresh();
+    }).catch(reason => this.utilService.manejarError(reason));
+  }
+
+  abrirDialogoActualizarCita(cita: CitaSolicitud) {
+    this.dialog.open(DialogoActualizarCitaComponent, {
+      data: {
+        idSolicitud: this.idSolicitud,
+        titulo: 'Update schedule',
+        subtitulo: 'Update recurrence schedule for file ' + this.idSolicitud,
+        cita: cita
+      },
+      disableClose: true,
+    }).afterClosed().toPromise().then(() => {
+      this.refresh();
+      this.citaActualizada.emit();
     }).catch(reason => this.utilService.manejarError(reason));
   }
 
@@ -126,30 +186,7 @@ export class CitasSolicitudComponent implements OnInit {
     }).catch(reason => this.utilService.manejarError(reason));
 
 
-    /*
-    this.dialog.open(DialogoSimpleComponent, {
-      data: {
-        titulo: 'No-show',
-        texto: 'Do you really want to mark your appointment as a No show"?',
-        botones: [
-          { texto: 'Cancel', color: '', valor: '' },
-          { texto: 'Yes', color: 'primary', valor: 'ok' },
-        ]
-      },
-      disableClose: true,
-    }).afterClosed().toPromise().then(valor => {
-      if (valor == 'ok') {
-        this.cargando = true;
-        this.citaSolicitudService
-          .no_show(cita.idCita, this.usuario.idUsuario)
-          .then(() => { this.refresh(); 
-            this.parent.obtenerSolicitud(parseInt(this.idSolicitud));
-            })
-          .catch(reason => this.utilService.manejarError(reason))
-          .then(() => this.cargando = false);
-      }
-    }).catch(reason => this.utilService.manejarError(reason));
-    */
+  
 
   }
 

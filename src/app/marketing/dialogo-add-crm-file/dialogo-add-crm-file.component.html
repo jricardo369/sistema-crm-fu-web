@@ -1,0 +1,41 @@
+<h2 mat-dialog-title style="font-family: regular;color:#75518c">{{titulo}}</h2>
+
+<mat-dialog-content style="width:300px;min-width: 150px;">
+
+    <div style="margin-bottom: 10px;">
+        <label style="font-size:12px;font-family: regular;">{{subtitulo}}</label>
+    </div>
+
+    <div style="display: flex; align-items: flex-start; gap: 12px;">
+
+        <div class="iigwo-input">
+            <label style="margin-bottom: 6px" required>CRM File</label>
+            <input type="text" [(ngModel)]="crmFile" style="width: 50px;">
+        </div>
+
+        <div class="iigwo-input">
+            <div class="iigwo-input">
+                <label required>Date</label>
+                <mat-form-field appearance="outline" class="custom-datepicker">
+                    <input matInput [matDatepicker]="pickerFN" [(ngModel)]="fechaMat" (dateChange)="changeFechaMat()"
+                        placeholder="MM/DD/YYYY" />
+                    <mat-datepicker-toggle matSuffix [for]="pickerFN"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerFN></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+
+    </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button class="iigwo" style="margin-left:auto;" (click)='cerrar()'>Cancel</button>
+    <button class="iigwo accent" style="margin-right:0;" (click)='envioAddCrmFile()'>Update</button>
+</mat-dialog-actions>
+
+@if (cargando) {
+<div class='iigwo-loading'>
+    <mat-spinner></mat-spinner>
+</div>
+}

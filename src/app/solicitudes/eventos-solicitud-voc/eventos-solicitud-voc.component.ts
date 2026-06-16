@@ -8,6 +8,8 @@ import { EventoSolicitudVocService } from 'src/app/services/evento-solicitud-voc
 import { DialogoEventoSolicitudVocComponent } from '../dialogo-evento-solicitud-voc/dialogo-evento-solicitud-voc.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { DialogoSimpleComponent } from 'src/app/common/dialogo-simple/dialogo-simple.component';
+import { THERAPIST, VOC } from 'src/app/app.config';
 
 import { CommonModule} from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,6 +27,9 @@ export class EventosSolicitudVocComponent implements OnInit {
   @Input() idSolicitud: string;
   @Input() idEstatusSolicitud: number;
 
+   isTherapist: boolean = false;
+    isVOC: boolean = false;
+
   mostrarEventos: boolean = true;
   verEventos: boolean = true;
   arrEventoSolicitud: EventoSolicitud[] = [];
@@ -40,6 +45,9 @@ export class EventosSolicitudVocComponent implements OnInit {
       this.mostrarEventos = true;
       this.usuario = JSON.parse(localStorage.getItem("objUsuario"));
       this.verEventos = false;
+
+      this.isTherapist = this.usuario.rol == THERAPIST ? true : false;
+          this.isVOC = this.usuario.rol == VOC ? true : false;
   }
 
   ngOnInit(): void {
@@ -61,6 +69,36 @@ export class EventosSolicitudVocComponent implements OnInit {
           .then(() => this.cargando = false)
   }
 
+    actualizarTipoEvento(idEvento: number, tipoEvento: string) {
+
+
+        this.dialog.open(DialogoSimpleComponent, {
+            data: {
+                titulo: 'Change event type',
+                texto: 'Do you really want to change the event type from Important to Info?',
+                botones: [
+                    { texto: 'Cancel', color: '', valor: '' },
+                    { texto: 'Yes', color: 'primary', valor: 'ok' },
+                ]
+            },
+            disableClose: true,
+        }).afterClosed().toPromise().then(valor => {
+            if (valor == 'ok') {
+
+                this.cargando = true;
+                this.eventoSolicitudVocService
+                    .actualizarTipoEventoSolicitudVoc(idEvento, tipoEvento)
+                    .then(response => {
+                        this.refresh();
+                    })
+                    .catch(reason => this.utilService.manejarError(reason))
+                    .then(() => this.cargando = false);
+
+            }
+        }).catch(reason => this.utilService.manejarError(reason));
+
+    }
+
   crearEvento() {
       this.dialog.open(DialogoEventoSolicitudVocComponent, {
           data: {
@@ -70,5 +108,6 @@ export class EventosSolicitudVocComponent implements OnInit {
       }).afterClosed().toPromise().then(valor => {
           if (valor == 'creado') this.refresh();
       }).catch(reason => this.utilService.manejarError(reason));
+      
   }
 }

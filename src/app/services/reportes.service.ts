@@ -11,6 +11,8 @@ import { EventoSolicitud } from 'src/model/evento-solicitud';
 import { ReporteDetSols } from "src/model/reporte-det-sols";
 import { ReporteClientePorEstado } from 'src/model/reporte-cliente-por-estado';
 import { Observable } from 'rxjs';
+import { ReporteClientePorFirma } from 'src/model/reporte-cliente-por-firma';
+import { ReporteClientePorFirmaAnioMes } from 'src/model/reporte-cliente-por-firma-anio-mes';
 
 
 @Injectable({
@@ -20,10 +22,10 @@ export class ReportesService {
 
   constructor(private http: HttpClient) { }
 
-  obtenerUsersRequests(fechaInicio: string, fechaFin: string,idUsuario: number): Promise<ReporteSolicitudesUsuarios[]> {
+  obtenerUsersRequests(fechaInicio: string, fechaFin: string, idUsuario: number): Promise<ReporteSolicitudesUsuarios[]> {
     return new Promise<ReporteSolicitudesUsuarios[]>((resolve, reject) =>
       this.http
-        .get(API_URL + "reportes/solicitudes-de-usuarios/"+idUsuario+"?fechai=" + fechaInicio + "&fechaf=" + fechaFin, {
+        .get(API_URL + "reportes/solicitudes-de-usuarios/" + idUsuario + "?fechai=" + fechaInicio + "&fechaf=" + fechaFin, {
           withCredentials: true,
           observe: "response",
           headers: new HttpHeaders()
@@ -38,10 +40,10 @@ export class ReportesService {
     );
   }
 
-  obtenerUsersRequestsObj(fechaInicio: string, fechaFin: string,idUsuario: number): Promise<ReporteSolicitudesUsuario[]> {
+  obtenerUsersRequestsObj(fechaInicio: string, fechaFin: string, idUsuario: number): Promise<ReporteSolicitudesUsuario[]> {
     return new Promise<ReporteSolicitudesUsuario[]>((resolve, reject) =>
       this.http
-        .get(API_URL + "reportes/solicitudes-de-usuario/"+idUsuario+"?fechai=" + fechaInicio + "&fechaf=" + fechaFin, {
+        .get(API_URL + "reportes/solicitudes-de-usuario/" + idUsuario + "?fechai=" + fechaInicio + "&fechaf=" + fechaFin, {
           withCredentials: true,
           observe: "response",
           headers: new HttpHeaders()
@@ -56,10 +58,10 @@ export class ReportesService {
     );
   }
 
-  obtenerFilesFirmaAbogado(fechaInicio: string, fechaFin: string,firmaAbogado: string,idAbogado: number): Promise<ReporteFilesFirma[]> {
+  obtenerFilesFirmaAbogado(fechaInicio: string, fechaFin: string, firmaAbogado: string, idAbogado: number): Promise<ReporteFilesFirma[]> {
     return new Promise<ReporteFilesFirma[]>((resolve, reject) =>
       this.http
-        .get(API_URL + "reportes/files-de-firma-abogado/?fechai=" + fechaInicio + "&fechaf=" + fechaFin+ "&firmaAbogado=" + firmaAbogado + "&idAbogado=" + idAbogado, {
+        .get(API_URL + "reportes/files-de-firma-abogado/?fechai=" + fechaInicio + "&fechaf=" + fechaFin + "&firmaAbogado=" + firmaAbogado + "&idAbogado=" + idAbogado, {
           withCredentials: true,
           observe: "response",
           headers: new HttpHeaders()
@@ -74,48 +76,48 @@ export class ReportesService {
     );
   }
 
-  obtenerFilesFirmaAbogadoExcel(fechaInicio: string, fechaFin: string,firmaAbogado: string): Observable<Blob> {
+  obtenerFilesFirmaAbogadoExcel(fechaInicio: string, fechaFin: string, firmaAbogado: string): Observable<Blob> {
     let params = new HttpParams();
-  params = params.set('fechai', fechaInicio);
-  params = params.set('fechaf', fechaFin);
-  params = params.set('firmaAbogado', firmaAbogado);
-  
-  const httpHeaders = new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Authorization': localStorage.getItem('auth_token'),
-  });
-  const options = {
-    params: params,
-    headers: httpHeaders,
-    responseType: 'blob' as 'json'
-  };
-  return this.http.get<any>(
-      
+    params = params.set('fechai', fechaInicio);
+    params = params.set('fechaf', fechaFin);
+    params = params.set('firmaAbogado', firmaAbogado);
+
+    const httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': localStorage.getItem('auth_token'),
+    });
+    const options = {
+      params: params,
+      headers: httpHeaders,
+      responseType: 'blob' as 'json'
+    };
+    return this.http.get<any>(
+
       API_URL + 'reportes/files-de-firma-abogado-excel',
       options
-  );
+    );
 
   }
 
   obtenerFilesFirmasAbogadosExcel(fechaInicio: string, fechaFin: string): Observable<Blob> {
     let params = new HttpParams();
-  params = params.set('fechai', fechaInicio);
-  params = params.set('fechaf', fechaFin);
-  
-  const httpHeaders = new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Authorization': localStorage.getItem('auth_token'),
-  });
-  const options = {
-    params: params,
-    headers: httpHeaders,
-    responseType: 'blob' as 'json'
-  };
-  return this.http.get<any>(
-      
+    params = params.set('fechai', fechaInicio);
+    params = params.set('fechaf', fechaFin);
+
+    const httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': localStorage.getItem('auth_token'),
+    });
+    const options = {
+      params: params,
+      headers: httpHeaders,
+      responseType: 'blob' as 'json'
+    };
+    return this.http.get<any>(
+
       API_URL + 'reportes/files-de-firma-abogados-excel',
       options
-  );
+    );
 
   }
 
@@ -154,10 +156,10 @@ export class ReportesService {
     });
   }
 
-   obtenerDashboard(fechaInicio: string, fechaFin: string,idUsuarioLogeado: number,usuario: number): Promise<ReporteDash> {
+  obtenerDashboard(fechaInicio: string, fechaFin: string, idUsuarioLogeado: number, usuario: number): Promise<ReporteDash> {
     return new Promise<ReporteDash>((resolve, reject) =>
       this.http
-        .get(API_URL + "reportes/reporte-cabecera-dashboard/"+idUsuarioLogeado+"?fechai=" + fechaInicio + "&fechaf=" + fechaFin+ "&usuario=" + usuario, {
+        .get(API_URL + "reportes/reporte-cabecera-dashboard/" + idUsuarioLogeado + "?fechai=" + fechaInicio + "&fechaf=" + fechaFin + "&usuario=" + usuario, {
           withCredentials: true,
           observe: "response",
           headers: new HttpHeaders()
@@ -172,10 +174,10 @@ export class ReportesService {
     );
   }
 
-  obtenerDetalleDashboard(fechaInicio: string, fechaFin: string,idUsuarioLogeado: number,usuario: number,tileDash: number): Promise<SolicitudList[]> {
+  obtenerDetalleDashboard(fechaInicio: string, fechaFin: string, idUsuarioLogeado: number, usuario: number, tileDash: number): Promise<SolicitudList[]> {
     return new Promise<SolicitudList[]>((resolve, reject) =>
       this.http
-        .get(API_URL + "reportes/solicitudes-dashboard/"+idUsuarioLogeado+"?fechai=" + fechaInicio + "&fechaf=" + fechaFin+ "&usuario=" + usuario+'&tileDash='+tileDash, {
+        .get(API_URL + "reportes/solicitudes-dashboard/" + idUsuarioLogeado + "?fechai=" + fechaInicio + "&fechaf=" + fechaFin + "&usuario=" + usuario + '&tileDash=' + tileDash, {
           withCredentials: true,
           observe: "response",
           headers: new HttpHeaders()
@@ -190,10 +192,10 @@ export class ReportesService {
     );
   }
 
-  obtenerDetalleSolsDashboard(fechaInicio: string, fechaFin: string,idUsuarioLogeado: number,usuario: number,tileDash: number): Promise<SolicitudList[]> {
+  obtenerDetalleSolsDashboard(fechaInicio: string, fechaFin: string, idUsuarioLogeado: number, usuario: number, tileDash: number): Promise<SolicitudList[]> {
     return new Promise<SolicitudList[]>((resolve, reject) =>
       this.http
-        .get(API_URL + "reportes/detalle-solicitudes-dashboard/"+idUsuarioLogeado+"?fechai=" + fechaInicio + "&fechaf=" + fechaFin+ "&usuario=" + usuario+'&tileDash='+tileDash, {
+        .get(API_URL + "reportes/detalle-solicitudes-dashboard/" + idUsuarioLogeado + "?fechai=" + fechaInicio + "&fechaf=" + fechaFin + "&usuario=" + usuario + '&tileDash=' + tileDash, {
           withCredentials: true,
           observe: "response",
           headers: new HttpHeaders()
@@ -208,10 +210,10 @@ export class ReportesService {
     );
   }
 
-  obtenerDetalleEventosDashboard(fechaInicio: string, fechaFin: string,idUsuarioLogeado: number,usuario: number,tileDash: number): Promise<EventoSolicitud[]> {
+  obtenerDetalleEventosDashboard(fechaInicio: string, fechaFin: string, idUsuarioLogeado: number, usuario: number, tileDash: number): Promise<EventoSolicitud[]> {
     return new Promise<EventoSolicitud[]>((resolve, reject) =>
       this.http
-        .get(API_URL + "reportes/eventos-dashboard/"+idUsuarioLogeado+"?fechai=" + fechaInicio + "&fechaf=" + fechaFin+ "&usuario=" + usuario+'&tileDash='+tileDash, {
+        .get(API_URL + "reportes/eventos-dashboard/" + idUsuarioLogeado + "?fechai=" + fechaInicio + "&fechaf=" + fechaFin + "&usuario=" + usuario + '&tileDash=' + tileDash, {
           withCredentials: true,
           observe: "response",
           headers: new HttpHeaders()
@@ -226,25 +228,25 @@ export class ReportesService {
     );
   }
 
-    reporteDetalleSolsFechas(idUsuarioLogeado: number, fechai: string, fechaf: string,usuario: number): Promise<ReporteDetSols[]> {
-      return new Promise<ReporteDetSols[]>((resolve, reject) =>
-        this.http
-          .get(API_URL + "reportes/detalle-solicitudes-all/" + idUsuarioLogeado+"?fechai=" + fechai + "&fechaf=" + fechaf+ "&usuario=" + usuario, {
-            withCredentials: true,
-            observe: "response",
-            headers: new HttpHeaders()
-              .append("Content-Type", "application/json")
-              .append("Authorization", localStorage.getItem("auth_token")),
-          })
-          .toPromise()
-          .then((response) => {
-            resolve(response.body as ReporteDetSols[]);
-          })
-          .catch((reason) => reject(reason))
-      );
-    }
+  reporteDetalleSolsFechas(idUsuarioLogeado: number, fechai: string, fechaf: string, usuario: number): Promise<ReporteDetSols[]> {
+    return new Promise<ReporteDetSols[]>((resolve, reject) =>
+      this.http
+        .get(API_URL + "reportes/detalle-solicitudes-all/" + idUsuarioLogeado + "?fechai=" + fechai + "&fechaf=" + fechaf + "&usuario=" + usuario, {
+          withCredentials: true,
+          observe: "response",
+          headers: new HttpHeaders()
+            .append("Content-Type", "application/json")
+            .append("Authorization", localStorage.getItem("auth_token")),
+        })
+        .toPromise()
+        .then((response) => {
+          resolve(response.body as ReporteDetSols[]);
+        })
+        .catch((reason) => reject(reason))
+    );
+  }
 
-    obtenerClientesPorEstado(fechaInicio: string, fechaFin: string): Promise<ReporteClientePorEstado[]> {
+  obtenerClientesPorEstado(fechaInicio: string, fechaFin: string): Promise<ReporteClientePorEstado[]> {
     return new Promise<ReporteClientePorEstado[]>((resolve, reject) =>
       this.http
         .get(API_URL + "reportes-abogado/por-estado?fechaInicio=" + fechaInicio + "&fechaFin=" + fechaFin, {
@@ -262,6 +264,42 @@ export class ReportesService {
     );
   }
 
-    
+  obtenerClientesPorFirma(fechaInicio: string, fechaFin: string): Promise<ReporteClientePorFirma[]> {
+    return new Promise<ReporteClientePorFirma[]>((resolve, reject) =>
+      this.http
+        .get(API_URL + "reportes-abogado/clientes-por-firma?fechaInicio=" + fechaInicio + "&fechaFin=" + fechaFin, {
+          withCredentials: true,
+          observe: "response",
+          headers: new HttpHeaders()
+            .append("Content-Type", "application/json")
+            .append("Authorization", localStorage.getItem("auth_token")),
+        })
+        .toPromise()
+        .then((response) => {
+          resolve(response.body as ReporteClientePorFirma[]);
+        })
+        .catch((reason) => reject(reason))
+    );
+  }
+
+  obtenerClientesPorFirmaAnioMes(fechaInicio: string, fechaFin: string): Promise<ReporteClientePorFirmaAnioMes[]> {
+    return new Promise<ReporteClientePorFirmaAnioMes[]>((resolve, reject) =>
+      this.http
+        .get(API_URL + "reportes-abogado/total-firmas-anio-mes?fechaInicio=" + fechaInicio + "&fechaFin=" + fechaFin, {
+          withCredentials: true,
+          observe: "response",
+          headers: new HttpHeaders()
+            .append("Content-Type", "application/json")
+            .append("Authorization", localStorage.getItem("auth_token")),
+        })
+        .toPromise()
+        .then((response) => {
+          resolve(response.body as ReporteClientePorFirmaAnioMes[]);
+        })
+        .catch((reason) => reject(reason))
+    );
+  }
+
+
 
 }

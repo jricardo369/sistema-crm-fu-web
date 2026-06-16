@@ -38,7 +38,7 @@ export const REPORTES_ITEMS: AppBarNavItem[] = [
   },
   {
     module: REPORTES_MODULE,
-    svgName: 'users-report',
+    svgName: 'chart-law',
     title: 'Law Firms Lawyers',
     subtitle: 'Report of Law Firms Lawyers',
     uri: 'reportes-abogados',
@@ -46,7 +46,7 @@ export const REPORTES_ITEMS: AppBarNavItem[] = [
   },
   {
     module: REPORTES_MODULE,
-    svgName: 'comparison',
+    svgName: 'compare',
     title: 'Comparison by Years',
     subtitle: 'Report of files comparison by years',
     uri: 'comparacion-anios',

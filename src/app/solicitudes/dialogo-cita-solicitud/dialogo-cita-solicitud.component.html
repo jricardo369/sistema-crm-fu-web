@@ -1,4 +1,4 @@
-<h2 mat-dialog-title style="font-family: regular;color:#75518c" [ngClass]="{'mb-0': creando && !verCampoSolicitud}">{{creando ? "New Schedule" : ("Note Schedule "
+<h2 mat-dialog-title style="font-family: regular;color:#75518c" [ngClass]="{'mb-0': creando && !verCampoSolicitud}">{{creando ? "New Schedule " + citaSolicitud.fecha + " at " + citaSolicitud.hora + " " + citaSolicitud.tipo : ("Note Schedule "
 + citaSolicitud.fecha + " at " + citaSolicitud.hora + " " + citaSolicitud.tipo)}}</h2>
 
 @if (creando) {
@@ -6,7 +6,7 @@
     <div style="width: 450px;">
       @if (verCampoSolicitud) {
         <div class="iigwo-input">
-          <label>File</label>
+          <label>Select file to add schedule</label>
           <select [(ngModel)]="citaSolicitud.idSolicitud"  [disabled]="!creando" [ngModelOptions]="{standalone: true}">
             @for (o of arrSolicitudesVoc; track o) {
               <option [ngValue]="o.idSolicitud">{{o.numeroDeCaso + " - " + o.cliente}}
@@ -15,17 +15,20 @@
           </select>
         </div>
       }
-      <div class="iigwo-input" style="margin: 0; margin-right: 12px; text-align: end;">
+      
+      <!--<div class="iigwo-input" style="margin: 0; margin-right: 12px; text-align: end;">
         <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;"
           id="dosCitas" [checked]="citaSolicitud.dosCitas" (change)="citaSolicitud.dosCitas = !citaSolicitud.dosCitas">
         <label for="dosCitas" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">It is for two
         appointments</label>
-      </div>
+      </div>-->
+
       <div class="iigwo-input">
         <label>Description</label>
         <textarea [(ngModel)]="citaSolicitud.comentario"></textarea>
       </div>
-      <div style="display: flex;">
+
+      <!--<div style="display: flex;">
         <div class="iigwo-input">
           <label>Date</label>
           <input type="date" [(ngModel)]="citaSolicitud.fecha">
@@ -46,7 +49,8 @@
             <option value="PM">PM</option>
           </select>
         </div>
-      </div>
+      </div>-->
+
     </div>
   </mat-dialog-content>
 }

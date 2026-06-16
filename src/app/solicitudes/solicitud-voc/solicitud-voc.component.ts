@@ -16,13 +16,10 @@ import { TipoSolicitud } from "src/model/tipo-solicitud";
 import { Usuario } from "src/model/usuario";
 import { DialogoSiguienteProcesoComponent } from "../dialogo-siguiente-proceso/dialogo-siguiente-proceso.component";
 import { DialogoNotificacionesComponent } from "../dialogo-notificaciones/dialogo-notificaciones.component";
-import { Scale } from 'src/model/scale';
 import { DialogoSimpleComponent } from 'src/app/common/dialogo-simple/dialogo-simple.component';
 import { ADMINISTRATOR, ARR_LANGUAJES, ARR_REFERRALSORUCE, ARR_TYPESOFINTERVIEW,BACKOFFICE, GHOSTWRITING, INTERVIEWER, INTERVIEWER_SCALES, MASTER, TEMPLATE_CREATOR, THERAPIST, VENDOR, US_STATES,VOC } from 'src/app/app.config';
-import { UsuariosService } from 'src/app/services/usuarios.service';
 import { DialogoSolicitudCasenumberComponent } from '../dialogo-solicitud-casenumber/dialogo-solicitud-casenumber.component';
 import { DialogoSolicitudTelefonoComponent } from '../dialogo-solicitud-telefono/dialogo-solicitud-telefono.component';
-import { ReportesService } from '../../services/reportes.service';
 import { SolicitudVoc } from 'src/model/solicitud-voc';
 import { SolicitudesVocService } from 'src/app/services/solicitudes-voc.service';
 import { DialogoAsignarTerapeutaComponent } from '../dialogo-asignar-terapeuta/dialogo-asignar-terapeuta.component';
@@ -68,6 +65,7 @@ import { EventoSolicitud } from 'src/model/evento-solicitud';
     ]
 })
 export class SolicitudVocComponent implements OnInit {
+
   cargando: boolean = false;
   usuario: Usuario = new Usuario();
   titulo: string = "";
@@ -81,11 +79,6 @@ export class SolicitudVocComponent implements OnInit {
 
   arrTipoPago: TipoPago[] = [];
   inputTipoPago: TipoPago = new TipoPago;
-
-  arrScales: Scale[] = [];
-  inputScale: Scale = new Scale;
-
-  scales: string[] = ['Scale 1', 'Scale 2', 'Scale 3', 'Scale 4', 'Scale 5'];
 
     fechaParaNuevoConteoDeVOC: boolean = false;
 
@@ -118,7 +111,6 @@ export class SolicitudVocComponent implements OnInit {
 
   @ViewChild(EventosSolicitudVocComponent, { static: false }) eventosSolicitudVocComponent: EventosSolicitudVocComponent;
   @ViewChild(AdjuntosVocComponent, { static: false }) adjuntosVocComponent: AdjuntosVocComponent;
-  // @ViewChild(MovimientosSolicitudComponent, { static: false }) movimientosSolicitudComponent: MovimientosSolicitudComponent;
   @ViewChild(CitasSolicitudComponent, { static: false }) citasSolicitudComponent: CitasSolicitudComponent;
 
   constructor(
@@ -128,9 +120,6 @@ export class SolicitudVocComponent implements OnInit {
     private eventoSolicitudVOC: EventoSolicitudVocService,
     private tiposSolicitudService: TiposSolicitudService,
     private tiposPagoService: TiposPagoService,
-    private scalesService: ScalesService,
-    private usuariosService: UsuariosService,
-    private reportesService: ReportesService,
     private dialog: MatDialog
   ) {
 
@@ -153,15 +142,16 @@ export class SolicitudVocComponent implements OnInit {
     this.isTherapist = this.usuario.rol == THERAPIST ? true : false;
 
     route.params.subscribe((params) => {
+
       let codigo = params["id"];
       if (codigo.toString() == "nueva-solicitud") {
         this.titulo = "New File";
         this.creando = true;
         // this.solicitud.asignacionTemplate = false;
         // this.solicitud.waiver = false;
-        this.solicitud.paralegalName = null;
-        this.solicitud.paralegalEmails = null;
-        this.solicitud.paralegalTelefonos = null;
+        this.solicitud.paralegalName = '';
+        this.solicitud.paralegalEmails = '';
+        this.solicitud.paralegalTelefonos = '';
         this.obtenerTiposSolicitud();
         // this.solicitud.external = false;
         this.solicitud.fechaInicio = new Date();
@@ -174,6 +164,7 @@ export class SolicitudVocComponent implements OnInit {
         this.editando = true;
         this.obtenerSolicitud(Number.parseInt(codigo));
       }
+      
     });
 
     
@@ -208,8 +199,8 @@ export class SolicitudVocComponent implements OnInit {
       .then((results) => {
         this.arrTipoSolicitud = results[0];
         this.solicitud = results[1];
+        console.log('numTerapeutas:'+this.solicitud.numCitasTerapeutasPorSolicitud.length);
         this.arrEventosSolicitudVoc = results[2];
-        this.arrScales.sort((a, b) => b.idScale - a.idScale);
         this.inputTipoSolicitud = this.arrTipoSolicitud[this.arrTipoSolicitud.findIndex(tipo => tipo.idTipoSolicitud == this.solicitud.idTipoSolicitud)];
         //this.inputTipoPago = this.arrTipoPago[this.arrTipoPago.findIndex(tipo => tipo.idTipoPago == this.solicitud.id)];
         this.onPhoneNumberInput(this.solicitud.telefono);
@@ -387,35 +378,7 @@ export class SolicitudVocComponent implements OnInit {
     window.open(url, '_blank');
   }
 
-  addScale() {
-    this.cargando = true;
-    this.scalesService.insertarScale(this.solicitud.idSolicitud, this.inputScale, this.usuario.idUsuario)
-      .then(() => {
-        this.scalesService.obtenerScalesSolicitud(this.solicitud.idSolicitud)
-          .then(response => {
-            this.arrScales = response;
-            this.arrScales.sort((a, b) => b.idScale - a.idScale);
-          })
-          .catch((reason) => this.utilService.manejarError(reason))
-      })
-      .catch((reason) => this.utilService.manejarError(reason))
-      .then(() => (this.cargando = false));
-  }
-
-  removeScale(idScale: number) {
-    this.cargando = true;
-    this.scalesService.eliminarScale(idScale)
-      .then(() => {
-        this.scalesService.obtenerScalesSolicitud(this.solicitud.idSolicitud)
-          .then(response => {
-            this.arrScales = response;
-            this.arrScales.sort((a, b) => b.idScale - a.idScale);
-          })
-          .catch((reason) => this.utilService.manejarError(reason))
-      })
-      .catch((reason) => this.utilService.manejarError(reason))
-      .then(() => (this.cargando = false));
-  }
+  
 
   onPhoneNumberInput(inputText: string): void {
     let trimmedValue = inputText.replace(/\D/g, ''); // Eliminar caracteres que no sean dígitos
@@ -490,6 +453,30 @@ export class SolicitudVocComponent implements OnInit {
       if (valor == 'ok') {
         this.cargando = true;
         this.solicitudesVocService.actualizarEstatusSolicitud(this.solicitud.idSolicitud, 11, this.usuario.idUsuario, false)
+          .then(() => {
+            this.obtenerSolicitud(this.solicitud.idSolicitud);
+          })
+          .catch((reason) => this.utilService.manejarError(reason))
+          .then(() => (this.cargando = false));
+      }
+    }).catch(reason => this.utilService.manejarError(reason));
+  }
+
+  pausarFile(estatus: number, texto: string) {
+    this.dialog.open(DialogoSimpleComponent, {
+      data: {
+        titulo: 'Pause File',
+        texto: 'Do you really want to change estatus to ' + texto + ' this file?',
+        botones: [
+          { texto: 'Cancel', color: '', valor: '' },
+          { texto: 'Yes', color: 'primary', valor: 'ok' },
+        ]
+      },
+      disableClose: true,
+    }).afterClosed().toPromise().then(valor => {
+      if (valor == 'ok') {
+        this.cargando = true;
+        this.solicitudesVocService.actualizarEstatusSolicitud(this.solicitud.idSolicitud, estatus, this.usuario.idUsuario, false)
           .then(() => {
             this.obtenerSolicitud(this.solicitud.idSolicitud);
           })

@@ -46,4 +46,13 @@ export class SolicitudVoc {
   purposeTreatament: string;
   participation: string;
   recommendations: string;
+
+  nombreDelPadre: string;
+  consejera: string;
+  nombreEscuela: string;
+  lenguajePreferente: string;
+
+  numCitasTerapeutasPorSolicitud: string[];
+  info: string;
+
 }

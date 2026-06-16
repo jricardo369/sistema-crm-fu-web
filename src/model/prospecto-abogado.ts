@@ -21,4 +21,5 @@ export class ProspectoAbogado {
     solicitudRelacionada: number;
     fechaEnvioCliente: string;
     fechaRecordatorioLiaison: string;
+    fuente: string;
 }

@@ -26,6 +26,7 @@ import { EmailProspectoAbogadoService } from 'src/app/services/email-prospecto-a
 import { DialogoSimpleComponent } from 'src/app/common/dialogo-simple/dialogo-simple.component';
 import { MatDialog } from "@angular/material/dialog";
 import { DialogoNotInteresedComponent } from '../dialogo-not-interesed/dialogo-not-interesed.component';
+import { DialogoAddCrmFileComponent } from '../dialogo-add-crm-file/dialogo-add-crm-file.component';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -75,6 +76,7 @@ export class LawyerProspectComponent {
   arrStates: any[] = [];
 
   arrEmailAbogados: EmailProspectoAbogado[] = [];
+  arrFuentes: string[] = ['Calls','Tiktok','Facebook', 'Physical Package', 'Website','Referral'];
   inputAbogado: EmailProspectoAbogado = new EmailProspectoAbogado;
 
   arrEmailAbogadosN: string[] = [];
@@ -164,7 +166,12 @@ export class LawyerProspectComponent {
         this.arrEmailAbogadosN
       )
       .then((prospecto) => {
-        this.router.navigate(['/marketing/lawyers-prospects']);
+          this.titulo = 'Lawyer Prospect #' + prospecto.idProspectoAbogado;
+        this.creando = false;
+        this.idEstatusProspecto = 1;
+        this.prospecto = prospecto;
+        this.obtenerEmailsAbogado(prospecto.idProspectoAbogado);
+
       })
       .catch((reason) => this.utilService.manejarError(reason))
       .then(() => (this.cargando = false));
@@ -274,6 +281,35 @@ export class LawyerProspectComponent {
 
   }
 
+  coldProspecto() {
+   
+     this.dialog.open(DialogoSimpleComponent, {
+          data: {
+            titulo: 'Cold prospect',
+            texto: 'Do you really want to mark this prospect as a cold prospect?',
+            botones: [
+              { texto: 'Cancel', color: '', valor: '' },
+              { texto: 'Yes', color: 'primary', valor: 'ok' },
+            ]
+          },
+          disableClose: true,
+        }).afterClosed().toPromise().then(valor => {
+          if (valor == 'ok') {
+            
+            this.cargando = true; 
+            console.log('Guardar cambios para el prospecto:', this.prospecto);
+            this.prospectosAbogadoService.actualizarProspectoAbogado(this.prospecto,6, this.usuario.idUsuario,"").then((prospecto) => {
+              this.cargarProspecto();
+              this.router.navigate(['/marketing/lawyers-prospects']);
+            })
+              .catch((reason) => this.utilService.manejarError(reason))
+              .then(() => (this.cargando = false));
+
+          }
+        }).catch(reason => this.utilService.manejarError(reason));
+
+  }
+
   closedProspecto() {
 
     this.dialog.open(DialogoNotInteresedComponent, {
@@ -292,6 +328,19 @@ export class LawyerProspectComponent {
 
   }
 
+  addCrmFileManual() {
+    this.dialog.open(DialogoAddCrmFileComponent, {
+      data: {
+        prospecto: this.prospecto,
+        titulo: 'Add CRM file manually',
+        subtitulo: 'Complete the required information to add the CRM file manually.'
+      },
+      disableClose: true,
+    }).afterClosed().toPromise().then(valor => {
+      this.cargarProspecto();
+    }).catch(reason => this.utilService.manejarError(reason));
+  }
+
   addMailAbogadoN() {
     if (!/^\S+@\S+\.\S+$/.test(this.inputAbogadoN)) {
       this.utilService.manejarError('Invalid email');
@@ -302,6 +351,13 @@ export class LawyerProspectComponent {
       } else {
         this.arrEmailAbogadosN.push(this.inputAbogadoN);
       }
+    }
+  }
+
+  removeMailAbogadoN(emAbo: string) {
+    const index = this.arrEmailAbogadosN.indexOf(emAbo);
+    if (index !== -1) {
+      this.arrEmailAbogadosN.splice(index, 1);
     }
   }
 

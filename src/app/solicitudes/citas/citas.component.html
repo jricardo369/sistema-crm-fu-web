@@ -19,13 +19,6 @@
           style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
         <label style="margin: auto;color: #FFFFFF;text-transform: none;">Refresh</label>
       </button>
- 
-       <!--<button (click)='enviarRecordatorios()' class="btn" *ngIf="isInterviewer || isInterviewerScales || isClinician"
-        style="color: #FFFFFF;background: #798af4; border-radius: 5px; height: 20px; line-height: 20px; margin-left: auto;" >
-        <mat-icon svgIcon="reminderD"
-          style="color:rgba(255, 255, 255, 0.7); width: 11px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
-        <label style="margin: auto;color: #FFFFFF;text-transform: none;">Send week reminder</label>
-      </button>-->
 
     </app-experimental-menu>
 
@@ -65,7 +58,7 @@
             </select>
           </div>
 
-          <div class="iigwo-input">
+          <div *ngIf="(!isTherapist && !isVOC)" class="iigwo-input">
             <label>State</label>
             <select [(ngModel)]="stateSelected" [ngModelOptions]="{standalone: true}" (change)="refrescar()">
               <option *ngFor="let state of arrStates" [ngValue]="state.abbreviation">
@@ -74,7 +67,7 @@
           </div>
 
           <div class="iigwo-input" style="display: flex; align-items: flex-end;height: 40px;"
-            *ngIf="(isMaster || isVendor || isBackOffice || isInterviewer || isInterviewerScales || isClinician)">
+            *ngIf="(isMaster || isVendor || isBackOffice || isInterviewer || isInterviewerScales || isClinician || isTherapist || isVOC)">
             <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;"
               id="viewAvalability" [checked]="filterViewAvalability"
               (change)="filterViewAvalability = !filterViewAvalability; refrescar()">
@@ -98,15 +91,15 @@
           </button>
 
 
-            <div class="vista-toggle" class="seccion-wee-day" *ngIf="versionCalendario === '2'">
-              <button class="vista-btn" [class.active]="vista === 'week'" (click)="cambiarVista('week')">Week</button>
-              <button class="vista-btn" [class.active]="vista === 'day'" (click)="cambiarVista('day')">Day</button>
-            </div>
-            <div class="day-selector" class="seccion-wee-day" *ngIf="vista === 'day' && versionCalendario === '2'">
-              <button *ngFor="let dia of diasSemanaCalendar; let i = index" class="day-btn" [class.active]="diaSeleccionado === i"
-                (click)="selectDay(i)">{{ dia.substring(0, 3) }}</button>
-            </div>
-      
+          <div class="vista-toggle" class="seccion-wee-day" *ngIf="versionCalendario === '2'">
+            <button class="vista-btn" [class.active]="vista === 'week'" (click)="cambiarVista('week')">Week</button>
+            <button class="vista-btn" [class.active]="vista === 'day'" (click)="cambiarVista('day')">Day</button>
+          </div>
+          <div class="day-selector" class="seccion-wee-day" *ngIf="vista === 'day' && versionCalendario === '2'">
+            <button *ngFor="let dia of diasSemanaCalendar; let i = index" class="day-btn"
+              [class.active]="diaSeleccionado === i" (click)="selectDay(i)">{{ dia.substring(0, 3) }}</button>
+          </div>
+
 
         </div>
 
@@ -124,10 +117,9 @@
         <div class="cita-dia" *ngFor="let c of citasDeDia" style="border-color:gray; position: relative;"
           [style.border-top-color]="c.color ? c.color : '#00000033'">
 
-           <svg *ngIf="c?.importante?.length > 0" width="9" height="9"
-              style="position: absolute; top: 4px; right: 4px;">
-              <circle cx="4" cy="4" r="4" [attr.fill]="'red'"></circle>
-            </svg>
+          <svg *ngIf="c?.importante?.length > 0" width="9" height="9" style="position: absolute; top: 4px; right: 4px;">
+            <circle cx="4" cy="4" r="4" [attr.fill]="'red'"></circle>
+          </svg>
 
           <div (click)="verCita(c)">
 
@@ -168,9 +160,10 @@
                   <div *ngIf="!c.finSchedule" class="div-img-label">
                     <p style="color:#d04d21">Not attended</p>
                   </div>
-                  <span class="cita-estatus estatus-badge badge-right translator" *ngIf="c.citaTraductor">As a translator</span>
+                  <span class="cita-estatus estatus-badge badge-right translator" *ngIf="c.citaTraductor">As a
+                    translator</span>
                 </div>
-                <div *ngIf="isTherapist">
+                <div *ngIf="isTherapist || isVOC">
                   <div *ngIf="c.tieneNota" class="div-img-label">
                     <mat-icon svgIcon="seenD"
                       style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
@@ -209,670 +202,85 @@
       </div>
 
       <!-- CALENDARIO -->
-      <div style="display:flex; overflow: auto; margin-top: 5px;" *ngIf="!mostrarDatosDia && versionCalendario == '1'">
-        <div class="separador"></div>
-        <div class="columna-dia">
-
-          <div>
-            <p class="accent header-dia-fecha">{{lunes}}</p>
-            <p class="accent header-dia">MONDAY</p>
-          </div>
-
-          <div class="cita" *ngFor="let c of citas.lunes" style="border-color:gray; position: relative;"
-            [style.border-top-color]="c.color ? c.color : '#00000033'">
-
-            <svg *ngIf="c?.importante?.length > 0" width="9" height="9"
-              style="position: absolute; top: 4px; right: 4px;">
-              <circle cx="4" cy="4" r="4" [attr.fill]="'red'"></circle>
-            </svg>
-
-            <div  (click)="verCita(c)">
-
-            <div style="display: inline-flex;">
-              <p class="nombre">{{c.nombreUsuario}}</p>
-            </div>
-            <div style="display: inline-flex">
-              <div *ngIf="!isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD"
-                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p *ngIf="!filterViewAvalability; else elseTemplate">
-                  {{c.hora + " " + c.tipo}} &#9679; {{"File " + c.idSolicitud}}
-                </p>
-              </div>
-              <div *ngIf="isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD"
-                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p *ngIf="!filterViewAvalability; else elseTemplate">
-                  {{c.hora + " " + c.tipo}} &#9679; {{c.cliente}}
-                </p>
-              </div>
-
-
-              <ng-template #elseTemplate>
-                <p>{{c.hora + " " + c.tipo}}</p>
-              </ng-template>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; margin-top: 4px;">
-              <div>
-                <div *ngIf="!isTherapist && !isVOC && !filterViewAvalability">
-                  <div *ngIf="c.finSchedule" class="div-img-label">
-                    <mat-icon svgIcon="seenD"
-                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                    <p style="color:#41949B">Attended </p>
-                  </div>
-                  <div *ngIf="!c.finSchedule" class="div-img-label">
-                    <p style="color:#d04d21">Not attended</p>
-                  </div>
-                  <span class="cita-estatus estatus-badge badge-right translator" *ngIf="c.citaTraductor">As a translator</span>
-                </div>
-                <div *ngIf="isTherapist">
-                  <div *ngIf="c.tieneNota" class="div-img-label">
-                    <mat-icon svgIcon="seenD"
-                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                    <p style="color:#41949B">With note </p>
-                  </div>
-                  <div *ngIf="!c.tieneNota" class="div-img-label">
-                    <p style="color:#d04d21">No note </p>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <p *ngIf="isMaster || isBackOffice" [ngClass]="{'badge-color-received-sl': c.idEstaSol == 1,
-                            'badge-color-reviewing-sl': c.idEstaSol == 2,
-                            'badge-color-interview-sl': c.idEstaSol == 3,
-                            'badge-color-refused-sl': c.idEstaSol == 4,
-                            'badge-color-no_show-sl': c.idEstaSol == 5,
-                            'badge-color-case-sl': c.idEstaSol == 6,
-                            'badge-color-lost-sl': c.idEstaSol == 7,
-                            'badge-color-won-sl': c.idEstaSol == 8,
-                            'badge-color-open-sl': c.idEstaSol == 9,
-                            'badge-color-ready_on_draft-sl': c.idEstaSol == 10,
-                            'badge-color-closed-sl': c.idEstaSol == 11}">{{c.descEst}}</p>
-              </div>
-            </div>
-          </div>
-
-          </div>
-        </div>
-        <div class="separador"></div>
-        <div class="columna-dia">
-          <div>
-            <p class="accent header-dia-fecha">{{martes}}</p>
-            <p class="accent header-dia">TUESDAY</p>
-          </div>
-          <div class="cita" *ngFor="let c of citas.martes" style="border-color:gray; position: relative;"
-            [style.border-top-color]="c.color ? c.color : '#00000033'" >
-           
-             <svg *ngIf="c?.importante?.length > 0" width="9" height="9"
-              style="position: absolute; top: 4px; right: 4px;">
-              <circle cx="4" cy="4" r="4" [attr.fill]="'red'"></circle>
-            </svg>
-
-            <div  (click)="verCita(c)">
-
-            <div style="display: inline-flex;">
-              <p class="nombre">{{c.nombreUsuario}}</p>
-            </div>
-
-            <div style="display: inline-flex">
-
-
-              <div *ngIf="!isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD"
-                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p *ngIf="!filterViewAvalability; else elseTemplate">
-                  {{c.hora + " " + c.tipo}} &#9679; {{"File " + c.idSolicitud}}
-                </p>
-              </div>
-              <div *ngIf="isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD"
-                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p *ngIf="!filterViewAvalability; else elseTemplate">
-                  {{c.hora + " " + c.tipo}} &#9679; {{c.cliente}}
-                </p>
-              </div>
-
-              <ng-template #elseTemplate>
-                <p>{{c.hora + " " + c.tipo}}</p>
-              </ng-template>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; margin-top: 4px;">
-              <div>
-                <div *ngIf="!isTherapist && !isVOC && !filterViewAvalability">
-                  <div *ngIf="c.finSchedule" class="div-img-label">
-                    <mat-icon svgIcon="seenD"
-                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                    <p style="color:#41949B">Attended </p>
-                  </div>
-                  <div *ngIf="!c.finSchedule" class="div-img-label">
-                    <p style="color:#d04d21">Not attended</p>
-                  </div>
-                  <span class="cita-estatus estatus-badge badge-right translator" *ngIf="c.citaTraductor">As a translator</span>
-                </div>
-                <div *ngIf="isTherapist">
-                  <div *ngIf="c.tieneNota" class="div-img-label">
-                    <mat-icon svgIcon="seenD"
-                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                    <p style="color:#41949B">With note </p>
-                  </div>
-                  <div *ngIf="!c.tieneNota" class="div-img-label">
-                    <p style="color:#d04d21">No note </p>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <p *ngIf="isMaster || isBackOffice" [ngClass]="{'badge-color-received-sl': c.idEstaSol == 1,
-                            'badge-color-reviewing-sl': c.idEstaSol == 2,
-                            'badge-color-interview-sl': c.idEstaSol == 3,
-                            'badge-color-refused-sl': c.idEstaSol == 4,
-                            'badge-color-no_show-sl': c.idEstaSol == 5,
-                            'badge-color-case-sl': c.idEstaSol == 6,
-                            'badge-color-lost-sl': c.idEstaSol == 7,
-                            'badge-color-won-sl': c.idEstaSol == 8,
-                            'badge-color-open-sl': c.idEstaSol == 9,
-                            'badge-color-ready_on_draft-sl': c.idEstaSol == 10,
-                            'badge-color-closed-sl': c.idEstaSol == 11}">{{c.descEst}}</p>
-              </div>
-            </div>
-            </div>
-
-          </div>
-        </div>
-        <div class="separador"></div>
-        <div class="columna-dia">
-          <div>
-            <p class="accent header-dia-fecha">{{miercoles}}</p>
-            <p class="accent header-dia">WEDNESDAY</p>
-          </div>
-          <div class="cita" *ngFor="let c of citas.miercoles" style="border-color:gray; position: relative;"
-            [style.border-top-color]="c.color ? c.color : '#00000033'">
-
-             <svg *ngIf="c?.importante?.length > 0" width="9" height="9"
-              style="position: absolute; top: 4px; right: 4px;">
-              <circle cx="4" cy="4" r="4" [attr.fill]="'red'"></circle>
-            </svg>
-
-            <div  (click)="verCita(c)">
-
-            <div style="display: inline-flex;">
-              <p class="nombre">{{c.nombreUsuario}}</p>
-            </div>
-            <div style="display: inline-flex">
-
-              <div *ngIf="!isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD"
-                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p *ngIf="!filterViewAvalability; else elseTemplate">
-                  {{c.hora + " " + c.tipo}} &#9679; {{"File " + c.idSolicitud}}
-                </p>
-              </div>
-              <div *ngIf="isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD"
-                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p *ngIf="!filterViewAvalability; else elseTemplate">
-                  {{c.hora + " " + c.tipo}} &#9679; {{c.cliente}}
-                </p>
-              </div>
-
-              <ng-template #elseTemplate>
-                <p>{{c.hora + " " + c.tipo}}</p>
-              </ng-template>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; margin-top: 4px;">
-              <div>
-                <div *ngIf="!isTherapist && !isVOC && !filterViewAvalability">
-                  <div *ngIf="c.finSchedule" class="div-img-label">
-                    <mat-icon svgIcon="seenD"
-                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                    <p style="color:#41949B">Attended </p>
-                  </div>
-                  <div *ngIf="!c.finSchedule" class="div-img-label">
-                    <p style="color:#d04d21">Not attended</p>
-                  </div>
-                  <span class="cita-estatus estatus-badge badge-right translator" *ngIf="c.citaTraductor">As a translator</span>
-                </div>
-                <div *ngIf="isTherapist">
-                  <div *ngIf="c.tieneNota" class="div-img-label">
-                    <mat-icon svgIcon="seenD"
-                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                    <p style="color:#41949B">With note </p>
-                  </div>
-                  <div *ngIf="!c.tieneNota" class="div-img-label">
-                    <p style="color:#d04d21">No note </p>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <p *ngIf="isMaster || isBackOffice" [ngClass]="{'badge-color-received-sl': c.idEstaSol == 1,
-                            'badge-color-reviewing-sl': c.idEstaSol == 2,
-                            'badge-color-interview-sl': c.idEstaSol == 3,
-                            'badge-color-refused-sl': c.idEstaSol == 4,
-                            'badge-color-no_show-sl': c.idEstaSol == 5,
-                            'badge-color-case-sl': c.idEstaSol == 6,
-                            'badge-color-lost-sl': c.idEstaSol == 7,
-                            'badge-color-won-sl': c.idEstaSol == 8,
-                            'badge-color-open-sl': c.idEstaSol == 9,
-                            'badge-color-ready_on_draft-sl': c.idEstaSol == 10,
-                            'badge-color-closed-sl': c.idEstaSol == 11}">{{c.descEst}}</p>
-              </div>
-            </div>
-            </div>
-
-          </div>
-        </div>
-        <div class="separador"></div>
-        <div class="columna-dia">
-          <div>
-            <p class="accent header-dia-fecha">{{jueves}}</p>
-            <p class="accent header-dia">THURSDAY</p>
-          </div>
-          <div class="cita" *ngFor="let c of citas.jueves" style="border-color:gray; position: relative;"
-            [style.border-top-color]="c.color ? c.color : '#00000033'" >
-            
-             <svg *ngIf="c?.importante?.length > 0" width="9" height="9"
-              style="position: absolute; top: 4px; right: 4px;">
-              <circle cx="4" cy="4" r="4" [attr.fill]="'red'"></circle>
-            </svg>
-
-            <div  (click)="verCita(c)">
-            <div style="display: inline-flex;">
-              <p class="nombre">{{c.nombreUsuario}}</p>
-            </div>
-            <div style="display: inline-flex">
-
-              <div *ngIf="!isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD"
-                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p *ngIf="!filterViewAvalability; else elseTemplate">
-                  {{c.hora + " " + c.tipo}} &#9679; {{"File " + c.idSolicitud}}
-                </p>
-              </div>
-              <div *ngIf="isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD"
-                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p *ngIf="!filterViewAvalability; else elseTemplate">
-                  {{c.hora + " " + c.tipo}} &#9679; {{c.cliente}}
-                </p>
-              </div>
-
-              <ng-template #elseTemplate>
-                <p>{{c.hora + " " + c.tipo}}</p>
-              </ng-template>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; margin-top: 4px;">
-              <div>
-                <div *ngIf="!isTherapist && !isVOC && !filterViewAvalability">
-                  <div *ngIf="c.finSchedule" class="div-img-label">
-                    <mat-icon svgIcon="seenD"
-                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                    <p style="color:#41949B">Attended </p>
-                  </div>
-                  <div *ngIf="!c.finSchedule" class="div-img-label">
-                    <p style="color:#d04d21">Not attended</p>
-                  </div>
-                  <span class="cita-estatus estatus-badge badge-right translator" *ngIf="c.citaTraductor">As a translator</span>
-                </div>
-                <div *ngIf="isTherapist">
-                  <div *ngIf="c.tieneNota" class="div-img-label">
-                    <mat-icon svgIcon="seenD"
-                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                    <p style="color:#41949B">With note </p>
-                  </div>
-                  <div *ngIf="!c.tieneNota" class="div-img-label">
-                    <p style="color:#d04d21">No note </p>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <p *ngIf="isMaster || isBackOffice" [ngClass]="{'badge-color-received-sl': c.idEstaSol == 1,
-                            'badge-color-reviewing-sl': c.idEstaSol == 2,
-                            'badge-color-interview-sl': c.idEstaSol == 3,
-                            'badge-color-refused-sl': c.idEstaSol == 4,
-                            'badge-color-no_show-sl': c.idEstaSol == 5,
-                            'badge-color-case-sl': c.idEstaSol == 6,
-                            'badge-color-lost-sl': c.idEstaSol == 7,
-                            'badge-color-won-sl': c.idEstaSol == 8,
-                            'badge-color-open-sl': c.idEstaSol == 9,
-                            'badge-color-ready_on_draft-sl': c.idEstaSol == 10,
-                            'badge-color-closed-sl': c.idEstaSol == 11}">{{c.descEst}}</p>
-              </div>
-            </div>
-          </div>
-
-          </div>
-        </div>
-        <div class="separador"></div>
-        <div class="columna-dia">
-          <div>
-            <p class="accent header-dia-fecha">{{viernes}}</p>
-            <p class="accent header-dia">FRIDAY</p>
-          </div>
-          <div class="cita" *ngFor="let c of citas.viernes" style="border-color:gray; position: relative;"
-            [style.border-top-color]="c.color ? c.color : '#00000033'" >
-            
-             <svg *ngIf="c?.importante?.length > 0" width="9" height="9"
-              style="position: absolute; top: 4px; right: 4px;">
-              <circle cx="4" cy="4" r="4" [attr.fill]="'red'"></circle>
-            </svg>
-
-            <div  (click)="verCita(c)">
-            <div style="display: inline-flex;">
-              <p class="nombre">{{c.nombreUsuario}}</p>
-            </div>
-            <div style="display: inline-flex">
-
-              <div *ngIf="!isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD"
-                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p *ngIf="!filterViewAvalability; else elseTemplate">
-                  {{c.hora + " " + c.tipo}} &#9679; {{"File " + c.idSolicitud}}
-                </p>
-              </div>
-              <div *ngIf="isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD"
-                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p *ngIf="!filterViewAvalability; else elseTemplate">
-                  {{c.hora + " " + c.tipo}} &#9679; {{c.cliente}}
-                </p>
-              </div>
-
-              <ng-template #elseTemplate>
-                <p>{{c.hora + " " + c.tipo}}</p>
-              </ng-template>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; margin-top: 4px;">
-              <div>
-                <div *ngIf="!isTherapist && !isVOC && !filterViewAvalability">
-                  <div *ngIf="c.finSchedule" class="div-img-label">
-                    <mat-icon svgIcon="seenD"
-                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                    <p style="color:#41949B">Attended </p>
-                  </div>
-                  <div *ngIf="!c.finSchedule" class="div-img-label">
-                    <p style="color:#d04d21">Not attended</p>
-                  </div>
-                  <span class="cita-estatus estatus-badge badge-right translator" *ngIf="c.citaTraductor">As a translator</span>
-                </div>
-                <div *ngIf="isTherapist">
-                  <div *ngIf="c.tieneNota" class="div-img-label">
-                    <mat-icon svgIcon="seenD"
-                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                    <p style="color:#41949B">With note </p>
-                  </div>
-                  <div *ngIf="!c.tieneNota" class="div-img-label">
-                    <p style="color:#d04d21">No note </p>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <p *ngIf="isMaster || isBackOffice" [ngClass]="{'badge-color-received-sl': c.idEstaSol == 1,
-                            'badge-color-reviewing-sl': c.idEstaSol == 2,
-                            'badge-color-interview-sl': c.idEstaSol == 3,
-                            'badge-color-refused-sl': c.idEstaSol == 4,
-                            'badge-color-no_show-sl': c.idEstaSol == 5,
-                            'badge-color-case-sl': c.idEstaSol == 6,
-                            'badge-color-lost-sl': c.idEstaSol == 7,
-                            'badge-color-won-sl': c.idEstaSol == 8,
-                            'badge-color-open-sl': c.idEstaSol == 9,
-                            'badge-color-ready_on_draft-sl': c.idEstaSol == 10,
-                            'badge-color-closed-sl': c.idEstaSol == 11}">{{c.descEst}}</p>
-              </div>
-            </div>
-            </div>
-
-          </div>
-        </div>
-        <div class="separador"></div>
-        <div class="columna-dia">
-          <div>
-            <p class="accent header-dia-fecha">{{sabado}}</p>
-            <p class="accent header-dia">SATURDAY</p>
-          </div>
-          <div class="cita" *ngFor="let c of citas.sabado" style="border-color:gray; position: relative;"
-            [style.border-top-color]="c.color ? c.color : '#00000033'" >
-            
-             <svg *ngIf="c?.importante?.length > 0" width="9" height="9"
-              style="position: absolute; top: 4px; right: 4px;">
-              <circle cx="4" cy="4" r="4" [attr.fill]="'red'"></circle>
-            </svg>
-
-            <div  (click)="verCita(c)">
-            <div style="display: inline-flex;">
-              <p class="nombre">{{c.nombreUsuario}}</p>
-            </div>
-            <div style="display: inline-flex">
-
-              <div *ngIf="!isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD"
-                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p *ngIf="!filterViewAvalability; else elseTemplate">
-                  {{c.hora + " " + c.tipo}} &#9679; {{"File " + c.idSolicitud}}
-                </p>
-              </div>
-              <div *ngIf="isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD"
-                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p *ngIf="!filterViewAvalability; else elseTemplate">
-                  {{c.hora + " " + c.tipo}} &#9679; {{c.cliente}}
-                </p>
-              </div>
-
-              <ng-template #elseTemplate>
-                <p>{{c.hora + " " + c.tipo}}</p>
-              </ng-template>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; margin-top: 4px;">
-              <div>
-                <div *ngIf="!isTherapist && !isVOC && !filterViewAvalability">
-                  <div *ngIf="c.finSchedule" class="div-img-label">
-                    <mat-icon svgIcon="seenD"
-                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                    <p style="color:#41949B">Attended </p>
-                  </div>
-                  <div *ngIf="!c.finSchedule" class="div-img-label">
-                    <p style="color:#d04d21">Not attended</p>
-                  </div>
-                  <span class="cita-estatus estatus-badge badge-right translator" *ngIf="c.citaTraductor">As a translator</span>
-                </div>
-                <div *ngIf="isTherapist">
-                  <div *ngIf="c.tieneNota" class="div-img-label">
-                    <mat-icon svgIcon="seenD"
-                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                    <p style="color:#41949B">With note </p>
-                  </div>
-                  <div *ngIf="!c.tieneNota" class="div-img-label">
-                    <p style="color:#d04d21">No note </p>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <p *ngIf="isMaster || isBackOffice" [ngClass]="{'badge-color-received-sl': c.idEstaSol == 1,
-                            'badge-color-reviewing-sl': c.idEstaSol == 2,
-                            'badge-color-interview-sl': c.idEstaSol == 3,
-                            'badge-color-refused-sl': c.idEstaSol == 4,
-                            'badge-color-no_show-sl': c.idEstaSol == 5,
-                            'badge-color-case-sl': c.idEstaSol == 6,
-                            'badge-color-lost-sl': c.idEstaSol == 7,
-                            'badge-color-won-sl': c.idEstaSol == 8,
-                            'badge-color-open-sl': c.idEstaSol == 9,
-                            'badge-color-ready_on_draft-sl': c.idEstaSol == 10,
-                            'badge-color-closed-sl': c.idEstaSol == 11}">{{c.descEst}}</p>
-              </div>
-            </div>
-            </div>  
-
-          </div>
-        </div>
-        <div class="separador"></div>
-        <div class="columna-dia">
-          <div>
-            <p class="accent header-dia-fecha">{{domingo}}</p>
-            <p class="accent header-dia">SUNDAY</p>
-          </div>
-          <div class="cita" *ngFor="let c of citas.domingo" style="border-color:gray; position: relative;"
-            [style.border-top-color]="c.color ? c.color : '#00000033'">
-
-             <svg *ngIf="c?.importante?.length > 0" width="9" height="9"
-              style="position: absolute; top: 4px; right: 4px;">
-              <circle cx="4" cy="4" r="4" [attr.fill]="'red'"></circle>
-            </svg>
-
-            <div  (click)="verCita(c)">
-            <div style="display: inline-flex;">
-              <p class="nombre">{{c.nombreUsuario}}</p>
-            </div>
-
-            <div style="display: inline-flex">
-
-              <div *ngIf="!isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD"
-                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p *ngIf="!filterViewAvalability; else elseTemplate">
-                  {{c.hora + " " + c.tipo}} &#9679; {{"File " + c.idSolicitud}}
-                </p>
-              </div>
-              <div *ngIf="isTherapist" class="div-img-label">
-                <mat-icon svgIcon="calendarD"
-                  style="color:rgba(0, 0, 0, 0.7); width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                <p *ngIf="!filterViewAvalability; else elseTemplate">
-                  {{c.hora + " " + c.tipo}} &#9679; {{c.cliente}}
-                </p>
-              </div>
-
-              <ng-template #elseTemplate>
-                <p>{{c.hora + " " + c.tipo}}</p>
-              </ng-template>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; margin-top: 4px;">
-              <div>
-                <div *ngIf="!isTherapist && !isVOC && !filterViewAvalability">
-                  <div *ngIf="c.finSchedule" class="div-img-label">
-                    <mat-icon svgIcon="seenD"
-                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                    <p style="color:#41949B">Attended </p>
-                  </div>
-                  <div *ngIf="!c.finSchedule" class="div-img-label">
-                    <p style="color:#d04d21">Not attended</p>
-                  </div>
-                  <span class="cita-estatus estatus-badge badge-right translator" *ngIf="c.citaTraductor">As a translator</span>
-                </div>
-                <div *ngIf="isTherapist">
-                  <div *ngIf="c.tieneNota" class="div-img-label">
-                    <mat-icon svgIcon="seenD"
-                      style="color:#41949B; width: 10px; height: 11px;margin-bottom: 3px;"></mat-icon>
-                    <p style="color:#41949B">With note </p>
-                  </div>
-                  <div *ngIf="!c.tieneNota" class="div-img-label">
-                    <p style="color:#d04d21">No note </p>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <p *ngIf="isMaster || isBackOffice" [ngClass]="{'badge-color-received-sl': c.idEstaSol == 1,
-                            'badge-color-reviewing-sl': c.idEstaSol == 2,
-                            'badge-color-interview-sl': c.idEstaSol == 3,
-                            'badge-color-refused-sl': c.idEstaSol == 4,
-                            'badge-color-no_show-sl': c.idEstaSol == 5,
-                            'badge-color-case-sl': c.idEstaSol == 6,
-                            'badge-color-lost-sl': c.idEstaSol == 7,
-                            'badge-color-won-sl': c.idEstaSol == 8,
-                            'badge-color-open-sl': c.idEstaSol == 9,
-                            'badge-color-ready_on_draft-sl': c.idEstaSol == 10,
-                            'badge-color-closed-sl': c.idEstaSol == 11}">{{c.descEst}}</p>
-              </div>
-            </div>
-            </div>  
-
-          </div>
-        </div>
-        <div class="separador"></div>
-
-       
-
-
-
-
-
-
-
-
-      </div>
 
       <div *ngIf="!mostrarDatosDia && versionCalendario === '2' && calendarMounted">
-      
+
         <div class="calendario-container">
           <div class="calendario">
             <div class="header-row" [class.day-view]="vista === 'day'">
               <div class="time-header">Time</div>
-              <div class="day-header" *ngFor="let dia of diasSemanaCalendar; let i = index" [class.hidden]="vista === 'day' && diaSeleccionado !== i" [class.single]="vista === 'day'">
-      
+              <div class="day-header" *ngFor="let dia of diasSemanaCalendar; let i = index"
+                [class.hidden]="vista === 'day' && diaSeleccionado !== i" [class.single]="vista === 'day'">
+
                 <div class="day-date">{{ obtenerFechaPorDia(i) }}</div>
                 <div class="day-name">{{ dia }}</div>
-                 <div class="day-count">{{ obtenerCitasPorDia(i).length }} INTVS.</div>
-      
+                <div class="day-count">{{ obtenerCitasPorDia(i).length }} INTVS.</div>
+
               </div>
             </div>
 
             <div *ngIf="true">
-            
+
               <div class="time-row" *ngFor="let hora of horas" [class.day-view]="vista === 'day'">
-            
+
                 <div class="time-cell">{{ hora }}</div>
-            
-                <div class="day-cell" *ngFor="let dia of diasSemanaCalendar; let i = index" [class.hidden]="vista === 'day' && diaSeleccionado !== i" [class.single]="vista === 'day'">
-            
+
+                <div class="day-cell" *ngFor="let dia of diasSemanaCalendar; let i = index"
+                  [class.hidden]="vista === 'day' && diaSeleccionado !== i" [class.single]="vista === 'day'">
+
                   <div *ngFor="let cita of obtenerCitasPorDiaYHora(i, hora)" class="citaN"
-                    [ngStyle]="{'background-color': procesarColor(cita.color, cita)}" 
-                    [class.cita-finalizada]="cita.finSchedule"
-                    [class.cita-pendiente]="!cita.finSchedule">
-            
-                    <!--<div
-                      *ngIf="!cita.finSchedule && cita?.importante?.length == 0 && (isInterviewer || isInterviewerScales || isClinician) && !filterViewAvalability"
-                      class="reminder-indicator-solo" (click)="enviarRecordatorio(cita)">
-                      <img src="assets/svg/reminderNaranja.svg" width="11" height="11"
-                        style="position: absolute; right: 10px; color:#e06c19" />
-                    </div>-->
-            
+                    [ngStyle]="{'background-color': procesarColor(cita.color, cita)}"
+                    [class.cita-finalizada]="cita.finSchedule" [class.cita-pendiente]="!cita.finSchedule">
+
                     <div *ngIf="cita?.importante?.length > 0">
                       <div class="importante-indicator" *ngIf="cita?.importante?.length > 0"></div>
-                      <!--<div class="reminder-indicator"
-                        *ngIf="!cita.finSchedule && (isInterviewer || isInterviewerScales || isClinician) && !filterViewAvalability"
-                        (click)="enviarRecordatorio(cita)">
-                        <img src="assets/svg/reminderNaranja.svg" width="11" height="11" style="position: absolute; right: 10px;" />
-                      </div>-->
                     </div>
-            
+
+                    <div class="recurrence-indicator" *ngIf="cita.codigoRecurrencia != null">
+                      <button id="recurrence-button" style="background-color: transparent; border: none; padding: 0; cursor: pointer;"
+                        (click)="abrirDialogoActualizarCita(cita)" matTooltip="Recurrence schedule">
+                        <mat-icon style="width: 13px; height: 12px; min-width: 12px;" svgIcon="recurrenceD"></mat-icon>
+                      </button>
+                    </div>
+                    
+
                     <div (click)="verCita(cita)">
-                      <div class="cita-nombre">{{ cita.nombreUsuario }}</div>
+                      <div *ngIf="(!isTherapist && !isVOC)" class="cita-nombre">{{ cita.nombreUsuario }}</div>
+                      <div *ngIf="(isTherapist || isVOC)" class="cita-nombre">Clin. {{ cita.nombreUsuario }}</div>
+                      <div *ngIf="(isTherapist || isVOC) && !filterViewAvalability"class="cita-nombre cita-cliente">Cust. {{ cita.cliente}}</div>
                       <div class="cita-hora-row">
-            
+
                         <span class="calendar-icon">📅 </span>
                         <span class="cita-hora">{{ cita.hora }} {{ cita.tipo }}</span>
                         <span class="cita-separator" *ngIf="!filterViewAvalability"> - </span>
-                        <span class="cita-file" *ngIf="!filterViewAvalability">File: {{ cita.idSolicitud }}</span>
+                        <a class="cita-file" *ngIf="!filterViewAvalability" href="" (click)="irASolicitud($event, cita.idSolicitud)">File: {{ cita.idSolicitud }}</a>
+                     
                       </div>
                       <div class="cita-attended-row">
-            
-                        <div class="badges-left" *ngIf="!isTherapist && !isVOC && !filterViewAvalability">
-                          <span class="cita-estatus estatus-badge badge-right not-attended" *ngIf="!cita.finSchedule">Not
-                            Attd.</span>
-                          <span class="cita-estatus estatus-badge badge-right attended" *ngIf="cita.finSchedule">Attd.</span>
 
-                           <span class="cita-estatus estatus-badge badge-right translator" *ngIf="cita.citaTraductor">As a translator</span>
+                        <div class="badges-left" *ngIf="!isTherapist && !isVOC && !filterViewAvalability">
+                          <span class="cita-estatus estatus-badge badge-right not-attended"
+                            *ngIf="!cita.finSchedule">Not
+                            Attd.</span>
+                          <span class="cita-estatus estatus-badge badge-right attended"
+                            *ngIf="cita.finSchedule">Attd.</span>
+
+                          <span class="cita-estatus estatus-badge badge-right translator" *ngIf="cita.citaTraductor">As
+                            a translator</span>
                         </div>
-            
-                        <div class="badges-left" *ngIf="isTherapist">
-                          <span class="cita-estatus estatus-badge badge-right tiene-nota" *ngIf="c.tieneNota">With note</span>
-                          <span class="cita-estatus estatus-badge badge-right no-tiene-nota" *ngIf="!c.tieneNota">No note</span>
+
+                        <div class="badges-left" *ngIf="(isTherapist || isVOC) && !filterViewAvalability">
+
+                        
+                          
+                          <span class="cita-estatus estatus-badge badge-right tiene-nota" *ngIf="cita.tieneNota">With
+                            note</span>
+                          <span class="cita-estatus estatus-badge badge-right no-tiene-nota" *ngIf="!cita.tieneNota">No
+                            note</span>
+                            
+
                         </div>
-            
+
                         <span class="badge-right estatus-badge" *ngIf="isMaster || isBackOffice" [ngClass]="{
                                       'badge-color-received': cita.idEstaSol == 1,
                                       'badge-color-reviewing': cita.idEstaSol == 2,
@@ -886,106 +294,20 @@
                                       'badge-color-ready_on_draft': cita.idEstaSol == 10,
                                       'badge-color-closed': cita.idEstaSol == 11
                                     }">{{ cita.descEst }}</span>
+
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            
+
             </div>
 
-            <div *ngIf="false">
-            
-              <div class="time-row" *ngFor="let hora of horas">
-            
-                <div class="time-cell">{{ hora }} </div>
-
-
-                <div class="day-cell-v2" *ngFor="let dia of diasSemanaCalendar; let i = index">
-              
-                <div *ngFor="let cita of obtenerCitasPorDiaYHora(i, hora)" class="citaN-v2"
-                  [ngStyle]="{'background-color': procesarColor(cita.color, cita)}" [class.cita-finalizada]="cita.finSchedule"
-                  [class.cita-pendiente]="!cita.finSchedule">
-
-                  <div
-                    *ngIf="!cita.finSchedule && cita?.importante?.length == 0 && (isInterviewer || isInterviewerScales || isClinician) && !filterViewAvalability"
-                    class="reminder-indicator-solo" (click)="enviarRecordatorio(cita)">
-                    <img src="assets/svg/reminderNaranja.svg" width="11" height="11" style="position: absolute; right: 10px; color:#e06c19" />
-                  </div>
-
-                  <div *ngIf="cita?.importante?.length > 0">
-                    <div class="importante-indicator" *ngIf="cita?.importante?.length > 0"></div>
-                    <div class="reminder-indicator"  *ngIf="!cita.finSchedule && (isInterviewer || isInterviewerScales || isClinician) && !filterViewAvalability"
-                      (click)="enviarRecordatorio(cita)">
-                      <img src="assets/svg/reminderNaranja.svg" width="11" height="11" style="position: absolute; right: 10px;" />
-                    </div>
-                  </div>
-              
-                  <div (click)="verCita(cita)">
-              
-                    <div class="cita-nombre-row">
-                      <div class="cita-iniciales" [style.background-color]="obtenerColorSolido(cita.color)">
-                        {{ obtenerIniciales(cita.nombreUsuario) }}
-                      </div>
-                      <span class="cita-nombre-v2">{{ cita.nombreUsuario }}</span>
-                    </div>
-                    <div class="cita-detalles-row">
-                      <span class="calendar-icon">📅 </span>
-                      <span class="cita-hora-v2">{{ cita.hora }} {{ cita.tipo }}</span>
-                      <span class="cita-separator">|</span>
-                      <span class="cita-file-v2">File: {{ cita.idSolicitud }}</span>
-                    </div>
-                    <div class="cita-attended-row">
-                      <div class="badges-left">
-                        <div class="badges-left" *ngIf="!isTherapist && !isVOC && !filterViewAvalability">
-                          <span class="cita-estatus estatus-badge badge-right not-attended" *ngIf="!cita.finSchedule">Not
-                            Attd.</span>
-                          <span class="cita-estatus estatus-badge badge-right attended" *ngIf="cita.finSchedule">Attd.</span>
-                        </div>
-              
-                        <div class="badges-left" *ngIf="isTherapist">
-                          <span class="cita-estatus estatus-badge badge-right tiene-nota" *ngIf="c.tieneNota">With note</span>
-                          <span class="cita-estatus estatus-badge badge-right no-tiene-nota" *ngIf="!c.tieneNota">No note</span>
-                        </div>
-                      </div>
-                      <span class="badge-right estatus-badge" *ngIf="isMaster || isBackOffice" [ngClass]="{
-                                        'badge-color-received': cita.idEstaSol == 1,
-                                        'badge-color-reviewing': cita.idEstaSol == 2,
-                                        'badge-color-interview': cita.idEstaSol == 3,
-                                        'badge-color-refused': cita.idEstaSol == 4,
-                                        'badge-color-no_show': cita.idEstaSol == 5,
-                                        'badge-color-case': cita.idEstaSol == 6,
-                                        'badge-color-lost': cita.idEstaSol == 7,
-                                        'badge-color-won': cita.idEstaSol == 8,
-                                        'badge-color-open': cita.idEstaSol == 9,
-                                        'badge-color-ready_on_draft': cita.idEstaSol == 10,
-                                        'badge-color-closed': cita.idEstaSol == 11
-                                      }">{{ cita.descEst }}</span>
-                    </div>
-              
-                  </div>
-              
-                </div>
-
-                </div>
-              
-
-
-            
-              </div>
-            
-            
-            </div>
-
-
-
-
-            
-            </div>
+          </div>
 
         </div>
-      
-      
+
+
       </div>
 
       <div id="calendario-semanal" *ngIf="false">

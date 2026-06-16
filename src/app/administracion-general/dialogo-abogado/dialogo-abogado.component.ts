@@ -63,6 +63,7 @@ export class DialogoAbogadoComponent implements OnInit {
   roles: Rol[] = [];
   nuevoDesdeSol: boolean = false;
   isAddEmailAbo: boolean = false;
+  mostrarInputProspectoAbo: boolean = false;
 
   arrEmailAbogados: EmailAbogado[] = [];
   arrEmailProspectoAbogados: EmailProspectoAbogado[] = [];
@@ -117,6 +118,7 @@ export class DialogoAbogadoComponent implements OnInit {
       this.titulo = "New Lawyer";
       if (!this.isAddEmailAbo) {
         this.creando = true;
+        this.mostrarInputProspectoAbo = true;
       } else {
         this.titulo = "Add Lawyer mails"
       }

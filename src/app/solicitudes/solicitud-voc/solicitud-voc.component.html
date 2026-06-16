@@ -4,6 +4,15 @@
 <div class='workspace'>
   <div class='main'>
     <app-experimental-menu [titulo]="titulo" backButtonEnabled="true">
+      <div id="panel-derecha" style="margin-left: auto; display: flex; align-items: center;margin-right: 10px">
+          <!--You have {{solicitud.sesionesPendientes}} appointments to complete your plan-->
+        @if (solicitud.info !== null) {
+      <label style="color: rgb(215, 48, 33); font-size: 0.9em;margin-bottom: 10px;margin-top:15px">
+                      <mat-icon svgIcon="warning2" style="color: rgb(233, 188, 92); width: 18px;  vertical-align: middle;"></mat-icon>
+                      {{solicitud.info}}
+                    </label>
+                  }
+      </div>
     </app-experimental-menu>
 
     @if (creando || solicitud.idSolicitud) {
@@ -15,10 +24,12 @@
               @if (!creando) {
                 <div style="margin-bottom: 10px;padding:5px">
                   @if (solicitud.importantNotes.length != '' && !creado) {
-                    <label style="color: rgb(191, 71, 23); font-size: 0.9em;margin-bottom: 10px;margin-top:15px"
+                    <label style="color: rgb(226, 98, 24); font-size: 0.9em;margin-bottom: 10px;margin-top:15px"
                       >
-                      <mat-icon svgIcon="important" style="color: red; width: 16px;  vertical-align: middle;"></mat-icon> {{solicitud.importantNotes}}
+                      <mat-icon svgIcon="important" style="color: rgb(226, 98, 24); width: 16px;  vertical-align: middle;"></mat-icon> {{solicitud.importantNotes}}
                     </label>
+
+                     
                   }
                 </div>
               }
@@ -75,7 +86,7 @@
               </div>
             </div>
             <div class="column">
-              @if (editando && !fechaParaNuevoConteoDeVOC) {
+              @if (editando && !fechaParaNuevoConteoDeVOC) {  
                 <div style="display: inline-flex; justify-content: space-evenly; margin-bottom: 5px;"
                   >
                   <div class="iigwo-input"
@@ -103,11 +114,10 @@
                               'badge-color-2': (solicitud.sesionesPendientes > 5 && solicitud.sesionesPendientes <= 15)}">{{solicitud.sesionesPendientes}}</span>
               </div>
             </div>
-}
+            }
 
             @if (editando && fechaParaNuevoConteoDeVOC) {
-<div style="display: inline-flex; justify-content: space-evenly; margin-bottom: 1px;"
-             >
+              <div style="display: inline-flex; justify-content: space-evenly; margin-bottom: 1px;">
               <div class="iigwo-input"
                 style="display: flex; flex-direction: column; align-items: center; text-align: center;">
                     <label>Approved Sessions</label>
@@ -128,13 +138,15 @@
                               'badge-color-3': (solicitud.sesionesPendientes < 0 || solicitud.sesionesPendientes <= 5),
                               'badge-color-2': (solicitud.sesionesPendientes > 5 && solicitud.sesionesPendientes <= 15)}">{{solicitud.sesionesPendientes}}</span>
               </div>
-              <div class="iigwo-input"
+              <!--<div class="iigwo-input"
                 style="display: flex; flex-direction: column; align-items: center; text-align: center;">
                     <label>Sessions Without Notes</label>
                     <span class="badge-status badge-color-0" style="margin: 0;">{{solicitud.numSesionesSinNota}}</span>
-                  </div>
+                  </div>-->
                 </div>
               }
+
+              
               <div id="historialSesiones" style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 1px; margin-bottom:-5px;margin-left: 10px;">
                 <table style="width: 100%; border-collapse: collapse;">
                   @for (evento of arrEventosSolicitudVoc; track evento) {
@@ -221,6 +233,28 @@
                 <option value="F">Female</option>
               </select>
             </div>
+
+            <div class="iigwo-input">
+              <label>Father name</label>
+              <input type="text" [(ngModel)]="solicitud.nombreDelPadre">
+            </div>
+            <div class="iigwo-input">
+              <label>Counselor</label>
+              <input type="text" [(ngModel)]="solicitud.consejera">
+            </div>
+            <div class="iigwo-input">
+              <label>School Name</label>
+              <input type="text" [(ngModel)]="solicitud.nombreEscuela">
+            </div>
+            <div class="iigwo-input">
+              <label>Preferred Languaje</label>
+
+              <select [(ngModel)]="solicitud.lenguajePreferente" [ngModelOptions]="{standalone: true}">
+                <option value="ES">Spanish</option>
+                <option value="EN">English</option>
+              </select>
+            </div>
+
           </div>
         </div>
         @if (creando) {
@@ -237,7 +271,7 @@
         <!-- CITAS DE LA SOLICITUD -->
         @if (solicitud.idSolicitud) {
           <div style="display:flex; flex-flow: row;">
-            <app-citas-solicitud [idSolicitud]="solicitud.idSolicitud" [idUsuario]="usuario.idUsuario"
+            <app-citas-solicitud [idSolicitud]="solicitud.idSolicitud" [idUsuario]="usuario.idUsuario"  [idUsuarioTerapeuta]="solicitud.terapeuta" [idEstatusSolicitud]="solicitud.idEstatusSolicitud"
             (citaActualizada)="refreshSolicitudCompleta()"></app-citas-solicitud>
           </div>
         }
@@ -287,7 +321,9 @@
                     'badge-color-ready_on_draft': solicitud.idEstatusSolicitud == 10,
                     'badge-color-closed': solicitud.idEstatusSolicitud == 11,
                     'badge-color-in_approbal': solicitud.idEstatusSolicitud == 13,
-                    'badge-color-process': solicitud.idEstatusSolicitud == 14}">{{solicitud.estatusSolicitud}}</span>
+                    'badge-color-process': solicitud.idEstatusSolicitud == 14,
+                    'badge-color-paused-patp': solicitud.idEstatusSolicitud == 15,
+                    'badge-color-paused-unpaid': solicitud.idEstatusSolicitud == 16}">{{solicitud.estatusSolicitud}}</span>
             </div>
           </div>
           @if (!(isTherapist)) {
@@ -304,7 +340,8 @@
               <!--<input [ngModel]="solicitud.adeudo" readOnly>-->
             </div>
           }
-          @if (!(isTherapist)) {
+          @if  (!isTherapist ) {
+            @if (solicitud.numCitasTerapeutasPorSolicitud.length == 0){
             <div style="margin-bottom: 10px; ">
               <div class="info-component">
                 <mat-icon svgIcon="userD"></mat-icon>
@@ -316,19 +353,36 @@
               </div>
             </div>
           }
-          @if (solicitud.info !== null) {
-            <div class="iigwo-input">
-              <label style="color:red;font-style: oblique;">{{solicitud.info}}</label>
+            <div id="terapeuutas" style="margin-bottom: 10px; ">
+              <div class="info-component">
+                @if (solicitud.numCitasTerapeutasPorSolicitud.length == 1){
+                <mat-icon svgIcon="userD"></mat-icon>
+                <label>Therapist</label>
+                }
+                @if (solicitud.numCitasTerapeutasPorSolicitud.length > 1){
+                <mat-icon svgIcon="history-file" style="margin-bottom: 4px;width: 11px;height: 12px;"></mat-icon>
+                <label>History Therapists</label>
+                }
+              </div>
+              <div *ngIf="solicitud.numCitasTerapeutasPorSolicitud && solicitud.numCitasTerapeutasPorSolicitud.length > 0">
+                <div *ngFor="let cita of solicitud.numCitasTerapeutasPorSolicitud" style="margin-bottom: 2px;">
+                  {{ cita }}
+                </div>
+              </div>
+              <!--<div *ngIf="!solicitud.numCitasTerapeutasPorSolicitud || solicitud.numCitasTerapeutasPorSolicitud.length === 0" style="color: #888; font-size: 0.9em;">
+                No therapist schedules found.
+              </div>-->
             </div>
           }
-          <div style="margin: 0; display:flex; flex-flow: column;">
+          
+          <div style="margin: 0; display:flex; flex-flow: column; flex: 1;">
             <div class="div-img-label" style="margin-top: 15px;">
               <mat-icon svgIcon="playD"
               style="color: rgba(0, 0, 0, 0.7); width: 14px;  vertical-align: middle;"></mat-icon>
               <h4 style="margin: 0; ">Actions</h4>
             </div>
             @if (solicitud.idEstatusSolicitud != 11) {
-              <div style="margin: 0; display:flex; flex-flow: column;">
+              <div style="margin: 0; display:flex; flex-flow: column; flex: 1;">
                 @if (solicitud.idEstatusSolicitud == 1) {
                   <button (click)="cambiarEstatusSolicitud(13, false)" class="btn"
               style="color: #FFFFFF; background: #15B392; border-radius: 5px; height: 23px; margin-top: 12px;
@@ -364,12 +418,34 @@
                   style="color: rgba(255, 255, 255, 0.7); width: 14px;  vertical-align: middle;"></mat-icon>
                 </button>
                 @if (isVOC) {
-<button (click)="completeFile()" class="btn" style="color: #FFFFFF; background: #D34272; border-radius: 5px; height: 23px; margin-top: 12px;
-                     display: flex; align-items: center; justify-content: center; padding: 0 8px; gap: 4px;">
-                    <span style="color: #FFFFFF; font-size: 13px;">Complete File</span>
-                    <mat-icon svgIcon="completeD"
-                    style="color: rgba(255, 255, 255, 0.7); width: 14px;  vertical-align: middle;"></mat-icon>
-                  </button>
+                  <div style="display: flex; flex-direction: column; gap: 8px; margin-top: auto;">
+                  
+                    @if (solicitud.idEstatusSolicitud != 15 && solicitud.idEstatusSolicitud != 16) {
+                    <button (click)="pausarFile(15,'Paused - Pending ATP')" class="btn" style="color: #FFFFFF; background: #aba03f; border-radius: 5px; height: 23px;
+                                       display: flex; align-items: center; justify-content: center; padding: 0 8px; gap: 4px;">
+                      <span style="color: #FFFFFF; font-size: 13px;">Paused - Pending ATP</span>
+                      <mat-icon svgIcon="completeD"
+                        style="color: rgba(255, 255, 255, 0.7); width: 14px;  vertical-align: middle;"></mat-icon>
+                    </button>
+                    }
+
+                    @if (solicitud.idEstatusSolicitud != 15 && solicitud.idEstatusSolicitud != 16) {
+                    <button (click)="pausarFile(16,'Paused - Unpaid sessions')" class="btn" style="color: #FFFFFF; background: #a6356f; border-radius: 5px; height: 23px;
+                                       display: flex; align-items: center; justify-content: center; padding: 0 8px; gap: 4px;">
+                      <span style="color: #FFFFFF; font-size: 13px;">Paused - Unpaid sessions</span>
+                      <mat-icon svgIcon="completeD"
+                        style="color: rgba(255, 255, 255, 0.7); width: 14px;  vertical-align: middle;"></mat-icon>
+                    </button>
+                   }
+
+                    <button (click)="completeFile()" class="btn" style="color: #FFFFFF; background: #D34272; border-radius: 5px; height: 23px;
+                                       display: flex; align-items: center; justify-content: center; padding: 0 8px; gap: 4px;">
+                      <span style="color: #FFFFFF; font-size: 13px;">Close File</span>
+                      <mat-icon svgIcon="completeD"
+                        style="color: rgba(255, 255, 255, 0.7); width: 14px;  vertical-align: middle;"></mat-icon>
+                    </button>
+
+                  </div>
                 }
               </div>
             }

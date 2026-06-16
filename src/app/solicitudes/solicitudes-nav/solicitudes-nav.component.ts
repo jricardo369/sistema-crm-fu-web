@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { NAV_MENU_IZQUIERDA_STYLES, NAV_MENU_IZQUIERDA_TEMPLATE, UtilServiceTest } from 'src/app/app-nav-item';
 import { Router,RouterModule } from '@angular/router';
@@ -16,6 +17,7 @@ let ITEMS = SOLICITUDES_ITEMS;
   template: NAV_MENU_IZQUIERDA_TEMPLATE,
   styles: [NAV_MENU_IZQUIERDA_STYLES],
   imports: [
+    CommonModule,
     RouterModule,
     MatIconModule,
     FormsModule

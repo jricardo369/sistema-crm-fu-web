@@ -193,6 +193,8 @@ export class SolicitudComponent implements OnInit {
         this.creando = true;
         this.solicitud.asignacionTemplate = false;
         this.solicitud.waiver = false;
+        this.solicitud.signedClnc = false;
+        this.solicitud.consent = false;
         this.solicitud.paralegalName = null;
         this.solicitud.paralegalEmails = null;
         this.solicitud.paralegalTelefonos = null;
@@ -1133,7 +1135,7 @@ private ejecutarLimpiezaClinico(): Observable<any> {
       data: {
         idSolicitud: this.solicitud.idSolicitud,
         usuario: this.usuario,
-        nuevoDesdeSol: true,
+        nuevoDesdeSol: false,
         isAddEmailAbo: true
       },
       disableClose: true,
@@ -1216,87 +1218,38 @@ private ejecutarLimpiezaClinico(): Observable<any> {
     }
   }
 
+    changeInterviewToCaseMgr() {
+
+    this.dialog.open(DialogoSimpleComponent, {
+      data: {
+        titulo: 'Change Interview to Case Manager',
+        texto: 'Do you really want to change the interview to the case manager?',
+        botones: [
+          { texto: 'Cancel', color: '', valor: '' },
+          { texto: 'Yes', color: 'primary', valor: 'ok' },
+        ]
+      },
+      disableClose: true,
+    }).afterClosed().toPromise().then(valor => {
+      if (valor == 'ok') {
+        this.cargando = true;
+        this.solicitudesService.actualizarInterviewClinicianToCaseManager(this.solicitud.idSolicitud, this.solicitud.assignedClinician,this.usuario.idUsuario)
+          .then(() => {
+            this.refreshSolicitudCompleta();
+          })
+          .catch((reason) => this.utilService.manejarError(reason))
+          .then(() => (this.cargando = false));
+      }
+    }).catch(reason => this.utilService.manejarError(reason));
+
+
+
+  }
+
   limpiarDueDate(){
     this.dueDateMat = null;
     this.solicitud.dueDate = null;
   }
-
-  /*validarFechaNacimientoTexto(value: string): void {
-    const val = (value || '').trim();
-    if (!val) { 
-      this.fechaNacimientoError = true; 
-      return; 
-    }
-
-    // Formato MM/DD/YYYY
-    const re = /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/;
-    if (!re.test(val)) {
-      this.fechaNacimientoError = true;
-      return;
-    }
-
-    const [mm, dd, yyyy] = val.split('/');
-    const y = Number(yyyy);
-    const m = Number(mm) - 1; // Date usa 0-11
-    const d = Number(dd);
-
-    // Construir y verificar que coincida (evita fechas inválidas como 02/30)
-    const dt = new Date(y, m, d);
-    const esMismaFecha = dt.getFullYear() === y && dt.getMonth() === m && dt.getDate() === d;
-    if (!esMismaFecha) {
-      this.fechaNacimientoError = true;
-      return;
-    }
-
-    // Rango permitido
-    if (dt < this.minBirthDate || dt > this.maxBirthDate) {
-      this.fechaNacimientoError = true;
-      return;
-    }
-
-    // Válida
-    this.fechaNacimientoError = false;
-  }
-
-  validarFechaDueDateTexto(value: string): void {
-    const val = (value || '').trim();
-  if (!val) {
-    this.fechaDueDateError = true;
-    return;
-  }
-
-  // Formato M/D/YYYY o MM/DD/YYYY (mes y día 1-2 dígitos)
-  const re = /^(0?[1-9]|1[0-2])\/(0?[1-9]|[12]\d|3[01])\/\d{4}$/;
-  if (!re.test(val)) {
-    this.fechaDueDateError = true;
-    return;
-  }
-
-  const [mmStr, ddStr, yyyyStr] = val.split('/');
-  const y = Number(yyyyStr);
-  const m = Number(mmStr) - 1; // Date usa 0-11
-  const d = Number(ddStr);
-
-  // Construir y verificar que coincida (evita fechas inválidas como 02/30)
-  const dt = new Date(y, m, d);
-  const esMismaFecha = dt.getFullYear() === y && dt.getMonth() === m && dt.getDate() === d;
-  if (!esMismaFecha) {
-    this.fechaDueDateError = true;
-    return;
-  }
-
-  // Rango permitido (1900–hoy)
-  if (dt < this.minBirthDate || dt > this.maxBirthDate) {
-    this.fechaDueDateError = true;
-    return;
-  }
-
-  // Válida
-  this.fechaDueDateError = false;
-  }
-
-  */
-
 
 
 

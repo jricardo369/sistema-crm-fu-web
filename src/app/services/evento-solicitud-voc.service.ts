@@ -82,4 +82,22 @@ export class EventoSolicitudVocService {
         );
     }
 
+    actualizarTipoEventoSolicitudVoc(idEvento: number, tipoEvento: string): Promise<EventoSolicitud[]> {
+        return new Promise<any>((resolve, reject) =>
+      this.http
+        .put(API_URL + "eventos-solicitud-voc/actualizar-tipo-evento/" + idEvento + "?tipoEvento=" + tipoEvento, null, {
+          withCredentials: true,
+          observe: "response",
+          headers: new HttpHeaders()
+            .append("Content-Type", "application/json")
+            .append("Authorization", localStorage.getItem("auth_token")),
+        })
+        .toPromise()
+        .then((response) => {
+          resolve(response.body);
+        })
+        .catch((reason) => reject(reason))
+    );
+    }
+
 }

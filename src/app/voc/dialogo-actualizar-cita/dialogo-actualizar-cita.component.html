@@ -1,0 +1,61 @@
+<h2 mat-dialog-title style="font-family: regular;color:#75518c">{{titulo}}</h2>
+
+<mat-dialog-content style="width:340px;min-width: 340px;">
+
+    <div style="margin-bottom: 10px;">
+        <label style="font-size:12px;font-family: regular;">{{subtitulo}}</label>
+    </div>
+
+    <div style="display: flex;">
+        <div class="iigwo-input">
+            <label>Date
+            </label>
+            <mat-form-field appearance="outline" class="custom-datepicker">
+                <input matInput [matDatepicker]="pickerFN" [(ngModel)]="fechaCitaMat" (dateChange)="changeFechaCita()"
+                    placeholder="MM/DD/YYYY" />
+                <mat-datepicker-toggle matSuffix [for]="pickerFN"></mat-datepicker-toggle>
+                <mat-datepicker #pickerFN></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="iigwo-input">
+            <label>Time</label>
+            <select [(ngModel)]="hora" style="min-width: 74px;" [ngModelOptions]="{standalone: true}">
+                @for (time of arrTime; track time) {
+                <option [ngValue]="time">
+                    {{time}}</option>
+                }
+            </select>
+        </div>
+        <div class="iigwo-input">
+            <label>Type</label>
+            <select [(ngModel)]="tipo" style="min-width: 60px;" [ngModelOptions]="{standalone: true}">
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="iigwo-input">
+          <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;"
+            id="concurrent" [checked]="concurrent" (change)="concurrent = !concurrent">
+          <label for="concurrent" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Change all concurrency</label>
+        </div>
+
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button class="iigwo" style="margin-left:auto;" (click)='cerrar()'>Cancel</button>
+    <button (click)='eliminarConcurrencia()' class="btn-color"
+      style="color: #ffffff; background: #c72727;margin-top: -11px;">
+      <mat-icon svgIcon="trashD" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+      <span style="color: #ffffff; font-size: 13px;">Delete</span>
+    </button>
+    <button class="iigwo accent" style="margin-right:0;" (click)='envioActualizarCita()'>Udpate</button>
+</mat-dialog-actions>
+
+@if (cargando) {
+<div class='iigwo-loading'>
+    <mat-spinner></mat-spinner>
+</div>
+}

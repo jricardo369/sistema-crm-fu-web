@@ -6,12 +6,7 @@
         <img style="margin-top: 2px;" width="15px" height="15px" src="assets/svg/calendarD.svg">
         <h4>Schedules</h4>
       </div>
-      <!--<button (click)='crearCita()' class="btn m-l-40" *ngIf="idEstatusSolicitud != 11"
-      style="color: #239B56;background: #EAFAF1;border-radius: 5px; height: 28px; line-height: 28px;">
-      <mat-icon svgIcon="add"></mat-icon>
-      <label>Add Schedule</label>
-    </button>-->
-    @if (idEstatusSolicitud != 11) {
+    @if (idEstatusSolicitud != 11 && idEstatusSolicitud != 15 && idEstatusSolicitud != 16) {
       <button (click)='crearCita()' class="btn"
         style="color: #FFFFFF;background: #239B56; border-radius: 5px; height: 20px; line-height: 20px;margin-left: 10px;">
         <mat-icon svgIcon="add" style="color:rgba(255, 255, 255, 0.7); width: 15px; height: 15px;margin-bottom: 2px;margin-right: 5px;"></mat-icon>
@@ -28,7 +23,7 @@
       </tr>
       @for (e of arrCitaSolicitud | slice:paginacion.begin:paginacion.end; track e) {
         <tr>
-          <td >{{e.fechaCreacion}}</td>
+          <!--<td >{{e.fechaCreacion}}</td>-->
           <td style="font-size: 11.5px;" class='accent' >
             <div class="badge-wrapper" style="position: relative; display: inline-block;">
               @if (e.dosCitas) {
@@ -42,7 +37,17 @@
               </span>
             </div>
           </td>
-          <!--<td >{{e.fecha}} {{e.hora}} {{e.tipo}}   <span *ngIf="e.dosCitas" style="color: #41949B; font-weight: bold;font-style: oblique;">Two schedules</span></td>-->
+          <td>
+            <span style="display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;">
+              <span>{{e.fecha}} {{e.hora}} {{e.tipo}}</span>
+              <button *ngIf="e.codigoRecurrencia != null" id="recurrence-button" style="background-color: transparent; border: none; padding: 0; cursor: pointer;" 
+              (click)='abrirDialogoActualizarCita(e)' matTooltip="Recurrence schedule">
+                <mat-icon style="width: 13px; height: 13px; min-width: 13px;" svgIcon="recurrenceD"></mat-icon>
+              </button>
+              <span *ngIf="e.dosCitas" style="color: #41949B; font-weight: bold; font-style: oblique;">Two schedules</span>
+              
+            </span>
+          </td>
           @if (e.tieneNota == false) {
             <td style="display: flex;">
               @if (!e.noShow) {

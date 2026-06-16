@@ -102,7 +102,7 @@ export class SolicitudesComponent implements OnInit {
   }];
 
 
-  inputFile: number = 0;
+  inputFile?: number;
   inputCustomer: string = "";
   inputPhone: string = "";
   inputEmail: string = "";
@@ -115,6 +115,7 @@ export class SolicitudesComponent implements OnInit {
   inputImportante: string = "";
   inputAsignado: string = "";
   inputZipcodes: string = "";
+  inputConsentimiento: string = "";
 
 
   filterType: string = "All";
@@ -198,7 +199,7 @@ export class SolicitudesComponent implements OnInit {
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
     if (event.key === 'Enter') {
-      this.explorar();
+      this.explorarConFiltros(false);
     }
   }
 
@@ -352,7 +353,8 @@ export class SolicitudesComponent implements OnInit {
 
   botonRefrescar(){
     this.limpiarFiltros();
-    this.refrescar()
+    //this.refrescar()
+    this.explorarConFiltros(true);
   }
 
   refrescar() {
@@ -375,12 +377,12 @@ export class SolicitudesComponent implements OnInit {
 });
   }
 
-  refrescarV2() {
+  explorarConFiltros(primeraVez: boolean) {
     this.cargando = true;
     this.solicitudesService
-      .obtenerSolicitudesUsuarioConFiltros(this.usuario.idUsuario, this.filterClosedS, true, this.filterSortBy, this.filterOrder,
+      .obtenerSolicitudesUsuarioConFiltros(this.usuario.idUsuario, this.filterClosedS, primeraVez, this.filterSortBy, this.filterOrder,
         this.filterStartDate, this.filterEndDate, this.inputFile, this.inputCustomer, this.inputPhone, this.inputEmail, this.inputState, 
-        this.inputFileStatus, this.inputPaymentStatus, this.inputFileType, this.inputWaiver, this.inputNoshow, this.inputImportante,this.inputAsignado, this.inputZipcodes)
+        this.inputFileStatus, this.inputPaymentStatus, this.inputFileType, this.inputWaiver, this.inputNoshow, this.inputImportante,this.inputAsignado, this.inputZipcodes,this.inputConsentimiento)
       .subscribe({
   next: (solicitudes) => {
     this.solicitudesSinFiltrar = solicitudes;
@@ -518,7 +520,7 @@ export class SolicitudesComponent implements OnInit {
       this.filterSortBy = "";
       this.filterOrder = "";
       this.filterClosedS = 'OPEN';
-      this.inputFile = 0;
+      this.inputFile = undefined;
       this.inputCustomer = "";
       this.inputPhone = "";
       this.inputEmail = "";

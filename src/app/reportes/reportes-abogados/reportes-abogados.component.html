@@ -55,25 +55,53 @@
 
 
     <mat-tab-group>
-      <mat-tab label="General" >
+      <mat-tab label="Lawyers by Estate" >
         <div style="padding: 16px;">
-          <!-- Contenido de la pestaña General -->
-          <h3>Lawyers by Estate</h3>
-          <div class="chart-card full-width">
-            <div echarts [options]="verticalBarOptionsStates" class="chart"></div>
+          <!--<h3>Lawyers by Estate</h3>-->
+          <div class="chart-card full-width" >
+            <apx-chart
+              [series]="chartOptions.series"
+              [chart]="chartOptions.chart"
+              [xaxis]="chartOptions.xaxis"
+              [yaxis]="chartOptions.yaxis"
+              [dataLabels]="chartOptions.dataLabels"
+              [title]="chartOptions.title"
+              [colors]="chartOptions.colors"
+              style="max-width: 100%; margin: 0 auto;"
+            ></apx-chart>
           </div>
         </div>
       </mat-tab>
-      <mat-tab label="Por abogado">
+      <mat-tab label="Por Law Office Performance Analysis">
         <div style="padding: 16px;">
-          <!-- Contenido de la pestaña Por abogado -->
-          <h3>Reporte por abogado</h3>
+          <div class="chart-card full-width">
+            <apx-chart
+              [series]="chartOptionsFirma.series"
+              [chart]="chartOptionsFirma.chart"
+              [xaxis]="chartOptionsFirma.xaxis"
+              [yaxis]="chartOptionsFirma.yaxis"
+              [dataLabels]="chartOptionsFirma.dataLabels"
+              [title]="chartOptionsFirma.title"
+              [colors]="chartOptionsFirma.colors"
+              [plotOptions]="chartOptionsFirma.plotOptions"
+              style="max-width: 100%; margin: 0 auto;"
+            ></apx-chart>
+          </div>
         </div>
       </mat-tab>
-      <mat-tab label="Por firma">
+      <mat-tab label="New Lawyers Analysis">
         <div style="padding: 16px;">
-          <!-- Contenido de la pestaña Por firma -->
-          <h3>Reporte por firma</h3>
+          <div class="chart-card full-width">
+            <apx-chart
+              [series]="chartOptionsFirmasPorMes.series"
+              [chart]="chartOptionsFirmasPorMes.chart"
+              [xaxis]="chartOptionsFirmasPorMes.xaxis"
+              [yaxis]="chartOptionsFirmasPorMes.yaxis"
+              [dataLabels]="chartOptionsFirmasPorMes.dataLabels"
+              [title]="chartOptionsFirmasPorMes.title"
+              style="max-width: 100%; margin: 0 auto;"
+            ></apx-chart>
+          </div>
         </div>
       </mat-tab>
     </mat-tab-group>

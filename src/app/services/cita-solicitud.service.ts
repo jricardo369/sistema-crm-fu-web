@@ -40,7 +40,8 @@ export class CitaSolicitudService {
       tipo: citaSolicitud.tipo,
       dosCitas: citaSolicitud.dosCitas,
       idUsuario: idUsuario,
-      idSolicitud: citaSolicitud.idSolicitud
+      idSolicitud: citaSolicitud.idSolicitud,
+      recurrente: citaSolicitud.recurrente
     }
     return new Promise<any>((resolve, reject) =>
       this.http
@@ -243,6 +244,38 @@ export class CitaSolicitudService {
         .then((response) => {
           resolve(response.body as CitaSolicitud[]);
         })
+        .catch((reason) => reject(reason))
+    );
+  }
+
+  actualizarCita(citaSolicitud: CitaSolicitud, ChangeAllConcurrency: boolean,idUsuarioCambio: number): Promise<any> {
+    return new Promise<any>((resolve, reject) =>
+      this.http
+        .put(API_URL + "citas/actualizar-cita" + "?ChangeAllConcurrency=" + ChangeAllConcurrency+"&idUsuarioCambio="+idUsuarioCambio, citaSolicitud,{
+          withCredentials: true,
+          observe: "response",
+          headers: new HttpHeaders()
+            .append("Content-Type", "application/json")
+            .append("Authorization", localStorage.getItem("auth_token")),
+        })
+        .toPromise()
+        .then((response) => resolve(response))
+        .catch((reason) => reject(reason))
+    );
+  }
+
+  deleteConcurrenceCita(citaSolicitud: CitaSolicitud,ChangeAllConcurrency: boolean,codigoConcurrencia: string,idUsuarioCambio: number): Promise<any> {
+    return new Promise<any>((resolve, reject) =>
+      this.http
+        .put(API_URL + "citas/eliminar-cita" + "?ChangeAllConcurrency=" + ChangeAllConcurrency+"&idUsuarioCambio="+idUsuarioCambio+"&codigoConcurrencia="+codigoConcurrencia,citaSolicitud,{
+          withCredentials: true,
+          observe: "response",
+          headers: new HttpHeaders()
+            .append("Content-Type", "application/json")
+            .append("Authorization", localStorage.getItem("auth_token")),
+        })
+        .toPromise()
+        .then((response) => resolve(response))
         .catch((reason) => reject(reason))
     );
   }

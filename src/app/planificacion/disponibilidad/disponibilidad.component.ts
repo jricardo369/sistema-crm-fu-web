@@ -26,7 +26,8 @@ import { DatePipe } from '@angular/common';
 
 
 @Component({
-  standalone: true,imports: [RouterModule,FormsModule,PlanificacionNavComponent,WorkspaceNavComponent,ExperimentalMenuComponent,
+  standalone: true,
+  imports: [RouterModule,FormsModule,PlanificacionNavComponent,WorkspaceNavComponent,ExperimentalMenuComponent,
     CommonModule,MatIconModule,MatDialogModule,MatProgressSpinnerModule,ReportesNavComponent,DatePipe,DateMMDDYYYYPipe],
   selector: 'app-disponibilidad',
   templateUrl: './disponibilidad.component.html',

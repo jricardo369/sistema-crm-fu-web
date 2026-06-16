@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
-import { Observable, of } from 'rxjs';
+import { Observable, of, firstValueFrom } from 'rxjs';
 import { catchError } from 'rxjs/operators'; 
 import { API_URL } from "../app.config";
 import { ProspectoAbogado } from "src/model/prospecto-abogado";
@@ -11,13 +11,13 @@ import { ProspectoAbogado } from "src/model/prospecto-abogado";
 export class ProspectosAbogadoService {
   constructor(private http: HttpClient) { }
 
-  obtenerProspectosAbogado(fechai: string, fechaf: string, idUsuario: number, estatus: string,
+  obtenerProspectosAbogado(id:string,fechai: string, fechaf: string, idUsuario: number, estatus: string,
     estado: string, telefono: string,lawFirmOrContactName: string, email: string,
     mailPackageReceived: string, emailSent: string, porcentaje20: string, followUp20Porcent: string, prospectSentClient: string
   ): Observable<ProspectoAbogado[]> {
 
     let queryParams: string = "";
-    queryParams = "fechai=" + fechai + "&fechaf=" + fechaf + "&idUsuario=" + idUsuario + "&estatus=" + estatus+
+    queryParams = "id=" + id + "&fechai=" + fechai + "&fechaf=" + fechaf + "&idUsuario=" + idUsuario + "&estatus=" + estatus+
     "&estado=" + estado + "&telefono=" + telefono + "&lawFirmOrContactName=" + lawFirmOrContactName + "&email=" + email +
     "&mailPackageReceived=" + mailPackageReceived + "&emailSent=" + emailSent + "&porcentaje20=" + porcentaje20 + "&followUp20Porcent=" + followUp20Porcent + "&prospectSentClient=" + prospectSentClient;
 
@@ -63,7 +63,10 @@ export class ProspectosAbogadoService {
        firma: prospecto.firma,
        nombre: prospecto.nombre,
        telefono: prospecto.telefono,
-       idUsuario: prospecto.idUsuario
+       idUsuario: prospecto.idUsuario,
+       estado: prospecto.estado,
+       direccion: prospecto.direccion,
+       fuente: prospecto.fuente
      }
  
      let params = new HttpParams();
@@ -123,6 +126,22 @@ export class ProspectosAbogadoService {
         resolve(response.body as ProspectoAbogado[]);
       })
       .catch(reason => reject(reason))
+    );
+  }
+
+  agregarCrmFile(idProspectoAbogado: number, crmFile: string, fecha: string): Promise<any> {
+    return firstValueFrom(
+      this.http.put(
+        API_URL + "prospecto-abogado/actualizar-crm-file/" + idProspectoAbogado + "?crmFile=" + crmFile + "&fecha=" + fecha,
+        null,
+        {
+          withCredentials: true,
+          observe: "response",
+          headers: new HttpHeaders()
+            .append("Content-Type", "application/json")
+            .append("Authorization", localStorage.getItem("auth_token")),
+        }
+      )
     );
   }
 

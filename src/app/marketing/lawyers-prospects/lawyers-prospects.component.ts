@@ -78,6 +78,7 @@ export class LawyersProspectsComponent {
   }];
   
   arrFilterClosed: string[] = [];
+  inputId: string = '';
   inputState: string = '';
   inputPhone: string = '';
   inputLawFirmOrContactName: string = '';
@@ -134,16 +135,15 @@ export class LawyersProspectsComponent {
     this.filterEndDateMat = new Date();
 
     if (this.usuario.rol === '12') {
-      this.arrFilterClosed = ['PROSPECT', 'NOT INTERESTED'];
+      this.arrFilterClosed = ['PROSPECT','COLD','NOT INTERESTED','CLOSED','INTERESTED'];
     }
     if (this.usuario.rol === '13') {
       this.arrFilterClosed = ['INTERESTED', 'SUCESSFUL', 'CLOSED'];
     }
 
     if (this.usuario.rol === '14') {
-      this.arrFilterClosed = ['','PROSPECT', 'NOT INTERESTED','INTERESTED', 'SUCESSFUL', 'CLOSED'];
+      this.arrFilterClosed = ['','PROSPECT', 'NOT INTERESTED','INTERESTED', 'SUCESSFUL', 'CLOSED','COLD'];
     }
-
 
     if (this.usuario.rol === '12') {
       this.filterClosedS = 'PROSPECT';
@@ -220,7 +220,7 @@ export class LawyersProspectsComponent {
     const fechaInicio = this.filterStartDateMat ? formatearFecha(this.filterStartDateMat) : '';
     const fechaFin = this.filterEndDateMat ? formatearFecha(this.filterEndDateMat) : '';
 
-    this.prospectosAbogadoService.obtenerProspectosAbogado(fechaInicio, fechaFin, this.usuario.idUsuario, this.filterClosedS,
+    this.prospectosAbogadoService.obtenerProspectosAbogado(this.inputId,fechaInicio, fechaFin, this.usuario.idUsuario, this.filterClosedS,
       this.inputState, this.inputPhone, this.inputLawFirmOrContactName, this.inputEmail,
       this.inputMailPackageReceived, this.inputEmailSent, this.input20Porcent, this.inputFollowUp20Porcent, this.inputProspectSentClient
     ).subscribe({
@@ -274,6 +274,7 @@ export class LawyersProspectsComponent {
   }
 
   limpiarFiltros() {
+    this.inputId = '';
       this.inputState = '';
       this.inputPhone = "";
       this.inputLawFirmOrContactName = "";

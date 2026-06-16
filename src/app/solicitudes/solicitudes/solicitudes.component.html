@@ -38,180 +38,6 @@
 
     <div class='content'>
 
-      <!-- FILTRO -->
-      @if (false) {
-        <div class="container" style="margin-bottom: 15px;">
-          <div class="left">
-            <div style="display: inline-flex;">
-              <!--<div class="iigwo-input" style="margin-right: 0px;">
-              <label>Start Date</label>
-              <input style="width: 90%;" type="date" [(ngModel)]="filterStartDate">
-            </div>
-            <div class="iigwo-input" style="margin-right: 0px;">
-              <label>End Date </label>
-              <input style="width: 90%;" type="date" [(ngModel)]="filterEndDate">
-            </div>-->
-            <div class="iigwo-input">
-              <label>Start Date</label>
-              <mat-form-field appearance="outline" class="custom-datepicker">
-                <input matInput [matDatepicker]="startPicker" [(ngModel)]="filterStartDateMat" (dateChange)="onStartDateChange()">
-                <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-                <mat-datepicker #startPicker></mat-datepicker>
-              </mat-form-field>
-            </div>
-            <div class="iigwo-input">
-              <label>End Date</label>
-              <mat-form-field appearance="outline" class="custom-datepicker">
-                <input matInput [matDatepicker]="endPicker" [(ngModel)]="filterEndDateMat" (dateChange)="onEndDateChange()">
-                <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-                <mat-datepicker #endPicker></mat-datepicker>
-              </mat-form-field>
-            </div>
-            <div class="iigwo-input">
-              <label>Sort by</label>
-              <select [(ngModel)]="filterSortBy" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
-                @for (e of arrFilterSortBy; track e) {
-                  <option [ngValue]="e">
-                  {{e}}</option>
-                }
-              </select>
-            </div>
-            <div class="iigwo-input">
-              <label>Order</label>
-              <select [(ngModel)]="filterOrder" [ngModelOptions]="{standalone: true}">
-                @for (e of arrFilterOrder; track e) {
-                  <option [ngValue]="e">
-                  {{e}}</option>
-                }
-              </select>
-            </div>
-            <div style="margin-right: 5px;margin-left: -5px;
-            margin-top: 20px;
-            color: gray;">
-              &#9679;
-            </div>
-            <div class="iigwo-input">
-              <label>Type</label>
-              <!--<select [(ngModel)]="filterSortBy" style="margin-right: 10px;" (change)="refrescar()">-->
-              <select [(ngModel)]="filterType" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
-                @for (e of arrFilterTypes; track e) {
-                  <option [ngValue]="e">
-                  {{e}}</option>
-                }
-              </select>
-            </div>
-            @if (filterType == 'All' || filterType == 'File' || filterType == 'Customer' || filterType == 'Phone' || filterType == 'Email' || filterType == 'Responsible User' || filterType == 'Interviewer User' || filterType == 'Editor User') {
-              <div class="iigwo-input"
-                >
-                <!--<div class="iigwo-input" >-->
-                <label>Value</label>
-                <input type="text" placeholder="Enter a value" [(ngModel)]="filterInputText">
-              </div>
-            }
-            @if (filterType == 'Date') {
-              <div class="flex">
-                <div class="iigwo-input">
-                  <label>From</label>
-                  <input type="date" [(ngModel)]="filterInputDate1">
-                </div>
-                <div class="iigwo-input">
-                  <label>To</label>
-                  <input type="date" [(ngModel)]="filterInputDate2">
-                </div>
-              </div>
-            }
-            @if (filterType == 'File Status') {
-              <div class="iigwo-input">
-                <label>Value</label>
-                <select [(ngModel)]="filterInputText" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
-                  @for (e of arrFilterFileStatus; track e) {
-                    <option [ngValue]="e.descripcion">
-                    {{e.descripcion}}</option>
-                  }
-                </select>
-              </div>
-            }
-            @if (filterType == 'Payment Status') {
-              <div class="iigwo-input">
-                <label>Value</label>
-                <select [(ngModel)]="filterInputText" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
-                  @for (e of arrFilterStatusPago; track e) {
-                    <option [ngValue]="e.descripcion">
-                    {{e.descripcion}}</option>
-                  }
-                </select>
-              </div>
-            }
-            @if (filterType == 'File Type') {
-              <div class="iigwo-input">
-                <label>Value</label>
-                <select [(ngModel)]="filterInputText" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
-                  @for (e of arrTipoSolicitud; track e) {
-                    <option [ngValue]="e.nombre">
-                    {{e.nombre}}</option>
-                  }
-                </select>
-              </div>
-            }
-            @if (filterType == 'Waiver') {
-              <div class="iigwo-input">
-                <label>Waiver</label>
-                <select [(ngModel)]="filterInputText" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
-                  @for (e of arrFilterWaiver; track e) {
-                    <option [ngValue]="e.value">
-                    {{e.display}}</option>
-                  }
-                </select>
-              </div>
-            }
-            @if (filterType == 'Interview review') {
-              <div class="iigwo-input">
-                <label>Interview review</label>
-                <select [(ngModel)]="filterInputText" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
-                  @for (e of arrFilterWaiver; track e) {
-                    <option [ngValue]="e.value">
-                    {{e.display}}</option>
-                  }
-                </select>
-              </div>
-            }
-            @if (filterType == 'Assignment editor') {
-              <div class="iigwo-input">
-                <label>Assignment editor</label>
-                <select [(ngModel)]="filterInputText" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
-                  @for (e of arrFilterWaiver; track e) {
-                    <option [ngValue]="e.value">
-                    {{e.display}}</option>
-                  }
-                </select>
-              </div>
-            }
-            @if (filterType == 'State') {
-              <div class="iigwo-input">
-                <label>State</label>
-                <select [(ngModel)]="filterInputText" [ngModelOptions]="{standalone: true}">
-                  @for (state of arrStates; track state) {
-                    <option [ngValue]="state.abbreviation">
-                    {{state.abbreviation}}</option>
-                  }
-                </select>
-              </div>
-            }
-            <button (click)='explorar()' class="btn-color" style="color: #ffffff; background: #8837a2;margin-top: 18px;">
-              <mat-icon svgIcon="searchD" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
-              <span style="color: #ffffff; font-size: 13px;">Explore</span>
-            </button>
-            <button (click)='limpiarFiltros()' class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-top: 18px;">
-              <span style="color: #000000; font-size: 13px;">Clear all filters</span>
-            </button>
-            <button (click)='limpiarFechas()' class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-top: 18px;">
-              <span style="color: #000000; font-size: 13px;">Clear dates</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    }
-
     <div class="container" style="margin-top: -5px;">
       <div class="left">
         <div style="display: inline-flex;">
@@ -287,7 +113,7 @@
           </div>
 
 
-          <button (click)='refrescarV2()' class="btn-color" style="color: #ffffff; background: #8837a2;margin-top: 18px;">
+          <button (click)='explorarConFiltros(false)' class="btn-color" style="color: #ffffff; background: #8837a2;margin-top: 18px;">
             <mat-icon svgIcon="searchD" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
             <span style="color: #ffffff; font-size: 13px;">Explore</span>
           </button>
@@ -366,6 +192,15 @@
               }
             </select>
           </div>
+          <div class="iigwo-input-compact" >
+            <label>Consent</label>
+            <select [(ngModel)]="inputConsentimiento" [ngModelOptions]="{standalone: true}" style="margin-right: 10px;">
+              @for (e of arrFilterWaiver; track e) {
+                <option [ngValue]="e.value">
+                {{e.display}}</option>
+              }
+            </select>
+          </div>
           <div class="iigwo-input-compact" style="max-width: 90px;">
             <label>Assigned to</label>
             <input type="text" [(ngModel)]="inputAsignado">
@@ -429,6 +264,7 @@
           }
           <th class=''>File Status</th>
           <th class=''>Sig. by Clnc</th>
+          <th class=''>Consent</th>
           @if (isMaster || isVendor || isBackOffice || isInterviewer) {
             <th class=''>Case Mgr Appt</th>
           }
@@ -499,6 +335,12 @@
         </td>
         <td style="font-size: 11.5px;" class='accent' >
           @if (e.signedClnc) {
+            <mat-icon svgIcon="okD"
+            style="width: 15px; height: 15px;"></mat-icon>
+          }
+        </td>
+         <td style="font-size: 11.5px;" class='accent' >
+          @if (e.consentimiento) {
             <mat-icon svgIcon="okD"
             style="width: 15px; height: 15px;"></mat-icon>
           }

@@ -8,6 +8,7 @@ import { CitaSolicitudService } from 'src/app/services/cita-solicitud.service';
 import { ConfiguracionService } from 'src/app/services/configuracion.service';
 import { Usuario } from 'src/model/usuario';
 import { DialogoCitaSolicitudComponent } from '../dialogo-cita-solicitud/dialogo-cita-solicitud.component';
+import { DialogoCitaSolicitudVocDispoComponent } from 'src/app/voc/dialogo-cita-solicitud-voc-dispo/dialogo-cita-solicitud-voc-dispo.component';
 import { ADMINISTRATOR, BACKOFFICE, GHOSTWRITING, INTERVIEWER, INTERVIEWER_SCALES, MASTER, TEMPLATE_CREATOR, THERAPIST, VENDOR, VOC, CLINICIAN } from 'src/app/app.config';
 import { UsuariosService } from '../../services/usuarios.service';
 import { CommonModule } from '@angular/common';
@@ -22,6 +23,7 @@ import { DatePipe } from '@angular/common';
 import { EMPTY, firstValueFrom } from 'rxjs';
 import { DialogoSimpleComponent } from 'src/app/common/dialogo-simple/dialogo-simple.component';
 import { switchMap,filter, catchError  } from 'rxjs/operators';
+import { DialogoActualizarCitaComponent } from 'src/app/voc/dialogo-actualizar-cita/dialogo-actualizar-cita.component';
 
 import { formatearFecha } from '../../util/date-utils';
 
@@ -368,27 +370,75 @@ export class CitasComponent implements OnInit {
   }
 
   crearCita() {
-    this.dialog.open(DialogoCitaSolicitudComponent, {
-      data: {
-        idSolicitud: null,
-        creando: true,
-        verCampoSolicitud: true
-      },
-      disableClose: true,
-    }).afterClosed().toPromise().then(valor => {
-      if (valor == 'creado') this.refrescar();
-    }).catch(reason => this.utilService.manejarError(reason));
+
+    this.dialog.open(DialogoCitaSolicitudVocDispoComponent, {
+          data: {
+            idSolicitud: 0,
+            idUsuario: this.usuario.idUsuario,
+            idUsuarioTerapeuta: this.usuario.idUsuario,
+          },
+          disableClose: true,
+        }).afterClosed().toPromise().then(valor => {
+          if (valor == 'guardar') { this.refrescar();};
+        }).catch(reason => this.utilService.manejarError(reason));
+  }
+
+  abrirDialogoActualizarCita(cita: CitaSolicitud) {
+      this.dialog.open(DialogoActualizarCitaComponent, {
+        data: {
+          idSolicitud: cita.idSolicitud,
+          titulo: 'Update schedule',
+          subtitulo: 'Update recurrence schedule for file ' + cita.idSolicitud,
+          cita: cita
+        },
+        disableClose: true,
+      }).afterClosed().toPromise().then(() => {
+        this.refrescar();
+      }).catch(reason => this.utilService.manejarError(reason));
+    }
+
+  irASolicitud(event: Event, idSolicitud: number) {
+    event.preventDefault();
+    event.stopPropagation();
+    if(this.usuario.rol == VOC || this.usuario.rol == THERAPIST ){
+      this.router.navigateByUrl('//solicitudes/solicitudes-voc/' + idSolicitud);
+    }else{
+      this.router.navigateByUrl('/solicitudes/solicitudes/' + idSolicitud);
+    }
   }
 
   async verCita(cita: CitaSolicitud) {
     if (this.filterViewAvalability) {
-      this.router.navigateByUrl('/solicitudes/solicitudes/nueva-solicitud');
+      if (this.isTherapist || this.isVOC) {
+
+        if (this.isTherapist) {
+          const dialogRef = this.dialog.open(DialogoCitaSolicitudComponent, {
+            data: {
+              idSolicitud: cita.idSolicitud,
+              creando: true,
+              verCampoSolicitud: true,
+              citaSolicitud: cita
+            },
+            disableClose: true,
+          });
+
+          try {
+            const valor = await firstValueFrom(dialogRef.afterClosed());
+            if (valor === 'guardar') this.refrescar();
+          } catch (error) {
+            this.utilService.manejarError(error);
+          }
+        }
+
+      } else {
+        this.router.navigateByUrl('/solicitudes/solicitudes/nueva-solicitud');
+      }
     }
     else {
       if (this.isMaster || this.isVendor || this.isBackOffice || this.isInterviewer || this.isInterviewerScales || this.isClinician) {
         this.router.navigateByUrl('/solicitudes/solicitudes/' + cita.idSolicitud);
       }
-      else if (this.isTherapist) {
+      else if (this.isTherapist || this.isVOC) {
         const dialogRef = this.dialog.open(DialogoCitaSolicitudComponent, {
           data: {
             idSolicitud: cita.idSolicitud,

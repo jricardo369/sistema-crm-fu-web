@@ -10,6 +10,7 @@ let ITEMS = PLANIFICACION_ITEMS;
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CommonModule } from '@angular/common';
 
 @Component({
 	standalone: true,
@@ -17,10 +18,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 	template: NAV_MENU_IZQUIERDA_TEMPLATE,
 	styles: [NAV_MENU_IZQUIERDA_STYLES],
 	imports: [
-    RouterModule,
-    FormsModule,
-    MatIconModule,
-    MatProgressSpinnerModule
+	RouterModule,
+	FormsModule,
+	MatIconModule,
+	MatProgressSpinnerModule,
+	CommonModule
 ]
 })
 export class PlanificacionNavComponent extends UtilServiceTest {

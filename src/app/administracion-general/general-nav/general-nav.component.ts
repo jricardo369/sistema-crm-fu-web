@@ -8,11 +8,13 @@ import { FormsModule } from '@angular/forms';
 let ITEMS = ADMIN_GENERAL_ITEMS;
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CommonModule } from '@angular/common';
 
 
 
 @Component({
-    standalone: true,imports: [RouterModule, FormsModule, MatIconModule, MatProgressSpinnerModule],
+    standalone: true,
+    imports: [RouterModule, FormsModule, MatIconModule, MatProgressSpinnerModule, CommonModule],
     selector: 'app-general-nav',
     template: NAV_MENU_IZQUIERDA_TEMPLATE,
     styles: [NAV_MENU_IZQUIERDA_STYLES]

@@ -23,7 +23,7 @@
     }
 
     <div class="iigwo-input" style="margin-bottom: 0px;">
-      <select [(ngModel)]="filterClosedS" [ngModelOptions]="{standalone: true}" style="font-size: 12px;height: 20px;">
+      <select [(ngModel)]="filterClosedS" [ngModelOptions]="{standalone: true}" (change)="botonRefrescar()" style="font-size: 12px;height: 20px;">
         @for (e of arrFilterClosed; track e) {
           <option [ngValue]="e">
           {{e}}</option>
@@ -50,13 +50,18 @@
             </mat-form-field>
           </div>
 
-          <div class="iigwo-input">
+          <div  class="iigwo-input">
             <label>End Date</label>
             <mat-form-field appearance="outline" class="custom-datepicker">
               <input matInput [matDatepicker]="endPicker" [(ngModel)]="filterEndDateMat" (dateChange)="onEndDateChange()">
               <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
               <mat-datepicker #endPicker></mat-datepicker>
             </mat-form-field>
+          </div>
+
+          <div style="width:40px" class="iigwo-input">
+            <label>Id</label>
+            <input type="text" [(ngModel)]="inputId">
           </div>
 
           <div class="iigwo-input">
@@ -283,7 +288,8 @@
                                     'badge-color-lawyer-prospect-interested': p.idEstatusProspecto == 2,
                                     'badge-color-lawyer-prospect-not-interested': p.idEstatusProspecto == 3,
                                     'badge-color-lawyer-prospect-successful': p.idEstatusProspecto == 4,
-                                    'badge-color-lawyer-prospect-closed': p.idEstatusProspecto == 5
+                                    'badge-color-lawyer-prospect-closed': p.idEstatusProspecto == 5,
+                                    'badge-color-lawyer-prospect-cold': p.idEstatusProspecto == 6
                                   }">{{p.estatusProspecto}}
                 </span>
               </td>

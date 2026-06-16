@@ -1,6 +1,6 @@
 // src/app/planificacion/nav-items.ts
 import { AppBarNavItem } from '../app-nav-item';
-import { INTERVIEWER, INTERVIEWER_SCALES, CLINICIAN } from '../app.config';
+import { INTERVIEWER, INTERVIEWER_SCALES, CLINICIAN, THERAPIST } from '../app.config';
 
 export const PLANIFICACION_MODULE: AppBarNavItem = {
   module: null,
@@ -8,7 +8,7 @@ export const PLANIFICACION_MODULE: AppBarNavItem = {
   subtitle: null,
   uri: 'planificacion',
   svgName: 'planning',
-  isVisibleFor: u => [INTERVIEWER, INTERVIEWER_SCALES, CLINICIAN].some(rol => rol == u.rol)
+  isVisibleFor: u => [INTERVIEWER, INTERVIEWER_SCALES, CLINICIAN, THERAPIST].some(rol => rol == u.rol)
 };
 
 export const PLANIFICACION_ITEMS: AppBarNavItem[] = [
@@ -18,6 +18,6 @@ export const PLANIFICACION_ITEMS: AppBarNavItem[] = [
     title: 'Availability',
     subtitle: 'Manage availability',
     uri: 'disponibilidad',
-    isVisibleFor: u => [INTERVIEWER, INTERVIEWER_SCALES, CLINICIAN].some(rol => rol == u.rol)
+    isVisibleFor: u => [INTERVIEWER, INTERVIEWER_SCALES, CLINICIAN, THERAPIST].some(rol => rol == u.rol)
   }
 ];

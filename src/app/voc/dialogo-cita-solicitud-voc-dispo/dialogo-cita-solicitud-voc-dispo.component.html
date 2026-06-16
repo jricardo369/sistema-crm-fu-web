@@ -1,0 +1,168 @@
+<h2 mat-dialog-title style="font-family: regular;color:#75518c">
+Add new schedule
+
+	@if (idSolicitud != 0) {
+	<label for="availability" style="font-size: 12px; color:black;margin-left: 8px;">View Availability</label>
+			<input type="checkbox" style="width: 15px;line-height: 18px;margin: 0 6px 0 4px;" id="availability"
+				[checked]="availability" (change)="availability = !availability; obtenerDisponibilidadUsuarios()">
+	}
+
+</h2>
+
+<mat-dialog-content>
+
+	@if (idSolicitud == 0) {
+        <div class="iigwo-input">
+          <label>Select file to add schedule</label>
+          <select [(ngModel)]="citaSolicitud.idSolicitud"  [disabled]="!creando" [ngModelOptions]="{standalone: true}">
+            @for (o of arrSolicitudesVoc; track o) {
+              <option [ngValue]="o.idSolicitud">{{o.numeroDeCaso + " - " + o.cliente}}
+              </option>
+            }
+          </select>
+        </div>
+      }
+
+	@if (!availability) {
+	<div style="display: flex;">
+        <div class="iigwo-input">
+          <label>Date</label>
+          <input type="date" [(ngModel)]="citaSolicitud.fecha">
+        </div>
+        <div class="iigwo-input">
+          <label>Time</label>
+          <select [(ngModel)]="citaSolicitud.hora" style="min-width: 74px;" [ngModelOptions]="{standalone: true}">
+            @for (time of arrTime; track time) {
+              <option [ngValue]="time">
+              {{time}}</option>
+            }
+          </select>
+        </div>
+        <div class="iigwo-input">
+          <label>Type</label>
+          <select [(ngModel)]="citaSolicitud.tipo" style="min-width: 60px;" [ngModelOptions]="{standalone: true}">
+            <option value="AM">AM</option>
+            <option value="PM">PM</option>
+          </select>
+        </div>
+		
+    </div>
+	<div class="iigwo-input" style="width: 100%;">
+			<label>Description</label>
+			<textarea [(ngModel)]="citaSolicitud.comentario" style="min-width: 95%;"></textarea>
+		</div>
+		
+		<!--<div class="iigwo-input">
+          <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;"
+            id="concurrent" [checked]="concurrent" (change)="concurrent = !concurrent">
+          <label for="concurrent" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Concurrent appointment</label>
+        </div>-->
+		
+	}
+
+	@if (availability) {  
+	<div>
+		<div style="display: inline-flex;">
+	
+			<div class="iigwo-input">
+				<label>Date</label>
+				<input [ngModel]="fecha" (ngModelChange)='fecha = $event; obtenerDisponibilidadUsuarios()' type="date">
+			</div>
+	
+			<!--<div class="iigwo-input" style="text-align: center;">
+				<label for="fechaAnterior" style="font-size: 12px;">Previous Date</label>
+				<input type="checkbox" style="width: 15px;line-height: 18px;margin: 0 6px 0 4px;" id="fechaAnterior"
+					[checked]="fechaAnterior" (change)="fechaAnterior = !fechaAnterior; obtenerDisponibilidadUsuarios()">
+			</div>-->
+	
+		</div>
+	
+		@if (arrDisponibilidadUsuario.length > 0) {
+		<table class="informative">
+			<tr>
+				<th class=''></th>
+				<th>Name</th>
+				<th>Day</th>
+				<th>Hour</th>
+				<th>Summary</th>
+				<th>Time zone</th>
+				<th>Time file</th>
+				<th>Rol</th>
+			</tr>
+			@for (e of arrDisponibilidadUsuario | slice:paginacion.begin:paginacion.end; track e) {
+			<tr>
+				<td class=''><input type="checkbox" [checked]="estaSeleccionado(e.idDisponibilidad)"
+						(change)="check($event, e.idDisponibilidad)"></td>
+				<td>{{e.nombreUsuario}}</td>
+				<td style="white-space: nowrap;">{{e.fecha | dateMMDDYYYY}}</td>
+				<td style="white-space: nowrap;">{{e.hora.toString().padStart(2,'0')}} {{e.tipo}}</td>
+				<td>{{e.resumen}}</td>
+				<td>{{e.zonaHoraria}}</td>
+				<td>{{e.timeFile}}</td>
+				<td>{{e.rol}}</td>
+			</tr>
+			}
+			<tr>
+				<td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
+					<label>
+						Records per page</label>
+					<select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()"
+						[ngModelOptions]="{standalone: true}" style="margin: 0 8px; font-family: regular; height: 24px;">
+						<option value="5">5</option>
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="50">50</option>
+						<option value="100">100</option>
+					</select>
+					{{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
+					<button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+						(click)="paginacion.back();">
+						<mat-icon svgIcon="arrow-back"></mat-icon>
+					</button>
+					<button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+						(click)="paginacion.forward();">
+						<mat-icon svgIcon="arrow-forward"></mat-icon>
+					</button>
+				</td>
+			</tr>
+		</table>
+	
+		}
+	
+		@if (idDisponibilidadSelected) {
+		<!--<div class="iigwo-input">
+	          <label>Select file to add schedule</label>
+	          <select [(ngModel)]="citaSolicitud.idSolicitud"  [disabled]="!creando" [ngModelOptions]="{standalone: true}">
+	            @for (o of arrSolicitudesVoc; track o) {
+	              <option [ngValue]="o.idSolicitud">{{o.numeroDeCaso + " - " + o.cliente}}
+	              </option>
+	            }
+	          </select>
+	        </div>-->
+	
+	
+	
+		<div class="iigwo-input" style="width: 100%;">
+			<label>Description</label>
+			<textarea [(ngModel)]="citaSolicitud.comentario" style="min-width: 95%;"></textarea>
+		</div>
+		}
+	</div>
+	}
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button class="iigwo" style="margin-left:auto;" (click)='cerrar()'>Cancel</button>
+
+  @if (availability) {
+  <button class="iigwo accent" style="margin-right:0;" [disabled]="!idDisponibilidadSelected"
+  (click)='enviar()'>Generate</button>
+  }
+
+  @if (!availability) {
+	<button class="iigwo accent" style="margin-right:0;" 
+	(click)='crear()'>Generate</button>
+  }
+
+</mat-dialog-actions>

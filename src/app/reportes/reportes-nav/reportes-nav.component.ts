@@ -7,10 +7,10 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
 import { UtilService } from 'src/app/services/util.service';
 
 import { FormsModule } from '@angular/forms';
-import { V } from '@angular/cdk/scrolling-module.d-C_w4tIrZ';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CommonModule } from '@angular/common';
 
 let ITEMS = REPORTES_ITEMS;
 
@@ -20,6 +20,7 @@ let ITEMS = REPORTES_ITEMS;
   template: NAV_MENU_IZQUIERDA_TEMPLATE,
   styles: [NAV_MENU_IZQUIERDA_STYLES],
   imports: [
+    CommonModule,
     RouterModule,
     FormsModule,
     MatIconModule,

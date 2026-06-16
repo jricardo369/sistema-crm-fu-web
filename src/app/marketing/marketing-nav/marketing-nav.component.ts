@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 
 import { FormsModule } from '@angular/forms';
@@ -18,6 +19,7 @@ let ITEMS = MARKETING_ITEMS;
   template: NAV_MENU_IZQUIERDA_TEMPLATE,
   styles: [NAV_MENU_IZQUIERDA_STYLES],
   imports: [
+    CommonModule,
     RouterModule,
     FormsModule,
     MatIconModule,

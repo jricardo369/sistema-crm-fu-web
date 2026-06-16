@@ -58,15 +58,15 @@ export class SolicitudesService {
 
   obtenerSolicitudesUsuarioConFiltros(idUsuario: number, closed: string, primeraVez: boolean,ordenarPor: string, orden: string,
   fechai: string, fechaf: string, idSolicitud?: number, cliente?: string, telefono?: string, email?: string, estado?: string, idEstatusSolicitud?: number, idEstatusPago?: number,
-  idTipoSolicitud?: number, waiver?: string, noshow?: string, importante?: string, asignado?: string,zipcodes?: string
-  ): Observable<SolicitudList[]> {
+  idTipoSolicitud?: number, waiver?: string, noshow?: string, importante?: string, asignado?: string,zipcodes?: string,
+  consentimiento?: string): Observable<SolicitudList[]> {
 
     let queryParams: string = "";
     queryParams = "idUsuario=" + idUsuario + "&cerradas=" + closed + "&primeraVez=" + primeraVez + "&ordenarPor=" + ordenarPor + "&orden=" + orden + "&fechai=" + fechai + "&fechaf=" + fechaf+
       (idSolicitud ? ("&idSolicitud=" + idSolicitud) : "") + (cliente ? ("&cliente=" + cliente) : "") + (telefono ? ("&telefono=" + telefono) : "") + (email ? ("&email=" + email) : "") + 
       (estado ? ("&estado=" + estado) : "") + (idEstatusSolicitud ? ("&idEstatusSolicitud=" + idEstatusSolicitud) : "") + (idEstatusPago ? ("&idEstatusPago=" + idEstatusPago) : "") + 
       (idTipoSolicitud ? ("&idTipoSolicitud=" + idTipoSolicitud) : "") + (waiver ? ("&waiver=" + waiver) : "") + (noshow ? ("&noShow=" + noshow) : "") + (importante ? ("&importante=" + importante) : "") + 
-      (asignado ? ("&asignado=" + asignado) : "") + (zipcodes ? ("&zipcodes=" + zipcodes) : "");
+      (asignado ? ("&asignado=" + asignado) : "") + (zipcodes ? ("&zipcodes=" + zipcodes) : "") + (consentimiento ? ("&consentimiento=" + consentimiento) : "");
 
 
     const url = API_URL + "solicitudes/solicitudes-de-usuario-filtros/" + idUsuario + "?" + queryParams;
@@ -87,7 +87,7 @@ export class SolicitudesService {
 
   obtenerReporteSolicitudesFiltersExcel(idUsuario: number, closed: string, primeraVez: boolean,ordenarPor: string, orden: string,
   fechai: string, fechaf: string, idSolicitud?: number, cliente?: string, telefono?: string, email?: string, estado?: string, idEstatusSolicitud?: number, idEstatusPago?: number,
-  idTipoSolicitud?: number, waiver?: string, noshow?: string, importante?: string, asignado?: string,zipcodes?: string
+  idTipoSolicitud?: number, waiver?: string, noshow?: string, importante?: string, asignado?: string,zipcodes?: string, consentimiento?: string
 ): Observable<Blob> {
   
        let queryParams: string = "";
@@ -95,7 +95,7 @@ export class SolicitudesService {
       (idSolicitud ? ("&idSolicitud=" + idSolicitud) : "") + (cliente ? ("&cliente=" + cliente) : "") + (telefono ? ("&telefono=" + telefono) : "") + (email ? ("&email=" + email) : "") + 
       (estado ? ("&estado=" + estado) : "") + (idEstatusSolicitud ? ("&idEstatusSolicitud=" + idEstatusSolicitud) : "") + (idEstatusPago ? ("&idEstatusPago=" + idEstatusPago) : "") + 
       (idTipoSolicitud ? ("&idTipoSolicitud=" + idTipoSolicitud) : "") + (waiver ? ("&waiver=" + waiver) : "") + (noshow ? ("&noShow=" + noshow) : "") + (importante ? ("&importante=" + importante) : "") + 
-      (asignado ? ("&asignado=" + asignado) : "") + (zipcodes ? ("&zipcodes=" + zipcodes) : "");
+      (asignado ? ("&asignado=" + asignado) : "") + (zipcodes ? ("&zipcodes=" + zipcodes) : "") + (consentimiento ? ("&consentimiento=" + consentimiento) : "");
 
       
       const httpHeaders = new HttpHeaders({
@@ -565,6 +565,25 @@ export class SolicitudesService {
     return new Promise<any>((resolve, reject) =>
       this.http
         .put(API_URL + "solicitudes/agregar-cupon/" + idSolicitud + "?idUsuario=" + idUsuario, {
+          withCredentials: true,
+          observe: "response",
+          headers: new HttpHeaders()
+            .append("Content-Type", "application/json")
+            .append("Authorization", localStorage.getItem("auth_token")),
+        })
+        .toPromise()
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((reason) => reject(reason))
+    );
+  }
+
+  actualizarInterviewClinicianToCaseManager(idSolicitud: number, idUsuario: number,idUsuarioEnvio: number): Promise<any> {
+   
+    return new Promise<any>((resolve, reject) =>
+      this.http
+        .put(API_URL + "solicitudes/actualizar-interview-to-case-manager/" + idSolicitud + "/" + idUsuario+"?idUsuarioEnvio=" + idUsuarioEnvio, {
           withCredentials: true,
           observe: "response",
           headers: new HttpHeaders()
