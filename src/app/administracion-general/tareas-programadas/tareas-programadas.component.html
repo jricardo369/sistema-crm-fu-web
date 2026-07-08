@@ -294,6 +294,114 @@
 
       <hr style="max-width:396px;margin-bottom:24px;">
 
+      <!-- ================================================== -->
+
+      <h4 class="title">{{tituloRemTratPlanOld}}</h4>
+
+      <div class="iigwo-input">
+        <input [(ngModel)]="remTratPlan" type="time"
+          [attr.readOnly]="cambiandoRemTratPlan ? null : false">
+        <p style="margin-top: 5px;">{{subtituloRemTratPlanOld}}</p>
+      </div>
+
+      <div class="iigwo-input" style="margin: 0;" >
+        <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 0;"
+          [checked]="activoRemTratPlan" [(ngModel)]="activoRemTratPlan">
+        <label
+        style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Active</label>
+      </div>
+
+      <div style="display: flex; gap: 8px; align-items: center;">
+
+        @if (cambiandoRemTratPlan==false) {
+          <button (click)='cambiandoRemTratPlan=true'
+            class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+            <span style="color: #000000; font-size: 13px;">Change time</span>
+          </button>
+        }
+
+        @if (cambiandoRemTratPlan==false) {
+          <button (click)='ejecutarTarea(7)' class="btn-color"
+            style="color: #ffffff; background: #41949B;margin-bottom: 5px;">
+            <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+            <span style="color: #ffffff; font-size: 13px;">Execute task</span>
+          </button>
+        }
+
+        @if (cambiandoRemTratPlan==true) {
+          <button (click)='cambiarDato(7)' class="btn-color"
+            style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
+            <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+            <span style="color: #ffffff; font-size: 13px;">Change time</span>
+          </button>
+        }
+
+        @if (cambiandoRemTratPlan==true) {
+          <button (click)="cancelarCambio(7)" class="btn-color"
+            style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+            <span style="color: #000000; font-size: 13px;">Cancel</span>
+          </button>
+        }
+      </div>
+
+      <!-- ================================================== -->
+
+      <hr style="max-width:396px;margin-bottom:24px;">
+
+      <!-- ================================================== -->
+
+      <h4 class="title">{{tituloRemNotaSinCitaOld}}</h4>
+
+      <div class="iigwo-input">
+        <input [(ngModel)]="remNotaSinCita" type="time"
+          [attr.readOnly]="cambiandoRemNotaSinCita ? null : false">
+        <p style="margin-top: 5px;">{{subtituloRemNotaSinCitaOld}}</p>
+      </div>
+
+      <div class="iigwo-input" style="margin: 0;" >
+        <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 0;"
+          [checked]="activoRemNotaSinCita" [(ngModel)]="activoRemNotaSinCita">
+        <label
+        style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Active</label>
+      </div>
+
+      <div style="display: flex; gap: 8px; align-items: center;">
+
+        @if (cambiandoRemNotaSinCita==false) {
+          <button (click)='cambiandoRemNotaSinCita=true'
+            class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+            <span style="color: #000000; font-size: 13px;">Change time</span>
+          </button>
+        }
+
+        @if (cambiandoRemNotaSinCita==false) {
+          <button (click)='ejecutarTarea(8)' class="btn-color"
+            style="color: #ffffff; background: #41949B;margin-bottom: 5px;">
+            <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+            <span style="color: #ffffff; font-size: 13px;">Execute task</span>
+          </button>
+        }
+
+        @if (cambiandoRemNotaSinCita==true) {
+          <button (click)='cambiarDato(8)' class="btn-color"
+            style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
+            <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+            <span style="color: #ffffff; font-size: 13px;">Change time</span>
+          </button>
+        }
+
+        @if (cambiandoRemNotaSinCita==true) {
+          <button (click)="cancelarCambio(8)" class="btn-color"
+            style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+            <span style="color: #000000; font-size: 13px;">Cancel</span>
+          </button>
+        }
+      </div>
+
+      <!-- ================================================== -->
+
+      <hr style="max-width:396px;margin-bottom:24px;">
+
     </div>
   </div>
 

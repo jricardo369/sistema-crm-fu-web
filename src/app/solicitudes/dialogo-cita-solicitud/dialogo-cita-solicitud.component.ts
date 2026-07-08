@@ -11,11 +11,13 @@ import { Usuario } from 'src/model/usuario';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DialogoSimpleComponent } from 'src/app/common/dialogo-simple/dialogo-simple.component';
+import { UsuariosService } from 'src/app/services/usuarios.service';
 
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
+import { RechazoNotaComponent } from 'src/app/voc/rechazo-nota/rechazo-nota.component';
 
 @Component({
   standalone: true, imports: [RouterModule, FormsModule, CommonModule, MatIconModule, MatProgressSpinnerModule, MatDialogModule],
@@ -31,6 +33,7 @@ export class DialogoCitaSolicitudComponent implements OnInit {
   public citaSolicitud: CitaSolicitud = new CitaSolicitud;
   notaCita: NotaCita = new NotaCita();
   usuario: Usuario = new Usuario;
+  usuarioTerapeuta: Usuario = new Usuario;
   creando: boolean = false;
   verCampoSolicitud: boolean = false;
   arrSolicitudesVoc: SolicitudVoc[] = [];
@@ -52,9 +55,13 @@ export class DialogoCitaSolicitudComponent implements OnInit {
   inputSiHiAsignado: string = "";
   inputLocacionVerificada: string = "";
 
+  tieneNota: boolean = false;
+  verFirma = false;
+
   constructor(
     private solicitudesVOCService: SolicitudesVocService,
     private citaSolicitudService: CitaSolicitudService,
+    public usuariosService: UsuariosService,
     private notaCitaService: NotaCitaService,
     public utilService: UtilService,
     private dialog: MatDialog,
@@ -68,16 +75,21 @@ export class DialogoCitaSolicitudComponent implements OnInit {
     this.verCampoSolicitud = data.verCampoSolicitud;
 
      this.citaSolicitud = data.citaSolicitud;
+    
 
     if (!this.creando) {
      
+      this.usuariosService
+      .obtenerUsuarioPorId(this.citaSolicitud.idUsuario).then(u => {
+        this.usuarioTerapeuta = u;
+        console.log('Usuario terapeuta:'+this.usuarioTerapeuta.supervisor);
+        this.verFirma = this.usuarioTerapeuta?.supervisor != null && Number(this.usuarioTerapeuta.supervisor) === this.usuario?.idUsuario;
+      }).catch(r => this.utilService.manejarError(r));
       
       this.obtenerNotasCita();
     }
     if (this.verCampoSolicitud) this.obtenerSolicitudesActivasUsuario();
-    if(this.citaSolicitud !=null){
-      this.citaSolicitud.dosCitas = false;
-    }
+    
   }
 
   ngOnInit(): void {
@@ -109,7 +121,7 @@ export class DialogoCitaSolicitudComponent implements OnInit {
       .then(notas => {
         // this.nuevaNotaCita.idCita = this.citaSolicitud.idCita;
         if (notas[0]) this.notaCita = notas[0];
-        console.log(this.notaCita)
+        //console.log(this.notaCita)
 
         if (!this.notaCita.idNota) {
           this.notaCita.tipo = this.arrTipoNota[0];
@@ -118,6 +130,9 @@ export class DialogoCitaSolicitudComponent implements OnInit {
           this.notaCita.descripcion = "";
           this.notaCita.hora = "";
           this.notaCita.fechaCreacion = (new Date().toISOString()).split('T', 1)[0];
+          this.tieneNota = false;
+        }else{
+          this.tieneNota = true;
         }
 
         if (this.notaCita.siHiAsignado === true) this.inputSiHiAsignado = "Yes";
@@ -179,6 +194,16 @@ export class DialogoCitaSolicitudComponent implements OnInit {
       .then(() => this.cargando = false);
    }
 
+   firmarNota(tipo: string) {
+    this.notaCitaService
+      .firmarNota(this.notaCita.idNota,this.usuario.idUsuario,this.citaSolicitud.idSolicitud,tipo)
+      .then(() => {
+        this.cerrar('guardar');
+      })
+      .catch(reason => this.utilService.manejarError(reason))
+      .then(() => this.cargando = false);
+   }
+
   obtenerSolicitudesActivasUsuario() {
     this.cargando = true;
     this.solicitudesVOCService
@@ -218,7 +243,6 @@ export class DialogoCitaSolicitudComponent implements OnInit {
 
   eliminar(accion: string) {
 
-
    
       this.dialog.open(DialogoSimpleComponent, {
         data: {
@@ -234,6 +258,71 @@ export class DialogoCitaSolicitudComponent implements OnInit {
         if (valor == 'ok') {
           this.eliminarNota();
           this.dialogRef.close(accion);
+        }
+      }).catch(reason => this.utilService.manejarError(reason));
+
+    
+
+  }
+
+   firmar() {
+
+      this.dialog.open(DialogoSimpleComponent, {
+        data: {
+          titulo: 'Sign note',
+          texto: 'Do you really want to sign this note?',
+          botones: [
+            { texto: 'Cancel', color: '', valor: '' },
+            { texto: 'Yes', color: 'primary', valor: 'ok' },
+          ]
+        },
+        disableClose: true,
+      }).afterClosed().toPromise().then(valor => {
+        if (valor == 'ok') {
+          this.firmarNota("firmar");
+          this.dialogRef.close('guardar');
+        }
+      }).catch(reason => this.utilService.manejarError(reason));
+
+    
+
+  }
+
+ 
+
+  abrirRechazoNota() {
+    this.dialog.open(RechazoNotaComponent, {
+      data: {
+        titulo: 'Reject note',
+        subtitulo: 'Please select a rejection reason',
+        textolabel: 'Rejection reason',
+        tipoMotivo: 'REJ',
+        nota: this.notaCita
+      },
+      disableClose: true,
+    }).afterClosed().toPromise().then(valor => {
+      if (valor && valor.motivoCancel) {
+        this.dialogRef.close('guardar');
+      }
+    }).catch(reason => this.utilService.manejarError(reason));
+  }
+
+  quitarFirma() {
+
+      this.dialog.open(DialogoSimpleComponent, {
+        data: {
+          titulo: 'Sign note',
+          texto: 'Do you really want to sign this note?',
+          botones: [
+            { texto: 'Cancel', color: '', valor: '' },
+            { texto: 'Yes', color: 'primary', valor: 'ok' },
+          ]
+        },
+        disableClose: true,
+      }).afterClosed().toPromise().then(valor => {
+        if (valor == 'ok') {
+          this.firmarNota("quitarfirmar");
+          this.dialogRef.close('guardar');
         }
       }).catch(reason => this.utilService.manejarError(reason));
 

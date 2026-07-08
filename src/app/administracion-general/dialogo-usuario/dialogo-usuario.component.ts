@@ -39,11 +39,14 @@ export class DialogoUsuarioComponent implements OnInit {
   creando: boolean = false;
   titulo: string = 'Usuario';
   usuario: Usuario = new Usuario();
+  usuarioLogeado: Usuario = new Usuario();
   permisos: Permiso[] = [];
   permisosSeleccionados: { [key: number]: boolean } = {};
   roles: Rol[] = [];
   estadosUsuario: EstadoUsuario[] = [];
   fechaValidityMat: Date;
+  filterUsuario: number = 0;
+  arrFilterUsuarios: Usuario[] = [];
 
   public file: File[] = [];
 
@@ -66,6 +69,8 @@ export class DialogoUsuarioComponent implements OnInit {
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<DialogoUsuarioComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+
+    this.usuarioLogeado = JSON.parse(localStorage.getItem('objUsuario'));
       
     this.arrStates = US_STATES;
 
@@ -76,6 +81,8 @@ export class DialogoUsuarioComponent implements OnInit {
     this.permisos.push({ id: 5, nombre: "Permission 5" });
 
     this.permisos.forEach(permiso => this.permisosSeleccionados[permiso.id] = false);
+
+     this.obtenerUsuariosSupervisores();
    
 
     if (data.idUsuario) {
@@ -173,6 +180,7 @@ export class DialogoUsuarioComponent implements OnInit {
       .then(usuario => {
         this.usuario = usuario;
         this.checkAllPermisos(this.usuario.permisos);
+        this.filterUsuario = this.usuario.supervisor ? parseInt(this.usuario.supervisor) : 0;
       })
       .catch(reason => this.utilService.manejarError(reason))
       .then(() => this.cargando = false);
@@ -194,7 +202,20 @@ export class DialogoUsuarioComponent implements OnInit {
     this.usuario.estatus = "1";
     this.usuario.ausencia = false;
     console.log(this.usuario)
-    this.cargando = true;
+   
+
+    if(this.usuario.withSupervision){
+      
+      console.log('supervisor:'+this.filterUsuario);
+      if(this.filterUsuario == 0){
+          this.utilService.mostrarDialogoSimple("Error", "You must enter the supervisor"); 
+          return; // Salir de la función si no hay supervisor
+      }
+      this.usuario.supervisor = this.filterUsuario.toString();
+
+    }
+
+     this.cargando = true;
     this.usuariosService
       .insertarUsuario(this.usuario)
       .then(usuario => {
@@ -208,10 +229,14 @@ export class DialogoUsuarioComponent implements OnInit {
     this.usuario.permisos = this.obtenerPermisosSeleccionados();
     
     if(this.usuario.withSupervision){
-      if(this.usuario.supervisor == null || this.usuario.supervisor == ''){
+      
+      console.log('supervisor:'+this.filterUsuario);
+      if(this.filterUsuario == 0){
           this.utilService.mostrarDialogoSimple("Error", "You must enter the supervisor"); 
           return; // Salir de la función si no hay supervisor
       }
+      this.usuario.supervisor = this.filterUsuario.toString();
+
     }
 
     this.cargando = true;
@@ -325,6 +350,18 @@ export class DialogoUsuarioComponent implements OnInit {
           .then(() => this.cargando = false);
       }
     }).catch(reason => this.utilService.manejarError(reason));
+  }
+
+  obtenerUsuariosSupervisores() {
+    this.cargando = true;
+    this.usuariosService
+      .obtenerUsuariosSupervisores(this.usuarioLogeado.idUsuario)
+      .then(usuarios => {
+        this.arrFilterUsuarios = usuarios;
+        //console.log(this.arrFilterUsuarios)
+      })
+      .catch(reason => this.utilService.manejarError(reason))
+      .then(() => this.cargando = false)
   }
 
 }

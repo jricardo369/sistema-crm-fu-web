@@ -11,7 +11,7 @@ import { SolicitudVoc } from 'src/model/solicitud-voc';
 import { Usuario } from 'src/model/usuario';
 import { PaginationManager } from 'src/util/pagination';
 import { SolicitudesService } from 'src/app/services/solicitudes.service';
-import { Filtros } from 'src/model/filtros';
+import { FiltrosVoc } from 'src/model/filtros-voc';
 import { FormsModule } from '@angular/forms';
 
 import { SolicitudesNavComponent } from 'src/app/solicitudes/solicitudes-nav/solicitudes-nav.component';
@@ -57,7 +57,7 @@ export class SolicitudesVocComponent implements OnInit {
   usuario: Usuario = new Usuario;
 
   filtros: string = '';
-    filtrosObj: Filtros = new Filtros;
+  filtrosObj: FiltrosVoc = new FiltrosVoc;
 
   paginacion: PaginationManager = new PaginationManager();
 

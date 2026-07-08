@@ -83,13 +83,6 @@
             </select>
           </div>
 
-          <button class="btn-color" (click)='citasDia()' *ngIf="versionCalendario === '1'"
-            [ngStyle]="{'color': 'var(--app-secondary)', 'background': '#FFFFFF','margin-top': '18px',
-                   'margin-bottom': '15px','font-style': 'italic','border': '1px solid var(--app-secondary)', 'margin-left': 'auto'}">
-            <span style="color: #000000; font-size: 13px;"
-              [ngStyle]="{'color': 'var(--app-secondary)', 'font-size': '13px'}">{{citasPorDia}}</span>
-          </button>
-
 
           <div class="vista-toggle" class="seccion-wee-day" *ngIf="versionCalendario === '2'">
             <button class="vista-btn" [class.active]="vista === 'week'" (click)="cambiarVista('week')">Week</button>
@@ -236,25 +229,41 @@
                       <div class="importante-indicator" *ngIf="cita?.importante?.length > 0"></div>
                     </div>
 
-                    <div class="recurrence-indicator" *ngIf="cita.codigoRecurrencia != null">
-                      <button id="recurrence-button" style="background-color: transparent; border: none; padding: 0; cursor: pointer;"
+                    <div class="recurrence-indicator" >
+                       
+                      <button id="recurrence-button" *ngIf="cita.codigoRecurrencia != null"
+                        style="background-color: transparent; border: none; padding: 0; cursor: pointer;"
                         (click)="abrirDialogoActualizarCita(cita)" matTooltip="Recurrence schedule">
                         <mat-icon style="width: 13px; height: 12px; min-width: 12px;" svgIcon="recurrenceD"></mat-icon>
                       </button>
+
+                        <mat-icon *ngIf="cita.tieneFirma " style="width: 13px; height: 12px; min-width: 12px;color:rgb(11, 130, 82)" svgIcon="signedD"></mat-icon>
+
+                      <mat-icon *ngIf="cita.rechazada " style="width: 13px; height: 12px; min-width: 12px;color:rgb(174, 61, 24)" svgIcon="cancel"></mat-icon>
+                   
+                        <mat-icon *ngIf="cita.supervisor == this.usuario.idUsuario && !cita.tieneFirma && cita.tieneNota && !cita.rechazada" style="width: 12px; height: 12px; min-width: 12px;color:rgb(22, 22, 22)" svgIcon="incompleteD"></mat-icon>
+                   
                     </div>
-                    
+
 
                     <div (click)="verCita(cita)">
                       <div *ngIf="(!isTherapist && !isVOC)" class="cita-nombre">{{ cita.nombreUsuario }}</div>
                       <div *ngIf="(isTherapist || isVOC)" class="cita-nombre">Clin. {{ cita.nombreUsuario }}</div>
-                      <div *ngIf="(isTherapist || isVOC) && !filterViewAvalability"class="cita-nombre cita-cliente">Cust. {{ cita.cliente}}</div>
+                      <div *ngIf="(isTherapist || isVOC) && !filterViewAvalability" class="cita-nombre cita-cliente">
+                        Cust. {{ cita.cliente}}</div>
+                         <div class="cita-hora-row">
+                            {{ cita.tipoSolicitud}}
+                          </div>
                       <div class="cita-hora-row">
 
-                        <span class="calendar-icon">📅 </span>
+                        <!--<span class="calendar-icon">📅 </span>-->
+                        <mat-icon svgIcon="schedule"
+          style="color:rgba(32, 32, 32, 0.7); width: 15px;margin-bottom: -8px;"></mat-icon>
                         <span class="cita-hora">{{ cita.hora }} {{ cita.tipo }}</span>
                         <span class="cita-separator" *ngIf="!filterViewAvalability"> - </span>
-                        <a class="cita-file" *ngIf="!filterViewAvalability" href="" (click)="irASolicitud($event, cita.idSolicitud)">File: {{ cita.idSolicitud }}</a>
-                     
+                        <a class="cita-file" *ngIf="!filterViewAvalability" href=""
+                          (click)="irASolicitud($event, cita.idSolicitud)">File: {{ cita.idSolicitud }}</a>
+
                       </div>
                       <div class="cita-attended-row">
 
@@ -271,13 +280,13 @@
 
                         <div class="badges-left" *ngIf="(isTherapist || isVOC) && !filterViewAvalability">
 
-                        
-                          
+
+
                           <span class="cita-estatus estatus-badge badge-right tiene-nota" *ngIf="cita.tieneNota">With
                             note</span>
                           <span class="cita-estatus estatus-badge badge-right no-tiene-nota" *ngIf="!cita.tieneNota">No
                             note</span>
-                            
+
 
                         </div>
 

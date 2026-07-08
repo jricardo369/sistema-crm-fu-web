@@ -458,6 +458,43 @@
           </div>
           <hr style="max-width:396px;margin-bottom:24px;">
 
+           <!-- DAYS REMINEDER TRATMENT PLAN -->
+          <h4 class="title">Days to reminder tratment plan in VOC</h4>
+          <div class="iigwo-input">
+            <label>Total number of days</label>
+            <input [(ngModel)]="diasParaRecordatorioTratPlan"
+              [attr.readOnly]="cambiandoDiasParaRecordatorioTratPlan ? null : false"
+              (ngModelChange)="diasParaRecordatorioTratPlan" onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+              max="45" maxlength="2">
+            <p style="margin-top: 5px;">Days to reminder tratment plan.</p>
+          </div>
+
+          <div style="display: flex; gap: 8px; align-items: center;">
+
+            @if (cambiandoDiasParaRecordatorioTratPlan==false) {
+              <button (click)='cambiandoDiasParaRecordatorioTratPlan=true'
+                class="btn-color" style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+                <span style="color: #000000; font-size: 13px;">Change number</span>
+              </button>
+            }
+
+            @if (cambiandoDiasParaRecordatorioTratPlan==true) {
+              <button (click)='cambiarDato(29)' class="btn-color"
+                style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
+                <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+                <span style="color: #ffffff; font-size: 13px;">Change number</span>
+              </button>
+            }
+
+            @if (cambiandoDiasParaRecordatorioTratPlan==true) {
+              <button (click)="cancelarCambio(29)" class="btn-color"
+                style="color: #000000; background: #ffffff;border: 0.5px solid #b1b1b1;margin-bottom: 5px;">
+                <span style="color: #000000; font-size: 13px;">Cancel</span>
+              </button>
+            }
+
+          </div>
+          <hr style="max-width:396px;margin-bottom:24px;">
 
         </div>
       </div>

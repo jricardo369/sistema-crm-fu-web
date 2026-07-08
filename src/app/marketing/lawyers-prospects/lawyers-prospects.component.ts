@@ -135,7 +135,7 @@ export class LawyersProspectsComponent {
     this.filterEndDateMat = new Date();
 
     if (this.usuario.rol === '12') {
-      this.arrFilterClosed = ['PROSPECT','COLD','NOT INTERESTED','CLOSED','INTERESTED'];
+      this.arrFilterClosed = ['PROSPECT','COLD','NOT INTERESTED','CLOSED','INTERESTED','SUCESSFUL'];
     }
     if (this.usuario.rol === '13') {
       this.arrFilterClosed = ['INTERESTED', 'SUCESSFUL', 'CLOSED'];

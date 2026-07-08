@@ -23,6 +23,7 @@ export class TusCredencialesComponent implements OnInit {
   cambiandoContrasena: boolean = false;
   cambiandoCorreo: boolean = false;
   cambiandoImage: boolean = false;
+  cambiandoImageFirma: boolean = false;
 
   public file: File[] = [];
 
@@ -127,6 +128,21 @@ export class TusCredencialesComponent implements OnInit {
         console.log(results);
         this.file = [];
         this.cambiandoImage = false;
+      }).catch(reason => this.utilService.manejarError(reason))
+      .then(() => this.cargando = false);
+  }
+
+  cargarAdjuntoFirma() {
+   let promises = [];
+    this.file.forEach(f => promises.push(this.usuariosService.actualizarImagenFirma(f,this.usuario.idUsuario)));
+
+    this.cargando = true;
+    Promise
+      .all(promises)
+      .then(results => {
+        console.log(results);
+        this.file = [];
+        this.cambiandoImageFirma = false;
       }).catch(reason => this.utilService.manejarError(reason))
       .then(() => this.cargando = false);
   }

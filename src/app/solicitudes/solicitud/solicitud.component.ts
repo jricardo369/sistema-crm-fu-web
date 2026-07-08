@@ -234,7 +234,7 @@ export class SolicitudComponent implements OnInit {
         )
       )
       .subscribe((res) => (this.abogados = res));
-    //console.log("MOVIMIENTOS: " + this.isBackOffice); localStorage.setItem('backSolicitud', '1'); console.log(this.solicitud);
+     console.log("MOVIMIENTOS: " + this.isBackOffice); localStorage.setItem('backSolicitud', '1'); console.log(this.solicitud);
 
     this.idUsuarioLogueado = this.usuario.idUsuario;
     //console.log("usuario logeado:" + this.idUsuarioLogueado); 

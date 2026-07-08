@@ -83,11 +83,32 @@ export class UsuariosService {
         .catch((reason) => reject(reason))
     );
   }
+  
 
   obtenerUsuariosParaDash(idUsuario: number): Promise<Usuario[]> {
     return new Promise<Usuario[]>((resolve, reject) =>
       this.http
         .get(API_URL + "usuarios/para-dash?idUsuario=" + idUsuario, {
+          withCredentials: true,
+          observe: "response",
+          headers: new HttpHeaders()
+            .append("Content-Type", "application/json")
+            .append("Authorization", localStorage.getItem("auth_token")),
+        })
+        .toPromise()
+        .then((response) => {
+          resolve(response.body as Usuario[]);
+        })
+        .catch((reason) => reject(reason))
+    );
+
+    
+  }
+
+  obtenerUsuariosSupervisores(idUsuario: number): Promise<Usuario[]> {
+    return new Promise<Usuario[]>((resolve, reject) =>
+      this.http
+        .get(API_URL + "usuarios/supervisores?idUsuario=" + idUsuario, {
           withCredentials: true,
           observe: "response",
           headers: new HttpHeaders()
@@ -254,6 +275,30 @@ export class UsuariosService {
 
     return new Promise((resolve, reject) => this.http
         .post(API_URL + 'usuarios/actualizar-imagen/' + idUsuario, formData,
+            {
+                params: params,
+                withCredentials: true,
+                observe: 'response',
+                headers: new HttpHeaders().append('Authorization', localStorage.getItem('auth_token'))
+            })
+        .toPromise()
+        .then(response => {
+            console.log(response);
+            resolve(response.body);
+        })
+        .catch(reason => reject(reason))
+    );
+  }
+
+  actualizarImagenFirma(archivo: File,idUsuario: number) {
+    let formData = new FormData();
+    formData.append('archivo', archivo);
+
+    let params = new HttpParams();
+    params = params.set("idUsuario", idUsuario.toString());
+
+    return new Promise((resolve, reject) => this.http
+        .post(API_URL + 'usuarios/actualizar-imagen-firma/' + idUsuario, formData,
             {
                 params: params,
                 withCredentials: true,

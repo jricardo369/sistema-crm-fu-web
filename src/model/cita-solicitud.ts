@@ -5,7 +5,7 @@ export class CitaSolicitud {
     fecha: string;
     hora: string;
     tipo: string;
-    dosCitas: boolean;
+    numCitas: number;
     idSolicitud: number;
 
     amount: number;
@@ -19,5 +19,7 @@ export class CitaSolicitud {
     idEvento: number;
     recurrente: boolean;
     codigoRecurrencia: string;
+    tipoSolicitud: string;
+    supervisor: number;
 
   }

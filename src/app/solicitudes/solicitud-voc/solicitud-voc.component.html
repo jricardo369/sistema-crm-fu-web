@@ -4,6 +4,16 @@
 <div class='workspace'>
   <div class='main'>
     <app-experimental-menu [titulo]="titulo" backButtonEnabled="true">
+
+      
+        <button (click)='recargarVistaSolicitud()' class="btn"
+          style="color: #FFFFFF;background: #f3c956; border-radius: 5px; height: 20px; line-height: 20px;">
+          <mat-icon svgIcon="refresh"
+          style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+          <label style="margin: auto;color: #FFFFFF;text-transform: none;">Refresh File</label>
+        </button>
+      
+
       <div id="panel-derecha" style="margin-left: auto; display: flex; align-items: center;margin-right: 10px">
           <!--You have {{solicitud.sesionesPendientes}} appointments to complete your plan-->
         @if (solicitud.info !== null) {
@@ -283,7 +293,7 @@
           </div>
         }
         <!-- EVENTOS DE LA SOLICITUD -->
-        @if (solicitud.idSolicitud) {
+        @if (solicitud.idSolicitud && mostrarEventosSolicitudComponent) {
           <div style="display:flex; flex-flow: row;">
             <app-eventos-solicitud-voc [idSolicitud]="solicitud.idSolicitud"
             [idEstatusSolicitud]="solicitud.idEstatusSolicitud"></app-eventos-solicitud-voc>
@@ -340,6 +350,20 @@
               <!--<input [ngModel]="solicitud.adeudo" readOnly>-->
             </div>
           }
+
+           @if (!(isTherapist)) {
+            <div class="iigwo-input">
+              <div class="div-img-label">
+                <mat-icon svgIcon="calendar-slash"
+                style="color:rgba(48, 48, 48, 0.7); width: 12px; height: 12px;margin-bottom: 5px;"></mat-icon>
+                <label>No show schedules</label>
+            <span class="badge-status" [ngClass]="{'badge-color-no-show': solicitud.noShows > 0,
+                    'badge-color-received': solicitud.noShows == 0}">{{solicitud.noShows}}</span>
+              </div>
+              <!--<input [ngModel]="solicitud.adeudo" readOnly>-->
+            </div>
+          }
+
           @if  (!isTherapist ) {
             @if (solicitud.numCitasTerapeutasPorSolicitud.length == 0){
             <div style="margin-bottom: 10px; ">
@@ -353,6 +377,8 @@
               </div>
             </div>
           }
+
+         
             <div id="terapeuutas" style="margin-bottom: 10px; ">
               <div class="info-component">
                 @if (solicitud.numCitasTerapeutasPorSolicitud.length == 1){
@@ -374,6 +400,8 @@
               </div>-->
             </div>
           }
+
+          
           
           <div style="margin: 0; display:flex; flex-flow: column; flex: 1;">
             <div class="div-img-label" style="margin-top: 15px;">

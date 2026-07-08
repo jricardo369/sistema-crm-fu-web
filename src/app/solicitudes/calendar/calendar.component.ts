@@ -76,19 +76,6 @@ export class CalendarComponent {
     return `${horas24.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}`;
   }
 
-  obtenerEstatusClass(cita: CitaSolicitud): string {
-    if (cita.noShow) {
-      return 'estatus-noshow';
-    }
-    if (cita.pagado) {
-      return 'estatus-pagado';
-    }
-    if (cita.dosCitas) {
-      return 'estatus-doscitas';
-    }
-    return 'estatus-default';
-  }
-
   procesarColor(colorHex: string | null, cita: CitaSolicitud): string {
     // Si no hay color, usar un color por defecto
     if (!colorHex) {

@@ -48,6 +48,42 @@ export class NotaCitaService {
     );
   }
 
+  firmarNota(idNota: number,idUsuario: number,idSolicitud: number,tipo: string): Promise<NotaCita[]> {
+    return new Promise<any>((resolve, reject) =>
+      this.http
+        .put(API_URL + "notas-citas/firmar/"+ idNota+"?idUsuario="+idUsuario+"&idSolicitud="+idSolicitud+"&tipo="+tipo,  {
+          withCredentials: true,
+          observe: "response",
+          headers: new HttpHeaders()
+            .append("Content-Type", "application/json")
+            .append("Authorization", localStorage.getItem("auth_token")),
+        })
+        .toPromise()
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((reason) => reject(reason))
+    );
+  }
+
+  rechazarNota(idNota: number,idUsuario: number,motivo: string): Promise<NotaCita[]> {
+    return new Promise<any>((resolve, reject) =>
+      this.http
+        .put(API_URL + "notas-citas/rechazar/"+ idNota+"?idUsuario="+idUsuario+"&motivo="+motivo,  {
+          withCredentials: true,
+          observe: "response",
+          headers: new HttpHeaders()
+            .append("Content-Type", "application/json")
+            .append("Authorization", localStorage.getItem("auth_token")),
+        })
+        .toPromise()
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((reason) => reject(reason))
+    );
+  }
+
   guardarNota(nota: NotaCita): Promise<any> {
     let c = {
       "idCita": nota.idCita,

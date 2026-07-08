@@ -74,6 +74,22 @@ export class TareasProgramadasComponent {
   activoRemLawPros: boolean = false;
   activoRemLawProsOld: boolean = false;
 
+  cambiandoRemTratPlan: boolean = false;
+  remTratPlan: string = '00:00';
+  remTratPlanOld: string = '00:00';
+  tituloRemTratPlanOld: string = '00:00';
+  subtituloRemTratPlanOld: string = '00:00';
+  activoRemTratPlan: boolean = false;
+  activoRemTratpPlanOld: boolean = false;
+
+  cambiandoRemNotaSinCita: boolean = false;
+  remNotaSinCita: string = '00:00';
+  remNotaSinCitaOld: string = '00:00';
+  tituloRemNotaSinCitaOld: string = '00:00';
+  subtituloRemNotaSinCitaOld: string = '00:00';
+  activoRemNotaSinCita: boolean = false;
+  activoRemNotaSinCitaOld: boolean = false;
+
   constructor(public tareasService: TareasProgramadasService,
     public utilService: UtilService) {
     this.obtenerTareas();
@@ -139,6 +155,22 @@ export class TareasProgramadasComponent {
           this.activoRemLawPros = this.arrTareas[index].activo;
           this.activoRemLawProsOld = this.activoRemLawPros;
           break;
+        case 7:
+          this.remTratPlan = this.arrTareas[index].hora;
+          this.remTratPlanOld = this.remLawPros;
+          this.tituloRemTratPlanOld = this.arrTareas[index].titulo;
+          this.subtituloRemTratPlanOld = this.arrTareas[index].subtitulo;
+          this.activoRemTratPlan = this.arrTareas[index].activo;
+          this.activoRemTratpPlanOld = this.activoRemTratPlan;
+          break;
+        case 8:
+          this.remNotaSinCita = this.arrTareas[index].hora;
+          this.remNotaSinCitaOld = this.remNotaSinCita;
+          this.tituloRemNotaSinCitaOld = this.arrTareas[index].titulo;
+          this.subtituloRemNotaSinCitaOld = this.arrTareas[index].subtitulo;
+          this.activoRemNotaSinCita = this.arrTareas[index].activo;
+          this.activoRemNotaSinCitaOld = this.activoRemNotaSinCita;
+          break;
         default:
           break;
       }
@@ -176,6 +208,14 @@ export class TareasProgramadasComponent {
         this.tarea.hora = this.remLawPros;
         this.tarea.activo = this.activoRemLawPros;
         break;
+        case 7:
+        this.tarea.hora = this.remTratPlan;
+        this.tarea.activo = this.activoRemTratPlan;
+        break;
+        case 8:
+        this.tarea.hora = this.remNotaSinCita;
+        this.tarea.activo = this.activoRemNotaSinCita;
+        break;
       default:
         break;
     }
@@ -208,6 +248,14 @@ export class TareasProgramadasComponent {
             case 5:
               this.remLawProsOld = this.remLawPros;
               this.cambiandoRemLawPros = false;
+              break;
+              case 7:
+              this.remTratPlanOld = this.remTratPlan;
+              this.cambiandoRemTratPlan = false;
+              break;
+              case 8:
+              this.remNotaSinCitaOld = this.remNotaSinCita;
+              this.cambiandoRemNotaSinCita = false;
               break;
             default:
               break;
@@ -245,6 +293,14 @@ export class TareasProgramadasComponent {
       case 5:
         this.cambiandoRemLawPros = false;
         this.remLawPros = this.remLawProsOld;
+        break;
+        case 7:
+        this.cambiandoRemTratPlan = false;
+        this.remTratPlan = this.remTratPlanOld;
+        break;
+        case 8:
+        this.cambiandoRemNotaSinCita = false;
+        this.remNotaSinCita = this.remNotaSinCitaOld;
         break;
       default:
         break;

@@ -119,6 +119,61 @@
     </div>
   }
 
+  <hr style="max-width:396px;margin-top:12px;">
+
+  <h4 style="margin: 0 0 6px 0">Signature image</h4>
+  <p style="margin: 0 0 12px 0">If you prefer change your image to a different</p>
+  @if (!cambiandoImageFirma) {
+    <button class="iigwo" (click)="cambiandoImageFirma=true">
+      <label>Change signature image</label>
+    </button>
+  }
+
+  @if (cambiandoImageFirma) {
+    <div>
+      <div style="display: flex; align-items: center;">
+        <h4>Attachments</h4>
+        @if (file.length > 0) {
+          <button (click)='cargarAdjuntoFirma()' class="btn m-l-40"
+            style="color: #239B56;background: #EAFAF1;border-radius: 5px; height: 28px; line-height: 28px;">
+            <mat-icon svgIcon="file-upload"></mat-icon>
+            <label>Upload File(s)</label>
+          </button>
+        }
+      </div>
+      <div>
+        <label for='fileId' [class]='file.length == 0 ?"fake-button accent":"fake-button"' tabindex="0" >
+          @if (file.length == 0) {
+            <span>Select Files</span>
+          }
+          @if (file.length > 0) {
+            <span>Selected Files</span>
+          }
+        </label>
+        @if (file.length == 0) {
+          <label style="display: inline-block; line-height: 32px; font-size: 13px; color:rgba(0,0,0,0.5);"
+          >No files selected</label>
+        }
+        @for (f of file; track f) {
+          <div style="display: inline-block;">
+            <span class="badge-file-icon"><mat-icon svgIcon="attach_file"></mat-icon></span>
+            <span class="badge-file" style="padding-right: 21px;">{{f.name}}</span>
+            <span style="margin-left: -18px;">
+              <button class="iigwo adjuntos-options" (click)="quitarAdjunto(f)">
+                <mat-icon style="margin-top: 1px;" svgIcon="close"></mat-icon>
+              </button>
+            </span>
+          </div>
+        }
+        <input id='fileId' type="file" #fileInput (change)="onFileSelected(fileInput.files)"
+          style='display:none;' multiple>
+      </div>
+      <button class="iigwo" (click)="cambiandoImageFirma=false">
+        <label>Cancel</label>
+      </button>
+    </div>
+  }
+
 
 </div>
 

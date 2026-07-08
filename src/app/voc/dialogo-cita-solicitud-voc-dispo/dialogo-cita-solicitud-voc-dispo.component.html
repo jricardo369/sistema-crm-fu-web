@@ -52,11 +52,13 @@ Add new schedule
 			<textarea [(ngModel)]="citaSolicitud.comentario" style="min-width: 95%;"></textarea>
 		</div>
 		
-		<!--<div class="iigwo-input">
+		@if (verConcurrence) {
+		<div class="iigwo-input">
           <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 0 6px 0 4px;"
             id="concurrent" [checked]="concurrent" (change)="concurrent = !concurrent">
           <label for="concurrent" style="display: inline-block;line-height: 24px;margin: 0;font-size: 12px;">Concurrent appointment</label>
-        </div>-->
+        </div>
+		}
 		
 	}
 

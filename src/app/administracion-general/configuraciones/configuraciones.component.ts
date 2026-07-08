@@ -102,6 +102,10 @@ export class ConfiguracionesComponent {
   diasParaRecordatorioProsAbo: number = 0;
   diasParaRecordatorioProsAboOld: number = 0;
 
+  cambiandoDiasParaRecordatorioTratPlan: boolean = false;
+  diasParaRecordatorioTratPlan: number = 0;
+  diasParaRecordatorioTratPlanOld: number = 0;
+
   constructor(
     private router: Router,
     private configuracionService: ConfiguracionService,
@@ -206,6 +210,12 @@ export class ConfiguracionesComponent {
           this.diasParaRecordatorioProsAboOld = this.diasParaRecordatorioProsAbo;
           break;
 
+            case 29:
+          this.diasParaRecordatorioTratPlan = Number(this.arrConfiguraciones[index].valor);
+          this.diasParaRecordatorioTratPlanOld = this.diasParaRecordatorioTratPlan;
+          break;
+          
+
         default:
           break;
       }
@@ -271,6 +281,9 @@ export class ConfiguracionesComponent {
         break;
         case 28:
         this.configuracion.valor = this.diasParaRecordatorioProsAbo.toString();
+        break;
+        case 29:
+        this.configuracion.valor = this.diasParaRecordatorioTratPlan.toString();
         break;
 
       default:
@@ -357,6 +370,10 @@ export class ConfiguracionesComponent {
               this.diasParaRecordatorioProsAboOld = this.diasParaRecordatorioProsAbo;
               this.cambiandoDiasParaRecordatorioProsAbo = false;
               break;
+              case 29:
+              this.diasParaRecordatorioTratPlanOld = this.diasParaRecordatorioTratPlan;
+              this.cambiandoDiasParaRecordatorioTratPlan = false;
+              break;
             default:
               break;
           }
@@ -442,6 +459,10 @@ export class ConfiguracionesComponent {
         case 28:
         this.cambiandoDiasParaRecordatorioProsAbo = false;
         this.diasParaRecordatorioProsAbo = this.diasParaRecordatorioProsAboOld;
+        break;
+        case 28:
+        this.cambiandoDiasParaRecordatorioTratPlan = false;
+        this.diasParaRecordatorioTratPlan = this.diasParaRecordatorioTratPlanOld;
         break;
 
       default:

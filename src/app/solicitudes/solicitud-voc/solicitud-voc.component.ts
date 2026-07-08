@@ -7,6 +7,7 @@ import { CitasSolicitudComponent } from 'src/app/solicitudes/citas-solicitud/cit
 import { Component, OnInit, ViewChild,forwardRef } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute } from "@angular/router";
+import { Router } from "@angular/router";
 import { TiposPagoService } from "src/app/services/tipos-pago.service";
 import { TiposSolicitudService } from "src/app/services/tipos-solicitud.service";
 import { EventoSolicitudVocService } from "src/app/services/evento-solicitud-voc.service";
@@ -113,8 +114,11 @@ export class SolicitudVocComponent implements OnInit {
   @ViewChild(AdjuntosVocComponent, { static: false }) adjuntosVocComponent: AdjuntosVocComponent;
   @ViewChild(CitasSolicitudComponent, { static: false }) citasSolicitudComponent: CitasSolicitudComponent;
 
+  mostrarEventosSolicitudComponent: boolean = true;
+
   constructor(
     route: ActivatedRoute,
+    private router: Router,
     public utilService: UtilService,
     private solicitudesVocService: SolicitudesVocService,
     private eventoSolicitudVOC: EventoSolicitudVocService,
@@ -238,13 +242,38 @@ export class SolicitudVocComponent implements OnInit {
 
   refreshSolicitudCompleta() {
     this.obtenerSolicitud(this.solicitud.idSolicitud);
-    this.refreshEventosSolicitud
+    this.recargarEventosSolicitudComponent();
+  }
+
+  recargarVistaSolicitud() {
+    const originalReuse = this.router.routeReuseStrategy.shouldReuseRoute;
+    const originalSameUrlNavigation = this.router.onSameUrlNavigation;
+
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+
+    this.router.navigateByUrl(this.router.url)
+      .catch((reason) => {
+        this.utilService.manejarError(reason);
+        this.refreshSolicitudCompleta();
+      })
+      .finally(() => {
+        this.router.routeReuseStrategy.shouldReuseRoute = originalReuse;
+        this.router.onSameUrlNavigation = originalSameUrlNavigation;
+      });
   }
 
   refreshSolicitudCompletaByIdSolicitud(idSolicitud: number) {
     this.obtenerSolicitud(idSolicitud);
-    this.refreshEventosSolicitud();
+    this.recargarEventosSolicitudComponent();
     this.refreshCitasSolicitud();
+  }
+
+  recargarEventosSolicitudComponent() {
+    this.mostrarEventosSolicitudComponent = false;
+    setTimeout(() => {
+      this.mostrarEventosSolicitudComponent = true;
+    }, 0);
   }
 
   obtenerTiposSolicitud() {

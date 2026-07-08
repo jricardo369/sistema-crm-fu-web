@@ -120,7 +120,7 @@ export class CitasSolicitudComponent implements OnInit {
       data: {
         idSolicitud: this.idSolicitud,
         idUsuario: this.usuario.idUsuario,
-        idUsuarioTerapeuta: this.idUsuarioTerapeuta,
+        idUsuarioTerapeuta: this.idUsuarioTerapeuta
       },
       disableClose: true,
     }).afterClosed().toPromise().then(valor => {
@@ -149,7 +149,16 @@ export class CitasSolicitudComponent implements OnInit {
       },
       disableClose: true,
     }).afterClosed().toPromise().then(valor => {
-       this.refresh();
+      if (valor == 'guardar') {
+        if (this.parent && typeof this.parent.recargarVistaSolicitud === 'function') {
+          this.parent.recargarVistaSolicitud();
+        } else {
+          this.refresh();
+          this.citaActualizada.emit();
+        }
+      } else {
+        this.refresh();
+      }
     }).catch(reason => this.utilService.manejarError(reason));
   }
 

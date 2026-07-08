@@ -31,9 +31,7 @@
         </span>
       }
 
-      @if (solicitud.finIntIni && isInterviewer) {
-        <a class="attended-titulo-solicitud">Attended</a>
-      }
+     
 
       @if ((isMaster || isVendor || isBackOffice || isTemplateCreator || isInterviewerScales) && solicitud.fecha_schedule_scales) {
         <span class="badge-status badge-color-schedule-scales-title"
@@ -55,10 +53,6 @@
             <mat-icon svgIcon="finishD"></mat-icon>
           }
         </span>
-      }
-
-      @if (solicitud.finIntSc && isInterviewerScales) {
-        <a class="attended-titulo-solicitud">Attended</a>
       }
 
       @if (solicitud.dueDate) {
@@ -609,7 +603,7 @@
             <div>
               @if (solicitud.usuarioClinicianNombre != 'Unassigned') {
                 <label>{{solicitud.usuarioClinicianNombre}}</label>
-                @if (solicitud.usuarioInterviewNombre == 'Unassigned' && !asignacionTemplate) {
+                @if (solicitud.usuarioInterviewNombre == 'Unassigned' && !asignacionTemplate && (isMaster || isBackOffice)) {
                   <a class="addMailToExistingContact" style ="text-decoration:underline;margin-left: 5px;" 
                   (click)="changeInterviewToCaseMgr()">Change interview to case mgr</a>
                 }
@@ -914,7 +908,7 @@
           <!--  FIN TEMPLATE -->
           <!--   BOTONES PARA CLINICIAN   -->
           <!--EN CASO ASGN CLINICIAN-->
-          @if (!solicitud.finAsgClnc && isClinician && solicitud.idRolUsInt != 11) {
+          @if (!solicitud.finAsgClnc && isClinician && solicitud.idRolUsInt != 11  && (solicitud.assignedClinician === idUsuarioLogueado)) {
             <button (click)='envioFinEntrevistaClinician()' class="btn-color"
               [ngStyle]="{'background': 'var(--app-case-manager)', 'color': '#FFFFFF'}">
               <span style="color: #FFFFFF; font-size: 13px;">Finish file review</span>
@@ -922,7 +916,7 @@
               style="color: rgba(255, 255, 255, 0.7); width: 14px;  vertical-align: middle;"></mat-icon>
             </button>
           }
-          @if (!solicitud.finAsgClnc && isClinician && solicitud.idRolUsInt != 11) {
+          @if (!solicitud.finAsgClnc && isClinician && solicitud.idRolUsInt != 11 && (solicitud.assignedClinician === idUsuarioLogueado)) {
             <button (click)='cambiarEstatusSolicitud(4)' class="btn-color"
               [ngStyle]="{'background': 'var(--app-reject)', 'color': '#FFFFFF'}">
               <span style="color: #FFFFFF; font-size: 13px;">Reject File</span>
@@ -930,7 +924,7 @@
               style="color: rgba(255, 255, 255, 0.7); width: 14px;  vertical-align: middle;"></mat-icon>
             </button>
           }
-          @if (!solicitud.finAsgClnc && isClinician && solicitud.idRolUsInt != 11) {
+          @if (!solicitud.finAsgClnc && isClinician && solicitud.idRolUsInt != 11 && (solicitud.assignedClinician === idUsuarioLogueado)) {
             <button (click)='cambiarEstatusSolicitud(5)' class="btn-color"
               [ngStyle]="{'background': 'var(--app-no-show)', 'color': '#FFFFFF'}">
               <span style="color: #FFFFFF; font-size: 13px;">No show</span>

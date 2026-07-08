@@ -154,6 +154,8 @@ export class SolicitudesComponent implements OnInit {
     private datePipe: DatePipe
   ) {
 
+    this.limpiarFiltrosFinal();
+
     // Usar la constante global de estados de US_STATES
     this.arrStates = US_STATES;
 
@@ -218,34 +220,47 @@ export class SolicitudesComponent implements OnInit {
 
     this.filterClosedS = 'OPEN';
 
-     //localStorage.setItem('filtros','');
-     //console.log('f:' + localStorage.getItem('filtros'));
-     //console.log('b:' + localStorage.getItem('backSolicitud'));
+     
+     console.log('f:' + localStorage.getItem('filtros'));
+     console.log('b:' + localStorage.getItem('backSolicitud'));
+
+     const filtros = localStorage.getItem('filtros');
  
      if (localStorage.getItem('backSolicitud') != null) {
  
-       if (localStorage.getItem('filtros') != null) {
- 
-         if (localStorage.getItem('filtros') !== '') {
+       if (filtros != null && filtros !== '') {
  
            this.filtrosObj = JSON.parse(localStorage.getItem('filtros'));
            this.filterStartDate = this.filtrosObj.fechainicio;
            this.filterEndDate = this.filtrosObj.fechafin;
-           this.filterSortBy = this.filtrosObj.sort;
-           this.filterOrder = this.filtrosObj.order;
-           this.filterType = this.filtrosObj.campo;
-           this.filterInputText = this.filtrosObj.valor;
-           this.filterMyFiles = this.filtrosObj.myfiles;
+           this.inputFile = this.filtrosObj.file;
+           this.inputCustomer = this.filtrosObj.customer;
+           this.inputPhone = this.filtrosObj.phone;
+           this.inputEmail = this.filtrosObj.email;
+           this.inputState = this.filtrosObj.state;
+           this.inputFileStatus = this.filtrosObj.fileStatus;
+           this.inputPaymentStatus = this.filtrosObj.payStatus;
+
            //console.log('f:'+this.filtrosObj.closed);
            
            this.filterClosedS = this.filtrosObj.closed;
  
-         }
+         
        }
        //console.log(this.filterClosedS);
        if (localStorage.getItem('backSolicitud') === '1') {
+
          localStorage.setItem('backSolicitud', '');
-         this.explorar();
+        
+         if (filtros != null && filtros !== '') {
+           this.explorarConFiltros(false);
+         }else{
+           this.filterEndDate = today.split('T', 1)[0];
+         this.filterStartDate = ((date.toISOString()).split('T', 1))[0];
+         this.filterClosedS = 'OPEN';
+         this.filterType = 'File';
+           this.explorarConFiltros(true);
+         }
          //console.log('explorar');
          //this.filterType = 'All';
         
@@ -257,7 +272,7 @@ export class SolicitudesComponent implements OnInit {
          this.filterClosedS = 'OPEN';
          this.filterType = 'File';
          //console.log('refrescar');
-         this.refrescar();
+         this.explorarConFiltros(true);
        }
      } else {
        localStorage.setItem('backSolicitud', '');
@@ -266,7 +281,7 @@ export class SolicitudesComponent implements OnInit {
        this.filterClosedS = 'OPEN';
        this.filterType = 'File';
        //console.log('refrescar');
-       this.refrescar();
+       this.explorarConFiltros(true);
      }
      
     //console.log('list:'+this.route.snapshot.paramMap.get('valor'));
@@ -357,26 +372,6 @@ export class SolicitudesComponent implements OnInit {
     this.explorarConFiltros(true);
   }
 
-  refrescar() {
-    this.cargando = true;
-    this.solicitudesService
-      .obtenerSolicitudesUsuario(this.filterStartDate, this.filterEndDate, this.filterSortBy, 
-        this.filterOrder, this.usuario.idUsuario,this.filterType, this.filterInputText, this.filterMyFiles, 
-        this.filterClosedS,true).subscribe({
-  next: (solicitudes) => {
-    this.solicitudesSinFiltrar = solicitudes;
-    this.solicitudes = this.solicitudesSinFiltrar.filter(e => true);
-    this.paginacion.setArray(this.solicitudes, 10);
-    this.setearFiltros();
-    this.cargando = false;
-  },
-  error: (reason) => {
-    this.utilService.manejarError(reason);
-    this.cargando = false;
-  }
-});
-  }
-
   explorarConFiltros(primeraVez: boolean) {
     this.cargando = true;
     this.solicitudesService
@@ -437,30 +432,6 @@ export class SolicitudesComponent implements OnInit {
     }
   }
 
-  explorar() {
-    //console.log(this.filterClosedS);
-    this.cargando = true;
-    this.solicitudesService
-      //.obtenerReporteSolicitudesFilters(this.usuario.idUsuario, this.filterType, this.filterInputText, this.filterInputDate1, this.filterInputDate2, this.filterMyFiles)
-      .obtenerSolicitudesUsuario(this.filterStartDate, this.filterEndDate, this.filterSortBy, this.filterOrder, this.usuario.idUsuario,this.filterType, this.filterInputText, this.filterMyFiles, this.filterClosedS,false)
-      .subscribe({
-  next: (solicitudes) => {
-   this.solicitudesSinFiltrar = solicitudes;
-        this.solicitudes = this.solicitudesSinFiltrar.filter(e => true);
-        this.paginacion.setArray(this.solicitudes,10);
-        this.setearFiltros();
-    this.cargando = false;
-  },
-  error: (reason) => {
-    this.utilService.manejarError(reason);
-    this.cargando = false;
-  }
-
-      
-});
-  }
-
-
   descargarExcel(){
     this.cargando = true;
     this.solicitudesService
@@ -483,10 +454,19 @@ export class SolicitudesComponent implements OnInit {
 
 
   setearFiltros(){
-    //this.filtros = this.filterStartDate +","+ this.filterEndDate +","+  this.filterSortBy+","+  this.filterOrder+","+  this.usuario.idUsuario+","+ this.filterType+","+  this.filterInputText+","+  this.filterMyFiles;
-    //console.log('filtros closed:'+this.filterClosedS);
-    this.filtros = "{ \"fechainicio\": \""+this.filterStartDate+"\", \"fechafin\": \""+this.filterEndDate+"\" , \"sort\": \""+this.filterSortBy+"\" , \"order\": \""+this.filterOrder+"\" , \"campo\": \""+this.filterType+"\" , \"valor\": \""+this.filterInputText+"\" , \"myfiles\": \""+this.filterMyFiles+"\", \"closed\": \""+this.filterClosedS+"\"}";     
-    //console.log('filtros a guardar:'+this.filtros);
+    this.filtrosObj = {
+      fechainicio: this.filterStartDate,
+      fechafin: this.filterEndDate,
+      file: this.inputFile || 0,
+      customer: this.inputCustomer,
+      phone: this.inputPhone,
+      email: this.inputEmail,
+      state: this.inputState,
+      fileStatus: this.inputFileStatus,
+      payStatus: this.inputPaymentStatus,
+      closed: this.filterClosedS
+    };
+    this.filtros = JSON.stringify(this.filtrosObj);
     localStorage.setItem('filtros', this.filtros);
   }
 
@@ -533,6 +513,8 @@ export class SolicitudesComponent implements OnInit {
       this.inputImportante = "";
       this.inputAsignado = "";
       this.inputZipcodes = "";
+      localStorage.setItem('filtros', '');
+      localStorage.setItem('backSolicitud', '');
   }
   limpiarFiltrosSinFecha() {
     this.filterInputText = "";

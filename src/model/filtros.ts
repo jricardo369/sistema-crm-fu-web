@@ -1,10 +1,12 @@
 export class Filtros {
-    fechainicio: string;
+   fechainicio: string;
     fechafin: string;
-    sort: string;
-    order: string;
-    campo: string;
-    valor: string;
-    myfiles: boolean;
+    file: number;
+    customer: string;
+    phone: string;
+    email: string;
+    state: string;
+    fileStatus: number;
+    payStatus: number;
     closed: string;
 }

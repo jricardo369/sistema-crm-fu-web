@@ -33,6 +33,7 @@ import { THERAPIST, VOC } from 'src/app/app.config';
 	]
 })
 export class DialogoCitaSolicitudVocDispoComponent implements OnInit {
+	readonly concurrentAppointmentCutoff = '2025-11-01';
 
     isTherapist: boolean = false;
     isVOC: boolean = false;
@@ -56,6 +57,8 @@ export class DialogoCitaSolicitudVocDispoComponent implements OnInit {
 	rol: string = '';
 	arrSolicitudesVoc: SolicitudVoc[] = [];
     solicitud: SolicitudVoc = new SolicitudVoc;
+
+	verConcurrence: boolean = false;
 
 	arrTime: string[] = [
     '12:00',
@@ -119,12 +122,25 @@ export class DialogoCitaSolicitudVocDispoComponent implements OnInit {
 			this.obtenerSolicitudesActivasUsuario();
 		 }
         
+		 
 
 	}
 
 	ngOnInit(): void {
         
     }
+
+	validarFecha() {
+
+		console.log('fechaLimite: ' + this.concurrentAppointmentCutoff);
+		console.log('fechaSolicitud: ' + this.solicitud.fechaInicio);
+
+		const fechaLimite = new Date(this.concurrentAppointmentCutoff);
+		const fechaSolicitud = new Date(this.solicitud.fechaInicio);
+		
+		console.log('fecha sol >= fecha limite? ' + (fechaSolicitud >= fechaLimite));
+		this.verConcurrence = fechaSolicitud >= fechaLimite;
+	}
 
 	estaSeleccionado(idDisponibilidad: number) {
 		return this.idDisponibilidadSelected == idDisponibilidad;
@@ -212,6 +228,7 @@ export class DialogoCitaSolicitudVocDispoComponent implements OnInit {
       this.solicitudesVOCService.obtenerSolicitud(this.idSolicitud,this.usuario.idUsuario)
         .then((solicitud) => {
           this.solicitud = solicitud;
+		  this.validarFecha();
         })
         .catch((reason) => this.utilService.manejarError(reason))
         .then(() => (this.cargando = false));

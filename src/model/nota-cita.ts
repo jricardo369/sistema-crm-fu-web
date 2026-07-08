@@ -21,4 +21,6 @@ export class NotaCita {
   tiempoSesion: string;
   tipo: string;
   tipoContenidoSesion: string;
+  usuarioFirma: number;
+  rechazada: boolean;
 }

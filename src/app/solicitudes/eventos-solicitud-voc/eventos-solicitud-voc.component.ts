@@ -53,7 +53,7 @@ export class EventosSolicitudVocComponent implements OnInit {
   ngOnInit(): void {
       this.refresh();
       this.mostrarEventos = true;
-      this.verEventos = false;
+      this.verEventos = true;
   }
 
 

@@ -231,9 +231,12 @@
     </div>
 
     @if (usuario.withSupervision && usuario.rol == '10') {
-      <div class="iigwo-input">
+      <div class="iigwo-input" style="min-width: 120px;">
         <label>Supervisor</label>
-        <input type="text" [(ngModel)]="usuario.supervisor">
+        <select [(ngModel)]="filterUsuario" [ngModelOptions]="{standalone: true}">
+          <option *ngFor="let e of arrFilterUsuarios" [ngValue]="e.idUsuario">
+            {{e.nombre}}</option>
+        </select>
       </div>
     }
 

@@ -33,28 +33,6 @@ export class SolicitudesService {
     );
   }
 
-  obtenerSolicitudesUsuario(fechai: string, fechaf: string, ordenarPor: string, orden: string, idUsuario: number, campo: string, valor: string, myFiles: boolean, closed: string, primeraVez: boolean): Observable<SolicitudList[]> {
-
-    let queryParams: string = "";
-    queryParams = "fechai=" + fechai + "&fechaf=" + fechaf + "&ordenarPor=" + ordenarPor + "&orden=" + orden + "&campo=" + campo + "&valor=" + valor + "&myFiles=" + myFiles + "&cerradas=" + closed + '&primeraVez=' + primeraVez;
-
-
-    const url = API_URL + "solicitudes/solicitudes-de-usuario/" + idUsuario + "?" + queryParams;
-
-    return this.http.get<SolicitudList[]>(url, {
-      withCredentials: true,
-      headers: new HttpHeaders({
-        'Authorization': localStorage.getItem('auth_token') || ''
-      })
-    }).pipe(
-      catchError(error => {
-        console.error('Error:', error);
-        return of([]); // Devuelve array vacío en errores
-      })
-    );
-
-  }
-
 
   obtenerSolicitudesUsuarioConFiltros(idUsuario: number, closed: string, primeraVez: boolean,ordenarPor: string, orden: string,
   fechai: string, fechaf: string, idSolicitud?: number, cliente?: string, telefono?: string, email?: string, estado?: string, idEstatusSolicitud?: number, idEstatusPago?: number,

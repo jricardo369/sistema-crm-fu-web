@@ -175,7 +175,6 @@
   padding: 0;
   margin: 0;
   width: 100%;
-  overflow-x: auto;
   font-family: regular;
   box-sizing: border-box;
 }
@@ -194,12 +193,18 @@ h2 {
   min-width: 0;
   font-family: regular;
   box-sizing: border-box;
+  overflow: auto;
+  max-height: calc(100vh - 160px);
 }
 
 .header-row {
   display: grid;
   grid-template-columns: 80px repeat(7, 1fr);
   font-weight: bold;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: #fff;
 }
 
 .time-header {

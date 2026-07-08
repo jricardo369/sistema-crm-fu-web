@@ -140,6 +140,7 @@ export class CitasComponent implements OnInit {
     this.stateSelected = "All";
 
     this.usuario = JSON.parse(localStorage.getItem('objUsuario'));
+    console.log('idusuario:'+this.usuario.idUsuario);
     this.isAdministrator = this.usuario.rol == ADMINISTRATOR ? true : false;
     this.isMaster = this.usuario.rol == MASTER ? true : false;
     this.isVendor = this.usuario.rol == VENDOR ? true : false;
@@ -254,6 +255,25 @@ export class CitasComponent implements OnInit {
       .catch(reason => this.utilService.manejarError(reason))
       .then(() => this.cargando = false)
 
+  }
+
+  recargarVistaCitas() {
+    const originalReuse = this.router.routeReuseStrategy.shouldReuseRoute;
+    const originalSameUrlNavigation = this.router.onSameUrlNavigation;
+
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+
+    this.router.navigateByUrl(this.router.url)
+      .catch((reason) => {
+        this.utilService.manejarError(reason);
+        console.log('recargando la vista citas');
+        this.refrescar();
+      })
+      .finally(() => {
+        this.router.routeReuseStrategy.shouldReuseRoute = originalReuse;
+        this.router.onSameUrlNavigation = originalSameUrlNavigation;
+      });
   }
 
   diasSemana() {
@@ -424,7 +444,7 @@ export class CitasComponent implements OnInit {
 
           try {
             const valor = await firstValueFrom(dialogRef.afterClosed());
-            if (valor === 'guardar') this.refrescar();
+            if (valor === 'guardar') this.recargarVistaCitas();
           } catch (error) {
             this.utilService.manejarError(error);
           }
@@ -451,7 +471,7 @@ export class CitasComponent implements OnInit {
 
         try {
           const valor = await firstValueFrom(dialogRef.afterClosed());
-          if (valor === 'guardar') this.refrescar();
+          if (valor === 'guardar') this.recargarVistaCitas();
         } catch (error) {
           this.utilService.manejarError(error);
         }
@@ -726,19 +746,6 @@ fechaSeleccionada: Date = new Date();
     const minutos = Number(mStr);
     const periodo = (tipo as 'AM' | 'PM') || 'AM';
     return { hora12, minutos, periodo };
-  }
-
-  obtenerEstatusClass(cita: CitaSolicitud): string {
-    if (cita.noShow) {
-      return 'estatus-noshow';
-    }
-    if (cita.pagado) {
-      return 'estatus-pagado';
-    }
-    if (cita.dosCitas) {
-      return 'estatus-doscitas';
-    }
-    return 'estatus-default';
   }
 
   procesarColor(colorHex: string | null, cita: CitaSolicitud): string {

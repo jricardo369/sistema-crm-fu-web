@@ -38,7 +38,6 @@ export class CitaSolicitudService {
       fecha: citaSolicitud.fecha,
       hora: citaSolicitud.hora,
       tipo: citaSolicitud.tipo,
-      dosCitas: citaSolicitud.dosCitas,
       idUsuario: idUsuario,
       idSolicitud: citaSolicitud.idSolicitud,
       recurrente: citaSolicitud.recurrente
