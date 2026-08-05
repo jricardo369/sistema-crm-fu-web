@@ -13,6 +13,7 @@ import { ReporteClientePorEstado } from 'src/model/reporte-cliente-por-estado';
 import { Observable } from 'rxjs';
 import { ReporteClientePorFirma } from 'src/model/reporte-cliente-por-firma';
 import { ReporteClientePorFirmaAnioMes } from 'src/model/reporte-cliente-por-firma-anio-mes';
+import { ReporteNotasCitas } from 'src/model/reporte-notas-citas';
 
 
 @Injectable({
@@ -300,6 +301,80 @@ export class ReportesService {
     );
   }
 
+  obtenerNotasCitasRangoFechas(fechaInicio: string, fechaFin: string): Promise<ReporteNotasCitas> {
+    return new Promise<ReporteNotasCitas>((resolve, reject) =>
+      this.http
+        .get(API_URL + "reportes/notas-citas-rango-fechas?fechaf=" + fechaFin + "&fechai=" + fechaInicio, {
+          withCredentials: true,
+          observe: "response",
+          headers: new HttpHeaders()
+            .append("Content-Type", "application/json")
+            .append("Authorization", localStorage.getItem("auth_token")),
+        })
+        .toPromise()
+        .then((response) => {
+          const body = response.body as ReporteNotasCitas[];
+          resolve(Array.isArray(body) ? body[0] : body);
+        })
+        .catch((reason) => reject(reason))
+    );
+  }
 
+  obtenerHorasMesTerapeuta(idTerapeuta: number, anio: number, mes: number): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      this.http
+        .get(API_URL + "reportes/horas-mes-terapeuta/" + idTerapeuta + "?anio=" + anio + "&mes=" + mes,
+          {
+            withCredentials: true,
+            observe: 'response',
+            responseType: 'arraybuffer',
+            headers: new HttpHeaders()
+              .append('Content-Type', 'application/octet-stream')
+              .append('Authorization', localStorage.getItem('auth_token'))
+          })
+        .toPromise()
+        .then(response => {
+          resolve(response.body);
+        }).catch(reason => reject(reason));
+    });
+  }
+
+  obtenerHorasMesTerapeutaPdf(idTerapeuta: number, anio: number, mes: number): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      this.http
+        .get(API_URL + "reportes/horas-mes-terapeuta-pdf/" + idTerapeuta + "?anio=" + anio + "&mes=" + mes,
+          {
+            withCredentials: true,
+            observe: 'response',
+            responseType: 'arraybuffer',
+            headers: new HttpHeaders()
+              .append('Content-Type', 'application/octet-stream')
+              .append('Authorization', localStorage.getItem('auth_token'))
+          })
+        .toPromise()
+        .then(response => {
+          resolve(response.body);
+        }).catch(reason => reject(reason));
+    });
+  }
+
+  obtenerHorasMensualVocPdf(anio: number, mes: number): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      this.http
+        .get(API_URL + "reportes/horas-mensual-voc-pdf?anio=" + anio + "&mes=" + mes,
+          {
+            withCredentials: true,
+            observe: 'response',
+            responseType: 'arraybuffer',
+            headers: new HttpHeaders()
+              .append('Content-Type', 'application/octet-stream')
+              .append('Authorization', localStorage.getItem('auth_token'))
+          })
+        .toPromise()
+        .then(response => {
+          resolve(response.body);
+        }).catch(reason => reject(reason));
+    });
+  }
 
 }

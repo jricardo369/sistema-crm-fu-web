@@ -186,7 +186,8 @@ export class SolicitudesService {
       estado: solicitud.estado,
       sexo: solicitud.sexo,
       idAbogado: solicitud.idAbogado,
-      emailAboSel: solicitud.emailAboSel
+      emailAboSel: solicitud.emailAboSel,
+      fechaDeCrimen:  solicitud.fechaDeCrimen
     }
 
     let params = new HttpParams();

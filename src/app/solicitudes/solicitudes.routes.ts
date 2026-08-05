@@ -9,6 +9,7 @@ import { HomeComponent } from './home/home.component';
 import { CitasComponent } from './citas/citas.component';
 import { CargosVocComponent } from './cargos-voc/cargos-voc.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { PsychotherapistsComponent } from './psychotherapists/psychotherapists.component';
 
  const SOLICITUDES_ROUTES: Routes = [
   { 
@@ -50,6 +51,10 @@ import { CalendarComponent } from './calendar/calendar.component';
   { 
     path: 'cargos-voc', 
     component: CargosVocComponent 
+  },
+  { 
+    path: 'psychotherapists', 
+    component: PsychotherapistsComponent 
   },
   { 
     path: 'home', 

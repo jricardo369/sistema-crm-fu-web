@@ -81,13 +81,13 @@
                   background-color: #ccc;margin-right: 20px; margin-left: 10px;"></div>
         }
 
-        @if (seleccion.length != 0) {
+        <!--@if (seleccion.length != 0) {
           <button (click)='pagarSeleccionados()'
             class="btn btn-color color-fondo-verde-fu" style="color: #ffffff;margin-bottom: 5px;">
             <mat-icon svgIcon="cashAll2" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
             <span style="color: #ffffff; font-size: 13px;">Pay selected ({{seleccion.length}})</span>
           </button>
-        }
+        }-->
 
 
 
@@ -105,9 +105,10 @@
         <div style="margin-right: 20px;">
           <div class="div-img-label" style="margin-bottom: 3px;">
             <mat-icon svgIcon="moneyD" style="color: rgb(53, 53, 53); width: 14px; margin-bottom: 3px;margin-right: 5px;"></mat-icon>
-            <label style="margin-bottom: 0px;">Total Outstanding</label>
+            <!--<label style="margin-bottom: 0px;">Total Outstanding</label>-->
+            <label style="margin-bottom: 0px;">Total</label>
           </div>
-          <div class="monto-total-outstanding">{{cargoVocCabecera.totalNoPagado | currency : 'USD' : 'symbol' : undefined :
+          <div class="monto-total">{{cargoVocCabecera.totalNoPagado | currency : 'USD' : 'symbol' : undefined :
           'en-US'}}</div>
         </div>
       }
@@ -151,23 +152,24 @@
           <th class=''>Phone</th>
           <th class=''>Email</th>
           <th class=''>Amount</th>
+          <th class=''>Payments</th>
           <th class=''>Therapist</th>
           <th class=''>Comment</th>
-          <th class=''>Date paid</th>
+          <!--<th class=''>Date paid</th>-->
           <th class=''>Pay Status</th>
-          @if (filterTypeSearch && usuario.unpaidVocFlag) {
+          <!--@if (filterTypeSearch && usuario.unpaidVocFlag) {
             <th class=''>Unpaid</th>
-          }
+        }-->
         </tr>
         @for (e of arrCargos | slice:paginacion.begin:paginacion.end; track e) {
           <tr>
             <!--<td *ngIf="!e.pagado" class=''><input type="checkbox" [checked]="estaSeleccionado(e.idCita)"
           (change)="check($event, e.idCita)"></td>-->
           <td class='accent'>
-            @if (!e.pagado) {
+            <!--@if (!e.pagado) {
               <input type="checkbox" [checked]="estaSeleccionado(e.idCita)"
                 (change)="check($event, e.idCita)">
-            }
+          }-->
             {{e.idFile}}
           </td>
           <td>{{e.idCita}}</td>
@@ -185,32 +187,57 @@
               <mat-icon svgIcon="emailD"
               style="color:rgba(0, 0, 0, 0.7); width: 13px; height: 13px;margin-bottom: -2px;"></mat-icon>
             }
-          {{e.email}}</td>
+          {{e.email}}
+        </td>
+
           @if (e.pagado === false) {
             <td class="number" style="color:red">{{e.amount | currency : 'USD' : 'symbol' :
             undefined : 'en-US'}}</td>
           }
+          
           @if (e.pagado === true) {
             <td class="number">{{e.amount | currency : 'USD' : 'symbol' : undefined :
             'en-US'}}</td>
           }
+            <td class="number" [style.color]="e.totalPagado === 0 ? '#b0b0b0' : e.totalPagado >= e.amount ? '#27ae60' : ''">{{e.totalPagado | currency : 'USD' : 'symbol' : undefined :
+            'en-US'}}</td>
+          
           <td>{{e.terapeuta}}</td>
+
           <td style="font-style: italic;">{{e.comentario}}</td>
-          <td>{{e.fechaPagado | dateMMDDYYYY}}</td>
+          <!--<td>{{e.fechaPagado | dateMMDDYYYY}}</td>-->
+
           <td style="text-align: center;">
-            @if (e.pagado) {
-              <label class="pagado" style="margin: 0;"> <mat-icon svgIcon="done"
+            @if (e.amount == e.totalPagado) {
+            <div style="display: flex; align-items: center; justify-content: center;">
+
+              <label class="pagado" style="margin-right: 15px;"> <mat-icon svgIcon="done"
               style="color: #117a65; width: 15px; height: 15px;"></mat-icon> Paid</label>
-            }
-            @if (!e.pagado) {
-              <button (click)='pagado(e)' class="btn-color color-fondo-verde-fu"
+
+              <button id='addPayment' (click)='addPayment(e)' class="btn-color color-fondo-azul-fu"
                 style="color: #ffffff;margin-top: -2px;">
                 <mat-icon svgIcon="cash" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
-                <label style="font-size: 11px;">Pay</label>
+                <label style="font-size: 11px;">View payments</label>
+              </button>
+            
+            </div>
+            }
+            @if (e.totalPagado < e.amount && e.totalPagado > 0) {
+             <button id='addPayment' (click)='addPayment(e)' class="btn-color color-fondo-azul-fu"
+                style="color: #ffffff;margin-top: -2px;">
+                <mat-icon svgIcon="cash" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+                <label style="font-size: 11px;">View payments</label>
+              </button>
+            }
+            @if (e.totalPagado == 0) {
+              <button id='addPayment' (click)='addPayment(e)' class="btn-color color-fondo-verde-fu"
+                style="color: #ffffff;margin-top: -2px;">
+                <mat-icon svgIcon="cash" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+                <label style="font-size: 11px;">Add payment</label>
               </button>
             }
           </td>
-          @if (filterTypeSearch && usuario.unpaidVocFlag) {
+          <!--@if (filterTypeSearch && usuario.unpaidVocFlag) {
             <td style="text-align: center;">
               @if (true) {
                 <button (click)='unpaid(e)' class="btn-color color-fondo-naranja-fu"
@@ -219,7 +246,7 @@
                 </button>
               }
             </td>
-          }
+          }-->
         </tr>
       }
       <tr>

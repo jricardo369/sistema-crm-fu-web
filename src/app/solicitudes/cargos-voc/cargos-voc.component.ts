@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogoSimpleComponent } from 'src/app/common/dialogo-simple/dialogo-simple.component';
+import { DialogoAddPagoVocComponent } from 'src/app/voc/dialogo-add-pago-voc/dialogo-add-pago-voc.component';
 import { CitaSolicitudService } from 'src/app/services/cita-solicitud.service';
 import { UtilService } from 'src/app/services/util.service';
 import { CargoVoc } from 'src/model/cargo-voc';
@@ -154,28 +155,14 @@ export class CargosVocComponent implements OnInit {
     }).catch(reason => this.utilService.manejarError(reason));
   }
 
-  unpaid(cargo: CargoVoc) {
-    this.dialog.open(DialogoSimpleComponent, {
+  addPayment(cargo: CargoVoc) {
+    this.dialog.open(DialogoAddPagoVocComponent, {
       data: {
-        titulo: 'Paid',
-        texto: 'Do you really want unpaid this pay?',
-        botones: [
-          { texto: 'Cancel', color: '', valor: '' },
-          { texto: 'Yes', color: 'primary', valor: 'ok' },
-        ]
+        cargoVoc: cargo
       },
       disableClose: true,
-    }).afterClosed().toPromise().then(valor => {
-      if (valor == 'ok') {
-        this.cargando = true;
-        this.citaSolicitudService
-          .pagado(cargo.idCita, false, this.usuario.idUsuario)
-          .then(() => {
-            this.refrescar();
-          })
-          .catch(reason => this.utilService.manejarError(reason));
-        // .then(() => this.cargando = false);
-      }
+    }).afterClosed().toPromise().then(result => {
+      this.refrescar();
     }).catch(reason => this.utilService.manejarError(reason));
   }
 

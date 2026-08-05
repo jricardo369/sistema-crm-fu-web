@@ -49,5 +49,13 @@ export const SOLICITUDES_ITEMS: AppBarNavItem[] = [
     subtitle: 'Charges from Files VOC',
     uri: 'cargos-voc',
     isVisibleFor: u => [VOC].some(rol => rol === u.rol)
+  },
+  {
+    module: SOLICITUDES_MODULE,
+    svgName: 'users2',
+    title: 'Psychotherapists',
+    subtitle: 'Manage Psychotherapists',
+    uri: 'psychotherapists',
+    isVisibleFor: u => [VOC].some(rol => rol === u.rol)
   }
 ];

@@ -1,0 +1,65 @@
+<h2 mat-dialog-title style="font-family: regular;color:#75518c">Add Payment</h2>
+
+<mat-dialog-content [style.width]="arrPagos.length > 0 ? '480px' : '340px'" [style.min-width]="arrPagos.length > 0 ? '480px' : '340px'">
+
+  @if (citaPagada) {
+    <div style="display: flex; align-items: center; padding: 20px 0; font-family: regular; font-size: 14px;">
+      <mat-icon svgIcon="done" style="color: #27ae60; width: 14px; height: 14px; margin-right: 8px;"></mat-icon>
+      <span style="color: #27ae60;">This appointment has been fully paid.</span>
+      <span style="color: #666; margin-left: 8px;">Total paid: {{totalPagado | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</span>
+    </div>
+  } @else {
+    <div class="iigwo-input">
+      <label>Amount (Remaining: {{montoRestante | currency : 'USD' : 'symbol' : undefined : 'en-US'}})</label>
+      <input type="number" step="0.01" [(ngModel)]="monto" style="width: 100%;">
+    </div>
+
+    <div class="iigwo-input">
+      <label>Description</label>
+      <input type="text" [(ngModel)]="descripcion" style="width: 100%;">
+    </div>
+  }
+
+  @if (arrPagos.length > 0) {
+    <div style="margin-top: 15px;">
+      <label style="font-weight: bold; margin-bottom: 8px; display: block; font-family: regular; font-size: 14px;">Payments registered: {{totalPagado | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</label>
+      <table class="informative">
+        <tr>
+          <th>Amount</th>
+          <th>Description</th>
+          <th>Payment Date</th>
+          <th></th>
+        </tr>
+        @for (p of arrPagos; track p.idPago) {
+          <tr>
+            <td class="number">{{p.monto | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</td>
+            <td>{{p.descripcion}}</td>
+            <td style="white-space: nowrap;">{{p.fecha}}</td>
+            <td>
+              @if (!citaPagada) {
+                <button (click)="eliminarPago(p)" class="btn-color"
+                  style="color: #c0392b; background: none; border: none; cursor: pointer; padding: 0; margin-top: -4px;">
+                  <mat-icon svgIcon="trashD" style="color: #e53935; width: 14px; vertical-align: middle;"></mat-icon>
+                </button>
+              }
+            </td>
+          </tr>
+        }
+      </table>
+    </div>
+  }
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button class="iigwo" style="margin-left:auto;" (click)='cerrar()'>Close</button>
+  @if (!citaPagada) {
+    <button class="iigwo accent" style="margin-right:0;" (click)='guardar()' [disabled]="!monto || monto > montoRestante">Save</button>
+  }
+</mat-dialog-actions>
+
+@if (cargando) {
+<div class='iigwo-loading'>
+  <mat-spinner></mat-spinner>
+</div>
+}

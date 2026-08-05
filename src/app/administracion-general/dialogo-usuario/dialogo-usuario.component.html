@@ -266,11 +266,19 @@
   <button *ngIf="!creando" class="iigwo accent" style="margin-right:0;" (click)='editar()'>Save changes</button>
   -->
 
-  @if (!creando) {
+  @if (!creando && !isVOC) {
     <button (click)='eliminar()' class="btn-color"
       style="color: #ffffff; background: #c72727;margin-bottom: 5px; margin-right: auto;">
       <mat-icon svgIcon="trashD" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
       <span style="color: #ffffff; font-size: 13px;">Delete</span>
+    </button>
+  }
+
+  @if (!creando && isVOC && usuario.rol == '10') {
+    <button (click)='descargarReporte()' class="btn-color"
+      style="color: #ffffff; background: #00949b;margin-bottom: 5px; margin-right: auto;">
+      <mat-icon svgIcon="downloadD" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>
+      <span style="color: #ffffff; font-size: 13px;">Download hours report</span>
     </button>
   }
 

@@ -1,0 +1,170 @@
+<app-workspace-nav>
+  <app-reportes-nav></app-reportes-nav>
+</app-workspace-nav>
+<div class='workspace'>
+  <div class='main'>
+
+    <app-experimental-menu titulo="Recorded notes and downloaded notes">
+    </app-experimental-menu>
+
+    <div class='content'>
+      <div style="display: inline-flex;">
+
+        <div class="iigwo-input">
+          <label>Start Date</label>
+          <mat-form-field appearance="outline" class="custom-datepicker">
+            <input matInput [matDatepicker]="startPicker" [(ngModel)]="filterStartDateMat" (dateChange)="onStartDateChange()">
+            <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+            <mat-datepicker #startPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div class="iigwo-input">
+          <label>End Date</label>
+          <mat-form-field appearance="outline" class="custom-datepicker">
+            <input matInput [matDatepicker]="endPicker" [(ngModel)]="filterEndDateMat" (dateChange)="onEndDateChange()">
+            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+            <mat-datepicker #endPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <button (click)='refresh()' class="btn"
+          style="color: #FFFFFF;background: #f3c956; border-radius: 5px; height: 20px; line-height: 20px; margin-top: 18px;">
+          <mat-icon svgIcon="refresh"
+          style="color:rgba(255, 255, 255, 0.7); width: 15px; margin-bottom: 2px;margin-right: 5px;"></mat-icon>
+          <label style="margin: auto;color: #FFFFFF;text-transform: none;">Refresh</label>
+        </button>
+
+      </div>
+    </div>
+
+    <div class='content' style="margin-top: 80px;padding-top: 0;">
+      <div class="stats-container">
+        <div class="stat-card" (click)='obtenerNotas()'>
+          <div class="stat-title">Recorded notes</div>
+          <div class="stat-content">
+            <div class="stat-icon">
+              <mat-icon svgIcon="comments" style="color:rgb(34, 36, 34); width: 32px; height: 32px;"></mat-icon>
+            </div>
+            <div class="stat-value">{{ reporteNotasCitas.totalNotasCitas }}</div>
+          </div>
+        </div>
+        <div class="stat-card" (click)='obtenerNotasDescarga()'>
+          <div class="stat-title">Downloaded notes</div>
+          <div class="stat-content">
+            <div class="stat-icon">
+              <mat-icon svgIcon="downloadD" style="color:rgb(34, 36, 34); width: 32px; height: 32px;"></mat-icon>
+            </div>
+            <div class="stat-value">{{ reporteNotasCitas.totalNotasDescarga }}</div>
+          </div>
+        </div>
+      </div>
+
+      @if (verNotas && !(notas.length == 0)) {
+        <div class="num-reg-tablas">{{notas.length}} Recorded notes</div>
+      }
+      <!-- TABLA CON REGISTROS NOTAS -->
+      <div style="display:flex; flex-flow: column; overflow: auto;">
+        @if (verNotas && !(notas.length == 0)) {
+          <table class='informative'>
+            <tr>
+              <th class=''>Nota</th>
+              <th class=''>Cita</th>
+              <th class=''>Date</th>
+              <th class=''>Hour</th>
+              <th class=''>Type</th>
+              <th class=''>Reference</th>
+              <th class=''>Session time</th>
+              <th class=''>Main focus</th>
+            </tr>
+            @for (e of notas | slice:paginacion.begin:paginacion.end; track e) {
+              <tr>
+                <td class='accent'>{{e.idNota}}</td>
+                <td class='accent'>{{e.idCita}}</td>
+                <td class='accent'>{{e.fechaCreacion | dateMMDDYYYY}}</td>
+                <td class='accent'>{{e.hora}}</td>
+                <td class='accent'>{{e.tipo}}</td>
+                <td class='accent'>{{e.referencia}}</td>
+                <td class='accent'>{{e.tiempoSesion}}</td>
+                <td class='accent'>{{e.enfoquePrincipal}}</td>
+              </tr>
+            }
+            <tr>
+              <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
+                <label>
+                Records per page</label>
+                <select [(ngModel)]="paginacion.size" (ngModelChange)="paginacion.fix()"
+                  [ngModelOptions]="{standalone: true}" style="margin: 0 8px; font-family: regular; height: 24px;">
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+                {{paginacion.begin + 1}}-{{paginacion.end}} of {{paginacion.array.length}}
+                <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+                  (click)="paginacion.back();">
+                  <mat-icon svgIcon="arrow-back"></mat-icon>
+                </button>
+                <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+                  (click)="paginacion.forward();">
+                  <mat-icon svgIcon="arrow-forward"></mat-icon>
+                </button>
+              </td>
+            </tr>
+          </table>
+        }
+      </div>
+
+      @if (verNotasDescarga && !(notasDescarga.length == 0)) {
+        <div class="num-reg-tablas">{{notasDescarga.length}} Downloaded notes</div>
+      }
+      <!-- TABLA CON REGISTROS NOTAS DESCARGA -->
+      <div style="display:flex; flex-flow: column; overflow: auto;">
+        @if (verNotasDescarga && !(notasDescarga.length == 0)) {
+          <table class='informative'>
+            <tr>
+              <th class=''>Date</th>
+              <th class=''>User</th>
+              <th class=''>Description</th>
+            </tr>
+            @for (e of notasDescarga | slice:paginacionDescarga.begin:paginacionDescarga.end; track e) {
+              <tr>
+                <td class='accent'>{{e.fecha | dateMMDDYYYY:'datetime'}}</td>
+                <td class='accent'>{{e.usuario}}</td>
+                <td class='accent'>{{e.descripcion}}</td>
+              </tr>
+            }
+            <tr>
+              <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
+                <label>
+                Records per page</label>
+                <select [(ngModel)]="paginacionDescarga.size" (ngModelChange)="paginacionDescarga.fix()"
+                  [ngModelOptions]="{standalone: true}" style="margin: 0 8px; font-family: regular; height: 24px;">
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+                {{paginacionDescarga.begin + 1}}-{{paginacionDescarga.end}} of {{paginacionDescarga.array.length}}
+                <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+                  (click)="paginacionDescarga.back();">
+                  <mat-icon svgIcon="arrow-back"></mat-icon>
+                </button>
+                <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+                  (click)="paginacionDescarga.forward();">
+                  <mat-icon svgIcon="arrow-forward"></mat-icon>
+                </button>
+              </td>
+            </tr>
+          </table>
+        }
+      </div>
+    </div>
+
+    @if (cargando) {
+      <div class='iigwo-loading'>
+        <mat-spinner></mat-spinner>
+      </div>
+    }
+  </div>
+</div>

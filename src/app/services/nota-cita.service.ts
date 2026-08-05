@@ -30,6 +30,24 @@ export class NotaCitaService {
     );
   }
 
+  obtenerNotasCitasRangoFechas(fechaInicio: string, fechaFin: string): Promise<NotaCita[]> {
+    return new Promise<NotaCita[]>((resolve, reject) =>
+      this.http
+        .get(API_URL + "notas-citas/rango-fechas?fechai=" + fechaInicio + "&fechaf=" + fechaFin, {
+          withCredentials: true,
+          observe: "response",
+          headers: new HttpHeaders()
+            .append("Content-Type", "application/json")
+            .append("Authorization", localStorage.getItem("auth_token")),
+        })
+        .toPromise()
+        .then((response) => {
+          resolve(response.body as NotaCita[]);
+        })
+        .catch((reason) => reject(reason))
+    );
+  }
+
   eliminarNotasCita(idNota: number,idUsuario: number): Promise<NotaCita[]> {
     return new Promise<NotaCita[]>((resolve, reject) =>
       this.http

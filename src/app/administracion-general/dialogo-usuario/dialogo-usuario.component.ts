@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UsuariosService } from 'src/app/services/usuarios.service';
+import { ReportesService } from 'src/app/services/reportes.service';
 import { EstadoUsuarioService } from 'src/app/services/estado-usuario.service';
 import { UtilService } from 'src/app/services/util.service';
 import { Usuario } from './../../../model/usuario';
@@ -19,7 +20,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import {  US_STATES } from 'src/app/app.config';
+import {  US_STATES, VOC } from 'src/app/app.config';
 import { formatearFecha } from '../../util/date-utils';
 import { convertirAFechaMat } from '../../util/date-utils';
 
@@ -50,6 +51,9 @@ export class DialogoUsuarioComponent implements OnInit {
 
   public file: File[] = [];
 
+  arrAnios: number[] = [];
+  arrMeses: number[] = [];
+
   isAdministrator: boolean = false;
   isMaster: boolean = false;
   isVendor: boolean = false;
@@ -64,6 +68,7 @@ export class DialogoUsuarioComponent implements OnInit {
   constructor(
 
     private usuariosService: UsuariosService,
+    private reportesService: ReportesService,
     private estadoUsuarioService: EstadoUsuarioService,
     public utilService: UtilService,
     private dialog: MatDialog,
@@ -71,7 +76,17 @@ export class DialogoUsuarioComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
     this.usuarioLogeado = JSON.parse(localStorage.getItem('objUsuario'));
-      
+
+    this.isVOC = this.usuarioLogeado.rol == VOC;
+
+    const anioActual = new Date().getFullYear();
+    for (let i = anioActual; i >= 2020; i--) {
+      this.arrAnios.push(i);
+    }
+    for (let i = 1; i <= 12; i++) {
+      this.arrMeses.push(i);
+    }
+
     this.arrStates = US_STATES;
 
     this.permisos.push({ id: 1, nombre: "Send Notifications" });
@@ -247,6 +262,42 @@ export class DialogoUsuarioComponent implements OnInit {
       })
       .catch(reason => this.utilService.manejarError(reason))
       .then(() => this.cargando = false);
+  }
+
+  descargarReporte() {
+    let campos = [];
+    campos.push({
+      label: "Year",
+      type: "select",
+      value: new Date().getFullYear(),
+      options: this.arrAnios.map(a => ({ display: a, value: a }))
+    });
+    campos.push({
+      label: "Month",
+      type: "select",
+      value: new Date().getMonth() + 1,
+      options: this.arrMeses.map(m => ({ display: m, value: m }))
+    });
+
+    this.utilService.mostrarDialogoConFormulario(
+      "Download hours report",
+      "Select the year and month for the report",
+      "Download",
+      "Cancel",
+      campos
+    ).then(valor => {
+      if (valor == 'ok') {
+        const anio = campos[0].value;
+        const mes = campos[1].value;
+        this.cargando = true;
+        this.reportesService.obtenerHorasMesTerapeutaPdf(this.usuario.idUsuario, anio, mes)
+          .then(response => {
+            this.utilService.saveByteArray("horas-mes-terapeuta-" + this.usuario.idUsuario + "-" + anio + "-" + mes, response, 'pdf');
+          })
+          .catch(reason => this.utilService.manejarError(reason))
+          .finally(() => this.cargando = false);
+      }
+    }).catch(reason => this.utilService.manejarError(reason));
   }
 
   eliminar() {

@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EventoSolicitud } from 'src/model/evento-solicitud';
+import { EventoDescargaCita } from 'src/model/evento-descarga-cita';
 import { API_URL } from '../app.config';
 
 @Injectable({
@@ -98,6 +99,24 @@ export class EventoSolicitudVocService {
         })
         .catch((reason) => reject(reason))
     );
+    }
+
+    obtenerEventosDescargaCita(fechaInicio: string, fechaFin: string): Promise<EventoDescargaCita[]> {
+        return new Promise<EventoDescargaCita[]>((resolve, reject) =>
+            this.http
+                .get(API_URL + "eventos-solicitud-voc/eventos-descarga-cita?fechaf=" + fechaFin + "&fechai=" + fechaInicio, {
+                    withCredentials: true,
+                    observe: "response",
+                    headers: new HttpHeaders()
+                        .append("Content-Type", "application/json")
+                        .append("Authorization", localStorage.getItem("auth_token")),
+                })
+                .toPromise()
+                .then((response) => {
+                    resolve(response.body as EventoDescargaCita[]);
+                })
+                .catch((reason) => reject(reason))
+        );
     }
 
 }

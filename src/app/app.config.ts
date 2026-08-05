@@ -1,6 +1,6 @@
 export const VERSION_PORTAL = 'Versión 2026.06.21-10:10';
 export const EMPRESA_PORTAL = '© / 2026';
-export const VERSION_WEB = 'V10.0-9';
+export const VERSION_WEB = 'V10.0-10';
 
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 
