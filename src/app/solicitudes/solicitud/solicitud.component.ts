@@ -217,23 +217,40 @@ export class SolicitudComponent implements OnInit {
   }
 
   abogadoControl = new FormControl();
+  abogadoControlFirm = new FormControl();
+  abogadosBase: Abogado[] = [];
   abogados: Abogado[] = [];
+  abogadosByFirm: Abogado[] = [];
   abogadoSeleccionado?: Abogado;
 
   ngOnInit(): void {
+    this.abogadosService.obtenerTodosAbogadosPorMail()
+      .then((abogados) => {
+        this.abogadosBase = abogados || [];
+        this.abogados = this.filtrarAbogadosPorMail(this.abogadoControl.value);
+        this.abogadosByFirm = this.filtrarAbogadosPorFirma(this.abogadoControlFirm.value);
+      })
+      .catch((reason) => this.utilService.manejarError(reason));
+
    
     this.abogadoControl.valueChanges
       .pipe(
         startWith(''),
         debounceTime(300),
         distinctUntilChanged(),
-        switchMap((valor) =>
-          typeof valor === 'string' && valor.length > 1
-            ? this.abogadosService.obtenerAbogadosEmailsPorNombre(valor)
-            : of([])
-        )
+        switchMap((valor) => of(this.filtrarAbogadosPorMail(valor)))
       )
       .subscribe((res) => (this.abogados = res));
+
+      this.abogadoControlFirm.valueChanges
+      .pipe(
+        startWith(''),
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((valor) => of(this.filtrarAbogadosPorFirma(valor)))
+      )
+      .subscribe((res) => (this.abogadosByFirm = res));
+
      console.log("MOVIMIENTOS: " + this.isBackOffice); localStorage.setItem('backSolicitud', '1'); console.log(this.solicitud);
 
     this.idUsuarioLogueado = this.usuario.idUsuario;
@@ -328,12 +345,39 @@ private ejecutarLimpiezaClinico(): Observable<any> {
   }
 
   displayFn(abogado: Abogado): string {
-    return abogado ? abogado.nombre : '';
+    return abogado ? (abogado.nombre || abogado.firma || '') : '';
   }
 
   onOptionSelected(event: any): void {
     this.abogadoSeleccionado = event.option.value;
     console.log('Abogado seleccionado:', this.abogadoSeleccionado);
+  }
+
+  private filtrarAbogadosPorMail(valor: unknown): Abogado[] {
+    const termino = typeof valor === 'string' ? valor.trim().toLowerCase() : '';
+
+    if (termino.length < 2) {
+      return [];
+    }
+
+    return this.abogadosBase.filter((abogado) => {
+      const nombre = (abogado.nombre || '').toLowerCase();
+      const email = (abogado.email || '').toLowerCase();
+      return nombre.includes(termino) || email.includes(termino);
+    });
+  }
+
+  private filtrarAbogadosPorFirma(valor: unknown): Abogado[] {
+    const termino = typeof valor === 'string' ? valor.trim().toLowerCase() : '';
+
+    if (termino.length < 2) {
+      return [];
+    }
+
+    return this.abogadosBase.filter((abogado) => {
+      const firma = (abogado.firma || '').toLowerCase();
+      return firma.includes(termino);
+    });
   }
 
   obtenerSolicitud(idSolicitud: number) {

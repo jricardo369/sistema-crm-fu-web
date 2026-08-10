@@ -117,6 +117,7 @@ export class DialogoAbogadoComponent implements OnInit {
     if (this.nuevoDesdeSol) {
       this.titulo = "New Lawyer";
       if (!this.isAddEmailAbo) {
+        this.titulo = "Find a lawyer by email";
         this.creando = true;
         this.mostrarInputProspectoAbo = true;
       } else {
@@ -135,7 +136,11 @@ export class DialogoAbogadoComponent implements OnInit {
         this.obtenerEmailsAbogado(data.idAbogado);
         
       } else {
-        this.titulo = "New Lawyer";
+        if (this.isAddEmailAbo) {
+          this.titulo = "Find a lawyer by email";
+        }else{
+          this.titulo = "New Lawyer";
+        }
         this.creando = true;
       }
     }
@@ -151,7 +156,7 @@ export class DialogoAbogadoComponent implements OnInit {
         distinctUntilChanged(),
         switchMap((valor) =>
           typeof valor === 'string' && valor.length > 1
-            ? this.abogadosService.obtenerAbogadosPorNombre(valor)
+            ? this.abogadosService.obtenerAbogadosEmailsPorNombre(valor)
             : of([])
         )
       )
@@ -182,6 +187,7 @@ export class DialogoAbogadoComponent implements OnInit {
     this.abogadoSeleccionado = event.option.value;
     console.log('Abogado seleccionado:', this.abogadoSeleccionado);
     this.isAddEmailAbo = false;
+    this.creando = false;
     this.abogado = this.abogadoSeleccionado;
     this.obtenerEmailsAbogado(this.abogado.idAbogado);
   }

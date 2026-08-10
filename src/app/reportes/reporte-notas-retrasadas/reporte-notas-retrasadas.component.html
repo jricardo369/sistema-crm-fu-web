@@ -1,0 +1,148 @@
+<app-workspace-nav>
+  <app-solicitudes-nav></app-solicitudes-nav>
+</app-workspace-nav>
+<div class='workspace'>
+  <div class='main'>
+
+    <app-experimental-menu titulo="Delayed notes">
+    </app-experimental-menu>
+
+    <div class='content'>
+      <div style="display: inline-flex;">
+
+        <div class="iigwo-input">
+          <label>Start Date</label>
+          <mat-form-field appearance="outline" class="custom-datepicker">
+            <input matInput [matDatepicker]="startPicker" [(ngModel)]="filterStartDateMat" (dateChange)="onStartDateChange()">
+            <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+            <mat-datepicker #startPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div class="iigwo-input">
+          <label>End Date</label>
+          <mat-form-field appearance="outline" class="custom-datepicker">
+            <input matInput [matDatepicker]="endPicker" [(ngModel)]="filterEndDateMat" (dateChange)="onEndDateChange()">
+            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+            <mat-datepicker #endPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div class="iigwo-input" style="min-width: 150px;">
+          <label>Therapist</label>
+          <select [(ngModel)]="filterTerapeuta" [ngModelOptions]="{standalone: true}" (ngModelChange)="onTerapeutaChange()">
+            @for (e of terapeutas; track e) {
+              <option [ngValue]="e.idUsuario">
+              {{e.nombre}}</option>
+            }
+          </select>
+        </div>
+
+      </div>
+    </div>
+
+    <div class='content' style="margin-top: 80px;padding-top: 0;">
+
+      <div class="tablas-lado-a-lado">
+
+        <div class="tabla-contenedor">
+          @if (!(resumenFiltrado.length == 0)) {
+            <div class="num-reg-tablas">{{resumenFiltrado.length}} Therapists</div>
+          }
+          @if (!(resumenFiltrado.length == 0)) {
+            <table class='informative tabla-resumen'>
+              <tr>
+                <th class=''>Therapist</th>
+                <th class=''>Total appointments</th>
+                <th class=''>Total notes</th>
+                <th class=''>Delayed notes</th>
+              </tr>
+              @for (e of resumenFiltrado | slice:paginacionResumen.begin:paginacionResumen.end; track e) {
+                <tr class="fila-seleccionable" [class.fila-seleccionada]="e.nombre === terapeutaSeleccionado" (click)="verDetalle(e)">
+                  <td class='accent'>{{e.nombre}}</td>
+                  <td class='accent'>{{e.totalCitas}}</td>
+                  <td class='accent'>{{e.totalNotas}}</td>
+                  <td class='accent'>{{e.notasConRetraso}}</td>
+                </tr>
+              }
+              <tr>
+                <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
+                  <label>
+                  Records per page</label>
+                  <select [(ngModel)]="paginacionResumen.size" (ngModelChange)="paginacionResumen.fix()"
+                    [ngModelOptions]="{standalone: true}" style="margin: 0 8px; font-family: regular; height: 24px;">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                  {{paginacionResumen.begin + 1}}-{{paginacionResumen.end}} of {{paginacionResumen.array.length}}
+                  <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+                    (click)="paginacionResumen.back();">
+                    <mat-icon svgIcon="arrow-back"></mat-icon>
+                  </button>
+                  <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+                    (click)="paginacionResumen.forward();">
+                    <mat-icon svgIcon="arrow-forward"></mat-icon>
+                  </button>
+                </td>
+              </tr>
+            </table>
+          }
+          <span class="mini" style="color: #888;">Click on a therapist row to view their delayed notes detail.</span>
+        </div>
+
+        <div class="tabla-contenedor">
+          @if (!(detalle.length == 0)) {
+            <div class="num-reg-tablas">{{detalle.length}} Delayed notes - {{terapeutaSeleccionado}}</div>
+          }
+            @if (!(detalle.length == 0)) {
+              <table class='informative tabla-detalle'>
+                <tr>
+                  <th class=''>Note date</th>
+                  <th class=''>Appointment date</th>
+                  <th class=''>Days delayed</th>
+                </tr>
+                @for (e of detalle | slice:paginacionDetalle.begin:paginacionDetalle.end; track e) {
+                  <tr>
+                    <td class='accent'>{{e.fechaCreacionNota | dateMMDDYYYY}}</td>
+                    <td class='accent'>{{e.fechaCita | dateMMDDYYYY}}</td>
+                    <td class='accent'>{{e.diasDeRetraso}}</td>
+                  </tr>
+                }
+                <tr>
+                  <td colspan="99" style="text-align: right;line-height: 24px;" class="mini">
+                    <label>
+                    Records per page</label>
+                    <select [(ngModel)]="paginacionDetalle.size" (ngModelChange)="paginacionDetalle.fix()"
+                      [ngModelOptions]="{standalone: true}" style="margin: 0 8px; font-family: regular; height: 24px;">
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                    </select>
+                    {{paginacionDetalle.begin + 1}}-{{paginacionDetalle.end}} of {{paginacionDetalle.array.length}}
+                    <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+                      (click)="paginacionDetalle.back();">
+                      <mat-icon svgIcon="arrow-back"></mat-icon>
+                    </button>
+                    <button class="iigwo small" style="margin: 0 0 0 8px; padding:0; height: 24px; min-height: 24px;"
+                      (click)="paginacionDetalle.forward();">
+                      <mat-icon svgIcon="arrow-forward"></mat-icon>
+                    </button>
+                  </td>
+              </tr>
+            </table>
+          }
+        </div>
+
+      </div>
+    </div>
+
+    @if (cargando) {
+      <div class='iigwo-loading'>
+        <mat-spinner></mat-spinner>
+      </div>
+    }
+  </div>
+</div>

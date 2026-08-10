@@ -50,22 +50,6 @@ export class  AbogadosService {
 
      obtenerUsuarioPorId(idAbogado: number): Promise<Abogado> {
 
-        /*this.abogadoPromise = new Promise((resolve, reject) =>
-          this.http
-            .get(API_URL + "abogados/" + idAbogado, {
-              withCredentials: true,
-              observe: "response",
-              headers: new HttpHeaders()
-                .append("Content-Type", "application/json")
-                .append("Authorization", localStorage.getItem("auth_token")),
-            })
-            .toPromise()
-            .then((response) => {
-              resolve(response.body as Abogado);
-            })
-            .catch((reason) => reject(reason))
-        );*/
-
         return this.http
     .get<Abogado>(API_URL + "abogados/" + idAbogado, {
       observe: 'response',
@@ -86,6 +70,24 @@ export class  AbogadosService {
         return new Promise<Abogado[]>((resolve, reject) =>
           this.http
             .get(API_URL + "abogados", {
+              withCredentials: true,
+              observe: "response",
+              headers: new HttpHeaders()
+                .append("Content-Type", "application/json")
+                .append("Authorization", localStorage.getItem("auth_token")),
+            })
+            .toPromise()
+            .then((response) => {
+              resolve(response.body as Abogado[]);
+            })
+            .catch((reason) => reject(reason))
+        );
+      }
+
+      obtenerTodosAbogadosPorMail(): Promise<Abogado[]> {
+        return new Promise<Abogado[]>((resolve, reject) =>
+          this.http
+            .get(API_URL + "abogados/todos-con-mail", {
               withCredentials: true,
               observe: "response",
               headers: new HttpHeaders()

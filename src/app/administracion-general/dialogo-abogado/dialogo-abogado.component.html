@@ -44,14 +44,15 @@
   @if (isAddEmailAbo) {
     <div class="iigwo-input">
       <mat-form-field appearance="outline" class="custom-form-field" style="width: 100%;">
-        <input matInput type="text" placeholder="Find lawyer" [formControl]="abogadoControl" [matAutocomplete]="auto"
+        <input matInput type="text" placeholder="Find lawyer by email" [formControl]="abogadoControl" [matAutocomplete]="auto"
           [value]="abogadoSeleccionado ? abogadoSeleccionado.nombre : ''" />
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)" [displayWith]="displayFn">
           @for (a of abogados; track a) {
             <mat-option style="font-size: 12px" [value]="a">
-              {{ a.nombre }} @if (a.firma) {
+              <!--{{ a.nombre }} @if (a.firma) {
               <span>({{ a.firma }})</span>
-            }
+            }-->
+              <span>({{ a.email }})</span>
           </mat-option>
         }
       </mat-autocomplete>
@@ -143,25 +144,28 @@
             </div>
           </div>
         </div>
-        @for (emAbo of arrEmailAbogadosNuevo; track emAbo) {
-<div style="display: block; 
-            background-color: #f0f0f0; 
-            border-radius: 16px; 
-            padding: 0.5px 2px; 
-            margin-top: 3px;
-            width: fit-content;
-            align-items: center;">
-            <span class="badge-file-icon" style="color: darkviolet; vertical-align: middle;"><mat-icon
-            svgIcon="scales"></mat-icon></span>
-            <span
-            style="margin-right: 5px; font-family: regular; vertical-align: middle;font-size:10px">{{emAbo.email}}</span>
-            <span style="margin-left: 8px; vertical-align: middle;">
-              <button style="background: none; border: none; cursor: pointer;vertical-align: middle;"
-                (click)="removeMailAbogadoNuevo(emAbo)">
-                <mat-icon style="margin-top: 1px;width: 15px;vertical-align: middle;" svgIcon="close"></mat-icon>
-              </button>
-            </span>
-          </div>
+        @if (arrEmailAbogadosNuevo.length > 0) {
+          <table class="informative" style="width: 100%; border-collapse: collapse; margin-top: 8px;">
+            <tr>
+              <th>Name</th>
+              <th>Title</th>
+              <th>Email</th>
+              <th style="width: 40px;"></th>
+            </tr>
+            @for (emAbo of arrEmailAbogadosNuevo; track emAbo) {
+              <tr>
+                <td>{{emAbo.nombre}}</td>
+                <td>{{emAbo.tipo}}</td>
+                <td>{{emAbo.email}}</td>
+                <td>
+                  <button style="background: none; border: none; cursor: pointer;"
+                    (click)="removeMailAbogadoNuevo(emAbo)" matTooltip="Remove">
+                    <mat-icon style="width: 15px; vertical-align: middle;" svgIcon="close"></mat-icon>
+                  </button>
+                </td>
+              </tr>
+            }
+          </table>
         }
       </div>
     }
@@ -198,32 +202,35 @@
   </div>
 }
 
- @for (emAbo of arrEmailAbogados; track emAbo) {
-<div style="display: block; 
-            background-color: #f0f0f0; 
-            border-radius: 16px; 
-            padding: 0.5px 2px; 
-            margin-top: 3px;
-            width: fit-content;
-            align-items: center;">
-            <span class="badge-file-icon" style="color: darkviolet; vertical-align: middle;"><mat-icon
-            svgIcon="scales"></mat-icon></span>
-            <span
-            style="margin-right: 5px; font-family: regular; vertical-align: middle;font-size:10px">{{emAbo.email}}</span>
-            <span style="margin-left: 8px; vertical-align: middle;">
-              <button style="background: none; border: none; cursor: pointer;vertical-align: middle;"
-                (click)="removeEmailAbo(emAbo.idEmailAbo)">
-                <mat-icon style="margin-top: 1px;width: 15px;vertical-align: middle;" svgIcon="close"></mat-icon>
-              </button>
-            </span>
-          </div>
-        }
+ @if (arrEmailAbogados.length > 0) {
+  <table class="informative" style="width: 100%; border-collapse: collapse; margin-top: 8px;">
+    <tr>
+      <th>Name</th>
+      <th>Title</th>
+      <th>Email</th>
+      <th style="width: 40px;"></th>
+    </tr>
+    @for (emAbo of arrEmailAbogados; track emAbo) {
+      <tr>
+        <td>{{emAbo.nombre}}</td>
+        <td>{{emAbo.tipo}}</td>
+        <td>{{emAbo.email}}</td>
+        <td>
+          <button style="background: none; border: none; cursor: pointer;"
+            (click)="removeEmailAbo(emAbo.idEmailAbo)" matTooltip="Remove">
+            <mat-icon style="width: 15px; vertical-align: middle;" svgIcon="close"></mat-icon>
+          </button>
+        </td>
+      </tr>
+    }
+  </table>
+ }
 
 </mat-dialog-content>
 
 <mat-dialog-actions style="justify-content: flex-end;">
 
-  @if (!creando && ! isAddEmailAbo) {
+  @if (!creando && !isAddEmailAbo) {
     <button (click)='eliminar()' class="btn-color"
       style="color: #ffffff; background: #be2929;margin-bottom: 5px;margin-right: auto;"
       >
@@ -237,7 +244,7 @@
     <span style="color: #000000; font-size: 13px;">Cancel</span>
   </button>
 
-  @if (creando) {
+  @if (creando && !isAddEmailAbo) {
     <button (click)='crear()' class="btn-color"
       style="color: #ffffff; background: #8837a2;margin-bottom: 5px;">
       <mat-icon svgIcon="done" style="color: #ffffff; width: 14px;  vertical-align: middle;"></mat-icon>

@@ -46,14 +46,6 @@ export const REPORTES_ITEMS: AppBarNavItem[] = [
   },
   {
     module: REPORTES_MODULE,
-    svgName: 'comments',
-    title: 'Notes and Appointments',
-    subtitle: 'Report of notes and appointments',
-    uri: 'reporte-notas',
-    isVisibleFor: u => [VOC].some(rol => rol === u.rol)
-  },
-  {
-    module: REPORTES_MODULE,
     svgName: 'compare',
     title: 'Comparison by Years',
     subtitle: 'Report of files comparison by years',

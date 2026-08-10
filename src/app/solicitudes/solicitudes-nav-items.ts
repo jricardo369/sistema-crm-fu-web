@@ -57,5 +57,21 @@ export const SOLICITUDES_ITEMS: AppBarNavItem[] = [
     subtitle: 'Manage Psychotherapists',
     uri: 'psychotherapists',
     isVisibleFor: u => [VOC].some(rol => rol === u.rol)
+  },
+  {
+    module: SOLICITUDES_MODULE,
+    svgName: 'comments',
+    title: 'Notes and Appointments',
+    subtitle: 'Report of notes and appointments',
+    uri: 'reporte-notas',
+    isVisibleFor: u => [VOC].some(rol => rol === u.rol)
+  },
+  {
+    module: SOLICITUDES_MODULE,
+    svgName: 'delay',
+    title: 'Delayed Notes',
+    subtitle: 'Report of delayed notes',
+    uri: 'reporte-notas-retrasadas',
+    isVisibleFor: u => [VOC].some(rol => rol === u.rol)
   }
 ];

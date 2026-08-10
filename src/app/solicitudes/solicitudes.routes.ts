@@ -10,6 +10,8 @@ import { CitasComponent } from './citas/citas.component';
 import { CargosVocComponent } from './cargos-voc/cargos-voc.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { PsychotherapistsComponent } from './psychotherapists/psychotherapists.component';
+import { ReporteNotasComponent } from 'src/app/reportes/reporte-notas/reporte-notas.component';
+import { ReporteNotasRetrasadasComponent } from 'src/app/reportes/reporte-notas-retrasadas/reporte-notas-retrasadas.component';
 
  const SOLICITUDES_ROUTES: Routes = [
   { 
@@ -55,6 +57,14 @@ import { PsychotherapistsComponent } from './psychotherapists/psychotherapists.c
   { 
     path: 'psychotherapists', 
     component: PsychotherapistsComponent 
+  },
+  { 
+    path: 'reporte-notas', 
+    component: ReporteNotasComponent 
+  },
+  { 
+    path: 'reporte-notas-retrasadas', 
+    component: ReporteNotasRetrasadasComponent 
   },
   { 
     path: 'home', 

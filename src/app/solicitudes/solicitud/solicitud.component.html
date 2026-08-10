@@ -324,28 +324,41 @@
                   color: rgba(0, 0, 0, 0.7);
                   font-size: 12px;
                   font-family: regular;
-                  line-height: 1.2;">Lawyer</label>
+                  line-height: 1.2;">Find lawyer, search by email or firm </label>
                 </div>
               }
               @if (!(isInterviewer || isTemplateCreator || isVendor || isClinician) || usuario.usuario == 'brayan' || usuario.usuario == 'ojuarez' || creando) {
-                <div class="iigwo-input"
-                  >
+                <div class="iigwo-input" >
                   <mat-form-field appearance="outline" class="custom-form-field" style="width: 100%;">
-                    <input matInput type="text" placeholder="Find lawyer" [formControl]="abogadoControl"
-                      [matAutocomplete]="auto"
+                    <input matInput type="text" placeholder="Find lawyer by mail" [formControl]="abogadoControl"
+                      [matAutocomplete]="autoMail"
                       [value]="abogadoSeleccionado ? (abogadoSeleccionado.nombre ? '' : abogadoSeleccionado.firma  ) : ''" />
-                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)"
-                      [displayWith]="displayFn">
+                    <mat-autocomplete #autoMail="matAutocomplete" (optionSelected)="onOptionSelected($event)" [displayWith]="displayFn">
                       @for (a of abogados; track a) {
-                        <mat-option style="font-size: 12px" [value]="a">
-                          {{ a.nombre }} @if (a.email) {
-                          <span>({{ a.email }})</span>
-                        }
+                      <mat-option style="font-size: 12px" [value]="a">
+                        <span>{{ a.email }}</span>
+                        
                       </mat-option>
-                    }
-                  </mat-autocomplete>
-                </mat-form-field>
-              </div>
+                      }
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </div>
+
+                <div class="iigwo-input">
+                  <mat-form-field appearance="outline" class="custom-form-field" style="width: 100%;">
+                    <input matInput type="text" placeholder="Find lawyer by firm" [formControl]="abogadoControlFirm"
+                      [matAutocomplete]="autoFirm"
+                      [value]="abogadoSeleccionado ? (abogadoSeleccionado.nombre ? '' : abogadoSeleccionado.firma  ) : ''" />
+                    <mat-autocomplete #autoFirm="matAutocomplete" (optionSelected)="onOptionSelected($event)" [displayWith]="displayFn">
+                      @for (a of abogadosByFirm; track a) {
+                      <mat-option style="font-size: 12px" [value]="a">
+                        <span>{{ a.firma }} - {{ a.email }}</span>
+                        
+                      </mat-option>
+                      }
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </div>
             }
           </div>
         }
@@ -825,7 +838,7 @@
               style="color: rgba(255, 255, 255, 0.7); width: 14px;  vertical-align: middle;"></mat-icon>
             </button>
           }
-          @if ((solicitud.idEstatusSolicitud == 2 ||solicitud.idEstatusSolicitud == 3) && (isMaster || isBackOffice) && (!solicitud.finIntIni || !solicitud.finIntSc || !solicitud.finAsgClnc) ) {
+          @if ((solicitud.idEstatusSolicitud == 1 || solicitud.idEstatusSolicitud == 2 ||solicitud.idEstatusSolicitud == 3) && (isMaster || isBackOffice) && (!solicitud.finIntIni || !solicitud.finIntSc || !solicitud.finAsgClnc) ) {
             <button (click)='cambiarEstatusSolicitud(10)' class="btn-color"
               style="color: #FFFFFF;background: #ad3d86; ">
               <span style="color: #FFFFFF; font-size: 13px;">Finish to Ready on Draft</span>

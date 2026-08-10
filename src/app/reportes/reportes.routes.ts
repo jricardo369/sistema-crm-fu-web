@@ -7,7 +7,6 @@ import { HomeComponent } from 'src/app/reportes/home/home.component';
 import { ReporteComparacionAniosComponent } from 'src/app/reportes/reporte-comparacion-anios/reporte-comparacion-anios.component';
 import { ReporteDashboardComponent } from 'src/app/reportes/reporte-dashboard/reporte-dashboard.component';
 import { ReportesAbogadosComponent } from 'src/app/reportes/reportes-abogados/reportes-abogados.component';
-import { ReporteNotasComponent } from 'src/app/reportes/reporte-notas/reporte-notas.component';
 
 export const REPORTES_ROUTES: Routes = [
   { 
@@ -46,9 +45,5 @@ export const REPORTES_ROUTES: Routes = [
   {
     path: 'reportes-abogados/:id',
     component: ReportesAbogadosComponent
-  },
-  {
-    path: 'reporte-notas',
-    component: ReporteNotasComponent
   }
 ];

@@ -15,7 +15,7 @@ import { DatePipe } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { WorkspaceNavComponent } from 'src/app/common/workspace-nav/workspace-nav.component';
 import { ExperimentalMenuComponent } from 'src/app/common/experimental-menu/experimental-menu.component';
-import { ReportesNavComponent } from 'src/app/reportes/reportes-nav/reportes-nav.component';
+import { SolicitudesNavComponent } from 'src/app/solicitudes/solicitudes-nav/solicitudes-nav.component';
 
 import { DateMMDDYYYYPipe } from 'src/app/common/pipes/date-pipe.pipe';
 
@@ -28,7 +28,7 @@ import { MatInputModule } from '@angular/material/input';
 
 @Component({
   standalone: true,
-  imports: [RouterModule, FormsModule, CommonModule, WorkspaceNavComponent, ExperimentalMenuComponent, MatIconModule, MatDialogModule, MatProgressSpinnerModule, ReportesNavComponent, MatDatepickerModule, MatNativeDateModule, MatFormFieldModule, MatInputModule, DateMMDDYYYYPipe],
+  imports: [RouterModule, FormsModule, CommonModule, WorkspaceNavComponent, ExperimentalMenuComponent, MatIconModule, MatDialogModule, MatProgressSpinnerModule, SolicitudesNavComponent, MatDatepickerModule, MatNativeDateModule, MatFormFieldModule, MatInputModule, DateMMDDYYYYPipe],
   selector: 'app-reporte-notas',
   templateUrl: './reporte-notas.component.html',
   styleUrls: ['./reporte-notas.component.css'],

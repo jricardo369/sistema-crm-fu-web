@@ -14,6 +14,8 @@ import { Observable } from 'rxjs';
 import { ReporteClientePorFirma } from 'src/model/reporte-cliente-por-firma';
 import { ReporteClientePorFirmaAnioMes } from 'src/model/reporte-cliente-por-firma-anio-mes';
 import { ReporteNotasCitas } from 'src/model/reporte-notas-citas';
+import { ReporteNotasRetrasadas } from 'src/model/reporte-notas-retrasadas';
+import { NotaRetrasada } from 'src/model/nota-retrasada';
 
 
 @Injectable({
@@ -315,6 +317,42 @@ export class ReportesService {
         .then((response) => {
           const body = response.body as ReporteNotasCitas[];
           resolve(Array.isArray(body) ? body[0] : body);
+        })
+        .catch((reason) => reject(reason))
+    );
+  }
+
+  obtenerNotasCitasTerapeutasRangoFechas(fechaInicio: string, fechaFin: string): Promise<ReporteNotasRetrasadas[]> {
+    return new Promise<ReporteNotasRetrasadas[]>((resolve, reject) =>
+      this.http
+        .get(API_URL + "reportes/notas-citas-terapeutas-rango-fechas?fechaf=" + fechaFin + "&fechai=" + fechaInicio, {
+          withCredentials: true,
+          observe: "response",
+          headers: new HttpHeaders()
+            .append("Content-Type", "application/json")
+            .append("Authorization", localStorage.getItem("auth_token")),
+        })
+        .toPromise()
+        .then((response) => {
+          resolve(response.body as ReporteNotasRetrasadas[]);
+        })
+        .catch((reason) => reject(reason))
+    );
+  }
+
+  obtenerNotasCitasTerapeutasDetalleRangoFechas(idUsuario: number, fechaInicio: string, fechaFin: string): Promise<NotaRetrasada[]> {
+    return new Promise<NotaRetrasada[]>((resolve, reject) =>
+      this.http
+        .get(API_URL + "reportes/notas-citas-terapeutas-detalle-rango-fechas/" + idUsuario + "?fechaf=" + fechaFin + "&fechai=" + fechaInicio, {
+          withCredentials: true,
+          observe: "response",
+          headers: new HttpHeaders()
+            .append("Content-Type", "application/json")
+            .append("Authorization", localStorage.getItem("auth_token")),
+        })
+        .toPromise()
+        .then((response) => {
+          resolve(response.body as NotaRetrasada[]);
         })
         .catch((reason) => reject(reason))
     );

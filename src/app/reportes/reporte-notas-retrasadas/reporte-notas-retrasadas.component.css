@@ -1,0 +1,36 @@
+.num-reg-tablas{
+  font-size: 14px;
+  margin-bottom: 10px;
+  margin-top: 25px;
+  color:#555;
+}
+
+.tablas-lado-a-lado {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 15px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.tabla-contenedor {
+  flex: 0 0 auto;
+  overflow: auto;
+}
+
+.tabla-contenedor table.informative {
+  margin-right: 0;
+}
+
+.tabla-contenedor table.tabla-resumen th {
+  background: #e8d9eb;
+}
+
+.fila-seleccionable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.fila-seleccionada {
+  background: rgba(0, 0, 0, 0.08);
+}

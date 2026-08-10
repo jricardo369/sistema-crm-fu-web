@@ -33,6 +33,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { ReportesService } from 'src/app/services/reportes.service';
 
 @Component({
   standalone: true,imports: [RouterModule,FormsModule,SolicitudesNavComponent,WorkspaceNavComponent,ExperimentalMenuComponent,
@@ -72,6 +73,9 @@ export class SolicitudesVocComponent implements OnInit {
   isGhostwriting: boolean = false;
   isTherapist: boolean = false;
   fechaParaNuevoConteoDeVOC: boolean = false;
+
+  arrAnios: number[] = [];
+  arrMeses: number[] = [];
 
   miFecha = new Date();
   fechaLimite = new Date('2025-11-01');
@@ -119,6 +123,7 @@ export class SolicitudesVocComponent implements OnInit {
     private solicitudesVOCService: SolicitudesVocService,
     private estatusSolicitudService: EstatusSolicitudService,
     private estatusPagoService: EstatusPagoService,
+    private reportesService: ReportesService,
     public utilService: UtilService
   ) {
    
@@ -133,6 +138,15 @@ export class SolicitudesVocComponent implements OnInit {
     this.isInterviewerScales = this.usuario.rol == INTERVIEWER_SCALES ? true : false;
     this.isGhostwriting = this.usuario.rol == GHOSTWRITING ? true : false;
     this.isTherapist = this.usuario.rol == THERAPIST ? true : false;
+
+    const anioActual = new Date().getFullYear();
+    for (let i = anioActual; i >= 2020; i--) {
+      this.arrAnios.push(i);
+    }
+    for (let i = 1; i <= 12; i++) {
+      this.arrMeses.push(i);
+    }
+
     this.obtenerEstatusSolicitudes();
     this.obtenerEstatusPagos();
     this.obtenerTextosTipoParaFiltros();
@@ -391,6 +405,42 @@ export class SolicitudesVocComponent implements OnInit {
           this.cargando = false;
         }
       )
+  }
+
+  descargarReporteMensual() {
+    let campos = [];
+    campos.push({
+      label: "Year",
+      type: "select",
+      value: new Date().getFullYear(),
+      options: this.arrAnios.map(a => ({ display: a, value: a }))
+    });
+    campos.push({
+      label: "Month",
+      type: "select",
+      value: new Date().getMonth() + 1,
+      options: this.arrMeses.map(m => ({ display: m, value: m }))
+    });
+
+    this.utilService.mostrarDialogoConFormulario(
+      "Download monthly report of therapist hours",
+      "Select the year and month for the report",
+      "Download",
+      "Cancel",
+      campos
+    ).then(valor => {
+      if (valor == 'ok') {
+        const anio = campos[0].value;
+        const mes = campos[1].value;
+        this.cargando = true;
+        this.reportesService.obtenerHorasMesTerapeutaPdf(this.usuario.idUsuario, anio, mes)
+          .then(response => {
+            this.utilService.saveByteArray("horas-mensual-terapeuta-" + this.usuario.idUsuario + "-" + anio + "-" + mes, response, 'pdf');
+          })
+          .catch(reason => this.utilService.manejarError(reason))
+          .finally(() => this.cargando = false);
+      }
+    }).catch(reason => this.utilService.manejarError(reason));
   }
 
   onStartDateChange() {
