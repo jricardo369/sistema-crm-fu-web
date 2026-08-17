@@ -6,7 +6,7 @@ export const MODULE: AppBarNavItem = {
   subtitle: null,
   uri: 'administracion-general',
   svgName: 'administracion',
-  isVisibleFor: u => u.rol == "1" || u.rol == "6" || u.rol == "3" || u.rol == "4" || u.rol == "8"
+  isVisibleFor: u => u.rol == "1" || u.rol == "3" || u.rol == "4" || u.rol == "8"
 };
 
 export const ADMIN_GENERAL_ITEMS: AppBarNavItem[] = [
@@ -24,7 +24,7 @@ export const ADMIN_GENERAL_ITEMS: AppBarNavItem[] = [
     title: 'Lawyers',
     subtitle: 'Manage the lawyers',
     uri: 'abogados',
-    isVisibleFor: u => u.rol == "1" || u.rol == "6" || u.rol == "8" || u.usuario == "ojuarez"
+    isVisibleFor: u => u.rol == "1" || u.rol == "8" || u.usuario == "ojuarez"
   },
   {
     module: MODULE,
