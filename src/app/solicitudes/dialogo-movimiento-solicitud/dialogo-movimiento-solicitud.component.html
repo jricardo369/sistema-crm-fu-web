@@ -1,4 +1,13 @@
-<h2 mat-dialog-title style="font-family: regular;color:#75518c">New payment</h2>
+<h2 mat-dialog-title style="font-family: regular;color:#75518c;display:flex;align-items:center">
+  <span>New payment</span>
+
+  <div class="iigwo-input" style="margin-left:auto">
+          <input type="checkbox" style="width: 15px;display: inline-block;line-height: 18px;margin: 15px 6px 0 0px;"
+            id="notif" [checked]="sendNotif" (change)="sendNotif = !sendNotif">
+          <label for="notif" style="display: inline-block;line-height: 24px;margin: 15px 0 0 0 ;font-size: 12px;">Sen Notif.</label>
+        </div>
+
+</h2>
 
 <mat-dialog-content>
   <div class="iigwo-input">

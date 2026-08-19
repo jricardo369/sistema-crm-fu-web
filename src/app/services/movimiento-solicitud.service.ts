@@ -30,9 +30,9 @@ export class MovimientoSolicitudService {
     );
   }
 
-  crearMovimientoSolicitud(movimientoSolicitud: MovimientoSolicitud, idUsuario: number): Promise<any> {
+  crearMovimientoSolicitud(movimientoSolicitud: MovimientoSolicitud, idUsuario: number, sendNotif: boolean): Promise<any> {
     let params = new HttpParams();
-    params = params.set("envioNotificacion", false.toString());
+    params = params.set("envioNotificacion", sendNotif.toString());
     params = params.set("idUsuario", idUsuario.toString());
     return new Promise<any>((resolve, reject) =>
       this.http

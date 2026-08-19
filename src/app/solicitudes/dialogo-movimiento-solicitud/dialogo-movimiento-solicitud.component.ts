@@ -23,6 +23,7 @@ export class DialogoMovimientoSolicitudComponent implements OnInit {
 
 	
 	cargando: boolean = false;
+	sendNotif: boolean = true;
 	public movimientoSolicitud: MovimientoSolicitud = new MovimientoSolicitud;
 	arrTipoPago: TipoPago[] = [];
 
@@ -63,7 +64,7 @@ export class DialogoMovimientoSolicitudComponent implements OnInit {
 		this.movimientoSolicitud.fecha = Date.now().toString();
 		this.cargando = true;
 		this.movimientoSolicitudService
-			.crearMovimientoSolicitud(this.movimientoSolicitud, this.idUsuario)
+			.crearMovimientoSolicitud(this.movimientoSolicitud, this.idUsuario,this.sendNotif)
 			.then(() => {
 				this.cerrar('creado');
 			})
