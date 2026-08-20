@@ -4,16 +4,17 @@ import { Router,RouterModule } from '@angular/router';
 import { Usuario } from '../../../model/usuario';
 import { AppBarNavItem } from '../../app-nav-item';
 import { SessionService } from '../../services/session.service';
-import { ADMIN_GENERAL_ITEMS } from 'src/app/administracion-general/admin-gen-nav-items';
+import { ADMIN_GENERAL_ITEMS, MODULE as ADMIN_MODULE } from 'src/app/administracion-general/admin-gen-nav-items';
 
 import { CustomI18nService } from 'src/app/custom-i18n.service';
 import { UtilService } from 'src/app/services/util.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 
 import { DomSanitizer } from '@angular/platform-browser';
-import { SOLICITUDES_ITEMS } from 'src/app/solicitudes/solicitudes-nav-items';
-import { REPORTES_ITEMS } from 'src/app/reportes/reportes-nav-items';
-import { PLANIFICACION_ITEMS } from 'src/app/planificacion/planificacion-nav-items';
+import { SOLICITUDES_ITEMS, SOLICITUDES_MODULE } from 'src/app/solicitudes/solicitudes-nav-items';
+import { REPORTES_ITEMS, REPORTES_MODULE } from 'src/app/reportes/reportes-nav-items';
+import { PLANIFICACION_ITEMS, PLANIFICACION_MODULE } from 'src/app/planificacion/planificacion-nav-items';
+import { MARKETING_ITEMS, MARKETING_MODULE } from 'src/app/marketing/marketing-nav-items';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { VERSION_WEB } from 'src/app/app.config';
@@ -30,6 +31,21 @@ export class BarComponent {
 
     @ViewChildren('userDiv') userDiv;
     @ViewChild('appNavMenuFilterInput', { static: true }) appNavMenuFilterInput;
+
+    menuGroups: { module: AppBarNavItem; items: AppBarNavItem[]; expanded: boolean }[] = [];
+    get filteredMenuGroups() {
+        const q = this.appNavMenuFilter.trim().toLowerCase();
+        if (!q) return this.menuGroups;
+        return this.menuGroups
+            .map(g => {
+                const matchModule = g.module.title.toLowerCase().includes(q);
+                const filteredItems = g.items.filter(i => i.title.toLowerCase().includes(q) || i.subtitle?.toLowerCase().includes(q));
+                if (matchModule) return { ...g, items: g.items, expanded: true };
+                if (filteredItems.length) return { ...g, items: filteredItems, expanded: true };
+                return null;
+            })
+            .filter(Boolean) as typeof this.menuGroups;
+    }
 
     // appNavMenuClass: string = 'app-nav-menu hidden';
     appNavMenuFilter: string = '';
@@ -117,7 +133,8 @@ export class BarComponent {
                             ADMIN_GENERAL_ITEMS,
                             SOLICITUDES_ITEMS,
                             PLANIFICACION_ITEMS,
-                            REPORTES_ITEMS
+                            REPORTES_ITEMS,
+                            MARKETING_ITEMS
                         ];
 
                         // this.getImagen(this.usuario.foto);
@@ -142,6 +159,8 @@ export class BarComponent {
                         // i18n.translate(null, this.pantallaItems);
 
                         this.filteredModuloItems = this.moduloItems.filter(e => true);
+
+                        this.buildMenuGroups();
 
                     //})
                     //.catch(reason => {
@@ -220,18 +239,8 @@ export class BarComponent {
     }
 
     openNavMenu() {
-        if (
-            window.matchMedia('(max-width:480px)').matches && // es mobile
-            document.querySelectorAll('app-workspace-nav').length && // app-workspace-nav existe
-            !this.utilService.workspaceNavMenuOpened // no está abierto ya
-        ) {
-            this.utilService.workspaceNavMenuOpened = true;
-            return;
-        }
-
-        // this.appNavMenuClass = 'app-nav-menu';
         this.utilService.appNavMenuHidden = false;
-        this.appNavMenuFilterInput.nativeElement.focus();
+        setTimeout(() => this.appNavMenuFilterInput?.nativeElement?.focus(), 0);
     }
 
     closeAppNavMenu() {
@@ -251,14 +260,47 @@ export class BarComponent {
     }
 
     filterChange() {
-        let ee = this.moduloItems;
-        let ff = this.appNavMenuFilter;
         if (this.appNavMenuFilter == '') {
             this.filteredModuloItems = this.moduloItems;
         } else {
-            this.filteredModuloItems = [];
             this.filteredModuloItems = this.moduloItems.filter(e => e.title.toLowerCase().indexOf(this.appNavMenuFilter.toLowerCase()) > -1);
         }
+    }
+
+    buildMenuGroups() {
+        const moduleMap: { mod: AppBarNavItem, items: AppBarNavItem[] }[] = [];
+        const allModules = [ADMIN_MODULE, SOLICITUDES_MODULE, PLANIFICACION_MODULE, REPORTES_MODULE, MARKETING_MODULE];
+        for (const m of allModules) {
+            if (!m.isVisibleFor(this.usuario)) continue;
+            const its = this.pantallaItems.filter(i => i.module === m && i.isVisibleFor(this.usuario));
+            if (its.length === 0) continue;
+            moduleMap.push({ mod: m, items: its });
+        }
+        const currentPath = window.location.pathname;
+        this.menuGroups = moduleMap.map(g => ({
+            module: g.mod,
+            items: g.items,
+            expanded: currentPath.includes(g.mod.uri)
+        }));
+        if (this.menuGroups.length && !this.menuGroups.some(g => g.expanded)) {
+            this.menuGroups[0].expanded = true;
+        }
+    }
+
+    toggleGroup(g: any) {
+        g.expanded = !g.expanded;
+    }
+
+    isItemActive(item: AppBarNavItem): boolean {
+        const path = window.location.pathname;
+        const full = item.module ? item.module.uri + '/' + item.uri : item.uri;
+        return path.includes(full);
+    }
+
+    onSubItemClick(item: AppBarNavItem) {
+        const uri = item.module ? item.module.uri + '/' + item.uri : item.uri;
+        this.router.navigate([uri]);
+        this.closeAppNavMenu();
     }
 
     getImagen(hexString: string) {

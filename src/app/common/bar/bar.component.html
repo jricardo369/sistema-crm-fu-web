@@ -10,32 +10,7 @@
     padding-left: 7px;
     ">
 
-<!-- ============================================================================================ -->
-<!-- BUSQUEDA DE PANTALLAS -->
-
-<!--<div [class]="searchBarClass">
-<mat-icon svgIcon="search"></mat-icon>
-<input [(ngModel)]="searchBarQuery" type="text" (focus)="onSearchBarFocus()" (blur)="onSearchBarBlur()"
-  [placeholder]="searchBarPlaceholder" (ngModelChange)="onSearchBarChange()">
-
-<div class="searchBarResults" *ngIf="searchSections.length > 0 || searchScreens.length > 0">
-  <div class="iigwo-list-item" *ngFor="let ele of searchSections" (mousedown)="onSearchSectionClick(ele)">
-    <mat-icon [svgIcon]="ele.svgName"></mat-icon>
-    <h1>{{ele.title}}</h1>
-  </div>
-  <hr *ngIf="searchSections.length > 0 && searchScreens.length > 0"/>
-  <div class="iigwo-list-item" *ngFor="let ele of searchScreens" (mousedown)="onSearchScreenClick(ele)">
-
-    <mat-icon [svgIcon]="ele.svgName" style="transform: scale(0.75);"></mat-icon>
-    <h2>{{ele.title}}</h2>
-    <h3>{{ele.subtitle}}</h3>
-  </div>
-</div>
-</div>-->
 <div class='appNavMenuSearchLock'></div>
-
-<!-- ============================================================================================ -->
-<!-- RESUMEN DEL USUARIO -->
 
 <label style="
         right: 32px;
@@ -52,72 +27,90 @@
     ">{{usuario.nombre}}</label>
 
 <button id='user-button' class='iigwo' (click)='focusUserDiv()'>
-  <!--{{baseHref}}assets/img/portrait-demo.png-->
     <img src="{{this.imageUsuario}}" style="
             height: 32px;
             width: 32px;
             margin: 0;
             border-radius: 50%;
         ">
-
-  <!--<div *ngIf="!tieneImagen" class="avatar-circle" style="background-color:{{color}}">{{iniciales}}</div>-->
 </button>
 
-<!-- ============================================================================================ -->
-<!-- RESUMEN DEL USUARIO -->
-
-<div #userDiv class='app-nav-user' tabindex="1">
-  <div class='container'>
-    <!--
-            <img src="{{baseHref}}assets/img/portrait-demo.png" style="
-            height: 96px;
-            width: 96px;
+<div #userDiv class='app-nav-user view-profile-card' tabindex="1" id="viewProfile">
+  <div class="vp-header">
+    <img src="{{this.imageUsuario}}" style="
+            height: 32px;
+            width: 32px;
             margin: 0;
-            border-radius: 1px;
-            ">
-    -->
-    <div class='app-nav-right'>
-      <label>{{usuario.nombre}}</label>
-      <label>{{usuario.usuario}}</label>
-      <a routerLink="/credenciales" style="font-size:13px;" (focus)="focusUserDiv()"
-      >View profile</a>
-
-      <button (click)='logout()' (focus)="focusUserDiv()" class="btn-color btn-color-accent" style="color: #FFFFFF;">
-        <span style="color: #FFFFFF; font-size: 13px;">Logout</span>
-      </button>
-      <label style="margin-top: 7px;">{{versionWeb}}</label>
-
+            border-radius: 50%;
+        ">
+    <div class="vp-names">
+      <span class="vp-name">{{usuario.nombre}}</span>
+      <span class="vp-username">{{usuario.usuario}}</span>
     </div>
   </div>
+  <div class="vp-divider"></div>
+  <a routerLink="/credenciales" class="vp-view-profile" (focus)="focusUserDiv()" (click)="userDiv.first.nativeElement.blur()">
+    <mat-icon svgIcon="userD"></mat-icon>
+    <span>View profile</span>
+  </a>
+  <button (click)="logout()" class="btn-color"
+              style="color: #FFFFFF;background: #7e248e; width:100%;">
+              <span style="color: #FFFFFF; font-size: 13px;">Logout</span>
+              <mat-icon svgIcon="logoutD"
+              style="color: rgba(255, 255, 255, 0.7); width: 14px;  vertical-align: middle;"></mat-icon>
+            </button>
+  <div class="vp-divider"></div>
+  <span class="vp-version">{{versionWeb}}</span>
 </div>
-
-<!-- ============================================================================================ -->
-<!-- MENU DE MODULOS -->
 
 <div #menuDiv [ngClass]='{"app-nav-menu":true, "hidden":utilService.appNavMenuHidden}'>
-  <div class='app-nav-menu-hide' (click)="closeAppNavMenu()">
-  </div>
-  <div class='app-nav-menu-bar'>
-  </div>
-  <div class='app-nav-menu-panel'>
-    <button class='iigwo app-nav-menu-panel-home' (click)='onNavHomeItemClick()' style='background: none;'>
-      <label>Psychol. Evaluation</label>
-      <img src="{{baseHref}}assets/img/logo.png">
-    </button>
-    <div class='app-nav-menu-panel-content'>
-      <div class='iigwo-pseudo'>
-        <input #appNavMenuFilterInput placeholder="Filter modules"
+  <div class='app-nav-menu-hide' (click)="closeAppNavMenu()"></div>
+  <div class='app-nav-menu-bar'></div>
+  <div class='app-nav-menu-panel unified-panel'>
+    <div class="unified-header">
+      <button class='iigwo app-nav-menu-panel-home' (click)='onNavHomeItemClick()'>
+        <img src="{{baseHref}}assets/img/logo.png">
+        <label>Psychol. Evaluation</label>
+      </button>
+      <button class="collapse-btn" (click)="closeAppNavMenu()" aria-label="close">
+        <mat-icon svgIcon="arrow-back"></mat-icon>
+      </button>
+    </div>
+
+    <div class='app-nav-menu-panel-content unified-content'>
+      <div class='iigwo-pseudo unified-filter' style="display:none">
+        <mat-icon svgIcon="search"></mat-icon>
+        <input #appNavMenuFilterInput placeholder="Filter"
           [(ngModel)]="appNavMenuFilter" (ngModelChange)="filterChange()" type="text">
-        <mat-icon svgIcon="filter-list"></mat-icon>
       </div>
-      @for (e of filteredModuloItems; track e) {
-        <button class='iigwo' (click)="onNavItemClick(e)">
-          <label>{{e.title}}</label>
-          <mat-icon [svgIcon]="e.svgName"></mat-icon>
-        </button>
-      }
+
+      <div class="unified-menu">
+        @for (g of filteredMenuGroups; track g.module.uri) {
+          <div class="menu-group" [class.expanded]="g.expanded">
+            <button class="group-header" (click)="toggleGroup(g)">
+              <mat-icon [svgIcon]="g.module.svgName" class="group-icon"></mat-icon>
+              <span class="group-title">{{g.module.title}}</span>
+              <mat-icon svgIcon="arrow-forward" class="expand-icon" [class.rotated]="g.expanded"></mat-icon>
+            </button>
+            @if (g.expanded) {
+              <div class="submenu">
+                <div class="submenu-line"></div>
+                <div class="submenu-items">
+                  @for (item of g.items; track item.uri) {
+                    <button class="submenu-item" [class.active]="isItemActive(item)" (click)="onSubItemClick(item)">
+                      <mat-icon [svgIcon]="item.svgName" class="submenu-icon"></mat-icon>
+                      <span>{{item.title}}</span>
+                    </button>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        }
+        @if (filteredMenuGroups.length === 0) {
+          <p class="no-results">No results</p>
+        }
+      </div>
     </div>
   </div>
 </div>
-
-<!-- ============================================================================================ -->
