@@ -3365,17 +3365,17 @@ background-color: #dd8b33;
 .unified-header .collapse-btn {
   width: 32px;
   height: 32px;
-  border-radius: 6px;
-  border: 1px solid rgba(0,0,0,0.08);
-  background: #fff;
+  border: none;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
 }
-.unified-header .collapse-btn mat-icon { width: 18px; height: 18px; color: #555; }
-.unified-header .collapse-btn:hover { background: rgba(0,0,0,0.05); }
+.unified-header .collapse-btn mat-icon { width: 18px; height: 18px; color: #8837a2; }
+.unified-header .collapse-btn mat-icon svg * { fill: #8837a2 !important; }
+.unified-header .collapse-btn:hover { background: transparent; }
 
 .unified-content {
   top: 52px !important;
@@ -3405,13 +3405,13 @@ background-color: #dd8b33;
   text-align: left;
   transition: background 0.15s;
 }
-.group-header:hover { background: rgba(0,0,0,0.05); }
-.menu-group.expanded .group-header { background: rgba(117,81,140,0.08); color: $app-primary; }
+.group-header:hover { background: transparent !important; }
+.menu-group.expanded .group-header { background: transparent !important; color: #1a1a1a; }
 .group-icon { width: 18px !important; height: 18px !important; color: #5a5a5a; flex-shrink: 0; }
-.menu-group.expanded .group-icon { color: $app-primary; }
+.menu-group.expanded .group-icon { color: #5a5a5a; }
 .group-title { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .expand-icon { width: 16px !important; height: 16px !important; color: #9a9a9a; transition: transform 0.2s; flex-shrink: 0; }
-.expand-icon.rotated { transform: rotate(90deg); color: $app-primary; }
+.expand-icon.rotated { transform: rotate(90deg); color: #9a9a9a; }
 .submenu { display: flex; margin: 4px 0 6px 18px; }
 .submenu-line { width: 2px; background: rgba(0,0,0,0.08); border-radius: 1px; margin-right: 12px; flex-shrink: 0; }
 .submenu-items { flex: 1; display: flex; flex-direction: column; gap: 1px; }
@@ -3448,7 +3448,7 @@ app-bar .app-nav-user.view-profile-card {
 }
 app-bar .app-nav-user.view-profile-card:focus {
   height: auto !important;
-  width: 300px !important;
+  width: 215x !important;
   min-height: 0 !important;
   padding: 18px 18px 14px 18px !important;
   outline: none;

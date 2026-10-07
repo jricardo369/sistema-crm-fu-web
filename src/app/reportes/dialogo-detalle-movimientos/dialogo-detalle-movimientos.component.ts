@@ -45,7 +45,7 @@ export class DialogoDetalleMovimientosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.titulo = 'Payments for file ' + this.idSolicitud;
+    this.titulo = 'Payments Details for File ' + this.idSolicitud;
   }
 
   goBack() {

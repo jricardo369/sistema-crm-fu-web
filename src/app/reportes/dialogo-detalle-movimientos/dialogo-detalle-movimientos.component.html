@@ -4,7 +4,7 @@
   @if (detalleMovimientos.pendiente !== 0) {
     <div style="display: flex;">
       <div class="mb-20">
-        <label class="subtitulo">Pending Amount</label>
+        <label class="subtitulo">Pending Amount Due</label>
         <h4 class="mb-0 mt-0" style="color: red;font-family:regular">{{(detalleMovimientos.pendiente ?
         detalleMovimientos.pendiente: 0) | currency : 'USD' : 'symbol' : undefined : 'en-US'}}</h4>
       </div>
@@ -13,7 +13,7 @@
           style="display: inline-flex; align-items: center; color: #FFFFFF; background: #088395; border-radius: 5px; height: 30px; padding: 0 12px;font-size: 11px;">
           <mat-icon svgIcon="bellD"
           style="color:rgba(255, 255, 255, 0.7); width: 16px; font-size: 16px; margin-right: 5px;"></mat-icon>
-          <span style="color: #FFFFFF; text-transform: none; font-size: 14px;">Send reminder</span>
+          <span style="color: #FFFFFF; text-transform: none; font-size: 14px;">Send Payment Reminder</span>
         </button>
       </div>
     </div>
@@ -32,7 +32,7 @@
       <h4 class="" style="margin-top: -2px;margin-bottom: 10px; font-size:12px;text-decoration: underline;color: #612c7e;cursor: pointer;
       * {
       cursor: pointer;
-    }" (click)="verSolicitud()">Go to file</h4>
+    }" (click)="verSolicitud()">Return to Main File Overview</h4>
     </div>
   </div>
 
@@ -60,7 +60,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button class="iigwo accent" (click)='cerrar()'>Close</button>
+  <button class="iigwo accent" (click)='cerrar()'>Close Details View</button>
 </mat-dialog-actions>
 
 <!-- CARGANDO-->

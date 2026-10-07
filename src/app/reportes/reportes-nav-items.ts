@@ -18,7 +18,7 @@ export const REPORTES_ITEMS: AppBarNavItem[] = [
     title: 'Users Files',
     subtitle: 'Reporting of users files',
     uri: 'solicitudes-usuarios',
-    isVisibleFor: u => [MASTER, BACKOFFICE].some(rol => rol === u.rol) || u.usuario === 'ojuarez'
+    isVisibleFor: u => [MASTER, BACKOFFICE].some(rol => rol === u.rol) || u.usuario === 'ojuarez' || u.usuario === 'ppalacios' || u.usuario === 'dgiron'
   },
   {
     module: REPORTES_MODULE,
@@ -58,6 +58,30 @@ export const REPORTES_ITEMS: AppBarNavItem[] = [
     title: 'Dashboard',
     subtitle: 'Dashboard',
     uri: 'reporte-dashboard',
-    isVisibleFor: u => [MASTER,BACKOFFICE].some(rol => rol === u.rol)  || u.usuario === 'juan' || u.usuario === 'ojuarez'
+    isVisibleFor: u => [MASTER,BACKOFFICE].some(rol => rol === u.rol)  || u.usuario === 'juan' || u.usuario === 'ojuarez' || u.usuario === 'ppalacios' || u.usuario === 'dgiron'
+  },
+  {
+    module: REPORTES_MODULE,
+    svgName: 'pay-per-click-payment',
+    title: 'VOC Charges',
+    subtitle: 'Charges from Files VOC',
+    uri: 'cargos-voc',
+    isVisibleFor: u => [VOC].some(rol => rol === u.rol)
+  },
+  {
+    module: REPORTES_MODULE,
+    svgName: 'comments',
+    title: 'Notes and Appointments',
+    subtitle: 'Report of notes and appointments',
+    uri: 'reporte-notas',
+    isVisibleFor: u => [VOC].some(rol => rol === u.rol)
+  },
+  {
+    module: REPORTES_MODULE,
+    svgName: 'delay',
+    title: 'Delayed Notes',
+    subtitle: 'Report of delayed notes',
+    uri: 'reporte-notas-retrasadas',
+    isVisibleFor: u => [VOC].some(rol => rol === u.rol)
   }
 ];

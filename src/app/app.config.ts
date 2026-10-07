@@ -1,6 +1,6 @@
 export const VERSION_PORTAL = 'Versión 2026.06.21-10:10';
 export const EMPRESA_PORTAL = '© / 2026';
-export const VERSION_WEB = 'V10.0-13';
+export const VERSION_WEB = 'V10.0-16';
 
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 
@@ -12,10 +12,6 @@ export const appConfig: ApplicationConfig = {
 };
 
 /*--------------------------------------
-
-PORTAL-DENTAL-QAS
-ng build --prod --optimization --build-optimizer --aot --base-href /es/ --deploy-url /es/ --i18n-locale=es --output-path=dist/ROOT
-ng build --prod --optimization --build-optimizer --aot --base-href /es/ --deploy-url /es/ --i18n-locale=es --output-path=dist/ROOT/es
 
 Angular 20
 ng build --configuration=production --base-href=/ --deploy-url=/ --output-path=dist/ROOT

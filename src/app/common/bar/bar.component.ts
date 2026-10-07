@@ -276,15 +276,11 @@ export class BarComponent {
             if (its.length === 0) continue;
             moduleMap.push({ mod: m, items: its });
         }
-        const currentPath = window.location.pathname;
         this.menuGroups = moduleMap.map(g => ({
             module: g.mod,
             items: g.items,
-            expanded: currentPath.includes(g.mod.uri)
+            expanded: true
         }));
-        if (this.menuGroups.length && !this.menuGroups.some(g => g.expanded)) {
-            this.menuGroups[0].expanded = true;
-        }
     }
 
     toggleGroup(g: any) {

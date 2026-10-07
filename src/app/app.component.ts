@@ -74,7 +74,7 @@ export class AppComponent implements OnInit, SessionServiceListener {
         private router: Router
     ) {
         [
-            'menu', 'search', 'stop', 'account-circle', 'arrow-forward', 'check-box-outline-blank', 'star',
+            'menu', 'search', 'stop', 'account-circle', 'arrow-forward', 'arrowD', 'check-box-outline-blank', 'star',
             'box', 'delete', 'refresh', 'add-box', 'oval', 'check-box', 'edit', 'more-vert','fedora-hat',
             'arrow-back', 'arrow-forward', 'person', 'security', 'done', 'done-all',
             'add', 'remove', 'airplane', 'areas', 'bar-code', 'print',

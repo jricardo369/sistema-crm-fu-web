@@ -53,7 +53,7 @@
     <mat-icon svgIcon="userD"></mat-icon>
     <span>View profile</span>
   </a>
-  <button (click)="logout()" class="btn-color"
+  <button (mousedown)="$event.preventDefault(); focusUserDiv()" (focus)="focusUserDiv()" (click)="logout()" class="btn-color"
               style="color: #FFFFFF;background: #7e248e; width:100%;">
               <span style="color: #FFFFFF; font-size: 13px;">Logout</span>
               <mat-icon svgIcon="logoutD"
@@ -73,7 +73,7 @@
         <label>Psychol. Evaluation</label>
       </button>
       <button class="collapse-btn" (click)="closeAppNavMenu()" aria-label="close">
-        <mat-icon svgIcon="arrow-back"></mat-icon>
+        <mat-icon svgIcon="arrowD"></mat-icon>
       </button>
     </div>
 
@@ -90,7 +90,7 @@
             <button class="group-header" (click)="toggleGroup(g)">
               <mat-icon [svgIcon]="g.module.svgName" class="group-icon"></mat-icon>
               <span class="group-title">{{g.module.title}}</span>
-              <mat-icon svgIcon="arrow-forward" class="expand-icon" [class.rotated]="g.expanded"></mat-icon>
+              <mat-icon svgIcon="arrowD" class="expand-icon" [class.rotated]="g.expanded"></mat-icon>
             </button>
             @if (g.expanded) {
               <div class="submenu">
